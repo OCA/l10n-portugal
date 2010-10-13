@@ -33,10 +33,9 @@ import copy
 import netsvc
 logger = netsvc.Logger()
 
-
+from invoice import SoftCertNr
 ##VALORES FIXO do cabecalho relativos ao OpenERP
 _ProductCompanyTaxID = '508115809'  
-_SoftCertNr =       '1'
 _ProductId =        'OpenERP/Observideia'
 _ProductVersion =   '5'
 _HeaderComment =    u'Software criado por Tiny sprl<www.tiny.be> a adaptado por Observideia Lda<observideia@sapo.pt>'
@@ -212,7 +211,7 @@ class wizard_saft(osv.osv_memory):
                     ('DateCreated',     '%s' %str(datetime.date.today()) ),
                     ('TaxEntity',       'Sede'),
                     ('ProductCompanyTaxId', _ProductCompanyTaxId),
-                    ('SoftwareCertificateNumber', _SoftCertNr)
+                    ('SoftwareCertificateNumber', SoftCertNr)
                     ('ProductID',       _ProductID),
                     ('ProductVersion',  _ProductVersion),
                     ('HeaderComment',   _HeaderComment),
