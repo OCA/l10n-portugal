@@ -62,6 +62,32 @@
 from osv import fields
 from osv import osv
 
+
+class account_invoice(osv.osv):
+    _inherit = "account.invoice"
+    
+    """ 
+    A assinatura não acontece no estado 'draft', mas sim quando a factura é confirmada e é atribuido o numero.
+    Personaliza o metodo write, quando ou apos mudar o estado para 'open'
+    A data relevante para o saft   é o 'write_date', porque a factura é criada sempre no estado 'draft' 
+    e só é verdadeiramente uma factura, quando é confirmada
+    """
+
+    def write(self, cr, uid, ids, vals, context=None):
+        
+        res = super(account_invoice, self).write(cr, uid, ids, vals, context=context)
+        if 'state' in vals and vals['state'] == 'open':
+            # todo: ler os campos que sao objecto da assinatura
+            
+            # todo: calcular a assinatura
+
+            # todo: Gravar a assinatura na BD
+            cr.execute("UPDATE account_invoice SET hash = " + signature
+            + " WHERE id = " + str(id) )
+        
+
+
+
 #class invoice_l10n_pt_PT_certified(osv.osv):
 #    _name = "account.invoice"
 #    _inherit = "account.invoice"
