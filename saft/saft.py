@@ -33,12 +33,12 @@ import copy
 import netsvc
 logger = netsvc.Logger()
 
-from invoice import SoftCertNr
 ##VALORES FIXO do cabecalho relativos ao OpenERP
 _ProductCompanyTaxID = '508115809'  
 _ProductId =        'OpenERP/Observideia'
 _ProductVersion =   '5'
 _HeaderComment =    u'Software criado por Tiny sprl<www.tiny.be> a adaptado por Observideia Lda<observideia@sapo.pt>'
+SoftCertNr = '0'
 
 
 class res_partner(osv.osv):
@@ -47,9 +47,12 @@ class res_partner(osv.osv):
     _inherit = 'res.partner'
     _columns = {
         #'ref': fields.char('Code', size=64, required=True),
-        'reg_com' : fields.char('N.Registo', 32, help="Número do registo comercial"),
-        'conservatoria' : fields.char('Conservatoria', 64, help="Conservatória do registo comercial"),
-        }
+        'reg_com':       fields.char('N.Registo', 32, help="Número do registo comercial"),
+        'conservatoria': fields.char('Conservatoria', 64, help="Conservatória do registo comercial"),
+        # Adicionar campo 'indicador da existencia de aocrdos de 'auto-facturação' - 1 ou 0
+        'self_bill_sales': fields.boolean('Vendas auto', help="Assinale se existe acordo de auto-facturação para as vendas a este parceiro" ),
+        'self_bill_purch': fields.boolean('Compras auto', help="Assinale se existe acordo de auto-facturação para as compras ao parceiro" ),
+                }
 res_partner()
 
 
@@ -64,9 +67,11 @@ res_company()
 class account_tax(osv.osv):
     _inherit = 'account.tax'
     _columns = {
-        'area_fiscal' : fields.selection([('CON', 'Continente'), ('RAA', 'Açores'), ('RAM', 'Madeira')], 'Espaço Fiscal'),
-        'nivel_taxa'  : fields.selection([('Isenta', 'Isenta'), ('Reduzida', 'Reduzida'), ('Normal', 'Normal'),
-                     ('Intermedia', 'Intermédia'), ('Outra', 'Outra')],'Nível de Taxa'),
+        'country_region': fields.selection([('PT', 'Continente'), ('PT-AC', 'Açores'), ('PT-MA', 'Madeira')], 'Espaço Fiscal'),
+        'saft_tax_type':  fields.selection([('IVA', 'IVA'), ('IS', 'Imp do Selo')], 'Imposto'),
+        'saft_tax_code':  fields.selection([('RED', 'Reduzida'), ('NOR', 'Normal'),('INT', 'Intermédia'),
+                     ('ISE', 'Isenta'), ('OUT', 'Outra')],'Nível de Taxa'),
+        'expiration_date': fields.date('Data Expiração')
                 }
 account_tax()
 
@@ -196,6 +201,7 @@ class wizard_saft(osv.osv_memory):
         for el, txt in zip(('CompanyID', 'TaxRegistrationNumber', 'TaxAccountingBasis',  'CompanyName'),
                            (str(conserv)+'/'+str(registo), vat, self.this.tipo, name )):
             et.SubElement(header, el).text=txt
+        # todo: Falta inserir o BusinessName (1.6), após o CompanyName
         
         compAddress = AddressStructure( 'CompanyAddress', street, city, zipc, country, state)
         header.append( compAddress )
@@ -248,11 +254,11 @@ class wizard_saft(osv.osv_memory):
         if self.this.tipo != 'fact' :
             cr.execute("SELECT DISTINCT ac.id, ac.code, ac.name, ac.parent_id, COALESCE(debito, 0.0), COALESCE(credito, 0) \
                 FROM account_move_line ml \
-                	INNER JOIN account_account  ac  ON  ac.id = ml.account_id\
-                	LEFT JOIN (SELECT account_id, SUM( debit) AS debito, SUM( credit ) AS credito\
-                    		   FROM account_move_line WHERE journal_id = \
-                    		   (SELECT open_journal FROM res_company WHERE id = "+str(self.this.comp.id)+") \
-                    		   GROUP BY account_id)  abertura  ON  ml.account_id = abertura.account_id")
+                    INNER JOIN account_account  ac  ON  ac.id = ml.account_id\
+                    LEFT JOIN (SELECT account_id, SUM( debit) AS debito, SUM( credit ) AS credito\
+                            FROM account_move_line WHERE journal_id = \
+                            (SELECT open_journal FROM res_company WHERE id = "+str(self.this.comp.id)+") \
+                            GROUP BY account_id)  abertura  ON  ml.account_id = abertura.account_id")
             acc_dict = {}
             acc_obj = self.pool.get('account.account')
             for ac_id, code, name, parent, debit, credit in cr.fetchall():
@@ -282,8 +288,10 @@ class wizard_saft(osv.osv_memory):
                 
         ####   2.2 Customer;    2.3 Supplier  =========================================
         #CustomerID	(Supplier)      * partner.id | partner.ref
+        ## todo: AccountId               - ler em properties ??? 
         #CustomerTaxID (Supplier)   * partner.vat
         #CompanyName                * partner.name
+
         #Contact	                  [address.name (default)]
         #BillingAddress	            * address[invoice|default]
         #ShipToAddress	              address[delivery]
@@ -291,15 +299,18 @@ class wizard_saft(osv.osv_memory):
         #Fax	                      address[default].fax
         #Email	                      address[default].email
         #Website	                  partner.website
-        cr.execute("SELECT p.id, p.name, p.vat, p.website \
+        ## todo: SelfBillingIndicator           # novo versao 2010
+        cr.execute("SELECT p.id, p.name, p.vat, p.website, p.self_bill_purch \
                     FROM res_partner  p \
                     WHERE id NOT IN (SELECT partner_id FROM res_company) \
                     ORDER BY id")   
+        # todo: Desagregar a query - clientes e fornecedores
         supp_el = et.Element('Suppliers')
         logger.notifyChannel("saft :", netsvc.LOG_INFO, 'A exportar Clientes')
-        for p_id, name, vat, web in cr.fetchall() :
+        for p_id, name, vat, web, selfBilling in cr.fetchall() :
             c = et.SubElement(master, 'Customer')
             c.tail='\n'
+            ## ???? CostummerID usar o id interno do OpenERP ou o campo Code - nesse caso teria de ser obrigatório
             et.SubElement(c, 'CustomerID').text = str(p_id)
             et.SubElement(c, 'CustomerTaxID').text = vat
             et.SubElement(c, 'CompanyName').text = name
@@ -314,7 +325,8 @@ class wizard_saft(osv.osv_memory):
                 
             c.append( AddressStructure('BillingAddress', street, city, zipc, pais, region=regiao) )
             # elementos facultativos
-            for tag, text in zip( ('Telephone', 'Fax', 'Email', 'Website'), (phone, fax, mail, web)):
+            for tag, text in zip( ('Telephone', 'Fax', 'Email', 'Website', 'SelfBillingIndicator'), 
+                                  (phone,       fax,    mail,    web        selfBilling) ):
                 if text is None :
                     et.SubElement(c, tag)
                 et.SubElement(c, tag).text = text
@@ -383,7 +395,7 @@ class wizard_saft(osv.osv_memory):
                     FROM account_tax WHERE parent_id is NULL \
                     ORDER BY area_fiscal, amount")
         for area, nivel, taxa in cr.fetchall():
-            taxType = et.SubElement(taxTable, 'TaxType')
+            taxTableEntry = et.SubElement(taxTable, 'TaxTableEntry')
             et.SubElement(taxType, 'Description').text = 'IVA'+area
             details = et.SubElement(taxType, 'TaxCodeDetails')
             

@@ -21,41 +21,23 @@
 ##############################################################################
 
 import time
-
 import netsvc
 from osv import fields, osv, orm
 import pooler
 from tools.translate import _
 
-
-SoftCertNr = '1'
+from saft import SoftCertNr 
 
 
 class account_invoice(osv.osv):
     _inherit = "account.invoice"
     
-    """ create
-    Não é este o metodo a personalizar, a assinatura não aocntece no estado 'draft', 
+    """ 
+    Não é o metodo 'create' a personalizar, a assinatura não aocntece no estado 'draft', 
     mas sim quando a factura é confirmada e é atribuido o numero.
-    Não encontro no codigo de 'invoice.py' o metodo que confirma a factura.......
-    
-    def create(self, cr, uid, vals, context=None):
-        try:
-            res = super(account_invoice, self).create(cr, uid, vals, context)
-            for inv_id, name in self.name_get(cr, uid, [res], context=context):
-                message = _('Invoice ') + " '" + name + "' "+ _("is waiting for validation.")
-                self.log(cr, uid, inv_id, message)
-            return res
-        except Exception, e:
-            if '"journal_id" viol' in e.args[0]:
-                raise orm.except_orm(_('Configuration Error!'),
-                     _('There is no Accounting Journal of type Sale/Purchase defined!'))
-            else:
-                raise orm.except_orm(_('UnknownError'), str(e))
-
                 
     Personalizar o metodo write, quando ou apos mudar o estado para 'open'
-    A data relevante para o saft   é o 'write_date', porque a factura é criada sempre noestado 'draft' 
+    A data relevante para o saft   é o 'write_date', porque a factura é criada sempre no estado 'draft' 
     e só é verdadeiramente uma factura, quando é confirmada
     """
 
@@ -67,5 +49,8 @@ class account_invoice(osv.osv):
             
             # calcular a assinatura
 
+            # Gravar a assinatura na BD
+            cr.execute("UPDATE account_invoice SET hash = " + signature
+            + " WHERE id = " + str(id) )
 
 
