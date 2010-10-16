@@ -391,17 +391,21 @@ class wizard_saft(osv.osv_memory):
     def _get_taxes(self, cr, uid, context={}):
         logger.notifyChannel("saft :", netsvc.LOG_INFO, 'A exportar TaxTable')
         taxTable = et.Element('TaxTable')
-        cr.execute("SELECT DISTINCT area_fiscal, nivel_taxa, amount \
+        cr.execute("SELECT DISTINCT saft_tax_type, country_region, saft_tax_code, name, expiration_date, type, amount \
                     FROM account_tax WHERE parent_id is NULL \
-                    ORDER BY area_fiscal, amount")
-        for area, nivel, taxa in cr.fetchall():
+                    ORDER BY country_region, amount")
+                    
+        for TaxType, region, TaxCode, Description, Expiration, tipo, valor in cr.fetchall():
             taxTableEntry = et.SubElement(taxTable, 'TaxTableEntry')
-            et.SubElement(taxType, 'Description').text = 'IVA'+area
-            details = et.SubElement(taxType, 'TaxCodeDetails')
-            
-            et.SubElement(details, 'TaxCode').text = nivel[:3]
-            et.SubElement(details, 'Description').text = nivel
-            et.SubElement(details, 'TaxPercentage').text = str(taxa*100)
+            et.SubElement(taxTableEntry, 'TaxType').text = TaxType
+            et.SubElement(taxTableEntry, 'TaxCountryRegion').text = region
+            et.SubElement(taxTableEntry, 'TaxCode').text = TaxCode
+            et.SubElement(taxTableEntry, 'Description').text = Description
+            et.SubElement(taxTableEntry, 'TaxExpirationDate').text = Expiration     # opcional
+            if tipo == 'percent':
+                et.SubElement(taxTableEntry, 'TaxPercentage').text = valor
+            else:
+                et.SubElement(taxTableEntry, 'TaxAmount').text = amount
         return taxTable
         
         
