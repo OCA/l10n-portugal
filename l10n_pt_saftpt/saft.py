@@ -27,6 +27,7 @@ import cStringIO
 import csv
 import pooler
 from osv import fields,osv
+from tools.translate import _
 from xml.etree import ElementTree as et
 #from xml.dom.minidom import parseString
 import copy
@@ -34,22 +35,25 @@ import netsvc
 logger = netsvc.Logger()
 
 ##VALORES FIXO do cabecalho relativos ao OpenERP
-_ProductCompanyTaxID = '508115809'  
-_ProductId =        'OpenERP/Observideia'
-_ProductVersion =   '5'
-_HeaderComment =    u'Software criado por Tiny sprl<www.tiny.be> a adaptado por Observideia Lda<observideia@sapo.pt>'
-SoftCertNr = '0'
+
+productCompanyTaxID = '508115809'  
+productId =           'OpenERP/Observideia'
+productVersion =      '5'
+headerComment =      u'Software criado por Tiny sprl<www.tiny.be> a adaptado por Observideia Lda<observideia@sapo.pt>'
+softCertNr =          '0'
 
 
 class res_partner(osv.osv):
-    """Adiciona os campos requeridos pelo SAFT relativos a clientes e fornecedores
-    conservatória e numero do registo comercial"""
+    """Adiciona os campos requeridos pelo SAFT relativos a clientes e fornecedores:
+    conservatória; numero do registo comercial; Indicadores da existencia de acordos de 
+    autofacturação para compras e vendas"""
     _inherit = 'res.partner'
     _columns = {
+        # Se para os cmapos saft  
         #'ref': fields.char('Code', size=64, required=True),
         'reg_com':       fields.char('N.Registo', 32, help="Número do registo comercial"),
         'conservatoria': fields.char('Conservatoria', 64, help="Conservatória do registo comercial"),
-        # Adicionar campo 'indicador da existencia de aocrdos de 'auto-facturação' - 1 ou 0
+        # Adicionar campo 'ipdicador da existencia de aocrdos de 'auto-facturação' - 1 ou 0
         'self_bill_sales': fields.boolean('Vendas auto', help="Assinale se existe acordo de auto-facturação para as vendas a este parceiro" ),
         'self_bill_purch': fields.boolean('Compras auto', help="Assinale se existe acordo de auto-facturação para as compras ao parceiro" ),
                 }
@@ -76,12 +80,30 @@ class account_tax(osv.osv):
 account_tax()
 
 
-## TODO em vez de 1 grande elemento mantido na memoria, criar uma stream e gerar o texto com subelementos aos poucos
+class account_invoice(osv.osv):
+    """ Campos requeridos pelo saft:
+            4.1.4.2. InvoiceStatus - Estado do documento ['N': Normal, 'A': Anulado, 'S':Auto-facturado, 'F': Facturado(Talão de venda)]
+            4.1.4.3. Hash - assinatura (string 200)
+            4.1.4.4. HashControl  Versão da chave (string 40)
+            4.1.4.8. SelfBillingIndicator - indicador de auto-facturacao   - ler no parceiro (?) relacionado com o "S" em 4.1.4.2
+            4.1.4.14.13.2.  TaxCountryRegion - País ou Região do Imposto   -  todo: verificar novas regras da territorialidade no IVA
+            4.1.4.14.13.5.  TaxAmount - Valor do imposto    - se tipo é ISelo
+            4.1.4.14.14.    TaxExemptionReason - Motivo da isenção - o preceito legal aplicável - ler na tabela de impostos
+            
+    """
+    _inherit = "account.invoice"
+    _columns = {
+        #'inv_status': fields.selection([('N', 'Normal'), ('A', 'Anulado'), ('S', 'Auto-facturação'), ('F', 'Talão facturado')], 'Status saft'),
+        'hash':       fields.char('Assinatura', size=200, required=False, readonly=False),
+        'hash_control': fields.char('Chave', size=40, required=False, readonly=False),  
+        'write_date':   fields.datetime('Date'),
+          
+    }
+account_invoice()
 
 
 def AddressStructure(parent_tag, address, city, pcode, country, region=None):
-    """Funcao para gerar campo Address 
-    Elementos e ordem: 
+    """Funcao para gerar campo Address -   Elementos e ordem: 
         BuildingNumber  
         StreetName
       * AddressDetail
@@ -139,7 +161,6 @@ class wizard_saft(osv.osv_memory):
             'state': fields.selection( ( ('choose','choose'),   # choose fiscal year
                                          ('get','get'),         # get the file
                                        ) ),
-           # TODO - adicionar campo para tipo do saft
             }
     _defaults = { 'state': lambda *a: 'choose', }
 
@@ -170,7 +191,7 @@ class wizard_saft(osv.osv_memory):
         """Gera o conteudo do ficheiro xml 
         """
         
-        self.this = self.browse(cr, uid, ids[0])
+        self.this = self.browse(cr, uid, ids)[0]
         #Namespaces declaration
         self.xmlns = "urn:OECD:StandardAuditFile-Tax:PT_1.00_01"
         attrib={'xmlns': self.xmlns, 'xmlns:xsi':"http://www.w3.org/2001/XMLSchema-instance",
@@ -183,7 +204,7 @@ class wizard_saft(osv.osv_memory):
         root.append( self._get_masters(cr, uid) )
     
         #entries : exclui na facturação
-        if self.this.tipo != 'fact':
+        if self.this.tipo in ('C', 'I'):
             root.append( self._get_entries(cr, uid) )
         #for el in (header, master, entries) : 
         #    el.tail = '\n'
@@ -216,11 +237,11 @@ class wizard_saft(osv.osv_memory):
                     ('CurrencyCode',    'EUR'),
                     ('DateCreated',     '%s' %str(datetime.date.today()) ),
                     ('TaxEntity',       'Sede'),
-                    ('ProductCompanyTaxId', _ProductCompanyTaxId),
-                    ('SoftwareCertificateNumber', SoftCertNr)
-                    ('ProductID',       _ProductID),
-                    ('ProductVersion',  _ProductVersion),
-                    ('HeaderComment',   _HeaderComment),
+                    ('ProductCompanyTaxId', '508115809'),       #productCompanyTaxId),   erro local nof defined ????????
+                    ('SoftwareCertificateNumber', '0'),         #softCertNr)
+                    ('ProductID',       'OpenERP'),             # productID),
+                    ('ProductVersion',  '5'),                   # productVersion),
+                    ('HeaderComment',   ' '),                   # headerComment),
                     ('Telephone',       phone),
                     ('Fax',             fax),
                     ('Email',           mail),
@@ -233,8 +254,8 @@ class wizard_saft(osv.osv_memory):
         for element in header.getchildren() :
             element.tail = '\n'
         
-        #SourceDocumentos se tipo não é 'ctb'
-        if self.this.tipo != 'ctb' :
+        #SourceDocumentos se tipo não é 'C'
+        if self.this.tipo != 'C' :
             root.append( self._write_source_documents( cr, uid, fy.date_start, fy.date_stop) )
         
         xml_txt = et.tostring(root, encoding="utf-8")
@@ -251,7 +272,7 @@ class wizard_saft(osv.osv_memory):
         # 2.1 GeneralLedger
         # obtem lista de contas com movimentos, com saldos de abertura
         # precisa obter contas-mãe para cada cta de movimento
-        if self.this.tipo != 'fact' :
+        if self.this.tipo in ('C', 'I') :
             cr.execute("SELECT DISTINCT ac.id, ac.code, ac.name, ac.parent_id, COALESCE(debito, 0.0), COALESCE(credito, 0) \
                 FROM account_move_line ml \
                     INNER JOIN account_account  ac  ON  ac.id = ml.account_id\
@@ -326,7 +347,7 @@ class wizard_saft(osv.osv_memory):
             c.append( AddressStructure('BillingAddress', street, city, zipc, pais, region=regiao) )
             # elementos facultativos
             for tag, text in zip( ('Telephone', 'Fax', 'Email', 'Website', 'SelfBillingIndicator'), 
-                                  (phone,       fax,    mail,    web        selfBilling) ):
+                                  (phone,       fax,    mail,    web,       selfBilling) ):
                 if text is None :
                     et.SubElement(c, tag)
                 et.SubElement(c, tag).text = text
@@ -502,41 +523,44 @@ class wizard_saft(osv.osv_memory):
         return entries
 
     def _write_invoice(self, cr, uid, invoice, eparent):
-        # sub-elements
-        einvoice_no = et.SubElement(eparent, u"InvoiceNo")
-        eperiod = et.SubElement(eparent, u"Period")
-        einvoice_date = et.SubElement(eparent, u"InvoiceDate")
+        # elemento 4.1.4 Invoice
+        # 4.1.4.1
+        et.SubElement(eparent, u"InvoiceNo").text = unicode(invoice.number)
+        # 4.1.4.2 - InvoiceStatus
+        
+        # 4.1.4.3 - Hash
+        
+        # 4.1.4.4 - HasControl
+        
+        # 4.1.4.5 - Period          # todo: period name
+        et.SubElement(eparent, u"Period").text = invoice.period_id.name
+        # 4.1.4.6  InvoiceDate
+        et.SubElement(eparent, u"InvoiceDate").text = unicode(invoice.date_invoice)
+        # 4.1.4.7 InvoiceType [FT : factura, ND-Nota Debito, NC - Nota Credito, VD - Venda dinh
+        #                      TV - Talao venda, TD - Talão devolução, AA - Alienação activos e DA - devol acyivos]
         einvoice_type = et.SubElement(eparent, u"InvoiceType")
-        esystem_entry_date = et.SubElement(eparent, u"SystemEntryDate")
-        etransaction_id = et.SubElement(eparent, u"TransactionID")
-        ecustomer_id = et.SubElement(eparent, u"CustomerID")
-
-        if invoice.number:
-            einvoice_no.text = unicode(invoice.number)
-        # TODO: period name
-        if invoice.period_id:
-            eperiod.text = invoice.period_id.name
-        if invoice.date_invoice:
-            einvoice_date.text = unicode(invoice.date_invoice)
-        #TODO: type can be "Factura", "Nota de Debito" "Nota de Credito" e "Venda a Dinheiro"
         if invoice.type:
             einvoice_type.text = unicode(invoice.type)
-        # TODO system entry date ao segundo             date_format(data, tipo='DateType')
-        cr.execute("SELECT COALESCE(write_date, create_date) FROM account_invoice WHERE id = %d" %invoice.id)
-        esystem_entry_date.text = date_format(cr.fetchone()[0], tipo='DateTimeType')
-        #etransaction_id.text = 'opcional'
-        if invoice.partner_id:
-            ecustomer_id.text = unicode(invoice.partner_id.id)
+        # 4.1.4.8  SelfBillingIndicator
+        
+        # 4.1.4.9  SystemEntryDate
+        et.SubElement(eparent, u"SystemEntryDate").text = unicode(invoice.write_date)
+        # 4.1.4.10 TransactioID
+        et.SubElement(eparent, u"TransactionID").text = (invoice.move_id and invoice.move_id.name or '')
+        # 4.1.4.11 CustomerID
+        et.SubElement(eparent, u"CustomerID").text = unicode(invoice.partner_id.id)
+
 
     def _write_source_documents(self, cr, uid, start_date, final_date):
         esource_documents = et.Element('SourceDocuments')
         logger.notifyChannel("saft", netsvc.LOG_INFO, 'A exportar facturas de vendas')
         # get invoices
         # TODO verificar facturas no estado 'cancel' que nao passaram pelo estado 'open'. devem se excluidas
-        ids = self.pool.get('account.invoice').search(cr, uid, [('date_invoice', '>=', start_date), 
+        invoice_obj = self.pool.get('account.invoice')
+        ids = invoice_obj.search(cr, uid, [('date_invoice', '>=', start_date), 
                 ('date_invoice', '<=', final_date), ('state', 'in', ['open', 'paid','cancel']),
                 ('type', 'in',["out_invoice","out_refund"]),])
-        invoices = self.pool.get('account.invoice').browse(cr, uid, ids)
+        invoices = invoice_obj.browse(cr, uid, ids)
 
         esales_invoices = et.SubElement(esource_documents, "SalesInvoices")
 
@@ -584,31 +608,32 @@ class wizard_saft(osv.osv_memory):
             # line
             line_no = 1
             for line in invoice.invoice_line:
+                # 4.1.4.14 Line
                 eline = et.SubElement(einvoice, u"Line")
+                # 4.1.4.14.1  LineNumber
                 et.SubElement(eline, u"LineNumber").text = unicode(line_no)
                 line_no+= 1
 
-                # TODO: OrderReferences (optional) referencia à encomenda do cliente
+                # 4.1.4.14.2  OrderReferences  todo: (optional) referencia à encomenda do cliente
                 #eorder_references = et.SubElement(eline, u"OrderReferences")
                 #eoriginating_on = et.SubElement(eorder_references, u"OriginatingON")
                 #eorder_date = et.SubElement(eorder_references, u"OrderDate")
                 #eoriginating_on.text = ''
                 #eorder_date.text = ''
 
-                # product code and description
+                # 4.1.4.14.3 ProductCode and 4.1.4.14.4 Description
                 eproduct_code = et.SubElement(eline, u"ProductCode")
                 eproduct_description = et.SubElement(eline, u"ProductDescription")
                 if line.product_id:
                     eproduct_code.text = line.product_id.default_code
                     eproduct_description.text = line.product_id.name
-
-                equantity = et.SubElement(eline, u"Quantity")
-                if line.quantity:
-                    equantity.text = unicode(line.quantity)
-
+                
+                # 4.1.4.14.5  Quantity
+                et.SubElement(eline, u"Quantity").text = unicode(line.quantity)
+                # 4.1.4.14.6  UnitOfMeasure
                 if line.uos_id : # unit of measure (optional)
                     et.SubElement(eline, u"UnitOfMeasure").text=line.uos_id.name
-                
+                # 4.1.4.14.7  UnitPrice
                 eunit_price = et.SubElement(eline, u"UnitPrice")
                 if line.price_unit:
                     eunit_price.text = unicode(line.price_unit)
@@ -629,35 +654,35 @@ class wizard_saft(osv.osv_memory):
                 ereason = et.SubElement(ecredit_note, u"Reason")
                 #ereason.text = ''
 
-                # Description
+                # 4.1.4.14.10  Description
                 et.SubElement(eline, u"Description").text = line.name
 
                 # TODO: debit and credit amount
                 debit_amount = credit_amount = 0
-                edebit_amount = et.SubElement(eline, u"DebitAmount")
+                # 4.1.4.14.11**  DebitAmount
                 if invoice.type == 'customer_refund':
-                    debit_amount = amount
-                edebit_amount.text = unicode(debit_amount)
+                    et.SubElement(eline, u"DebitAmount").text = unicode(amount)
+                    total_debit += amount
+                # 4.1.4.14.12**  CreditAmount
+                elif invoice.type == 'out_invoice' :
+                    et.SubElement(eline, u"CreditAmount").text = unicode(amount)
+                    total_credit += amount
 
-                total_debit = total_debit + debit_amount
-
-                ecredit_amount = et.SubElement(eline, u"CreditAmount")
-                if invoice.type == 'out_invoice' :
-                    credit_amount = amount
-                ecredit_amount.text = unicode(credit_amount)
-                total_credit = total_credit + credit_amount
-
-                # TODO: see invoice_line_tax (optional)
+                # 4.1.4.14.13 Tax   see invoice_line_tax (optional)
                 etax = et.SubElement(eline, u"Tax")
+                # 4.1.4.14.13.1 TaxType
                 etax_type = et.SubElement(etax, u"TaxType")
-                #etax_type.text = ''
+                # 4.1.4.14.13.2  TaxCountryRegion
                 etax_code = et.SubElement(etax, u"TaxCode")
-                #etax_code.text = ''
+                # 4.1.4.14.13.3  TaxCode
 
-                # tax percentage
+                # 4.1.4.14.13.4**  TaxPercentage
                 et.SubElement(etax, u"TaxPercentage").text = line.invoice_line_tax_id and str( line.invoice_line_tax_id[0].amount ) or '0.0'
-
-                # SettlementAmount (optional)
+                # 4.1.4.14.13.5**  TaxAmount
+                
+                # 4.1.4.14.14**    ExemptionReason - obrigatorio se TaxPercent e TaxAmount ambos zero
+                
+                # 4.1.4.14.15  SettlementAmount (optional) - valor do desconto da linha
                 et.SubElement(eline, u"SettlementAmount").text = str(line.discount )
                 # /line
 
