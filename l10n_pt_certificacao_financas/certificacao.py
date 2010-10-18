@@ -62,7 +62,7 @@ class invoice_certified_l10n_pt(osv.osv):
         if 'state' in vals and vals['state'] == 'open':
             # todo: ler os campos que sao objecto da assinatura
             reads = self.read(cr, uid, ids, \
-                              ['id', 'date_invoice','system_entry_date', \
+                              ['id', 'date_invoice','write_date', \
                                'number', 'amount_total'])
             if reads.id == 1:
                 # If this is the first invoice there is no last invoice hash
@@ -72,17 +72,12 @@ class invoice_certified_l10n_pt(osv.osv):
                 last_invoice = self.search(cr, uid, [('id', [last_invoice_id])])
                 last_hash = last_invoice.hash
             # todo: calcular a assinatura
-            hash = m2c_encrypt(reads.date_invoice, reads.system_entry_date, \
+            hash = m2c_encrypt(reads.date_invoice, reads.write_date, \
                                reads.number, reads.amount_total, \
                                last_hash)
             # todo: Gravar a assinatura na BD
             self.write(cr, uid, [reads.id], {'hash': hash})
         return super(invoice_certified_l10n_pt, self).write(cr, uid, ids, \
                                                             vals, context)
-
-    _columns = {
-        'system_entry_date': fields.datetime('System Entry Date'),
-        'hash': fields.char("Invoice Hash", size=512)
-    }
     
 invoice_certified_l10n_pt()

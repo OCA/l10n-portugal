@@ -28,7 +28,7 @@
     This module allow the OpenERP invoice system to be certified by the Portugal General Directorate of Taxes.
     """,
     'author': 'OpenERP Portugal',
-    'depends': ['base'],
+    'depends': ['base', 'l10n_pt_saftpt'],
     "init_xml" : [],
     "update_xml" : [
         "certificacao.py",
