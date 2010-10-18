@@ -94,8 +94,8 @@ class account_invoice(osv.osv):
     _inherit = "account.invoice"
     _columns = {
         #'inv_status': fields.selection([('N', 'Normal'), ('A', 'Anulado'), ('S', 'Auto-facturação'), ('F', 'Talão facturado')], 'Status saft'),
-        'hash':       fields.char('Assinatura', size=200, required=False, readonly=False),
-        'hash_control': fields.char('Chave', size=40, required=False, readonly=False),  
+        'hash':       fields.char('Assinatura', size=256, required=False, readonly=False),
+        'hash_control': fields.char('Chave', size=4, required=False, readonly=False),  
         'write_date':   fields.datetime('Date'),
           
     }
