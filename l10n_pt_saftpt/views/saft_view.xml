@@ -45,7 +45,7 @@
 
 
         <!-- vista do assistente -->
-		<record id="wizard_saft_pt" model="ir.ui.view">
+        <record id="wizard_saft_pt" model="ir.ui.view">
             <field name="name">Export Standard Audit File</field>
             <field name="model">wizard.l10n_pt.saft</field>
             <field name="type">form</field>
