@@ -26,7 +26,8 @@ import base64
 import cStringIO
 import csv
 import pooler
-from osv import fields,osv
+from osv import fields
+from osv import osv
 from tools.translate import _
 from xml.etree import ElementTree as et
 #from xml.dom.minidom import parseString

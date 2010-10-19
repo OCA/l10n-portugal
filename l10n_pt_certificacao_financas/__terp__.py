@@ -21,20 +21,21 @@
 ##############################################################################
 
 {
-    'name': 'Portugal - Certificação Finanças',
-    'version': '1.0',
-    'category': 'Localisation/Account',
-    'description': """
-    This module allow the OpenERP invoice system to be certified by the Portugal General Directorate of Taxes.
+    "name": "Portugal - Certificação Finanças",
+    "version": "1.0",
+    "category": "Localisation/Account",
+    "description": """
+        This module allow the OpenERP invoice system to be certified by the
+        Portugal General Directorate of Taxes.
     """,
-    'author': 'OpenERP Portugal',
-    'depends': ['base', 'l10n_pt_saftpt'],
-    "init_xml" : [],
-    "update_xml" : [
+    "author": "byCMSA",
+    "depends": ["base"],
+    "init_xml": [],
+    "update_xml": [
         "certificacao.py",
     ],
-    'demo_xml': [],
-    'installable': True,
-    'active': False,
+    "demo_xml": [],
+    "installable": True,
+    "active": False,
 }
 

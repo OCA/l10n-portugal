@@ -1,3 +1,15 @@
+
+    """decrypt(hash) --> string
+        Decrypt ciphertext (assume hex string) and return the decrypted string.
+    """
+
+    """ 
+    A assinatura não acontece no estado 'draft', mas sim quando a factura é confirmada e é atribuido o numero.
+    Personaliza o metodo write, quando ou apos mudar o estado para 'open'
+    A data relevante para o saft é o 'write_date', porque a factura é criada sempre no estado 'draft' 
+    e só é verdadeiramente uma factura, quando é confirmada.
+    """
+
 ##############################################################################
 #
 # 08/10/2010 - Links úteis por Carlos Almeida,

@@ -20,15 +20,14 @@
 #
 ##############################################################################
 
-from osv import fields
 from osv import osv
+
 import M2Crypto.RSA
 import binascii
 
-RSA = M2Crypto.RSA.load_pub_key("chaves/ChavePublica.pem")
+RSA = M2Crypto.RSA.load_pub_key("keys/PublicKey.pem")
 
-def m2c_encrypt(InvoiceDate, SystemEntryDate, InvoiceNo, \
-                GrossTotal, LastHash=""):
+def m2c_encrypt(InvoiceDate, SystemEntryDate, InvoiceNo, GrossTotal, LastHash=""):
     # generate concatenated string to encrypt
     text = InvoiceDate + ";" + SystemEntryDate + ";" + InvoiceNo + ";" + \
            GrossTotal + ";" + LastHash
@@ -39,24 +38,15 @@ def m2c_encrypt(InvoiceDate, SystemEntryDate, InvoiceNo, \
 # This function is used just for testing purposes
 # should be removed later
 def m2c_decrypt(hash):
-    """decrypt(hash) --> string
-    Decrypt ciphertext (assume hex string) and return the decrypted string.
-    """
     encrypted = binascii.a2b_base64(hash)
-    priv_key = M2Crypto.RSA.load_key("chaves/ChavePrivada.pem")
+    priv_key = M2Crypto.RSA.load_key("keys/PrivateKey.pem")
     decrypted = priv_key.private_decrypt(encrypted, M2Crypto.RSA.pkcs1_padding)
     return decrypted
 
 class invoice_certified_l10n_pt(osv.osv):
-    _name = "account.invoice"
+    _name = "account.invoice" account.
     _inherit = "account.invoice"
     
-    """ 
-    A assinatura não acontece no estado 'draft', mas sim quando a factura é confirmada e é atribuido o numero.
-    Personaliza o metodo write, quando ou apos mudar o estado para 'open'
-    A data relevante para o saft é o 'write_date', porque a factura é criada sempre no estado 'draft' 
-    e só é verdadeiramente uma factura, quando é confirmada.
-    """
     def write(self, cr, uid, ids, vals, context=None):
         #check if this is only called once!! on invoice confirmation!
         if 'state' in vals and vals['state'] == 'open':
@@ -79,5 +69,4 @@ class invoice_certified_l10n_pt(osv.osv):
             self.write(cr, uid, [reads.id], {'hash': hash})
         return super(invoice_certified_l10n_pt, self).write(cr, uid, ids, \
                                                             vals, context)
-    
 invoice_certified_l10n_pt()
