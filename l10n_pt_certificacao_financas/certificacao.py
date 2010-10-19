@@ -25,7 +25,7 @@ from osv import osv
 import M2Crypto.RSA
 import binascii
 
-RSA = M2Crypto.RSA.load_pub_key("keys/PublicKey.pem")
+RSA = M2Crypto.RSA.load_pub_key("keys/PrivateKey.pem")
 
 def m2c_encrypt(InvoiceDate, SystemEntryDate, InvoiceNo, GrossTotal, LastHash=""):
     # generate concatenated string to encrypt
