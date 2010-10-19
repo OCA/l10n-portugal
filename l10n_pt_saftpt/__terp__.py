@@ -7,7 +7,9 @@
     "author": "Paulino Ascenção<paulino1@sapo.pt>",
     "website": "",
     "category": "Localisation/Account charts",
-    "depends": ["account"],
+    "depends": [
+        "base",
+        "account"],
     "init_xml": [],
     "demo_xml": [],
     "update_xml": [

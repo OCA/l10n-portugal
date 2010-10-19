@@ -19,32 +19,23 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
 from osv import osv
 
 import M2Crypto.RSA
 import binascii
 
-RSA = M2Crypto.RSA.load_pub_key("keys/PrivateKey.pem")
+RSA = M2Crypto.RSA.load_key("keys/PrivateKey.txt")
 
-def m2c_encrypt(InvoiceDate, SystemEntryDate, InvoiceNo, GrossTotal, LastHash=""):
+def m2c_sign(InvoiceDate, SystemEntryDate, InvoiceNo, GrossTotal, LastHash=""):
     # generate concatenated string to encrypt
     text = InvoiceDate + ";" + SystemEntryDate + ";" + InvoiceNo + ";" + \
            GrossTotal + ";" + LastHash
-    hash = RSA.public_encrypt(text, M2Crypto.RSA.pkcs1_padding)
+    hash = RSA.private_encrypt(text, M2Crypto.RSA.pkcs1_padding)
     print "Invoice Hash: [" + text + "][" + binascii.b2a_base64(hash) + "]"
     return binascii.b2a_base64(hash)
 
-# This function is used just for testing purposes
-# should be removed later
-def m2c_decrypt(hash):
-    encrypted = binascii.a2b_base64(hash)
-    priv_key = M2Crypto.RSA.load_key("keys/PrivateKey.pem")
-    decrypted = priv_key.private_decrypt(encrypted, M2Crypto.RSA.pkcs1_padding)
-    return decrypted
-
-class invoice_certified_l10n_pt(osv.osv):
-    _name = "account.invoice" account.
+class account_invoice(osv.osv):
+    _name = "account.invoice"
     _inherit = "account.invoice"
     
     def write(self, cr, uid, ids, vals, context=None):
@@ -62,11 +53,11 @@ class invoice_certified_l10n_pt(osv.osv):
                 last_invoice = self.search(cr, uid, [('id', [last_invoice_id])])
                 last_hash = last_invoice.hash
             # todo: calcular a assinatura
-            hash = m2c_encrypt(reads.date_invoice, reads.write_date, \
+            hash = m2c_sign(reads.date_invoice, reads.write_date, \
                                reads.number, reads.amount_total, \
                                last_hash)
             # todo: Gravar a assinatura na BD
             self.write(cr, uid, [reads.id], {'hash': hash})
         return super(invoice_certified_l10n_pt, self).write(cr, uid, ids, \
                                                             vals, context)
-invoice_certified_l10n_pt()
+account_invoice()
