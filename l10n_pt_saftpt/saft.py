@@ -193,8 +193,6 @@ class wizard_saft(osv.osv_memory):
         """
         
         self.this = self.browse(cr, uid, ids[0])
-        print 'PRINT dir(): ', dir(self.this)
-        print 'class : ',self.this.__class__
         #Namespaces declaration
         self.xmlns = "urn:OECD:StandardAuditFile-Tax:PT_1.00_01"
         attrib={'xmlns': self.xmlns, 'xmlns:xsi':"http://www.w3.org/2001/XMLSchema-instance",
