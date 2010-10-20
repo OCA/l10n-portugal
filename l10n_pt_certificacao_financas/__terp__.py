@@ -31,7 +31,8 @@
     "author": "byCMSA",
     "depends": [
         "base",
-        "account"],
+        "account",
+        "l10n_pt_saftpt"],
     "init_xml": [],
     "update_xml": [],
     "demo_xml": [],

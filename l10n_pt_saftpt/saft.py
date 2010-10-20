@@ -43,7 +43,6 @@ productVersion =      '5'
 headerComment =      u'Software criado por Tiny sprl<www.tiny.be> a adaptado por Observideia Lda<observideia@sapo.pt>'
 softCertNr =          '0'
 
-
 class res_partner(osv.osv):
     """Adiciona os campos requeridos pelo SAFT relativos a clientes e fornecedores:
     conservatória; numero do registo comercial; Indicadores da existencia de acordos de 
@@ -57,7 +56,7 @@ class res_partner(osv.osv):
         # Adicionar campo 'ipdicador da existencia de aocrdos de 'auto-facturação' - 1 ou 0
         'self_bill_sales': fields.boolean('Vendas auto', help="Assinale se existe acordo de auto-facturação para as vendas a este parceiro" ),
         'self_bill_purch': fields.boolean('Compras auto', help="Assinale se existe acordo de auto-facturação para as compras ao parceiro" ),
-                }
+    }
 res_partner()
 
 
@@ -77,7 +76,7 @@ class account_tax(osv.osv):
         'saft_tax_code':  fields.selection([('RED', 'Reduzida'), ('NOR', 'Normal'),('INT', 'Intermédia'),
                      ('ISE', 'Isenta'), ('OUT', 'Outra')],'Nível de Taxa'),
         'expiration_date': fields.date('Data Expiração')
-                }
+    }
 account_tax()
 
 
@@ -95,10 +94,11 @@ class account_invoice(osv.osv):
     _inherit = "account.invoice"
     _columns = {
         #'inv_status': fields.selection([('N', 'Normal'), ('A', 'Anulado'), ('S', 'Auto-facturação'), ('F', 'Talão facturado')], 'Status saft'),
-        'hash':       fields.char('Assinatura', size=172, required=False, readonly=False),
-        'hash_control': fields.char('Chave', size=4, required=False, readonly=False),  
-        'write_date':   fields.datetime('Date'),
-          
+        'hash': fields.char('Assinatura', size=172, required=False, readonly=False),
+        'hash_control': fields.char('Chave', size=4, required=False, readonly=False),
+        # não se pode criar o write_date pois já é criado pelo ORM
+        # ver Special / Reserved field names no memento
+        'system_write_date': fields.datetime('Date'),
     }
 account_invoice()
 
@@ -162,7 +162,7 @@ class wizard_saft(osv.osv_memory):
             'state': fields.selection( ( ('choose','choose'),   # choose fiscal year
                                          ('get','get'),         # get the file
                                        ) ),
-            }
+    }
     _defaults = { 'state': lambda *a: 'choose', }
 
     def act_cancel(self, cr, uid, ids, context=None):
@@ -458,7 +458,7 @@ class wizard_saft(osv.osv_memory):
             # transaccoes do diario e exercicio
             cr.execute("\
                 SELECT m.id, m.name, p.code, m.date, COALESCE( uc.login, uw.login), m.ref,\
-                    COALESCE(m.write_date, m.create_date, m.date)\
+                    COALESCE(m.system_write_date, m.create_date, m.date)\
                 FROM account_move m\
                     INNER JOIN account_period p ON m.period_id = p.id\
                     INNER JOIN res_users uc ON uc.id = m.create_uid\
@@ -487,7 +487,7 @@ class wizard_saft(osv.osv_memory):
                     partner_el = et.SubElement(trans_el, 'SupplierID')
                 # Adiciona linhas dos movimentos
                 # usar id interno para referenciar parceiros
-                cr.execute("SELECT l.id, a.id, a.code, l.ref, COALESCE(l.write_date, l.create_date), \
+                cr.execute("SELECT l.id, a.id, a.code, l.ref, COALESCE(l.system_write_date, l.create_date), \
                                     l.name, l.debit, l.credit, l.partner_id \
                         FROM account_move_line l\
                             INNER JOIN account_account a ON l.account_id = a.id\
@@ -545,7 +545,7 @@ class wizard_saft(osv.osv_memory):
         # 4.1.4.8  SelfBillingIndicator
         
         # 4.1.4.9  SystemEntryDate
-        et.SubElement(eparent, u"SystemEntryDate").text = unicode(invoice.write_date)
+        et.SubElement(eparent, u"SystemEntryDate").text = unicode(invoice.system_write_date)
         # 4.1.4.10 TransactioID
         et.SubElement(eparent, u"TransactionID").text = (invoice.move_id and invoice.move_id.name or '')
         # 4.1.4.11 CustomerID

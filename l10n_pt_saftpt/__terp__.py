@@ -13,7 +13,7 @@
     "init_xml": [],
     "demo_xml": [],
     "update_xml": [
-        "views/saft_view.xml"
+        "view/saft_view.xml"
     ],
     "installable": True
 }
