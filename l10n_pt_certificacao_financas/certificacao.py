@@ -47,6 +47,88 @@ class account_invoice(osv.osv):
         #  Must also check if hash was generated to prevent any future change.
         return super(account_invoice, self).write(cr, uid, ids, vals, context)
     
+<<<<<<< TREE
+    """ 
+    A assinatura não acontece no estado 'draft', mas sim quando a factura é confirmada e é atribuido o numero.
+    Personaliza o metodo write, quando ou apos mudar o estado para 'open'
+    A data relevante para o saft   é o 'write_date', porque a factura é criada sempre no estado 'draft' 
+    e só é verdadeiramente uma factura, quando é confirmada
+    """
+
+    def write(self, cr, uid, ids, vals, context=None):
+        """ Personalização para a validade da assinatura das facturas, para certificação
+        
+        grava o campo system_entry_date, quando a factura é confirmada - o estado passa a 'open'
+        Para prevenir eventuais alterações do wkf pelo aditor do cliente web, que invalidassem a assinatura:
+         * define uma lista de campos imutaveis, após a factura estar confirmada - estados open, paid, ou cancel.
+         * procura esses campos nas chaves do dict 'vals' e elimina-os se estiverem presentes
+         * prossegue com a gravação de outras alterações
+         * previne modificações do status, deposi de open so pode passar a paid ou cancel
+            - deve permitir anulação do pagamento """
+
+        imutaveis = ['partner_id', 'type', 'internal_number', 'date_invoice', 'hash', 'hash_control', 'amount_antaxed', 'amount_tax', 'amount_total']
+        for id in ids:
+            registo = self.read( cr, uid, [id], ['state'])[0]
+            if registo['state'] in ('open', 'paid', 'cancel'):
+                for field in imutaveis:
+                    if field in vals:
+                        vals.pop(field)
+        
+        res = super(account_invoice, self).write(cr, uid, ids, vals, context=context)
+        if 'state' in vals and vals['state'] == 'open':
+            
+            # todo: ler os campos que sao objecto da assinatura
+            
+            # todo: calcular a assinatura
+
+            # todo: Gravar a assinatura na BD
+            cr.execute("UPDATE account_invoice SET hash = " + signature
+            + " WHERE id = " + str(id) )
+        
+
+
+
+#class invoice_l10n_pt_PT_certified(osv.osv):
+#    _name = "account.invoice"
+#    _inherit = "account.invoice"
+#    _columns = {
+#        'system_entry_date': fields.datetime('System Entry Date', states={'open':[('readonly',True)],'close':[('readonly',True)]}),
+#        'hash'
+#    }
+#invoice_l10n_pt_PT_certified
+
+print "\n=====RSA 368 Demo====="
+#use 1 RSA key to encrypt the AES key
+#use another RSA key to sign AES key
+from Crypto.PublicKey import RSA
+from Crypto import Random
+
+#start the random generator
+rpool = Random.new()
+Random.atfork()
+
+# generate both RSA keys,
+privatekeyCMS = RSA.generate(1024, rpool.read)
+Random.atfork()
+privatekeyClient = RSA.generate(1024, rpool.read)
+publickeyCMS = privatekeyCMS.publickey()
+publickeyClient = privatekeyClient.publickey()
+
+#sign the AES PWD with server private key
+signed_PWD = privatekeyCMS.sign(PWD,"")
+#encrypt AES PWD with client public key
+enc_PWD = publickeyClient.encrypt(PWD, "")
+print "with publickeyClient encrypted AES-PWD:"
+print enc_PWD[0].encode("hex"),"\n"
+print "with privatekeyCMS signed AES-PWD:"
+print signed_PWD[0],"\n"
+
+#decryption
+dec_PWD= privatekeyClient.decrypt(enc_PWD[0])
+#verify identity of the
+print "key verify:\n",publickeyCMS.verify(dec_PWD,signed_PWD)
+print "decrypted PWD:\n",dec_PWD
+=======
         hashes = self.read(cr, uid, ids, ['hash'])
         for nohash in hashes:
             if nohash['hash'] == '':
@@ -80,3 +162,4 @@ class account_invoice(osv.osv):
                 # in future limit changes to fields with no tax relation
                 return
 account_invoice()
+>>>>>>> MERGE-SOURCE

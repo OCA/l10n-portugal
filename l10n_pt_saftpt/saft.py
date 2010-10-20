@@ -1,7 +1,7 @@
 #! -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    OpenERP, Open Source Management Solution	
+#    OpenERP, Open Source Management Solution
 #    Copyright (C) 2004-2009 Tiny SPRL (<http://tiny.be>). All Rights Reserved
 #    $Id$
 #
@@ -94,11 +94,11 @@ class account_invoice(osv.osv):
     _inherit = "account.invoice"
     _columns = {
         #'inv_status': fields.selection([('N', 'Normal'), ('A', 'Anulado'), ('S', 'Auto-facturação'), ('F', 'Talão facturado')], 'Status saft'),
-        'hash': fields.char('Assinatura', size=172, required=False, readonly=False),
-        'hash_control': fields.char('Chave', size=4, required=False, readonly=False),
+        'hash':       fields.char('Assinatura', size=200, required=False, readonly=False),
+        'hash_control': fields.char('Chave', size=40, required=False, readonly=False),  
         # não se pode criar o write_date pois já é criado pelo ORM
         # ver Special / Reserved field names no memento
-        'system_write_date': fields.datetime('Date'),
+        'system_entry_date':   fields.datetime('Data de confirmação'),
     }
 account_invoice()
 
@@ -192,7 +192,9 @@ class wizard_saft(osv.osv_memory):
         """Gera o conteudo do ficheiro xml 
         """
         
-        self.this = self.browse(cr, uid, ids)[0]
+        self.this = self.browse(cr, uid, ids[0])
+        print 'PRINT dir(): ', dir(self.this)
+        print 'class : ',self.this.__class__
         #Namespaces declaration
         self.xmlns = "urn:OECD:StandardAuditFile-Tax:PT_1.00_01"
         attrib={'xmlns': self.xmlns, 'xmlns:xsi':"http://www.w3.org/2001/XMLSchema-instance",
@@ -309,18 +311,18 @@ class wizard_saft(osv.osv_memory):
                     element.tail='\n'
                 
         ####   2.2 Customer;    2.3 Supplier  =========================================
-        #CustomerID	(Supplier)      * partner.id | partner.ref
+        #CustomerID (Supplier)      * partner.id | partner.ref
         ## todo: AccountId               - ler em properties ??? 
         #CustomerTaxID (Supplier)   * partner.vat
         #CompanyName                * partner.name
 
-        #Contact	                  [address.name (default)]
-        #BillingAddress	            * address[invoice|default]
-        #ShipToAddress	              address[delivery]
-        #Telephone	                  address[default].phone | mobile
-        #Fax	                      address[default].fax
-        #Email	                      address[default].email
-        #Website	                  partner.website
+        #Contact                      [address.name (default)]
+        #BillingAddress             * address[invoice|default]
+        #ShipToAddress                address[delivery]
+        #Telephone                    address[default].phone | mobile
+        #Fax                          address[default].fax
+        #Email                        address[default].email
+        #Website                      partner.website
         ## todo: SelfBillingIndicator           # novo versao 2010
         cr.execute("SELECT p.id, p.name, p.vat, p.website, p.self_bill_purch \
                     FROM res_partner  p \
@@ -368,7 +370,7 @@ class wizard_saft(osv.osv_memory):
                         s.append(sTax)
                     else :
                         s.append(element)
-        if self.this.tipo != 'fact' :
+        if self.this.tipo in ('C', 'I'):
             logger.notifyChannel("saft :", netsvc.LOG_INFO, 'A exportar Fornecedores')
             for supplier in supp_el.getchildren():
                 master.append( supplier )
@@ -425,9 +427,9 @@ class wizard_saft(osv.osv_memory):
             et.SubElement(taxTableEntry, 'Description').text = Description
             et.SubElement(taxTableEntry, 'TaxExpirationDate').text = Expiration     # opcional
             if tipo == 'percent':
-                et.SubElement(taxTableEntry, 'TaxPercentage').text = valor
+                et.SubElement(taxTableEntry, 'TaxPercentage').text = str(valor)
             else:
-                et.SubElement(taxTableEntry, 'TaxAmount').text = amount
+                et.SubElement(taxTableEntry, 'TaxAmount').text = str(amount)
         return taxTable
         
         
@@ -534,7 +536,7 @@ class wizard_saft(osv.osv_memory):
         # 4.1.4.4 - HasControl
         
         # 4.1.4.5 - Period          # todo: period name
-        et.SubElement(eparent, u"Period").text = invoice.period_id.name
+        et.SubElement(eparent, u"Period").text = unicode(invoice.period_id.name)
         # 4.1.4.6  InvoiceDate
         et.SubElement(eparent, u"InvoiceDate").text = unicode(invoice.date_invoice)
         # 4.1.4.7 InvoiceType [FT : factura, ND-Nota Debito, NC - Nota Credito, VD - Venda dinh
@@ -545,7 +547,7 @@ class wizard_saft(osv.osv_memory):
         # 4.1.4.8  SelfBillingIndicator
         
         # 4.1.4.9  SystemEntryDate
-        et.SubElement(eparent, u"SystemEntryDate").text = unicode(invoice.system_write_date)
+        et.SubElement(eparent, u"SystemEntryDate").text = unicode(invoice.system_entry_date)
         # 4.1.4.10 TransactioID
         et.SubElement(eparent, u"TransactionID").text = (invoice.move_id and invoice.move_id.name or '')
         # 4.1.4.11 CustomerID
@@ -599,7 +601,7 @@ class wizard_saft(osv.osv_memory):
             edelivery_date = et.SubElement(eship_from, u"DeliveryDate")
             #edelivery_id.text = ''
             # Data da entrega igual à da factura
-            edelivery_date.text =  invoice.date_invoice
+            edelivery_date.text =  unicode(invoice.date_invoice)
             
             # address
             street, city, zipc, country, state, phone, fax, mail = self.getAddress( cr, uid, self.this.comp.partner_id.id )
@@ -668,18 +670,20 @@ class wizard_saft(osv.osv_memory):
                 elif invoice.type == 'out_invoice' :
                     et.SubElement(eline, u"CreditAmount").text = unicode(amount)
                     total_credit += amount
-
-                # 4.1.4.14.13 Tax   see invoice_line_tax (optional)
-                etax = et.SubElement(eline, u"Tax")
-                # 4.1.4.14.13.1 TaxType
-                etax_type = et.SubElement(etax, u"TaxType")
-                # 4.1.4.14.13.2  TaxCountryRegion
-                etax_code = et.SubElement(etax, u"TaxCode")
-                # 4.1.4.14.13.3  TaxCode
-
-                # 4.1.4.14.13.4**  TaxPercentage
-                et.SubElement(etax, u"TaxPercentage").text = line.invoice_line_tax_id and str( line.invoice_line_tax_id[0].amount ) or '0.0'
-                # 4.1.4.14.13.5**  TaxAmount
+                
+                # Impostos
+                for tax in line.invoice_line_tax_id:
+                    # 4.1.4.14.13 Tax   see invoice_line_tax (optional)
+                    etax = et.SubElement(eline, u"Tax")
+                    # 4.1.4.14.13.1 TaxType
+                    et.SubElement(etax, u"TaxType").text = tax.saft_tax_type
+                    # 4.1.4.14.13.2  TaxCountryRegion
+                    etax_code = et.SubElement(etax, u"TaxCode")
+                    # 4.1.4.14.13.3  TaxCode
+                    
+                    # 4.1.4.14.13.4**  TaxPercentage
+                    et.SubElement(etax, u"TaxPercentage").text = line.invoice_line_tax_id and str( line.invoice_line_tax_id[0].amount ) or '0.0'
+                    # 4.1.4.14.13.5**  TaxAmount
                 
                 # 4.1.4.14.14**    ExemptionReason - obrigatorio se TaxPercent e TaxAmount ambos zero
                 
