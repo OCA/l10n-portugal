@@ -23,3 +23,5 @@ Modificações a tabelas:
         
 Falta implementar campos relativos à ordem de compra do cliente que originou a factura e informação 
 sobre local e data de carga e descarga das mercadorias
+
+É obrigatório inserir um codigo de iva nas facturas, para preencher o motivo da isenção na saft, quando o valor é zero

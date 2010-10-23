@@ -38,11 +38,25 @@
                         <field name="saft_tax_type"/>
                         <field name="saft_tax_code"/>
                         <field name="expiration_date"/>
+                        <field name="exemption_reason"/>
                      </page>
                  </page>
             </field>
         </record>
 
+        <record id="account_journal_saft_inherit" model="ir.ui.view">
+            <field name="name">account.journal.saft.inherit</field>
+            <field name="model">account.journal</field>
+            <field name="inherit_id" ref="account.view_account_journal_form"/>
+            <field name="arch" type="xml">
+                <field name="entry_posted" position="after">
+                    <field name="self_billing"/>
+                    <field name="transaction_type"/>
+                    <separator colspan="4" string="Parametros do SAFT"/>
+                    <newline/>
+                </field>
+            </field>
+        </record>
 
         <!-- vista do assistente -->
         <record id="wizard_saft_pt" model="ir.ui.view">

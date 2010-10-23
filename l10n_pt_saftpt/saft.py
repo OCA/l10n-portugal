@@ -36,12 +36,14 @@ import netsvc
 logger = netsvc.Logger()
 
 ##VALORES FIXO do cabecalho relativos ao OpenERP
-
 productCompanyTaxID = '508115809'  
 productId =           'OpenERP/Observideia'
 productVersion =      '5'
 headerComment =      u'Software criado por Tiny sprl<www.tiny.be> a adaptado por Observideia Lda<observideia@sapo.pt>'
 softCertNr =          '0'
+
+# Versao e codificação do xml 
+xml_version = '<?xml version="1.0" encoding="windows-1252"?>'
 
 class res_partner(osv.osv):
     """Adiciona os campos requeridos pelo SAFT relativos a clientes e fornecedores:
@@ -75,7 +77,8 @@ class account_tax(osv.osv):
         'saft_tax_type':  fields.selection([('IVA', 'IVA'), ('IS', 'Imp do Selo')], 'Imposto'),
         'saft_tax_code':  fields.selection([('RED', 'Reduzida'), ('NOR', 'Normal'),('INT', 'Intermédia'),
                      ('ISE', 'Isenta'), ('OUT', 'Outra')],'Nível de Taxa'),
-        'expiration_date': fields.date('Data Expiração')
+        'expiration_date': fields.date('Data Expiração'),
+        'exemption_reason': fields.char('Motivo da isenção', size=64, required=False, readonly=False, help="No caso de IVA isento, indique qual a norma do codigo do IVA que autribui a isenção"),
     }
 account_tax()
 
@@ -102,6 +105,22 @@ class account_invoice(osv.osv):
     }
 account_invoice()
 
+
+class account_journal(osv.osv):
+    """ Adição de cmapos requeridos pelo saft:
+    'self_billing' - servirá para preencher os campos 4.1.4.2 InvoiceStatus e 4.1.4.8 SelfBillingIndicator, nos casos de auto-facturação
+    'trasaction_type' - para filtrar na contabilidade os tipos de transação conforme abaixo
+    """
+    _inherit = "account.journal"
+    _columns = {
+        'self_billing': fields.boolean('Auto-Facturação', help='''Assinale, se este diário se destina a registar Auto-facturação. 
+            As facturas emitidas em substituição dos fornecedores, ao abrigo de acordos de auto-facturação, são assinaladas como tal no SAFT'''),
+        'transaction_type': fields.selection([('N', 'Normal'), ('R', 'Regularizações'),('A', 'Apur. Resultados'), ('J', 'Ajustamentos')], 
+                                              'Tipo de Movimento', help="Categorias para classificar os movimentos contabilísticos ao exportar o SAFT"),
+    }
+    _defaults =  { 'transaction_type': lambda *a: 'N' 
+    }
+account_journal()
 
 def AddressStructure(parent_tag, address, city, pcode, country, region=None):
     """Funcao para gerar campo Address -   Elementos e ordem: 
@@ -528,26 +547,37 @@ class wizard_saft(osv.osv_memory):
         # 4.1.4.1
         et.SubElement(eparent, u"InvoiceNo").text = unicode(invoice.number)
         # 4.1.4.2 - InvoiceStatus
-        
+        if invoice.state == 'cancel':
+            status_code = 'A'
+        elif invoice.journal_id.self_billing is True:
+            status_code = 'S'
+        else:
+            status_code = 'N'
+        et.SubElement(eparent, u"InvoiceStatus").text = status_code
         # 4.1.4.3 - Hash
-        
+        et.SubElement(eparent, u"Hash").text = unicode(invoice.hash)
         # 4.1.4.4 - HasControl
-        
+        et.SubElement(eparent, u"HashControl").text = unicode(invoice.hash_control)
         # 4.1.4.5 - Period          # todo: period name
         et.SubElement(eparent, u"Period").text = unicode(invoice.period_id.name)
         # 4.1.4.6  InvoiceDate
         et.SubElement(eparent, u"InvoiceDate").text = unicode(invoice.date_invoice)
         # 4.1.4.7 InvoiceType [FT : factura, ND-Nota Debito, NC - Nota Credito, VD - Venda dinh
-        #                      TV - Talao venda, TD - Talão devolução, AA - Alienação activos e DA - devol acyivos]
-        einvoice_type = et.SubElement(eparent, u"InvoiceType")
-        if invoice.type:
-            einvoice_type.text = unicode(invoice.type)
-        # 4.1.4.8  SelfBillingIndicator
+        # todo:                TV - Talao venda, TD - Talão devolução, AA - Alienação activos e DA - devol activos]
+        # todo: definir estes tipos de documento na tabela de diarios
+        et.SubElement(eparent, u"InvoiceType").text = 'FT'
         
+        # 4.1.4.8  SelfBillingIndicator
+        et.SubElement(eparent, "SelfBillingIndicator").text = str(invoice.journal_id.self_billing)
         # 4.1.4.9  SystemEntryDate
         et.SubElement(eparent, u"SystemEntryDate").text = unicode(invoice.system_entry_date)
-        # 4.1.4.10 TransactioID
-        et.SubElement(eparent, u"TransactionID").text = (invoice.move_id and invoice.move_id.name or '')
+        # 4.1.4.10 TransactioID - apenas no caso de ficheiro integrado
+        if self.this.tipo == 'I':
+            eTransactioId = et.SubElement(eparent, u"TransactionID")
+            if invoice.state == 'cancel':
+                eTransactionID.text = 'Anulado'
+            else:
+                eTransactionID.text = unicode(invoice.move_id.name)
         # 4.1.4.11 CustomerID
         et.SubElement(eparent, u"CustomerID").text = unicode(invoice.partner_id.id)
 
@@ -674,16 +704,19 @@ class wizard_saft(osv.osv_memory):
                     # 4.1.4.14.13 Tax   see invoice_line_tax (optional)
                     etax = et.SubElement(eline, u"Tax")
                     # 4.1.4.14.13.1 TaxType
-                    et.SubElement(etax, u"TaxType").text = tax.saft_tax_type
+                    et.SubElement(etax, u"TaxType").text = unicode(tax.saft_tax_type)
                     # 4.1.4.14.13.2  TaxCountryRegion
-                    etax_code = et.SubElement(etax, u"TaxCode")
+                    et.SubElement(etax, u"TaxCountryRegion").text = unicode(tax.country_region)
                     # 4.1.4.14.13.3  TaxCode
-                    
-                    # 4.1.4.14.13.4**  TaxPercentage
-                    et.SubElement(etax, u"TaxPercentage").text = line.invoice_line_tax_id and str( line.invoice_line_tax_id[0].amount ) or '0.0'
-                    # 4.1.4.14.13.5**  TaxAmount
-                
+                    et.SubElement(etax, u"TaxCode").text = unicode(tax.saft_tax_code)                    
+                    # 4.1.4.14.13.4**  TaxPercentage ou 4.1.4.14.13.5** TaxAmount
+                    if   tax.type == 'percent':
+                        et.SubElement(etax, u"TaxPercentage").text = str( tax.amount ) 
+                    elif tax.type == 'fixed' :
+                        et.SubElement(etax, u"TaxPercentage").text = str( tax.amount ) 
                 # 4.1.4.14.14**    ExemptionReason - obrigatorio se TaxPercent e TaxAmount ambos zero
+                if tax.saft_tax_type == 'IVA' and tax.amount == 0.0:
+                    et.SubElement(etax, u"TaxExemptionReason").text = unicode(tax.exemption_reason)
                 
                 # 4.1.4.14.15  SettlementAmount (optional) - valor do desconto da linha
                 et.SubElement(eline, u"SettlementAmount").text = str(line.discount )
