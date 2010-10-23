@@ -21,16 +21,25 @@
 ##############################################################################
 from osv import osv
 from M2Crypto import RSA
-
+#import M2Crypto
 import binascii
 
-RSA = RSA.load_key("keys/PrivateKey.pem")
+# Key file must be found in openerp/server/bin/keys
+# One must create directory openerp/server/bin/keys and put a PEM private
+# key there. To generate a private key execute:
+#    openssl genrsa -out PrivateKey.pem 1024
+# To generate the public one execute:
+#    openssl rsa -in PrivateKey.pem -out PublicKey.pem -outform PEM -pubout
+PRIV = RSA.load_key('keys/PrivateKey.txt')
 
-def m2c_sign(InvoiceDate, SystemEntryDate, InvoiceNo, GrossTotal, LastHash):
+def encrypt_data(InvoiceDate, SystemEntryDate, InvoiceNo, GrossTotal, LastHash):
     # generate concatenated string to encrypt
     message = '%s;%s;%s;%.2f;%s' % (InvoiceDate, SystemEntryDate, \
                                  InvoiceNo, GrossTotal, LastHash)
-    encrypted = RSA.private_encrypt(message, RSA.pkcs1_padding)
+    p = getattr(RSA, 'pkcs1_padding')
+    encrypted = PRIV.private_encrypt(message, p)
+    print '[' + encrypted + ']'
+    print '[' + binascii.b2a_base64(encrypted) + ']'
     return binascii.b2a_base64(encrypted)
 
 class account_invoice(osv.osv):
@@ -38,39 +47,35 @@ class account_invoice(osv.osv):
     _inherit = 'account.invoice'
 
     def write(self, cr, uid, ids, vals, context=None):
-        # TODO: This is not correct!
-        #  Because there is a possibility to create for example the invoice 10
-        #  but invoice 9 be in state PRO-FORMA with no hash and no relevance
-        #  for tax purposes.
-        #  It must get the last created and confirmed invoice from database.
-        #  It must be in code where Invoice Number is created, not here.
-        #  Must also check if hash was generated to prevent any future change.
+        print encrypt_data("2010-10-20", "2010-10-23", "2010/234", \
+                        2345.6789, "QWERTYlast.hash.example")
         return super(account_invoice, self).write(cr, uid, ids, vals, context)
-    
-<<<<<<< TREE
-    """ 
-    A assinatura não acontece no estado 'draft', mas sim quando a factura é confirmada e é atribuido o numero.
-    Personaliza o metodo write, quando ou apos mudar o estado para 'open'
-    A data relevante para o saft   é o 'write_date', porque a factura é criada sempre no estado 'draft' 
-    e só é verdadeiramente uma factura, quando é confirmada
-    """
-
-    def write(self, cr, uid, ids, vals, context=None):
-        """ Personalização para a validade da assinatura das facturas, para certificação
-        
-        grava o campo system_entry_date, quando a factura é confirmada - o estado passa a 'open'
+"""
+    A questão que eu coloco é que temos de saber exactamente qual é a última
+    factura confirmada. Pois temos de ir buscar o hash. Ora a factura id-1,
+    pode estar apenas no estado draft, pro-forma ou ter sido apagada.
+    Confio que o código actual que gera o número da factura, se encarregue de
+    descobrir qual é, pois se testares verificas que mesmo que haja várias facturas
+    pelo meio em draft ou pro-forma, ou até inexistente, pois podes apagar uma
+    factura draft e esse id desaparece, ele vai buscar o número da última emitida.
+    Talvez não esteja a ver bem como está a funcionar o openerp, mas ainda não
+    vi ao certo como fazê-lo de forma simples, garantindo que estou de facto a
+    utilizar o hash da última factura.
+    Depois de perceber isto é claro que só se muda na confirmação.
+    A ideia da lista de imutáveis é boa.
         Para prevenir eventuais alterações do wkf pelo aditor do cliente web, que invalidassem a assinatura:
          * define uma lista de campos imutaveis, após a factura estar confirmada - estados open, paid, ou cancel.
          * procura esses campos nas chaves do dict 'vals' e elimina-os se estiverem presentes
          * prossegue com a gravação de outras alterações
          * previne modificações do status, deposi de open so pode passar a paid ou cancel
-            - deve permitir anulação do pagamento """
-
-        imutaveis = ['partner_id', 'type', 'internal_number', 'date_invoice', 'hash', 'hash_control', 'amount_antaxed', 'amount_tax', 'amount_total']
+            - deve permitir anulação do pagamento
+"""
+"""
+        fixed = ['partner_id', 'type', 'internal_number', 'date_invoice', 'hash', 'hash_control', 'amount_antaxed', 'amount_tax', 'amount_total']
         for id in ids:
-            registo = self.read( cr, uid, [id], ['state'])[0]
-            if registo['state'] in ('open', 'paid', 'cancel'):
-                for field in imutaveis:
+            record = self.read( cr, uid, [id], ['state'])[0]
+            if record['state'] in ('open', 'paid', 'cancel'):
+                for field in fixed:
                     if field in vals:
                         vals.pop(field)
         
@@ -85,50 +90,6 @@ class account_invoice(osv.osv):
             cr.execute("UPDATE account_invoice SET hash = " + signature
             + " WHERE id = " + str(id) )
         
-
-
-
-#class invoice_l10n_pt_PT_certified(osv.osv):
-#    _name = "account.invoice"
-#    _inherit = "account.invoice"
-#    _columns = {
-#        'system_entry_date': fields.datetime('System Entry Date', states={'open':[('readonly',True)],'close':[('readonly',True)]}),
-#        'hash'
-#    }
-#invoice_l10n_pt_PT_certified
-
-print "\n=====RSA 368 Demo====="
-#use 1 RSA key to encrypt the AES key
-#use another RSA key to sign AES key
-from Crypto.PublicKey import RSA
-from Crypto import Random
-
-#start the random generator
-rpool = Random.new()
-Random.atfork()
-
-# generate both RSA keys,
-privatekeyCMS = RSA.generate(1024, rpool.read)
-Random.atfork()
-privatekeyClient = RSA.generate(1024, rpool.read)
-publickeyCMS = privatekeyCMS.publickey()
-publickeyClient = privatekeyClient.publickey()
-
-#sign the AES PWD with server private key
-signed_PWD = privatekeyCMS.sign(PWD,"")
-#encrypt AES PWD with client public key
-enc_PWD = publickeyClient.encrypt(PWD, "")
-print "with publickeyClient encrypted AES-PWD:"
-print enc_PWD[0].encode("hex"),"\n"
-print "with privatekeyCMS signed AES-PWD:"
-print signed_PWD[0],"\n"
-
-#decryption
-dec_PWD= privatekeyClient.decrypt(enc_PWD[0])
-#verify identity of the
-print "key verify:\n",publickeyCMS.verify(dec_PWD,signed_PWD)
-print "decrypted PWD:\n",dec_PWD
-=======
         hashes = self.read(cr, uid, ids, ['hash'])
         for nohash in hashes:
             if nohash['hash'] == '':
@@ -161,5 +122,5 @@ print "decrypted PWD:\n",dec_PWD
                 # already has hash don't change anything for now
                 # in future limit changes to fields with no tax relation
                 return
+"""
 account_invoice()
->>>>>>> MERGE-SOURCE
