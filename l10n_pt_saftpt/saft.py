@@ -121,7 +121,7 @@ class account_journal(osv.osv):
     }
     _defaults =  {
         'transaction_type': lambda *a: 'N',
-        'saft_inv_type': lambda *a: 'FT'
+        'saft_inv_type': lambda *a: 'FT',
     }
 account_journal()
 
@@ -162,7 +162,8 @@ tipos_saft = [  ('C', 'Contabilidade'),                         # ctb na v.1
                 ('F', u'Facturação'),                           # fact na v.1
                 ('I', u'Integrado - Contabilidade e Facturação'), # int
                 ('S', u'Autofacturação'),                         # novo v.2
-                ('P', u'Dados parciais de facturação')    ]        # novo v.2
+                #('P', u'Dados parciais de facturação')        # nao implementado
+              ]        # novo v.2
 
 
 class wizard_saft(osv.osv_memory):
@@ -188,7 +189,24 @@ class wizard_saft(osv.osv_memory):
                                          ('get','get'),         # get the file
                                        ) ),
     }
-    _defaults = { 'state': lambda *a: 'choose', }
+    
+    def _default_company(self, cr, uid, context={}):
+        """Devolve a companhia do utilizador, ou a primeira encontrada"""
+        user = self.pool.get('res.users').browse(cr, uid, uid, context=context)
+        if user.company_id:
+            return user.company_id.id
+        return self.pool.get('res.company').search(cr, uid, [('parent_id', '=', False)])[0]
+
+    def _current_year(self, cr, uid, context={}):
+        """ Devolve o ano mais recente existente na BD"""
+        return self.pool.get('account.fiscalyear').search(cr, uid, [], context=context)[-1]
+        
+    _defaults = { 
+        'state': lambda *a: 'choose',
+        'tipo':  lambda *a: 'F',
+        'comp': _default_company,
+        'year': _current_year,
+        }
 
     def act_cancel(self, cr, uid, ids, context=None):
         #self.unlink(cr, uid, ids, context)
@@ -333,67 +351,10 @@ class wizard_saft(osv.osv_memory):
                 for element in gl.getchildren():
                     element.tail='\n'
 
+        ####   2.2 Customer;    2.3 Supplier  =========================================
         logger.notifyChannel("saft :", netsvc.LOG_INFO, 'A exportar Clientes')
         self._write_partners(cr, uid, master)
-        ####   2.2 Customer;    2.3 Supplier  =========================================
-        #CustomerID (Supplier)      * partner.id | partner.ref
-        ## todo: AccountId               - ler em properties ???
-        #CustomerTaxID (Supplier)   * partner.vat
-        #CompanyName                * partner.name
 
-        #Contact                      [address.name (default)]
-        #BillingAddress             * address[invoice|default]
-        #ShipToAddress                address[delivery]
-        #Telephone                    address[default].phone | mobile
-        #Fax                          address[default].fax
-        #Email                        address[default].email
-        #Website                      partner.website
-        """
-        cr.execute("SELECT p.id, p.name, p.vat, p.website, p.self_bill_purch \
-                    FROM res_partner  p \
-                    WHERE id NOT IN (SELECT partner_id FROM res_company) \
-                    ORDER BY id")
-        # todo: Desagregar a query - clientes e fornecedores
-        supp_el = et.Element('Suppliers')
-        for p_id, name, vat, web, selfBilling in cr.fetchall() :
-            c = et.SubElement(master, 'Customer')
-            c.tail='\n'
-            ## ???? CostummerID usar o id interno do OpenERP ou o campo Code - nesse caso teria de ser obrigatório
-            et.SubElement(c, 'CustomerID').text = str(p_id)
-            et.SubElement(c, 'CustomerTaxID').text = vat
-            et.SubElement(c, 'CompanyName').text = name
-            # get addres    Verifica se ha endereço.
-            # TODO : este controlo deveria estar dentro da funcção getAddress
-            try :
-                street, city, zipc, pais, regiao, phone, fax, mail = self.getAddress(cr, uid, p_id)
-            except TypeError:
-                street = city = zipc = 'Desconhecido'
-                pais = 'PT'
-                regiao = phone = fax = mail = None
-
-            c.append( AddressStructure('BillingAddress', street, city, zipc, pais, region=regiao) )
-            # elementos facultativos
-            for tag, text in zip( ('Telephone', 'Fax', 'Email', 'Website', 'SelfBillingIndicator'),
-                                  (phone,       fax,    mail,    web,       selfBilling) ):
-                if text is None :
-                    et.SubElement(c, tag)
-                et.SubElement(c, tag).text = text
-
-            # Supplier nos tipos ctb e int
-            if self.this.tipo in ('C', 'I'):
-                s = et.SubElement(supp_el, 'Supplier')
-                for element in c.getchildren():
-                    c.tail='\n'
-                    if element.tag == 'CustomerID' :
-                        s_id = copy.copy( element)
-                        s_id.tag = 'SupplierID'
-                        s.append(s_id)
-                    elif element.tag == 'CustomerTaxID' :
-                        sTax=copy.copy( element)
-                        sTax.tag = 'SupplierTaxID'
-                        s.append(sTax)
-                    else :
-                        s.append(element)"""
         if self.this.tipo in ('C', 'I'):
             logger.notifyChannel("saft :", netsvc.LOG_INFO, 'A exportar Fornecedores')
             self._write_partners(cr, uid, master, partner_role='Supplier')
@@ -413,6 +374,18 @@ class wizard_saft(osv.osv_memory):
         
         
     def _write_partners(self, cr, uid, master, partner_role='Customer'):
+        #CustomerID (Supplier)      * partner.id | partner.ref
+        ## todo: AccountId               - ler em properties ???
+        #CustomerTaxID (Supplier)   * partner.vat
+        #CompanyName                * partner.name
+        #Contact                      [address.name (default)]
+        #BillingAddress             * address[invoice|default]
+        #ShipToAddress  (From)        address[delivery]
+        #Telephone                    address[default].phone | mobile
+        #Fax                          address[default].fax
+        #Email                        address[default].email
+        #Website                      partner.website
+    
         if partner_role == 'Customer':
             condition = [('customer', '=', 'True')]
             ship_add = 'To'
@@ -423,7 +396,7 @@ class wizard_saft(osv.osv_memory):
             return
             
         partner_obj = self.pool.get('res.partner')
-        partner_ids = partner_obj.search( cr, uid, condition)
+        partner_ids = partner_obj.search( cr, uid, condition, order='id')
         partners = partner_obj.browse(cr, uid, partner_ids)
         for partner in partners:
             if partner_role == 'Customer':
@@ -453,13 +426,11 @@ class wizard_saft(osv.osv_memory):
                 regiao = phone = fax = mail = None
 
             partner_element.append( AddressStructure('BillingAddress', street, city, zipc, pais, region=regiao) )
-            # 2.2|3.7 BillingAddress   todo
+            # 2.2|3.7 Ship[To|From]Address   todo
             # 2.2|3.8-9-10  elementos facultativos
             for tag, text in zip( ('Telephone', 'Fax', 'Email'),
                                   (phone,       fax,    mail ) ):
-                if text is None :
-                    et.SubElement(partner_element, tag)
-                et.SubElement(partner_element, tag).text = text
+                et.SubElement(partner_element, tag).text = unicode(text and text or '')
             # 2.2|3.11 Website
             et.SubElement(partner_element, 'Website').text = unicode(partner.website and partner.website or '')
             et.SubElement(partner_element, 'SelfBillingIndicator').text = self_bill

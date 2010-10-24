@@ -20,6 +20,7 @@
             <field name="inherit_id" ref="base.view_partner_form"/>
             <field name="arch" type="xml">
                  <field name="supplier" position="after">
+                     <field name="website"/>
                      <field name="reg_com"/>
                      <field name="conservatoria"/>
                  </field>
@@ -74,6 +75,7 @@
                                 <field name="year" widget="selection"/>
                                 <field name="tipo"/>
                                 <field invisible="1" name="state"/>
+                                <field name="data" invisible="1" fieldname="name"/>
                             </group>
                             <group col="1" fill="1" states="get" colspan="4">
                                 <separator string="Pronto"/>
