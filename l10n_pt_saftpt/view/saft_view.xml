@@ -50,6 +50,7 @@
             <field name="inherit_id" ref="account.view_account_journal_form"/>
             <field name="arch" type="xml">
                 <field name="entry_posted" position="after">
+                    <field name="saft_inv_type"/>
                     <field name="self_billing"/>
                     <field name="transaction_type"/>
                     <separator colspan="4" string="Parametros do SAFT"/>
