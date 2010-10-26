@@ -302,7 +302,7 @@ class wizard_saft(osv.osv_memory):
         if self.this.tipo != 'C' :
             root.append( self._write_source_documents( cr, uid, fy.date_start, fy.date_stop) )
 
-        xml_txt = et.tostring(root, encoding="utf-8")
+        xml_txt = et.tostring(root, encoding="windows-1252")
         #pretty = parseString(xml_txt).toprettyxml()
         out=base64.encodestring( xml_txt )   #buf.getvalue())
         #return self.write(cr, uid, ids, {'state':'get', 'data':out, 'advice':this.advice, 'name':this.name}, context=context)
@@ -340,7 +340,7 @@ class wizard_saft(osv.osv_memory):
                         acc_dict[account.code] = {'name':account.name, 'debit':debit, 'credit':credit}
                     account = account.parent_id
 
-            logger.notifyChannel("saft :", netsvc.LOG_INFO, 'A exportar tabela de contas (GeneralLedger)')
+            logger.notifyChannel("saft :", netsvc.LOG_INFO, 'A exportar Plano de Contas (GeneralLedger)')
             for code in sorted( acc_dict ):
                 gl = et.SubElement(master, 'GeneralLedger')
                 gl.tail='\n'
@@ -351,19 +351,15 @@ class wizard_saft(osv.osv_memory):
                 for element in gl.getchildren():
                     element.tail='\n'
 
-        ####   2.2 Customer;    2.3 Supplier  =========================================
+        ####   2.2 Customer    ========================================================================
         logger.notifyChannel("saft :", netsvc.LOG_INFO, 'A exportar Clientes')
         self._write_partners(cr, uid, master)
 
+        ####   2.3 Supplier  =========================================
         if self.this.tipo in ('C', 'I'):
             logger.notifyChannel("saft :", netsvc.LOG_INFO, 'A exportar Fornecedores')
             self._write_partners(cr, uid, master, partner_role='Supplier')
             
-            """
-            for supplier in supp_el.getchildren():
-                master.append( supplier )
-            del supp_el   """
-
         # 2.4 Product   -   Não entra no tipo 'C'
         if self.this.tipo != 'C' :
             self._write_products(cr, uid, master)
@@ -374,24 +370,26 @@ class wizard_saft(osv.osv_memory):
         
         
     def _write_partners(self, cr, uid, master, partner_role='Customer'):
-        #CustomerID (Supplier)      * partner.id | partner.ref
-        ## todo: AccountId               - ler em properties ???
-        #CustomerTaxID (Supplier)   * partner.vat
-        #CompanyName                * partner.name
-        #Contact                      [address.name (default)]
-        #BillingAddress             * address[invoice|default]
-        #ShipToAddress  (From)        address[delivery]
-        #Telephone                    address[default].phone | mobile
-        #Fax                          address[default].fax
-        #Email                        address[default].email
-        #Website                      partner.website
+        """ Exporta os elementos 2.2 Customer e 2.3 Supplier
+         1 CustomerID (Supplier)      * partner.id | partner.ref
+         2 AccountId                 * ler em properties ???
+         3 CustomerTaxID (Supplier)   * partner.vat
+         4 CompanyName                * partner.name
+         5 Contact       (Opcional)    [address.name (default)]
+         6 BillingAddress             * address[invoice|default]
+         7 ShipToAddress  (From)        address[delivery]
+         8 Telephone                    address[default].phone | mobile
+         9 Fax                          address[default].fax
+        10 Email                        address[default].email
+        11 Website                      partner.website
+        12 SelfBillingIndicator """
     
         if partner_role == 'Customer':
             condition = [('customer', '=', 'True')]
-            ship_add = 'To'
+            #ship_add = 'To'
         elif partner_role == 'Supplier':
             condition = [('supplier', '=', 'True')]
-            ship_add = 'From'
+            #ship_add = 'From'
         else:
             return
             
@@ -407,17 +405,17 @@ class wizard_saft(osv.osv_memory):
                 self_bill= unicode(partner.self_bill_purch and '1' or '0')
 
             partner_element = et.SubElement(master, partner_role)
-            # 2.2|3.1  Id
-            et.SubElement(partner_element, '%sId'%partner_role).text = unicode(partner.id)
-            et.SubElement(partner_element, 'AccountId').text = accountId 
-            et.SubElement(partner_element, '%sTaxId'%partner_role).text = unicode(partner.vat and partner.vat or '')
-            # 2.2|3.4  CompanyName
+            #.1  Id
+            et.SubElement(partner_element, '%sID'%partner_role).text = unicode(partner.id)
+            et.SubElement(partner_element, 'AccountID').text = accountId 
+            et.SubElement(partner_element, '%sTaxID'%partner_role).text = unicode(partner.vat and partner.vat or '')
+            #.4  CompanyName
             et.SubElement(partner_element, 'CompanyName').text = unicode(partner.name)
-            # 2.2|3.5 Contact   - Opcional  
+            #.5 Contact   - Opcional  
 
-            #2.2|3.6  BillingAddress
+            #.6  BillingAddress
             # get addres    Verifica se ha endereço.
-            # TODO : este controlo deveria estar dentro da funcção getAddress
+            # todo: este controlo deveria estar dentro da funcção getAddress
             try :
                 street, city, zipc, pais, regiao, phone, fax, mail = self.getAddress(cr, uid, partner.id)
             except TypeError:
@@ -426,12 +424,12 @@ class wizard_saft(osv.osv_memory):
                 regiao = phone = fax = mail = None
 
             partner_element.append( AddressStructure('BillingAddress', street, city, zipc, pais, region=regiao) )
-            # 2.2|3.7 Ship[To|From]Address   todo
-            # 2.2|3.8-9-10  elementos facultativos
+            # todo: .7 Ship[To|From]Address   
+            #8-9-10  elementos facultativos
             for tag, text in zip( ('Telephone', 'Fax', 'Email'),
                                   (phone,       fax,    mail ) ):
                 et.SubElement(partner_element, tag).text = unicode(text and text or '')
-            # 2.2|3.11 Website
+            #.11 Website
             et.SubElement(partner_element, 'Website').text = unicode(partner.website and partner.website or '')
             et.SubElement(partner_element, 'SelfBillingIndicator').text = self_bill
             partner_element.tail='\n'
