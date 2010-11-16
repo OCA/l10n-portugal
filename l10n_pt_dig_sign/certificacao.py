@@ -30,9 +30,28 @@ import binascii
 #    openssl genrsa -out PrivateKey.pem 1024
 # To generate the public one execute:
 #    openssl rsa -in PrivateKey.pem -out PublicKey.pem -outform PEM -pubout
-PRIV = RSA.load_key('keys/PrivateKey.txt')
+#PRIV = RSA.load_key('keys/PrivateKey.txt')
+privateKey = """
+MIICWwIBAAKBgQCoPIVQxVZfH0hX6iVIoCLGtSWQilks11kfpArOYfHL++JKGHha
+KojFHFmJDjzxyLe+e946x1Y1WaN2HLjSIhnKFDfi5XVWaI93NDBG6dF8lqDIgir7
+EkDv1cLtxCnTBDkKTTjn4+NH6bjpT1Gi+UMV7WpOn9+SxMZbvlK9btlMzwIDAQAB
+AoGAZFx2S1DtzaEjzw5nX4PoOxIlbqyZth5hlHaP276iOEXzILCoW2G0ZaIb558O
+zE4pDwFl+TqhOwJWeUd5GiItr1/Dzwi1BMi3BU2H9ohOLAU8L3ZQCZOEF9txIPIP
+5KJ1kIbo1CtQlsjapupmHILsayIa49QN8TQZRoIlq7Hc1kECQQDX3uBQ88svknqr
+t4IHTU0Ql05wseBfM52CXJcTGDV78/q+nM/bW+sc4gaTN76fV3cwMOBCL86EZ6lB
+ZCzRUobLAkEAx4LElJWSJvF5mJJOSTXX6lnNjUJqj8K0cZ5pvQ8pbynanrwvXpB2
+qxhDI/II9fdDE7kaqddVmnQ1vVYxwE5NjQJAE5XbED0uQCCwFIhPuc3fohO4QC1D
+SB/suHkiE89setSF+WlMyoAqcrJnGlBCcT6ER9EHZ7niqMym5JHsJwmvxQJAEBX3
+C5PTqNgnWanSLgztT7PV4uHL/bNRISgIlnm2eYQCYHIDz7gOGVVndGp7VnmNKvXt
+tGvsNvvPqWhdsoedsQJAZvIC7FFVsYcVfM5CPRR7mzAA6TcmjoWec2A8Av7CxoG6
+3srl/IG8pLj4OheIXZPP5ZyDR5JsiCIwh92cW4jdDQ==
+"""
 
-def encrypt_data(InvoiceDate, SystemEntryDate, InvoiceNo, GrossTotal, LastHash):
+# comando openssl assinatura
+# openssl dgst -sha1 -sign ChavePrivada.pem | openssl enc -base64
+
+
+def sign_data(InvoiceDate, SystemEntryDate, InvoiceNo, GrossTotal, LastHash):
     # generate concatenated string to encrypt
     message = '%s;%s;%s;%.2f;%s' % (InvoiceDate, SystemEntryDate, \
                                  InvoiceNo, GrossTotal, LastHash)
@@ -43,14 +62,26 @@ def encrypt_data(InvoiceDate, SystemEntryDate, InvoiceNo, GrossTotal, LastHash):
     return binascii.b2a_base64(encrypted)
 
 class account_invoice(osv.osv):
-    _name = 'account.invoice'
     _inherit = 'account.invoice'
+    
+    
+    def _inv_previous_number(self, cr, uid, ids, context=None):
+        """ Determina o hash do documento anterior para a mesma série
+        Identifica o diário e sequencia de numeração, e nesta obtem o prefixo, o cumprimento da numeração e o imcremento
+        o 'numero anterior' é dado por 'proximo numero' - 'incremento' concatenado com o prefixo e sufixo se houver
+        localizamos o id e hash da da factura com esse numero. Se não existe doc anterior, devolve '' 
+        Se estiverem definidas séries por ano fiscal - complica mais um pouco
+        
+        """
+        res = {}
+        for id in ids:
+            self.
 
     def write(self, cr, uid, ids, vals, context=None):
         print encrypt_data("2010-10-20", "2010-10-23", "2010/234", \
                         2345.6789, "QWERTYlast.hash.example")
         return super(account_invoice, self).write(cr, uid, ids, vals, context)
-"""
+    """
     A questão que eu coloco é que temos de saber exactamente qual é a última
     factura confirmada. Pois temos de ir buscar o hash. Ora a factura id-1,
     pode estar apenas no estado draft, pro-forma ou ter sido apagada.
@@ -69,13 +100,13 @@ class account_invoice(osv.osv):
          * prossegue com a gravação de outras alterações
          * previne modificações do status, deposi de open so pode passar a paid ou cancel
             - deve permitir anulação do pagamento
-"""
-"""
-        fixed = ['partner_id', 'type', 'internal_number', 'date_invoice', 'hash', 'hash_control', 'amount_antaxed', 'amount_tax', 'amount_total']
+    """
+
+        locked_fields = ['partner_id', 'type', 'internal_number', 'date_invoice', 'hash', 'hash_control', 'amount_antaxed', 'amount_tax', 'amount_total']
         for id in ids:
             record = self.read( cr, uid, [id], ['state'])[0]
             if record['state'] in ('open', 'paid', 'cancel'):
-                for field in fixed:
+                for field in locked_fields:
                     if field in vals:
                         vals.pop(field)
         
@@ -122,5 +153,5 @@ class account_invoice(osv.osv):
                 # already has hash don't change anything for now
                 # in future limit changes to fields with no tax relation
                 return
-"""
+
 account_invoice()
