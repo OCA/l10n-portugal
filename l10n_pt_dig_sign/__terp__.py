@@ -21,20 +21,18 @@
 ##############################################################################
 
 {
-    "name": "Portugal - Certificação Finanças",
+    "name": "Portugal - Digital signature",
     "version": "1.0",
     "category": "Localisation/Account",
     "description": """
-        This module allow the OpenERP invoice system to be certified by the
-        Portugal General Directorate of Taxes.
+        This module allows the OpenERP invoice system to add a digital signature in order to be certified by the
+        Portuguese Tax Authority.
     """,
-    "author": "byCMSA",
-    "depends": [
-        "base",
-        "account",
-        "l10n_pt_saftpt"],
+    "author": "Paulino",
+    "depends": ["l10n_pt_saft"],
     "init_xml": [],
-    "update_xml": [],
+    "update_xml": [ #'account_invoice_workflow.xml',  'invoice_view.xml'
+                    ],
     "demo_xml": [],
     "installable": True,
     "active": False,

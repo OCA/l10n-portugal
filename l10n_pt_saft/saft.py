@@ -29,17 +29,18 @@ import pooler
 from osv import fields
 from osv import osv
 from tools.translate import _
-from xml.etree import ElementTree as et
+#from xml.etree import ElementTree as et
+from lxml import etree as et
 #from xml.dom.minidom import parseString
 import copy
 import netsvc
 logger = netsvc.Logger()
 
 ##VALORES FIXO do cabecalho relativos ao OpenERP
-productCompanyTaxID = '508115809'
-productId =           'OpenERP/Observideia'
+productCompanyTaxID = ' '
+productId =           'OpenERP'
 productVersion =      '5'
-headerComment =      u'Software criado por Tiny sprl<www.tiny.be> a adaptado por Observideia Lda<observideia@sapo.pt>'
+headerComment =      u'Software criado por Tiny sprl<www.tiny.be> a adaptado pela comunidade OpenERP Portugal'
 softCertNr =          '0'
 
 # Versao e codificação do xml
@@ -216,11 +217,12 @@ class wizard_saft(osv.osv_memory):
         return {'type':'ir.actions.act_window_close' }
 
     def getAddress(self, cr, uid, partner_id, tipo='default'):
+        # obtem o primeiro id do tipo 'default' ou então o peimeiro id, do parceiro
         cr.execute("SELECT id  FROM res_partner_address WHERE id = COALESCE( \
                  (SELECT MIN(id) FROM res_partner_address WHERE  partner_id=%d AND type = '%s') , \
                  (SELECT MIN(id) FROM res_partner_address WHERE  partner_id=%d ))" %(partner_id, tipo, partner_id))
         address_id = cr.fetchone()[0]
-
+        # obtem os campos (para o id acima) de addressStruture
         cr.execute("SELECT ad.street||COALESCE(' '||ad.street2, ''), ad.city, ad.zip, c.code, r.name, \
                             COALESCE(ad.phone, ad.mobile), ad.fax, ad.email \
                     FROM res_partner_address ad \
@@ -229,6 +231,7 @@ class wizard_saft(osv.osv_memory):
                     WHERE ad.id ="+ str(address_id) )
         address = cr.fetchone()
         #print address
+        # todo: criar aqui o XML do endereco
         return address
 
     def act_getfile(self, cr, uid, ids, context=None):
@@ -238,8 +241,10 @@ class wizard_saft(osv.osv_memory):
         self.this = self.browse(cr, uid, ids[0])
         #Namespaces declaration
         self.xmlns = "urn:OECD:StandardAuditFile-Tax:PT_1.00_01"
-        attrib={'xmlns': self.xmlns, 'xmlns:xsi':"http://www.w3.org/2001/XMLSchema-instance",
-                'xsi:noNamespaceSchemaLocation' : "saft-pt.xsd"}
+        attrib={ 'xmlns': self.xmlns,
+                 #'xmlns:xsi':"http://www.w3.org/2001/XMLSchema-instance",
+                 #'xsi:noNamespaceSchemaLocation' : "saft-pt.xsd"
+                 }
 
         root = et.Element("AuditFile", attrib = attrib )
         header = et.SubElement(root, 'Header', xmlns=self.xmlns)
@@ -459,9 +464,9 @@ class wizard_saft(osv.osv_memory):
 
             eproduct_number_code = et.SubElement(eproduct, "ProductNumberCode")
             if product.ean13:
-                eproduct_number_code.text = product.ean13
+                eproduct_number_code.text = unicode(product.ean13)
             else:
-                eproduct_number_code.text = product.default_code
+                eproduct_number_code.text = unicode(product.default_code)
 
     def _get_taxes(self, cr, uid, context={}):
         logger.notifyChannel("saft :", netsvc.LOG_INFO, 'A exportar TaxTable')
@@ -745,8 +750,9 @@ class wizard_saft(osv.osv_memory):
                     elif tax.type == 'fixed' :
                         et.SubElement(etax, u"TaxPercentage").text = str( tax.amount )
                 # 4.1.4.14.14**    ExemptionReason - obrigatorio se TaxPercent e TaxAmount ambos zero
-                if tax.saft_tax_type == 'IVA' and tax.amount == 0.0:
-                    et.SubElement(etax, u"TaxExemptionReason").text = unicode(tax.exemption_reason)
+                if line.invoice_line_tax_id: 
+                    if tax.saft_tax_type == 'IVA' and tax.amount == 0.0:
+                        et.SubElement(etax, u"TaxExemptionReason").text = unicode(tax.exemption_reason)
 
                 # 4.1.4.14.15  SettlementAmount (optional) - valor do desconto da linha
                 et.SubElement(eline, u"SettlementAmount").text = str(line.discount )
