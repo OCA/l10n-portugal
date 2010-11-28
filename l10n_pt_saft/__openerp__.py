@@ -11,6 +11,6 @@
     "depends" : ["account"],
     "init_xml" : [],
     "demo_xml" : [],
-    "update_xml": [        "view/saft_view.xml"  ],
+    "update_xml": [        "saft_view.xml"  ],
     "installable": True
 }
