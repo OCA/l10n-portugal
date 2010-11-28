@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!--Alteracao  vista Companhia - novo campo para config diario de abertura -->
+        <record model="ir.ui.view" id="res_company_form_inherit">
+            <field name="name">res.company.form.inherit</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="base.view_company_form"/>
+            <field name="arch" type="xml">
+                 <page string="Configuration" position="inside">
+                     <field name="open_journal"/>
+                 </page>
+            </field>
+        </record>
+
+        <!--Alteracao da vista Parceiros - novos campos 'Registo comercial' e 'Conservatoria' -->
+        <record model="ir.ui.view" id="res_partner_saft_inherit">
+            <field name="name">res.partner.saft.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                 <field name="supplier" position="after">
+                     <field name="website"/>
+                     <field name="reg_com"/>
+                     <field name="conservatoria"/>
+                 </field>
+            </field>
+        </record>
+
+        <!--Alteracao da vista Imposto - novos campos 'Espaco fiscal' e 'Nivel de Taxa' -->
+        <record model="ir.ui.view" id="account_tax_saft_inherit">
+            <field name="name">account.tax.saft.inherit</field>
+            <field name="model">account.tax</field>
+            <field name="inherit_id" ref="account.view_tax_form"/>
+            <field name="arch" type="xml">
+                 <page string="Special Computation" position="after">
+                     <page string="Dados SAFT">
+                        <field name="country_region"/>
+                        <field name="saft_tax_type"/>
+                        <field name="saft_tax_code"/>
+                        <field name="expiration_date"/>
+                        <field name="exemption_reason"/>
+                     </page>
+                 </page>
+            </field>
+        </record>
+
+        <record id="account_journal_saft_inherit" model="ir.ui.view">
+            <field name="name">account.journal.saft.inherit</field>
+            <field name="model">account.journal</field>
+            <field name="inherit_id" ref="account.view_account_journal_form"/>
+            <field name="arch" type="xml">
+                <field name="entry_posted" position="after">
+                    <field name="saft_inv_type"/>
+                    <field name="self_billing"/>
+                    <field name="transaction_type"/>
+                    <separator colspan="4" string="Parametros do SAFT"/>
+                    <newline/>
+                </field>
+            </field>
+        </record>
+
+        <!-- vista do assistente -->
+        <record id="wizard_saft_pt" model="ir.ui.view">
+            <field name="name">Export Standard Audit File</field>
+            <field name="model">wizard.l10n_pt.saft</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form col="3" string="Gerar SAFT-PT">
+                    <notebook>
+                        <page string="Criterios">
+                            <group col="2" fill="1" states="choose" colspan="4">
+                                <separator colspan="2" string="Export SAFT-PT"/>
+                                <field name="comp" widget="selection"/>
+                                <field name="year" widget="selection"/>
+                                <field name="tipo"/>
+                                <field invisible="1" name="state"/>
+                                <field name="data" invisible="1" fieldname="name"/>
+                            </group>
+                            <group col="1" fill="1" states="get" colspan="4">
+                                <separator string="Pronto"/>
+                                <field name="name" invisible="1"/>
+                                <field name="data" nolabel="1" readonly="1" fieldname="name"/>
+                                <label align="0.0" string="Guarde o ficheiro saft"/>
+                            </group>
+                            <group col="2" fill="1" colspan="4">
+                                <button icon="gtk-cancel" name="act_cancel" special="cancel" states="choose" string="Cancelar" type="object"/>
+                                <button icon="gtk-ok" name="act_getfile" states="choose" string="Exportar" type="object"/>
+                                <button icon="gtk-close" name="act_destroy" special="cancel" states="get" string="Fechar" type="object"/>
+                            </group>
+                        </page>
+                        <page string="Ajuda">
+                            <label colspan="4" string="O ficheiro vai exportar todos os movimentos existentes na base de dados para o exercicio escolhido"/>
+                            <label colspan="4" string="Escolha o tipo conforme esteja a usar o OpenERP apenas para a Contabilidade ou Facturacao ou para ambas"/>
+                            <label colspan="4" string=""/>
+                        </page>
+                    </notebook>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_wizard_saft" model="ir.actions.act_window">
+            <field name="name">Criar ficheiro SAFT</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">wizard.l10n_pt.saft</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+        <menuitem action="action_wizard_saft" id="menu_wizard_saft" parent="account.menu_finance_legal_statement"/>
+
+
+    </data>
+</openerp>

@@ -1,0 +1,27 @@
+Módulo l10n-pt-saft.
+
+Implementa a exportação de um ficheiro de dados para efeitos de auditoria fiscal, de acordo com a 
+Portaria 321-A/2007 de 26 de Março do Ministério das Finanças.
+
+Estão implementados todos os campos obrigatórios.
+O assistente de exportação do ficheiro encontra-se no menu Gestão Financeira/Mapas Oficiais
+
+Modificações a tabelas:
+
+    res.partner
+        Adicionados campos 'reg_com' e 'conservatoria' para registar os dados do registo comercial 
+        dos parceiros
+        
+    res.company
+        Adicionado campo 'open_journal' para especificar o diário de abertura. Os movimentos deste 
+        diário são filtrados. 
+        Acessível no menu: Administração/Utilizadores/Estrutura da empresa/Empresas -> configuração.
+        
+    account_tax
+        Novos campos 'area_fiscal' e 'nivel_taxa', para cumprir com a especificação da tabela fiscal.
+        
+        
+Falta implementar campos relativos à ordem de compra do cliente que originou a factura e informação 
+sobre local e data de carga e descarga das mercadorias
+
+É obrigatório inserir um codigo de iva nas facturas, para preencher o motivo da isenção na saft, quando o valor é zero
