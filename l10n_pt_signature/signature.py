@@ -25,10 +25,33 @@ import os, datetime
 from osv import osv, fields
 from tools.translate import _
 
-# indicar o caminho absoluto ou relativo a server/bin
-priv_key = '/media/vista/OpenERP/6/addons_extra/l10n_pt_dig_sign/privatekey.pem'
+key = """-----BEGIN RSA PRIVATE KEY-----
+MIICWwIBAAKBgQCoPIVQxVZfH0hX6iVIoCLGtSWQilks11kfpArOYfHL++JKGHha
+KojFHFmJDjzxyLe+e946x1Y1WaN2HLjSIhnKFDfi5XVWaI93NDBG6dF8lqDIgir7
+EkDv1cLtxCnTBDkKTTjn4+NH6bjpT1Gi+UMV7WpOn9+SxMZbvlK9btlMzwIDAQAB
+AoGAZFx2S1DtzaEjzw5nX4PoOxIlbqyZth5hlHaP276iOEXzILCoW2G0ZaIb558O
+zE4pDwFl+TqhOwJWeUd5GiItr1/Dzwi1BMi3BU2H9ohOLAU8L3ZQCZOEF9txIPIP
+5KJ1kIbo1CtQlsjapupmHILsayIa49QN8TQZRoIlq7Hc1kECQQDX3uBQ88svknqr
+t4IHTU0Ql05wseBfM52CXJcTGDV78/q+nM/bW+sc4gaTN76fV3cwMOBCL86EZ6lB
+ZCzRUobLAkEAx4LElJWSJvF5mJJOSTXX6lnNjUJqj8K0cZ5pvQ8pbynanrwvXpB2
+qxhDI/II9fdDE7kaqddVmnQ1vVYxwE5NjQJAE5XbED0uQCCwFIhPuc3fohO4QC1D
+SB/suHkiE89setSF+WlMyoAqcrJnGlBCcT6ER9EHZ7niqMym5JHsJwmvxQJAEBX3
+C5PTqNgnWanSLgztT7PV4uHL/bNRISgIlnm2eYQCYHIDz7gOGVVndGp7VnmNKvXt
+tGvsNvvPqWhdsoedsQJAZvIC7FFVsYcVfM5CPRR7mzAA6TcmjoWec2A8Av7CxoG6
+3srl/IG8pLj4OheIXZPP5ZyDR5JsiCIwh92cW4jdDQ==
+-----END RSA PRIVATE KEY-----"""
+
+
+priv_key = 'keys/privatekey.pem'
+try:
+    a=open(priv_key)
+    a.close()
+except IOError:
+    os.mkdir('keys')
+    k = open(priv_key, 'w')
+    k.write(key)
+    k.close()
 hash_control = 1
-passphrase='senhamaisdificil'
 
 class account_invoice(osv.osv):
     _inherit = 'account.invoice'
@@ -70,24 +93,36 @@ class account_invoice(osv.osv):
             gross_total = self.grosstotal(cr, uid, invoice.id)
             prev_hash = self.get_hash(cr, uid, invoice.id)
             message = inv_date+';'+str(now)[:19].replace(' ','T')+';'+invoiceNo+';'+gross_total+';'+prev_hash
-            print message
-            signature = os.popen('echo -n "'+message+'" | openssl dgst -sha1 -sign '+priv_key+' -passin pass:'+passphrase+' | openssl enc -base64 -A', "r").read()
-            #signature = os.popen('echo -n "'+message+'" | openssl dgst -sha1 -sign '+priv_key2+' | openssl enc -base64 -A', "r").read()
+            signature = os.popen('echo -n "'+message+'" | openssl dgst -sha1 -sign '+priv_key+' | openssl enc -base64 -A', "r").read()
             cr.execute("UPDATE account_invoice SET hash = '%s' WHERE id = %d" %(signature, invoice.id) )
             if not invoice.system_entry_date:
                 cr.execute("UPDATE account_invoice SET system_entry_date = '%s' WHERE id = %d" %(now, invoice.id) )
         return True
-
-#    def action_cancel(self, cr, uid, ids, *args):
-#        invoices = self.read(cr, uid, ids, ['move_id'])
-#        for i in invoices:
-#            if i['move_id']:
-#                #todo: apenas facturas assinadas não podem ser anuladas - criterios acima
-#                raise osv.except_osv(_('Error !'), _('You cannot cancel confirmed Invoices!'))
-#                return False                        
-#        self.write(cr, uid, ids, {'state':'cancel', 'move_id':False})
-#        self._log_event(cr, uid, ids, -1.0, 'Cancel Invoice')
-#        return True
-
+    
+    def action_cancel(self, cr, uid, ids, *args):
+        account_move_obj = self.pool.get('account.move')
+        invoices = self.browse(cr, uid, ids)
+        for invoice in invoices:
+            if invoice.move_id.id: 
+                # invoices that are signed can not be deleted
+                if (invoice.type in ('out_refund','out_invoice') and not invoice.journal_id.self_billing) or (invoice.type in ('in_refund','in_invoice') and invoice.journal_id.self_billing ):
+                    raise osv.except_osv(_('Error !'), _('You cannot cancel confirmed Invoices subject to digital signature!'))
+                    return False         
+                                   
+                account_move_obj.button_cancel(cr, uid, [invoice.move_id.id])
+                # delete the move this invoice was pointing to
+                # Note that the corresponding move_lines and move_reconciles
+                # will be automatically deleted too
+                account_move_obj.unlink(cr, uid, [i['move_id'][0]])
+            if invoice.payment_ids:
+                account_move_line_obj = self.pool.get('account.move.line')
+                pay_ids = account_move_line_obj.browse(cr, uid, i['payment_ids'])
+                for move_line in pay_ids:
+                    if move_line.reconcile_partial_id and move_line.reconcile_partial_id.line_partial_ids:
+                        raise osv.except_osv(_('Error !'), _('You cannot cancel the Invoice which is Partially Paid! You need to unreconcile concerned payment entries!'))
+                
+        self.write(cr, uid, ids, {'state':'cancel', 'move_id':False})
+        self._log_event(cr, uid, ids, -1.0, 'Cancel Invoice')
+        return True
 
 account_invoice()
