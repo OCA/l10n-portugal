@@ -31,10 +31,10 @@
     "author": "Paulino",
     "depends": ["l10n_pt_saft"],
     "init_xml": [],
-    "update_xml": [ #'account_invoice_workflow.xml',  'invoice_view.xml'
+    "update_xml": [ 'account_invoice_workflow.xml',  #'invoice_view.xml'
                     ],
     "demo_xml": [],
     "installable": True,
-    "active": False,
+    "active": True,
 }
 
