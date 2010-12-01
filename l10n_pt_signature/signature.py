@@ -89,7 +89,11 @@ class account_invoice(osv.osv):
                 continue
             inv_date = unicode(invoice.date_invoice)
             now = invoice.system_entry_date or datetime.datetime.now()
-            invoiceNo = unicode(invoice.journal_id.saft_inv_type+' '+invoice.number)
+            try:
+                invoiceNo = unicode(invoice.journal_id.saft_inv_type+' '+invoice.number)
+            except TypeError:
+                raise osv.except_osv(_('Error !'), _("Please set the doc type at Journal's SAFT parameters!"))
+                return
             gross_total = self.grosstotal(cr, uid, invoice.id)
             prev_hash = self.get_hash(cr, uid, invoice.id)
             message = inv_date+';'+str(now)[:19].replace(' ','T')+';'+invoiceNo+';'+gross_total+';'+prev_hash
