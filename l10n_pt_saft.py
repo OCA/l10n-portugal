@@ -30,17 +30,16 @@ from __future__ import print_function
 import datetime
 #import tools
 # import pooler
-from openerp import tools
-from cStringIO import StringIO
+# from openerp import tools
+# from cStringIO import StringIO
 import base64
 #import cStringIO
-import csv
+# import csv
 #import pooler
 #from osv import fields
 #from osv import osv
-from openerp.osv import fields, osv
+from openerp import models, fields, api, _
 #from tools.translate import _
-from openerp.tools.translate import _
 #from xml.etree import ElementTree as et
 from lxml import etree as et
 #from xml.dom.minidom import parseString
@@ -62,51 +61,43 @@ softCertNr =          '0'
 # Versao e codificação do xml
 # xml_version = '<?xml version="1.0" encoding="windows-1252"?>'
 
-class res_partner(osv.osv):
+class res_partner(models.Model):
     """Adiciona os campos requeridos pelo SAFT relativos a clientes e fornecedores:
     conservatória; numero do registo comercial; Indicadores da existencia de acordos de
     autofacturação para compras e vendas
     Torna o campo 'ref' obrigatorio e único e o 'vat' - NIF obrigatório"""
+    _name = 'res.partner'
     _inherit = 'res.partner'
-    _columns = {
-        # Só para os campos saft
-        'reg_com':       fields.char('N.Registo', 32, help="Número do registo comercial"),
-        'conservatoria': fields.char('Conservatoria', 64, help="Conservatória do registo comercial"),
-        # Adicionar campo 'indicador da existencia de acordos de 'auto-facturação' : 1 ou 0
-        'self_bill_sales': fields.boolean('Sales: self-billing', help="Assinale se existe acordo de auto-facturação para as vendas a este parceiro" ),
-        'self_bill_purch': fields.boolean('Purchases self-billing', help="Assinale se existe acordo de auto-facturação para as compras ao parceiro" ),
-    }
 
-res_partner()
+    # Só para os campos saft
+    reg_com = fields.Char(string="N.Registo", size=32, help="Número do registo comercial")
+    conservatoria = fields.Char(string="Conservatoria", size=64, help="Conservatória do registo comercial")
+
+    # Adicionar campo 'indicador da existencia de acordos de 'auto-facturação' : 1 ou 0
+    self_bill_sales = fields.Boolean(string="Sales: self-billing", help="Assinale se existe acordo de auto-facturação para as vendas a este parceiro")
+    self_bill_purch = fields.Boolean(string="Purchases self-billing", help="Assinale se existe acordo de auto-facturação para as compras ao parceiro" )
+
 # todo: permitir nas facturas de venda apenas parceiros clientes; Nãp permitir desmarcar campo 'cliente' se houver vendas.
 
-class res_company(osv.osv):
+class res_company(models.Model):
+    _name = 'res.company'
     _inherit = 'res.company'
-    _columns = {
-        'open_journal' : fields.many2one('account.journal', 'Diário de Abertura')
-    }
-res_company()
+
+    open_journal = fields.Many2one(comodel_name="account.journal", string="Diário de Abertura", )
 
 
-class account_tax(osv.osv):
+class account_tax(models.Model):
+    _name = 'account.tax'
     _inherit = 'account.tax'
-    _columns = {
-        'country_region': fields.selection([('PT', 'Continente'), ('PT-AC', 'Açores'), ('PT-MA', 'Madeira')], 'Espaço Fiscal', required=True),
-        'saft_tax_type':  fields.selection([('IVA', 'IVA'), ('IS', 'Imp do Selo')], 'Imposto', required=True),
-        'saft_tax_code':  fields.selection([('RED', 'Reduzida'), ('NOR', 'Normal'),('INT', 'Intermédia'),
-                     ('ISE', 'Isenta'), ('OUT', 'Outra')],'Nível de Taxa', required=True),
-        'expiration_date': fields.date('Data Expiração'),
-        'exemption_reason': fields.char('Motivo da isenção', size=60, help="No caso de IVA isento, indique qual a norma do codigo do IVA que autribui a isenção"),
-    }
-    _defaults = {
-        'country_region':   lambda *a: 'PT',
-        'saft_tax_type':    lambda *a: 'IVA',
-        'saft_tax_code':    lambda *a: 'NOR',
-    }
-account_tax()
+
+    country_region = fields.Selection(string="Espaço Fiscal", selection=[('PT', 'Continente'), ('PT-AC', 'Açores'), ('PT-MA', 'Madeira')], required=True, default="PT", )
+    saft_tax_type = fields.Selection(string="Imposto", selection=[('IVA', 'IVA'), ('IS', 'Imp do Selo')], required=True, default="IVA", )
+    saft_tax_code = fields.Selection(string="Nível de Taxa", selection=[('RED', 'Reduzida'), ('NOR', 'Normal'),('INT', 'Intermédia'), ('ISE', 'Isenta'), ('OUT', 'Outra')], required=True, default="NOR", )
+    expiration_date = fields.Date(string="Data Expiração", )
+    exemption_reason = fields.Char(string="Motivo da isenção", size=60, help="No caso de IVA isento, indique qual a norma do codigo do IVA que autribui a isenção")
 
 
-class account_invoice(osv.osv):
+class account_invoice(models.Model):
     """ Campos requeridos pelo saft:
             4.1.4.2. InvoiceStatus - ['N': Normal, 'A': Anulado, 'S':Auto-fact, 'F': Facturado(Talão de venda)]-calculado ao exportar
             4.1.4.3. Hash - assinatura (string 200)
@@ -117,59 +108,46 @@ class account_invoice(osv.osv):
             4.1.4.14.14.    TaxExemptionReason - Motivo da isenção - o preceito legal aplicável - ler na tabela de impostos
 
     """
+    _name = "account.invoice"
     _inherit = "account.invoice"
-    _columns = {
-        'hash':       fields.char('Assinatura', size=200),
-        'hash_control': fields.char('Chave', size=40),
-        'system_entry_date':   fields.datetime('Data de confirmação'),
-        'write_date':   fields.datetime('Data de alteração'),
-    }
-    def grosstotal(self, cr, uid, inv_id):
+
+    hash = fields.Char(string="Assinatura", size=200, )
+    hash_control = fields.Char(string="Chave", size=40, )
+    system_entry_date = fields.Datetime(string="Data de confirmação", )
+    write_date = fields.Datetime(string="Data de alteração", )
+
+    def grosstotal(self, cr, uid,  inv_id):
         invoice = self.browse(cr, uid, inv_id)
         integer, decimal = str(invoice.amount_total).split('.')
         return '.'.join( [integer, decimal.ljust(2, '0')] )
-account_invoice()
 
 
-class account_journal(osv.osv):
+class account_journal(models.Model):
     """ Adição de cmapos requeridos pelo saft:
     3.4.3.7  trasaction_type - para filtrar na contabilidade os tipos de transação conforme abaixo
     4.1.4.2/8  self_billing - servirá para preencher os campos 4.1.4.2 InvoiceStatus e 4.1.4.8 SelfBillingIndicator, nos casos de auto-facturação
     4.1.2.7    InvoiceType  classificar com um de FT, ND, NC  ou VD e AA alienação Acivos ou DA - devol activos
     """
+    _name = "account.journal"
     _inherit = "account.journal"
-    _columns = {
-        'self_billing': fields.boolean('Auto-Facturação', help='''Assinale, se este diário se destina a registar Auto-facturação.
-            As facturas emitidas em substituição dos fornecedores, ao abrigo de acordos de auto-facturação, são assinaladas como tal no SAFT'''),
-        'transaction_type': fields.selection([('N', 'Normal'), ('R', 'Regularizações'),('A', 'Apur. Resultados'), ('J', 'Ajustamentos')],
-                                              'Tipo de Lançamento', help="Categorias para classificar os movimentos contabilísticos ao exportar o SAFT"),
-        'saft_inv_type' : fields.selection([('FT', 'Factura'), ('ND', 'Nota de débito'),('NC', 'Nota de Crédito'), ('VD', 'Venda a Dinheiro'),
-                            #('TV', 'Talão de Venda'), ('TD', 'Talão de Devolução')   # opções para o caso de haver um POS ligado
-                            ('AA', 'Alienação de Activos'), ('DA', 'Devolução de Activos')], 'Tipo de Documento',
-                            help="Categorias para classificar os documentos comerciais, na exportação do SAFT" ),
-    }
-    _defaults =  {
-        'transaction_type': lambda *a: 'N',
-        'saft_inv_type': lambda *a: 'FT',
-    }
-account_journal()
 
-class product_product(osv.osv):
+    self_billing = fields.Boolean(string="Auto-Facturação", help='''Assinale, se este diário se destina a registar Auto-facturação.
+            As facturas emitidas em substituição dos fornecedores, ao abrigo de acordos de auto-facturação, são assinaladas como tal no SAFT''')
+    transaction_type = fields.Selection(string="Tipo de Lançamento", selection=[('N', 'Normal'), ('R', 'Regularizações'),('A', 'Apur. Resultados'), ('J', 'Ajustamentos')], help="Categorias para classificar os movimentos contabilísticos ao exportar o SAFT", default="N", )
+    saft_inv_type = fields.Selection(string="Tipo de Documento", selection=[('FT', 'Factura'), ('ND', 'Nota de débito'),('NC', 'Nota de Crédito'), ('VD', 'Venda a Dinheiro'), ('AA', 'Alienação de Activos'), ('DA', 'Devolução de Activos')], required=False, help="Categorias para classificar os documentos comerciais, na exportação do SAFT", default="FT", )
+
+
+class product_product(models.Model):
+    _name = "product.product"
     _inherit = "product.product"
-    _columns = {
-        #'default_code' : fields.char('Reference', size=30, required=True), 
-    }
-    _sql_constraints = [('code_unique','unique(default_code)', _("Product code must be unique!")),
-    ]
-product_product()
 
-class account_invoice_line(osv.osv):
+    _sql_constraints = [('code_unique','unique(default_code)', _("Product code must be unique!")), ]
+
+
+class account_invoice_line(models.Model):
+    _name = "account.invoice.line"
     _inherit = "account.invoice.line"
-    _columns = {
-        #'product_id': fields.many2one('product.product', 'Product', ondelete='set null', required=True),
-        }
-account_invoice_line()
-    
+
 
 def date_format(data, tipo='DateType'):
     d = datetime.datetime.strptime(data[:19], '%Y-%m-%d %H:%M:%S')
@@ -187,42 +165,42 @@ tipos_saft = [  ('C', 'Contabilidade'),                         # ctb na v.1
               ]        # novo v.2
 
 
-class wizard_saft(osv.osv_memory):
+class wizard_saft(models.TransientModel):
     _name = "wizard.l10n_pt.saft"
-    _columns = {
-            'company_id': fields.many2one('res.company', 'Companhia', required=True),
-            'tipo': fields.selection(tipos_saft,'Tipo ficheiro'),
-            'year': fields.many2one('account.fiscalyear', 'Exercício', required=True),
-            'date_end': fields.date('Data final'),
-            'date_start': fields.date('Data Inicial'),
-            'period_id': fields.many2one('account.period', 'Periodo'),
-    }
 
-#wizard_saft()
-
-    def _default_company(self, cr, uid, context={}):
+    # def _default_company(self, cr, uid, context={}):
+    def _default_company(self):
         """Devolve a companhia do utilizador, ou a primeira encontrada"""
-        user = self.pool.get('res.users').browse(cr, uid, uid, context=context)
+        user = self.pool.get('res.users').browse(self._cr, self._uid, self._uid)
         if user.company_id:
             return user.company_id.id
-        return self.pool.get('res.company').search(cr, uid, [('parent_id', '=', False)])[0]
+        return self.pool.get('res.company').search([('parent_id', '=', False)])[0]
 
-    def _current_year(self, cr, uid, context={}):
+    # def _current_year(self, cr, uid, context={}):
+    def _current_year(self):
         """ Devolve o ano mais recente existente na BD"""
-        return self.pool.get('account.fiscalyear').search(cr, uid, [], context=context)[-1]
-    
-    def _default_period(self, cr, uid, context={}):
+        return self.pool.get('account.fiscalyear').search(self._cr, self._uid, [])[-1]
+
+    def _default_period(self):
         """ Devolve período na BD"""
         ######## verificar
-        ctx = dict(context or {}, account_period_prefer_normal=True)
-        period_ids = self.pool.get('account.period').find(cr, uid, context=ctx)
-        return period_ids[0]        
-        
-    def onchange_period(self, cr, uid, ids, period_id=False, context=None):
-        res = {}
-        if period_id:
+        ctx = dict(self._context or {}, account_period_prefer_normal=True)
+        period_ids = self.pool.get('account.period').find(self._cr, self._uid, context=ctx)
+        return period_ids[0]
+
+    company_id = fields.Many2one(comodel_name="res.company", string="Companhia", required=True, default=_default_company, )
+    tipo = fields.Selection(string="Tipo ficheiro", selection=tipos_saft, default="F", )
+    year = fields.Many2one(comodel_name="account.fiscalyear", string="Exercício", required=True, default=_current_year, )
+    date_end = fields.Date(string="Data final", default=fields.Date.context_today, )
+    date_start = fields.Date(string="Data Inicial", default=fields.Date.context_today, )
+    period_id = fields.Many2one(comodel_name="account.period", string="Periodo", default=_default_period, )
+
+
+    @api.onchange('period_id')
+    def onchange_period(self):
+        if self.period_id:
             start_period = end_period = False
-            cr.execute('''
+            self._cr.execute('''
                 SELECT * FROM (SELECT p.id
                                FROM account_period p
                                LEFT JOIN account_fiscalyear f ON (p.fiscalyear_id = f.id)
@@ -236,27 +214,19 @@ class wizard_saft(osv.osv_memory):
                                WHERE f.id = %s
                                AND p.date_start < NOW()
                                ORDER BY p.date_stop DESC
-                               LIMIT 1) AS period_stop''', (period_id, period_id))
-            periods =  [i[0] for i in cr.fetchall()]
+                               LIMIT 1) AS period_stop''', (self.period_id.id, self.period_id.id))
+            periods = [i[0] for i in self._cr.fetchall()]
             if periods and len(periods) > 1:
                 start_period = periods[0]
                 end_period = periods[1]
-            res['value'] = {'period_from': start_period, 'period_to': end_period}
+            self.period_from= start_period
+            self.period_to= end_period
         else:
-            res['value'] = {'period_from': False, 'period_to': False}
-        return res
-        
-    _defaults = { 
-        #'state': lambda *a: 'choose',
-        'tipo':  lambda *a: 'F',
-        'company_id': _default_company,
-        'year': _current_year,
-        'date_start': fields.date.context_today,
-        'date_end': fields.date.context_today,
-        'period_id': _default_period,
-        }
+            self.period_from=False
+            self.period_to= False
 
-    def act_cancel(self, cr, uid, ids, context=None):
+
+    def act_cancel(self):
         #self.unlink(cr, uid, ids, context)
         return {'type':'ir.actions.act_window_close' }
 
@@ -264,7 +234,7 @@ class wizard_saft(osv.osv_memory):
     def action_close(self, *args):
         return {'type':'ir.actions.act_window_close' }
 
-    def getAddress(self, cr, uid, parent_tag, parent_id, add_type='default'):
+    def getAddress(self, cr ,uid, ids, parent_tag, parent_id, add_type='default'):
         # obtem o primeiro id do tipo 'default' ou então o peimeiro id, do parceiro
         if add_type == 'default':
             cr.execute("SELECT id  FROM res_partner WHERE id = COALESCE( \
@@ -316,7 +286,6 @@ class wizard_saft(osv.osv_memory):
         return  parent, phone_fax_mail
         #return address
 
-#    def act_getfile(self, cr, uid, ids, context=None):
     def action_extract_saft(self, cr, uid, ids, context=None):
 #        logger.notifyChannel("saft :", netsvc.LOG_INFO, ' A exportar o ficheiro xml SAFT ****')
         """Gera o conteudo do ficheiro xml 
@@ -335,11 +304,11 @@ class wizard_saft(osv.osv_memory):
         header = et.SubElement(root, 'Header', xmlns=self.xmlns)
         header.tail = '\n'
         #master
-        root.append( self._get_masters(cr, uid) )
+        root.append( self._get_masters(cr, uid, ids, context=context) )
 
         #entries : exclui na facturação
         if self.this.tipo in ('C', 'I'):
-            root.append( self._get_entries(cr, uid) )
+            root.append( self._get_entries() )
         #for el in (header, master, entries) :
         #    el.tail = '\n'
         
@@ -349,14 +318,14 @@ class wizard_saft(osv.osv_memory):
         cr.execute("""
             SELECT p.id, p.vat, p.name, p.reg_com, p.conservatoria, p.website
             FROM res_partner p
-            WHERE p.id = 1 """  )
+            WHERE p.id = 1 """)
 
         p_id, vat, name, registo, conserv, web = cr.fetchone()
-        for el, txt in zip(('CompanyID', 'TaxRegistrationNumber', 'TaxAccountingBasis',  'CompanyName'),
-                           (str(conserv)+' '+str(registo), vat[2:], self.this.tipo, name )):
+
+        for el, txt in zip(('CompanyID', 'TaxRegistrationNumber', 'TaxAccountingBasis',  'CompanyName'), (str(conserv)+' '+str(registo), vat and vat[2:] or None, self.this.tipo, name )):
             et.SubElement(header, el).text=txt
         # todo: Falta inserir o BusinessName (1.6), após o CompanyName  opcional
-        compAddress, phone_fax_mail = self.getAddress(cr, uid, 'CompanyAddress', p_id)
+        compAddress, phone_fax_mail = self.getAddress(cr, uid, ids, 'CompanyAddress', p_id)
         
         header.append( compAddress )
 
@@ -390,7 +359,7 @@ class wizard_saft(osv.osv_memory):
 
         #SourceDocumentos se tipo não é 'C'
         if self.this.tipo != 'C' :
-            root.append( self._write_source_documents( cr, uid, fy.date_start, fy.date_stop) )
+            root.append( self._write_source_documents(cr, uid, fy.date_start, fy.date_stop) )
 
         xml_txt = et.tostring(root, encoding="windows-1252")
         out=base64.encodestring( xml_txt )   
@@ -403,7 +372,7 @@ class wizard_saft(osv.osv_memory):
             'target': 'new',
         }
 
-    def _get_masters(self, cr, uid, context={}):
+    def _get_masters(self, cr, uid, ids, context=None):
 #        logger.notifyChannel("saft :", netsvc.LOG_INFO, ' A exportar MasterFiles')
 #_logger.info('A exportar MasterFiles')
         master = et.Element('MasterFiles', xmlns=self.xmlns)
@@ -412,7 +381,7 @@ class wizard_saft(osv.osv_memory):
         # obtem lista de contas com movimentos, com saldos de abertura
         # precisa obter contas-mãe para cada cta de movimento
         if self.this.tipo in ('C', 'I') :
-            cr.execute("SELECT DISTINCT ac.id, ac.code, ac.name, ac.parent_id, COALESCE(debito, 0.0), COALESCE(credito, 0) \
+            self._cr.execute("SELECT DISTINCT ac.id, ac.code, ac.name, ac.parent_id, COALESCE(debito, 0.0), COALESCE(credito, 0) \
                 FROM account_move_line ml \
                     INNER JOIN account_account  ac  ON  ac.id = ml.account_id\
                     LEFT JOIN (SELECT account_id, SUM( debit) AS debito, SUM( credit ) AS credito\
@@ -424,7 +393,7 @@ class wizard_saft(osv.osv_memory):
             for ac_id, code, name, parent, debit, credit in cr.fetchall():
                 #print code, name, parent, debit, credit
                 acc_dict[ code ] = {'name':name, 'debit':debit, 'credit':credit}
-                account = acc_obj.browse(cr, uid, parent )
+                account = acc_obj.browse(parent )
                 while account :
                     if len(account.code) < 2 :
                         break
@@ -450,24 +419,24 @@ class wizard_saft(osv.osv_memory):
         ####   2.2 Customer    ========================================================================
 #        logger.notifyChannel("saft :", netsvc.LOG_INFO, ' A exportar Clientes')
 #_logger.info('A exportar Clientes')
-        self._write_partners(cr, uid, master)
+        self._write_partners(cr, uid, ids, master)
 
         ####   2.3 Supplier  =========================================
         if self.this.tipo in ('C', 'I'):
 #            logger.notifyChannel("saft :", netsvc.LOG_INFO, ' A exportar Fornecedores')
 #_logger.info('A exportar Fornecedores')
-            self._write_partners(cr, uid, master, partner_role='Supplier')
+            self._write_partners(self._cr, self._uid, self.ids, master, partner_role='Supplier')
             
         # 2.4 Product   -   Não entra no tipo 'C'
         if self.this.tipo != 'C' :
-            self._write_products(cr, uid, master)
+            self._write_products(cr, uid, ids,master)
 
         # 2.5 TaxTable
-        master.append( self._get_taxes(cr, uid) )
+        master.append( self._get_taxes(cr, uid, ids, context=context) )
         return master
         
         
-    def _write_partners(self, cr, uid, master, partner_role='Customer'):
+    def _write_partners(self, cr, uid, ids, master, partner_role='Customer'):
         """ Exporta os elementos 2.2 Customer e 2.3 Supplier
          1 CustomerID (Supplier)      * partner.id | partner.ref
          2 AccountID                 * ler em properties ???
@@ -493,7 +462,7 @@ class wizard_saft(osv.osv_memory):
             return
             
         partner_obj = self.pool.get('res.partner')
-        partner_ids = partner_obj.search( cr, uid, condition, order='id')
+        partner_ids = partner_obj.search(cr, uid, condition, order='id')
         partners = partner_obj.browse(cr, uid, partner_ids)
         for partner in partners:
             if partner_role == 'Customer':
@@ -513,7 +482,7 @@ class wizard_saft(osv.osv_memory):
             #.5 Contact   - Opcional  
 
             #.6  BillingAddress
-            billingAddress, phone_fax_mail = self.getAddress(cr, uid, 'BillingAddress', partner.id)
+            billingAddress, phone_fax_mail = self.getAddress(cr, uid, ids, 'BillingAddress', partner.id)
             partner_element.append( billingAddress )
             # todo: .7 Ship[To|From]Address   
             #8-9-10  elementos facultativos no OpenERP constam do endereço, no saft estão fora.
@@ -526,7 +495,7 @@ class wizard_saft(osv.osv_memory):
             partner_element.tail='\n'
 
 
-    def _write_products(self, cr, uid, master):
+    def _write_products(self, cr, uid, ids, master):
 #        logger.notifyChannel("saft :", netsvc.LOG_INFO, ' A exportar tabela de produtos')
 #_logger.info('A exportar tabela de produtos')
         ids = self.pool.get('product.product').search(cr, uid, [])
@@ -556,7 +525,7 @@ class wizard_saft(osv.osv_memory):
             else:
                 eproduct_number_code.text = unicode(product.default_code)
 
-    def _get_taxes(self, cr, uid, context={}):
+    def _get_taxes(self, cr, uid, ids, context=None):
 #        logger.notifyChannel("saft :", netsvc.LOG_INFO, ' A exportar TaxTable')
 #_logger.info('A exportar TaxTable')
         taxTable = et.Element('TaxTable')
@@ -581,7 +550,7 @@ class wizard_saft(osv.osv_memory):
         return taxTable
 
 
-    def _get_entries(self, cr, uid, context={}):
+    def _get_entries(self, cr, uid, ids, context=None):
 #        logger.notifyChannel("saft :", netsvc.LOG_INFO, ' A exportar movimentos da contabilidade')
 #_logger.info('... a exportar movimentos da contabilidade')
         # 3. GeneralLedgerEntries
@@ -911,24 +880,17 @@ class wizard_saft(osv.osv_memory):
         etotal_credit.text = unicode(total_credit)
         return esource_documents
 
-wizard_saft()
 
-class wizard_saft_result (osv.osv_memory):
+class wizard_saft_result (models.TransientModel):
 
     _name = "wizard.l10n_pt.saft_result"
-    _columns = {
-            'file_name': fields.char('Nome do ficheiro'),
-            'saft_extracted': fields.binary('SAFT-PT'),
-    }
-    
-    _defaults = {
-        'file_name': 'saft_pt.xml',
-    }
+
+    file_name = fields.Char(string='Nome do ficheiro', default="saft_pt.xml")
+    saft_extracted = fields.Binary('SAFT-PT')
     
     def action_close(self, *args):
         return {'type':'ir.actions.act_window_close' }    
     
-wizard_saft_result()
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
 

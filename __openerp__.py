@@ -46,8 +46,7 @@ Módulo l10n_pt_saft.
 
 	'website': 'www.communities.pt',
 	'data' : ['saft_view.xml'], 
-	'init_xml' : [],
-	'demo_xml' : [],
+	'demo' : [],
 	'auto_install': False,
 	'installable': True,
 }

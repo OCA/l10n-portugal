@@ -79,7 +79,7 @@
                     </group>
                     <group string="Period" colspan="4">
                         <group>
-                            <field name="period_id" on_change="onchange_period(period_id)"/>
+                            <field name="period_id"/>
                         </group>
                         <group>
                             <field name="year" widget="selection"/>
