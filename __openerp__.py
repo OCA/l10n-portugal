@@ -30,10 +30,9 @@
     """,
     "author": "Paulino / Sysop",
     "depends": ["l10n_pt_saft"],
-    "init_xml": [],
-    "update_xml": [ 'account_invoice_workflow.xml',  #'invoice_view.xml'
+    "data": [ 'account_invoice_workflow.xml',  #'invoice_view.xml'
                     ],
-    "demo_xml": [],
+    "demo": [],
     "installable": True,
     "active": True,
 }
