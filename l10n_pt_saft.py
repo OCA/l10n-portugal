@@ -167,6 +167,7 @@ tipos_saft = [  ('C', 'Contabilidade'),                         # ctb na v.1
 
 class wizard_saft(models.TransientModel):
     _name = "wizard.l10n_pt.saft"
+    _rec_name = 'year'
 
     # def _default_company(self, cr, uid, context={}):
     def _default_company(self):
@@ -881,9 +882,10 @@ class wizard_saft(models.TransientModel):
         return esource_documents
 
 
-class wizard_saft_result (models.TransientModel):
+class wizard_saft_result(models.TransientModel):
 
     _name = "wizard.l10n_pt.saft_result"
+    _rec_name = 'file_name'
 
     file_name = fields.Char(string='Nome do ficheiro', default="saft_pt.xml")
     saft_extracted = fields.Binary('SAFT-PT')
