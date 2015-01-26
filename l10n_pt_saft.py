@@ -370,6 +370,7 @@ class wizard_saft(models.TransientModel):
             'view_mode': 'form',
             'view_type': 'form',
             'views': [(False, 'form')],
+            'context': {'default_saft_extracted':out},
             'target': 'new',
         }
 
