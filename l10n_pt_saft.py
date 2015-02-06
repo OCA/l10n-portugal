@@ -192,6 +192,7 @@ class wizard_saft(models.TransientModel):
     company_id = fields.Many2one(comodel_name="res.company", string="Companhia", required=True, default=_default_company, )
     tipo = fields.Selection(string="Tipo ficheiro", selection=tipos_saft, default="F", )
     year = fields.Many2one(comodel_name="account.fiscalyear", string="Exercício", required=True, default=_current_year, )
+    filter_by = fields.Selection(string="Filter by", selection=[('d', 'Dates'), ('p', 'Periods'), ], required=True, default='d')
     date_end = fields.Date(string="Data final", default=fields.Date.context_today, )
     date_start = fields.Date(string="Data Inicial", default=fields.Date.context_today, )
     period_id = fields.Many2one(comodel_name="account.period", string="Periodo", default=_default_period, )
