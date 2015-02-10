@@ -667,8 +667,8 @@ class wizard_saft(models.TransientModel):
         # elemento 4.1.4 Invoice
         # 4.1.4.1
         et.SubElement(eparent, u"InvoiceNo").text = unicode(invoice.journal_id.saft_inv_type+' '+invoice.number)
-        # SysOp
-        edoc_status = et.Element('DocumentStatus')
+
+        edoc_status = et.SubElement(eparent, u"DocumentStatus")
         
         # 4.1.4.2 - InvoiceStatus
         if invoice.state == 'cancel':
@@ -677,10 +677,10 @@ class wizard_saft(models.TransientModel):
             status_code = 'S'
         else:
             status_code = 'N'
-        et.SubElement(edoc_status, u"InvoiceStatus").text = status_code
-        et.SubElement(edoc_status, u"InvoiceStatusDate").text = unicode(invoice.date_invoice) # Sysop Todo: Substituir por Invoice Status Date
-        et.SubElement(edoc_status, u"SourceID").text = 'Operador 1' # Sysop ToDo: subsituir por operador
-        et.SubElement(edoc_status, u"SourceBilling").text = 'P' # Sysop ToDo: subsituir por Source Billing        
+        et.SubElement(edoc_status, u"InvoiceStatus").text = unicode(status_code)
+        et.SubElement(edoc_status, u"InvoiceStatusDate").text = date_format( invoice.system_entry_date or invoice.write_date, 'DateTimeType')
+        et.SubElement(edoc_status, u"SourceID").text = unicode(invoice.user_id.login)
+        et.SubElement(edoc_status, u"SourceBilling").text = 'P'        
         # 4.1.4.3 - Hash
         et.SubElement(eparent, u"Hash").text = unicode(invoice.hash)
         # 4.1.4.4 - HasControl
@@ -692,7 +692,14 @@ class wizard_saft(models.TransientModel):
         # 4.1.4.7 InvoiceType
         et.SubElement(eparent, u"InvoiceType").text = invoice.journal_id.saft_inv_type
         # 4.1.4.8  SelfBillingIndicator
-        et.SubElement(eparent, "SelfBillingIndicator").text = str(invoice.journal_id.self_billing and '1' or '0')
+        regime_special = et.SubElement(eparent, u"SpecialRegimes")
+
+        et.SubElement(regime_special, "SelfBillingIndicator").text = str(invoice.journal_id.self_billing and '1' or '0')
+        #Indicador da existência de adesão ao regime de IVA de Caixa. Deve ser preenchido com 1 se houver adesão e com 0 (zero) no caso contrário.
+        et.SubElement(regime_special, u"CashVATSchemeIndicator").text = '0'
+        #Deve ser preenchido com 1 se respeitar a faturação emitida em nome e por conta de terceiros e com 0 (zero) no caso contrário.
+        et.SubElement(regime_special, u"ThirdPartiesBillingIndicator").text = '0'
+        et.SubElement(eparent, u"SourceID").text = unicode(invoice.user_id.login)
         # 4.1.4.9  SystemEntryDate
         # provisorio enquanto a certificação não funciona, le o write_date
         et.SubElement(eparent, u"SystemEntryDate").text = date_format( invoice.system_entry_date or invoice.write_date, 'DateTimeType')
