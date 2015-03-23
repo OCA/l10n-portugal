@@ -141,8 +141,7 @@ class product_product(models.Model):
     _name = "product.product"
     _inherit = "product.product"
 
-    _sql_constraints = [('code_unique','unique(default_code)', _("Product code must be unique!")), ]
-
+    _sql_constraints = [('code_unique','unique(default_code)', _("Product code must be unique!")),]
 
 class account_invoice_line(models.Model):
     _name = "account.invoice.line"
@@ -731,6 +730,11 @@ class wizard_saft(models.TransientModel):
         else :  
             args.append( ('type', 'in',["out_invoice","out_refund"]) ) 
             #args.append( ('journal_id.self_billing', '=', "False") )
+
+        if self.this.filter_by == 'd':
+            args.append( ('date_invoice', '>=', self.this.date_start) )
+            args.append( ('date_invoice', '<=', self.this.date_end) )
+
         invoice_obj = self.pool.get('account.invoice')
         ids = invoice_obj.search(cr, uid, args, order='internal_number')
         invoices = invoice_obj.browse(cr, uid, ids)
