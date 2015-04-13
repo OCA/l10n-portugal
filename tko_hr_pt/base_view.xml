@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!--
+        ===========================================================================
+            inherit Company View
+       ============================================================================
+        -->
+        
+       <record id="tko_view_company_form_inherit" model="ir.ui.view">
+            <field name="name">tko.view.company.form.inherit</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="base.view_company_form"/>
+            <field name="arch" type="xml">
+            	<page string="Configuration" position="after">
+            		<page string="Tax Information">
+                    <group>
+                        <group>
+                			<field name="identification_name"/>
+                			<field name="niss"/>
+                			<field name="nif"/>
+                        </group>
+                        <group>
+                			<field name="establishment"/>
+                			<field name="tax_code"/>
+<!--                 			<field name="company_ss_tax"/> -->
+                        </group>
+                    </group>
+            		</page>
+            	</page>
+			</field>
+        </record>
+        
+
+    </data>
+</openerp>
