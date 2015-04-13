@@ -1,0 +1,9 @@
+<openerp>
+    <data noupdate="0">
+    
+        <record id="group_adhoc_rules" model="res.groups">
+            <field name="name">Allow Adding Adhoc Salary PT rules</field>
+            <field name="category_id" ref="base.module_category_hidden"/>
+        </record>
+    </data>
+</openerp>

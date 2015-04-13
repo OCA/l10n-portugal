@@ -1,0 +1,1093 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#   * tko_hr_pt
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 7.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-10-18 11:33+0000\n"
+"PO-Revision-Date: 2013-10-18 11:33+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: tko_hr_pt
+#: field:hr.contract,no_company_ss:0
+msgid "No Company Social Security"
+msgstr "Isento de Contribuição Social pela Empresa"
+
+#. module: tko_hr_pt
+#: field:res.company,tax_code:0
+msgid "Tax Code"
+msgstr "Código de Imposto"
+
+#. module: tko_hr_pt
+#: help:hr.employee,nif:0
+msgid "Tax Identification of employee"
+msgstr "Nº Contribuinte do colaborador"
+
+#. module: tko_hr_pt
+#: help:hr.employee,military:0
+msgid "If is military"
+msgstr "Se o colaborador é militar"
+
+#. module: tko_hr_pt
+#: field:hr.employee,history_lines:0
+msgid "History Lines"
+msgstr "Linhas de Historico"
+
+#. module: tko_hr_pt
+#: selection:hr.employee,handicap_degree:0
+msgid "Equal or over 60% and under 80%"
+msgstr "Igual ou superior a 60% e inferior a 80%"
+
+#. module: tko_hr_pt
+#: field:hr.employee,handicap:0
+msgid "Handicap"
+msgstr "Incapacitado"
+
+#. module: tko_hr_pt
+#: field:hr.payroll.advice,company_id:0
+msgid "Company"
+msgstr "Empresa"
+
+#. module: tko_hr_pt
+#: view:hr.payroll.advice:0
+msgid "Letter Details"
+msgstr "Detalhes de Carta"
+
+#. module: tko_hr_pt
+#: view:hr.payroll.advice:0
+msgid "Set to Draft"
+msgstr "Voltar a Rascunho"
+
+#. module: tko_hr_pt
+#: field:hr.salary.rule,ss_code:0
+msgid "Social Security Code"
+msgstr "Cód. SS"
+
+#. module: tko_hr_pt
+#: model:ir.model,name:tko_hr_pt.model_hr_salary_rule
+msgid "hr.salary.rule"
+msgstr "hr.salary.rule"
+
+#. module: tko_hr_pt
+#: report:tko.payroll.advice:0
+msgid "Nome Colaborador"
+msgstr "Nome Colaborador"
+
+#. module: tko_hr_pt
+#: code:addons/tko_hr_pt/hr_payroll_pt.py:235
+#, python-format
+msgid "Cannot select ownership without the field marital selected!"
+msgstr "Não pode selecionar a titularidade sem o estado civil selecionado!"
+
+#. module: tko_hr_pt
+#: model:ir.model,name:tko_hr_pt.model_hr_payslip
+msgid "Pay Slip"
+msgstr "Recibo de Salário"
+
+#. module: tko_hr_pt
+#: selection:hr.employee,income_type:0
+msgid "B - Rendimentos empresariais e profissionais"
+msgstr "B - Rendimentos empresariais e profissionais"
+
+#. module: tko_hr_pt
+#: help:hr.payroll.advice,bank_id:0
+msgid "Select the Bank Address from whcih the salary is going to be paid"
+msgstr "Seleccione o banco de onde será feito o pagamento do salário"
+
+#. module: tko_hr_pt
+#: field:hr.payroll.advice,compute_date:0
+msgid "Compute Date"
+msgstr "Data Processamento"
+
+#. module: tko_hr_pt
+#: field:hr.contribution.register.line,register_id:0
+msgid "Register"
+msgstr "Registo"
+
+#. module: tko_hr_pt
+#: field:hr.contract,insurance_no:0
+msgid "Insurance No"
+msgstr "Nº Apólice"
+
+#. module: tko_hr_pt
+#: report:tko.payroll.advice:0
+msgid "Montante"
+msgstr "Montante"
+
+#. module: tko_hr_pt
+#: view:hr.contribution.register:0
+msgid "Register Lines"
+msgstr "Linhas de Registo"
+
+#. module: tko_hr_pt
+#: field:hr.payroll.advice.line,amount:0
+msgid "Amount"
+msgstr "Liquidado"
+
+#. module: tko_hr_pt
+#: report:tko.payroll.advice:0
+msgid "Assinatura Autorizada"
+msgstr "Assinatura Autorizada"
+
+#. module: tko_hr_pt
+#: selection:hr.contract,meal_option:0
+msgid "Meal Coupons"
+msgstr "Em cupões"
+
+#. module: tko_hr_pt
+#: field:hr.employee,military:0
+msgid "Military"
+msgstr "Militar"
+
+#. module: tko_hr_pt
+#: field:hr.contribution.register.line,emp_deduction:0
+msgid "Employee Deduction"
+msgstr "Dedução Empregado"
+
+#. module: tko_hr_pt
+#: view:res.company:0
+msgid "Configuration"
+msgstr "Configuração"
+
+#. module: tko_hr_pt
+#: report:tko.payroll.advice:0
+msgid "Exm. Sr./Sra.,"
+msgstr "Exm. Sr./Sra.,"
+
+#. module: tko_hr_pt
+#: model:ir.model,name:tko_hr_pt.model_hr_holidays_status
+msgid "Leave Type"
+msgstr "Tipo de ausência"
+
+#. module: tko_hr_pt
+#: field:hr.config.settings,module_tko_hr_training:0
+msgid "Manage HR Training"
+msgstr "Gestão de Formação"
+
+#. module: tko_hr_pt
+#: help:hr.employee,handicap:0
+msgid "If is considered handicap by law"
+msgstr "Empregado considerado incapacitado por lei"
+
+#. module: tko_hr_pt
+#: selection:hr.employee,income_type:0
+msgid "H - Pensões"
+msgstr "H - Pensões"
+
+#. module: tko_hr_pt
+#: field:hr.employee.history,from:0
+msgid "From"
+msgstr "De"
+
+#. module: tko_hr_pt
+#: report:tko.payroll.advice:0
+msgid "Número"
+msgstr "Número"
+
+#. module: tko_hr_pt
+#: model:ir.model,name:tko_hr_pt.model_hr_contribution_register_line
+msgid "Contribution Register Line"
+msgstr "Linha de Registo de Contribuição"
+
+#. module: tko_hr_pt
+#: field:hr.payroll.advice,state:0
+msgid "State"
+msgstr "Estado"
+
+#. module: tko_hr_pt
+#: view:hr.payroll.advice:0
+msgid "Paymeny Lines"
+msgstr "Linhas de Pagamento"
+
+#. module: tko_hr_pt
+#: field:hr.contribution.register.line,employee_id:0
+#: field:hr.employee.history,employee_id:0
+#: field:hr.payroll.advice.line,employee_id:0
+#: model:ir.model,name:tko_hr_pt.model_hr_employee
+msgid "Employee"
+msgstr "Número colaborador"
+
+#. module: tko_hr_pt
+#: model:ir.model,name:tko_hr_pt.model_hr_payroll_advice_line
+msgid "Bank Advice Lines"
+msgstr "Linha de Pagamento Bancário"
+
+#. module: tko_hr_pt
+#: code:addons/tko_hr_pt/hr_payroll_pt.py:235
+#: code:addons/tko_hr_pt/hr_payroll_pt.py:237
+#: code:addons/tko_hr_pt/hr_payroll_pt.py:267
+#: code:addons/tko_hr_pt/hr_payroll_pt.py:273
+#: code:addons/tko_hr_pt/hr_payroll_pt.py:821
+#: code:addons/tko_hr_pt/hr_payroll_pt.py:827
+#: code:addons/tko_hr_pt/hr_payroll_pt.py:860
+#, python-format
+msgid "Error !"
+msgstr "Erro !"
+
+#. module: tko_hr_pt
+#: field:res.company,niss:0
+msgid "SS Identification"
+msgstr "Nº Segurança Social"
+
+#. module: tko_hr_pt
+#: report:tko.payroll.advice:0
+msgid "Para"
+msgstr "Para"
+
+#. module: tko_hr_pt
+#: code:addons/tko_hr_pt/hr_payroll_pt.py:273
+#: code:addons/tko_hr_pt/hr_payroll_pt.py:827
+#, python-format
+msgid "Amount invalid for the %s employee. Category \"NET\" missing in payslip."
+msgstr "Montante inválido para o colaborador %s. Categoria NET não encontrada no vencimento."
+
+#. module: tko_hr_pt
+#: view:hr.contract:0
+msgid "Miscellaneous"
+msgstr "Variados"
+
+#. module: tko_hr_pt
+#: model:ir.model,name:tko_hr_pt.model_hr_payslip_run
+msgid "Payslip Batches"
+msgstr "Lotes de Recibos de Vencimento"
+
+#. module: tko_hr_pt
+#: selection:hr.employee,income_type:0
+msgid "E - Rendimentos de capitais"
+msgstr "E - Rendimentos de capitais"
+
+#. module: tko_hr_pt
+#: field:hr.payroll.advice,line_ids:0
+msgid "Employee Salary"
+msgstr "Salário do colaborador"
+
+#. module: tko_hr_pt
+#: field:hr.payroll.advice,chaque_nos:0
+msgid "Chaque Nos"
+msgstr "Todos nós"
+
+#. module: tko_hr_pt
+#: report:tko.payroll.advice:0
+msgid "Aviso de Pagamento:"
+msgstr "Aviso de Pagamento:"
+
+#. module: tko_hr_pt
+#: model:res.groups,name:tko_hr_pt.group_adhoc_rules
+msgid "Allow Adding Adhoc Salary rules"
+msgstr "Permite adicionar rubricas ad-hoc"
+
+#. module: tko_hr_pt
+#: view:hr.payslip:0
+msgid "Ad-Hoc Rules"
+msgstr "Rubricas Ad-Hoc"
+
+#. module: tko_hr_pt
+#: view:hr.contribution.register:0
+msgid "Contribution Lines"
+msgstr "Linhas de Contribuição"
+
+#. module: tko_hr_pt
+#: model:ir.model,name:tko_hr_pt.model_hr_payroll_advice
+msgid "Bank Advice Note"
+msgstr "Nota de concelho bancário"
+
+#. module: tko_hr_pt
+#: field:hr.payslip,adhoc_rules:0
+msgid "Ad-hoc Rules"
+msgstr "Ad-hoc Rules"
+
+#. module: tko_hr_pt
+#: selection:hr.employee,handicap_degree:0
+msgid "Equal or over 80%"
+msgstr "Igual ou superior a 80%"
+
+#. module: tko_hr_pt
+#: view:hr.payroll.advice:0
+#: selection:hr.payroll.advice,state:0
+msgid "Confirm Sheet"
+msgstr "Confirmar"
+
+#. module: tko_hr_pt
+#: selection:hr.employee,income_type:0
+msgid "F - Rendimentos prediais"
+msgstr "F - Rendimentos prediais"
+
+#. module: tko_hr_pt
+#: view:hr.contribution.register:0
+msgid "Month"
+msgstr "Mês"
+
+#. module: tko_hr_pt
+#: model:ir.actions.act_window,help:tko_hr_pt.action_view_hr_bank_advice_tree
+msgid "<p class=\"oe_view_nocontent_create\">\n"
+"                Click to add payment advices.\n"
+"            </p>\n"
+"            "
+msgstr "<p class=\"oe_view_nocontent_create\">\n"
+"                Clique para adicionar avisos de pagamento.\n"
+"            </p>\n"
+"            "
+
+#. module: tko_hr_pt
+#: field:hr.contribution.register,monthly_total_by_comp:0
+msgid "Total By Company"
+msgstr "Total por Empresa"
+
+#. module: tko_hr_pt
+#: report:tko.payroll.advice:0
+msgid "Conta Bancária"
+msgstr "Conta Bancária"
+
+#. module: tko_hr_pt
+#: field:hr.employee.history,message:0
+msgid "Message"
+msgstr "Mensagem"
+
+#. module: tko_hr_pt
+#: field:hr.contribution.register,rule_id:0
+msgid "Salary Rule"
+msgstr "Regra Salarial"
+
+#. module: tko_hr_pt
+#: field:res.company,establishment:0
+msgid "Name Establishment"
+msgstr "Número de Estabelecimento"
+
+#. module: tko_hr_pt
+#: view:hr.payroll.advice:0
+msgid "Draft Payment Advice"
+msgstr "Aviso de Pagamento em Rascunho"
+
+#. module: tko_hr_pt
+#: view:res.company:0
+msgid "Tax Information"
+msgstr "Informação Imposto"
+
+#. module: tko_hr_pt
+#: field:hr.contract,meal_option:0
+msgid "Meal Option"
+msgstr "Opção Subsidio de Alimentação"
+
+#. module: tko_hr_pt
+#: selection:hr.payroll.advice,state:0
+msgid "Reject"
+msgstr "Rejeitar"
+
+#. module: tko_hr_pt
+#: selection:hr.employee,income_type:0
+msgid "G - Incrementos patrimoniais"
+msgstr "G - Incrementos patrimoniais"
+
+#. module: tko_hr_pt
+#: field:hr.config.settings,module_tko_hr_reports:0
+msgid "Allow to download generic payslip reports"
+msgstr "Permite o download de relatórios genéricos de vencimento."
+
+#. module: tko_hr_pt
+#: selection:hr.employee,ownership:0
+msgid "Não definido"
+msgstr "Não casado"
+
+#. module: tko_hr_pt
+#: selection:hr.employee,ownership:0
+msgid "Unique"
+msgstr "Casado único titular "
+
+#. module: tko_hr_pt
+#: help:hr.config.settings,module_tko_hr_training:0
+msgid "Installs module that allows you to manage course register."
+msgstr "Instala módulo que permite a gestão de registo de formações."
+
+#. module: tko_hr_pt
+#: field:hr.employee.history,user_id:0
+msgid "User"
+msgstr "Utilizador"
+
+#. module: tko_hr_pt
+#: view:hr.payroll.advice:0
+msgid "Payment Lines"
+msgstr "Linhas de Pagamento"
+
+#. module: tko_hr_pt
+#: field:hr.contribution.register.line,date:0
+#: field:hr.employee.history,date:0
+#: field:hr.payroll.advice,date:0
+msgid "Date"
+msgstr "Data"
+
+#. module: tko_hr_pt
+#: view:hr.config.settings:0
+msgid "Human Resources PT"
+msgstr "Recursos Humanos PT"
+
+#. module: tko_hr_pt
+#: code:addons/tko_hr_pt/hr_payroll_pt.py:320
+#, python-format
+msgid "You must select an contract first"
+msgstr "You must select an contract first"
+
+#. module: tko_hr_pt
+#: view:hr.payroll.advice:0
+msgid "Compute"
+msgstr "Processar"
+
+#. module: tko_hr_pt
+#: report:tko.payroll.advice:0
+msgid "Total:"
+msgstr "Total:"
+
+#. module: tko_hr_pt
+#: field:res.company,identification_name:0
+msgid "Identification Name"
+msgstr "Razão Social da Empresa"
+
+#. module: tko_hr_pt
+#: field:hr.config.settings,module_tko_hr_tax_returns:0
+msgid "Manage Tax Returns"
+msgstr "Gestão de Declarações Fiscais"
+
+#. module: tko_hr_pt
+#: field:hr.contribution.register,monthly_total_by_emp:0
+msgid "Total By Employee"
+msgstr "Total por empregado"
+
+#. module: tko_hr_pt
+#: model:ir.model,name:tko_hr_pt.model_res_company
+msgid "Companies"
+msgstr "Empresas"
+
+#. module: tko_hr_pt
+#: model:ir.model,name:tko_hr_pt.model_hr_contract
+msgid "Contract"
+msgstr "Contrato"
+
+#. module: tko_hr_pt
+#: selection:hr.payroll.advice,state:0
+msgid "Draft Sheet"
+msgstr "Folha Rascunho"
+
+#. module: tko_hr_pt
+#: field:hr.contribution.register,active:0
+msgid "Active"
+msgstr "Activo"
+
+#. module: tko_hr_pt
+#: code:addons/tko_hr_pt/hr_payroll_pt.py:320
+#, python-format
+msgid "Error"
+msgstr "Erro"
+
+#. module: tko_hr_pt
+#: view:hr.contribution.register.line:0
+msgid "Contribution"
+msgstr "Contribuição"
+
+#. module: tko_hr_pt
+#: view:hr.employee:0
+msgid "HR Settings"
+msgstr "HR Settings"
+
+#. module: tko_hr_pt
+#: view:hr.employee:0
+msgid "History"
+msgstr "Histórico"
+
+#. module: tko_hr_pt
+#: view:hr.payroll.advice:0
+#: field:hr.payroll.advice.line,advice_id:0
+msgid "Bank Advice"
+msgstr "Conselhos banco"
+
+#. module: tko_hr_pt
+#: field:hr.contribution.register,code:0
+#: field:hr.contribution.register.line,code:0
+#: field:hr.holidays.status,code:0
+msgid "Code"
+msgstr "Código"
+
+#. module: tko_hr_pt
+#: view:hr.payroll.advice:0
+#: model:ir.actions.act_window,name:tko_hr_pt.action_view_hr_bank_advice_tree
+#: model:ir.ui.menu,name:tko_hr_pt.hr_menu_payment_advice
+msgid "Payment Advice"
+msgstr "Avisos de Pagamento"
+
+#. module: tko_hr_pt
+#: field:hr.employee.history,to:0
+msgid "To"
+msgstr "Até"
+
+#. module: tko_hr_pt
+#: selection:hr.employee,handicap_degree:0
+msgid "Under 60%"
+msgstr "Inferior a 60%"
+
+#. module: tko_hr_pt
+#: field:hr.payroll.advice,number:0
+msgid "Number"
+msgstr "Número"
+
+#. module: tko_hr_pt
+#: field:hr.employee,handicap_degree:0
+msgid "Handicap Degree"
+msgstr "Grau de Incapacidade"
+
+#. module: tko_hr_pt
+#: field:hr.employee,income_type:0
+msgid "Income Type"
+msgstr "Tipo de Rendimento"
+
+#. module: tko_hr_pt
+#: field:hr.contribution.register,line_ids:0
+msgid "Register Line"
+msgstr "Linha de Registo"
+
+#. module: tko_hr_pt
+#: code:addons/tko_hr_pt/hr_payroll_pt.py:237
+#, python-format
+msgid "Cannot select %s with marital: %s"
+msgstr "Não pode selecionar %s com estado civil: %s"
+
+#. module: tko_hr_pt
+#: view:hr.contract:0
+#: field:hr.contract,insurance_name:0
+msgid "Insurance"
+msgstr "Seguradora"
+
+#. module: tko_hr_pt
+#: view:hr.contract:0
+msgid "Information"
+msgstr "Informação"
+
+#. module: tko_hr_pt
+#: report:tko.payroll.advice:0
+msgid "for period"
+msgstr "para período"
+
+#. module: tko_hr_pt
+#: model:ir.model,name:tko_hr_pt.model_hr_contribution_register
+msgid "Contribution Register"
+msgstr "Registo Contribuição"
+
+#. module: tko_hr_pt
+#: field:hr.employee.history,field:0
+msgid "Field"
+msgstr "Campo"
+
+#. module: tko_hr_pt
+#: field:res.company,company_ss_tax:0
+msgid "Company SS Tax"
+msgstr "Taxa da Segurança Social"
+
+#. module: tko_hr_pt
+#: view:hr.payroll.advice:0
+msgid "Details..."
+msgstr "Details..."
+
+#. module: tko_hr_pt
+#: help:hr.config.settings,module_tko_hr_tax_returns:0
+msgid "Adds several legal reports such as SS and IRS reports."
+msgstr "Adiciona diversos mapas legais, tais como Segurança Social e IRS."
+
+#. module: tko_hr_pt
+#: field:hr.config.settings,group_adhoc_rules:0
+msgid "Allow adding adhoc salary rules to payslip"
+msgstr "Permite adicionar rubricas ad-hoc ao recibo de vencimento"
+
+#. module: tko_hr_pt
+#: field:hr.payroll.advice,register_id:0
+msgid "Payslip Run"
+msgstr "Lote de Recibos de vencimento"
+
+#. module: tko_hr_pt
+#: field:hr.employee,ownership:0
+msgid "Ownership"
+msgstr "Titularidade IRS"
+
+#. module: tko_hr_pt
+#: help:hr.config.settings,module_tko_hr_reports:0
+msgid "Adds Anual Payslip reports."
+msgstr "Adiciona relatórios anuais de Vencimento dos colaboradores."
+
+#. module: tko_hr_pt
+#: view:hr.config.settings:0
+msgid "Configs"
+msgstr "Configs"
+
+#. module: tko_hr_pt
+#: field:hr.payroll.advice,bank_id:0
+msgid "Bank"
+msgstr "Banco"
+
+#. module: tko_hr_pt
+#: view:hr.payroll.advice:0
+msgid "Cancel Sheet"
+msgstr "Cancelar Folha"
+
+#. module: tko_hr_pt
+#: field:hr.contribution.register.line,name:0
+#: field:hr.payroll.advice,name:0
+msgid "Name"
+msgstr "Nome"
+
+#. module: tko_hr_pt
+#: selection:hr.employee,ownership:0
+msgid "Double"
+msgstr "Casado dois titulares"
+
+#. module: tko_hr_pt
+#: model:ir.model,name:tko_hr_pt.model_hr_payslip_line
+msgid "Payslip Line"
+msgstr "Linha Recibo de Vencimento"
+
+#. module: tko_hr_pt
+#: field:hr.payroll.advice.line,name:0
+msgid "Bank Account A/C"
+msgstr "Conta bancária A/C"
+
+#. module: tko_hr_pt
+#: selection:hr.contract,meal_option:0
+msgid "Cash"
+msgstr "Em dinheiro"
+
+#. module: tko_hr_pt
+#: field:hr.employee,nif:0
+#: field:res.company,nif:0
+msgid "Tax Identification"
+msgstr "Nº Contribuinte"
+
+#. module: tko_hr_pt
+#: field:hr.contribution.register.line,comp_deduction:0
+msgid "Company Deduction"
+msgstr "Dedução da Empresa"
+
+#. module: tko_hr_pt
+#: model:ir.model,name:tko_hr_pt.model_hr_employee_history
+msgid "Employee History"
+msgstr "Histórico do colaborador"
+
+#. module: tko_hr_pt
+#: code:addons/tko_hr_pt/hr_payroll_pt.py:267
+#: code:addons/tko_hr_pt/hr_payroll_pt.py:821
+#: code:addons/tko_hr_pt/hr_payroll_pt.py:860
+#, python-format
+msgid "Please define bank account for the %s employee"
+msgstr "Por favor defina uma conta bancária para o colaborador %s."
+
+#. module: tko_hr_pt
+#: report:tko.payroll.advice:0
+msgid "Cumprimentos"
+msgstr "Cumprimentos"
+
+#. module: tko_hr_pt
+#: view:hr.contribution.register:0
+#: field:hr.payroll.advice,note:0
+msgid "Description"
+msgstr "Descrição"
+
+#. module: tko_hr_pt
+#: view:hr.payroll.advice:0
+msgid "Letter Content"
+msgstr "Contéudo Carta"
+
+#. module: tko_hr_pt
+#: model:ir.model,name:tko_hr_pt.model_hr_config_settings
+msgid "hr.config.settings"
+msgstr "hr.config.settings"
+
+#. module: tko_hr_pt
+#: model:ir.actions.report.xml,name:tko_hr_pt.payroll_advice
+msgid "Bank Payment Advice"
+msgstr "Aviso Pagamento Bancário"
+
+#. module: tko_hr_pt
+#: field:hr.payslip.line,company_rate:0
+msgid "Company Rate"
+msgstr "Taxa Global SS"
+
+#. module: tko_hr_pt
+#: report:tko.payroll.advice:0
+msgid "O Responsável"
+msgstr "O Responsável"
+
+#. module: tko_hr_pt
+#: field:hr.employee.history,table:0
+msgid "Table"
+msgstr "Tabela"
+
+#. module: tko_hr_pt
+#: field:hr.contribution.register.line,total:0
+msgid "Total"
+msgstr "Total"
+
+#. module: tko_hr_pt
+#: selection:hr.employee,income_type:0
+msgid "A - Rendimentos do trabalho dependente"
+msgstr "A - Rendimentos do trabalho dependente"
+
+#. module: tko_hr_pt
+#: code:addons/tko_hr_pt/hr_payroll_pt.py:235
+#: code:addons/tko_hr_pt/hr_payroll_pt.py:237
+#: code:addons/tko_hr_pt/hr_payroll_pt.py:239
+#: code:addons/tko_hr_pt/hr_payroll_pt.py:269
+#: code:addons/tko_hr_pt/hr_payroll_pt.py:275
+#: code:addons/tko_hr_pt/hr_payroll_pt.py:864
+#: code:addons/tko_hr_pt/hr_payroll_pt.py:870
+#: code:addons/tko_hr_pt/hr_payroll_pt.py:903
+#, python-format
+msgid "Error !"
+msgstr "Erro!"
+
+#. module: tko_hr_pt
+#: code:addons/tko_hr_pt/report/planned_leaves.py:34
+#, python-format
+msgid "March"
+msgstr "Março"
+
+#. module: tko_hr_pt
+#: selection:hr.pt.holidays.planned.leaves.wizard,holiday_type:0
+#: selection:hr.pt.holidays.report.wizard,holiday_type:0
+msgid "Approved"
+msgstr "Aprovado"
+
+#. module: tko_hr_pt
+#: model:ir.actions.act_window,name:tko_hr_pt.act_report_contribution
+#: model:ir.ui.menu,name:tko_hr_pt.menu_hr_pt_report_contribution_month
+msgid "Contributions by Month"
+msgstr "Contribuições por Mês"
+
+
+#. module: tko_hr_pt
+#: model:ir.actions.report.xml,name:tko_hr_pt.report_contribution_register_pt
+msgid "Contribution Report by Month"
+msgstr "Relatório de Contribuições por Mês "
+
+#. module: tko_hr_pt
+#: field:contribution.register.pt.wizard,filter:0
+msgid "Filter by"
+msgstr "Filtrar por"
+
+#. module: tko_hr_pt
+#: selection:hr.pt.holidays.planned.leaves.wizard,holiday_type:0
+#: selection:hr.pt.holidays.report.wizard,holiday_type:0
+msgid "Confirmed"
+msgstr "Confirmado"
+
+
+#. module: tko_hr_pt
+#: model:res.groups,name:tko_hr_pt.group_adhoc_rules
+msgid "Allow Adding Adhoc Salary PT rules"
+msgstr "Permitir adicionar regras Adhoc"
+
+#. module: tko_hr_pt
+#: code:addons/tko_hr_pt/report/planned_leaves.py:34
+#, python-format
+msgid "February"
+msgstr "Fevereiro"
+
+#. module: tko_hr_pt
+#: view:contribution.register.pt.wizard:0
+#: view:hr.pt.holidays.planned.leaves.wizard:0
+msgid "Print"
+msgstr "Imprimir"
+
+#. module: tko_hr_pt
+#: code:addons/tko_hr_pt/report/planned_leaves.py:34
+#, python-format
+msgid "July"
+msgstr "Julho"
+
+#. module: tko_hr_pt
+#: field:hr.contribution.register.line,payslip_id:0
+msgid "Payslip"
+msgstr "Recibo"
+
+#. module: tko_hr_pt
+#: view:contribution.register.pt.wizard:0
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: tko_hr_pt
+#: field:hr.payslip,adhoc_rules:0
+msgid "Ad-hoc Rules"
+msgstr "Regras Ad-hoc"
+
+#. module: tko_hr_pt
+#: code:addons/tko_hr_pt/report/planned_leaves.py:34
+#, python-format
+msgid "September"
+msgstr "Setembro"
+
+#. module: tko_hr_pt
+#: code:addons/tko_hr_pt/report/planned_leaves.py:34
+#, python-format
+msgid "December"
+msgstr "Dezembro"
+
+#. module: tko_hr_pt
+#: view:hr.contribution.register:0
+msgid "Month"
+msgstr "Mês"
+
+#. module: tko_hr_pt
+#: view:hr.payslip:0
+msgid "Cancel Payslip"
+msgstr "Cancelar Recibo"
+
+#. module: tko_hr_pt
+#: model:ir.actions.act_window,name:tko_hr_pt.action_contributon_register_pt_wizard
+msgid "Contribution Register Wizard"
+msgstr "Registo de Contribuições"
+
+#. module: tko_hr_pt
+#: code:addons/tko_hr_pt/report/planned_leaves.py:58
+#: model:ir.ui.menu,name:tko_hr_pt.menu_planned_pt_leaves
+#, python-format
+msgid "Planned Leaves"
+msgstr "Ausências Planeadas"
+
+#. module: tko_hr_pt
+#: view:contribution.register.pt.wizard:0
+#: view:hr.pt.holidays.planned.leaves.wizard:0
+msgid "or"
+msgstr "ou"
+
+#. module: tko_hr_pt
+#: code:addons/tko_hr_pt/hr_payroll_pt.py:330
+#, python-format
+msgid "You must select an contract first"
+msgstr "Deve selecionar um contracto primeiro"
+
+#. module: tko_hr_pt
+#: code:addons/tko_hr_pt/report/planned_leaves.py:34
+#, python-format
+msgid "June"
+msgstr "Junho"
+
+#. module: tko_hr_pt
+#: code:addons/tko_hr_pt/report/planned_leaves.py:34
+#, python-format
+msgid "August"
+msgstr "Agosto"
+
+
+#. module: tko_hr_pt
+#: selection:contribution.register.pt.wizard,filter:0
+#: field:hr.contribution.register.line,date:0
+#: field:hr.employee.history,date:0
+#: field:hr.payroll.advice,date:0
+msgid "Date"
+msgstr "Data"
+
+#. module: tko_hr_pt
+#: field:contribution.register.pt.wizard,date_from:0
+msgid "Start Date"
+msgstr "De"
+
+#. module: tko_hr_pt
+#: code:addons/tko_hr_pt/report/planned_leaves.py:34
+#, python-format
+msgid "October"
+msgstr "Outubro"
+
+#. module: tko_hr_pt
+#: code:addons/tko_hr_pt/report/planned_leaves.py:34
+#, python-format
+msgid "January"
+msgstr "Janeiro"
+
+#. module: tko_hr_pt
+#: selection:contribution.register.pt.wizard,filter:0
+msgid "No Filters"
+msgstr "Sem Filtros"
+
+#. module: tko_hr_pt
+#: code:addons/tko_hr_pt/report/planned_leaves.py:34
+#, python-format
+msgid "November"
+msgstr "Novembro"
+
+#. module: tko_hr_pt
+#: field:hr.pt.holidays.planned.leaves.wizard,holiday_type:0
+#: field:hr.pt.holidays.report.wizard,holiday_type:0
+msgid "Select Leave Type"
+msgstr "Selecione o tipo de ausência"
+
+#. module: tko_hr_pt
+#: field:hr.employee.history,to:0
+#: field:hr.pt.holidays.planned.leaves.wizard,date_to:0
+msgid "To"
+msgstr "Até"
+
+#. module: tko_hr_pt
+#: selection:contribution.register.pt.wizard,filter:0
+msgid "Periods"
+msgstr "Periodos"
+
+#. module: tko_hr_pt
+#: view:hr.payroll.advice:0
+msgid "Details..."
+msgstr "Detalhes"
+
+#. module: tko_hr_pt
+#: view:hr.pt.holidays.planned.leaves.wizard:0
+#: model:ir.actions.act_window,name:tko_hr_pt.hr_pt_holidays_planned_leaves_wizard_action
+msgid "Planned leaves"
+msgstr "Ausências Planeadas"
+
+#. module: tko_hr_pt
+#: code:addons/tko_hr_pt/report/planned_leaves.py:34
+#, python-format
+msgid "May"
+msgstr "Maio"
+
+#. module: tko_hr_pt
+#: field:contribution.register.pt.wizard,date_to:0
+msgid "End Date"
+msgstr "Até"
+
+#. module: tko_hr_pt
+#: field:hr.pt.holidays.planned.leaves.wizard,employee_ids:0
+#: field:hr.pt.holidays.report.wizard,employee_ids:0
+msgid "Employees"
+msgstr "Funcionários"
+
+#. module: tko_hr_pt
+#: code:addons/tko_hr_pt/report/planned_leaves.py:34
+#, python-format
+msgid "April"
+msgstr "Abril"
+
+#. module: tko_hr_pt
+#: selection:hr.pt.holidays.planned.leaves.wizard,holiday_type:0
+#: selection:hr.pt.holidays.report.wizard,holiday_type:0
+msgid "Both Approved and Confirmed"
+msgstr "Aprovado e Confirmado"
+
+#. module: tko_hr_pt
+#: selection:hr.pt.holidays.planned.leaves.wizard,holiday_type:0
+#: selection:hr.pt.holidays.report.wizard,holiday_type:0
+msgid "Complete"
+msgstr "Completo"
+
+#. module: tko_hr_pt
+#: view:contribution.register.pt.wizard:0
+msgid "Filters"
+msgstr "Filtros"
+
+#. module: tko_hr_pt
+#: view:contribution.register.pt.wizard:0
+msgid "Contributions"
+msgstr "Contribuições
+
+#. module: tko_hr_pt
+#: view:contribution.register.pt.wizard:0
+msgid "Filters"
+msgstr "Filtros"
+
+#. module: tko_hr_pt
+#: view:contribution.register.pt.wizard:0
+msgid "Contributions"
+msgstr "Contribuição"
+
+#. module: tko_hr_pt
+#: selection:hr.pt.holidays.planned.leaves.wizard,holiday_type:0
+#: selection:hr.pt.holidays.report.wizard,holiday_type:0
+msgid "Both Approved and Confirmed"
+msgstr "Aprovado e Confirmado"
+
+#. module: tko_hr_pt
+#: field:hr.salary.rule,protect_lock:0
+msgid "Protect from lock"
+msgstr "Proteger rubrica"
+
+#. module: tko_hr_pt
+#: field:hr.payslip.line,lock:0
+msgid "Lock line"
+msgstr "Bloquear"
+
+#. module: tko_hr_pt
+#: view:hr.payslip:0
+msgid "Cancel Payslip"
+msgstr "Cancelar Recibo"
+
+#. module: tko_hr_pt
+#: field:hr.payslip,adhoc_rules:0
+msgid "Ad-hoc Rules"
+msgstr "Regras Ad-hoc"
+
+#. module: tko_hr_pt
+#: view:contribution.register.pt.wizard:0
+msgid "Dates"
+msgstr "Datas"
+
+#. module: tko_hr_pt
+#: code:addons/tko_hr_pt/hr_payroll_pt.py:235
+#: code:addons/tko_hr_pt/hr_payroll_pt.py:237
+#: code:addons/tko_hr_pt/hr_payroll_pt.py:239
+#: code:addons/tko_hr_pt/hr_payroll_pt.py:269
+#: code:addons/tko_hr_pt/hr_payroll_pt.py:275
+#: code:addons/tko_hr_pt/hr_payroll_pt.py:644
+#: code:addons/tko_hr_pt/hr_payroll_pt.py:918
+#: code:addons/tko_hr_pt/hr_payroll_pt.py:924
+#: code:addons/tko_hr_pt/hr_payroll_pt.py:955
+#, python-format
+msgid "Error !"
+msgstr "Erro !"
+
+#. module: tko_hr_pt
+#: report:contribution.report.pt:0
+msgid "to"
+msgstr "Até"
+
+#. module: tko_hr_pt
+#: model:ir.actions.act_window,name:tko_tax_import_prevel.action_hr_ssperc
+msgid "Social Security"
+msgstr "Segurança Social"
+
+#. module: tko_hr_pt
+#: model:ir.model,name:tko_tax_import_prevel.model_hr_social_security_pt
+msgid "hr.social.security.pt"
+msgstr "hr.social.security.pt"
+
+#. module: tko_hr_pt
+#: field:hr.social.security.pt,name:0
+msgid "Sequence"
+msgstr "Nome"
+
+#. module: tko_hr_pt
+#: field:hr.social.security.pt,emp_tax_value:0
+msgid "Employee Tax"
+msgstr "Taxa Funcionário"
+
+#. module: tko_hr_pt
+#: field:hr.social.security.pt,com_tax_value:0
+msgid "Company Tax"
+msgstr "Taxa Empresa"
+
+#. module: tko_hr_pt
+#: view:hr.social.security.pt:0
+msgid "Social Security "
+msgstr "Segurança Social "
+
+#. module: tko_hr_pt
+#: field:hr.contract,ss_type:0
+msgid "Social Security Rule"
+msgstr "Regra Segurança Social"
+
+#. module: hr_payroll
+#: model:ir.ui.menu,name:hr_payroll.menu_hr_payroll_reporting
+msgid "Payroll"
+msgstr "Relatórios"
+
+#. module: hr_payroll
+#: view:hr.payslip:0
+msgid "Cancel Payslip"
+msgstr "Cancelar Recibo"
