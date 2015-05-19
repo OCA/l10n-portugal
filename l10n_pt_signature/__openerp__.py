@@ -30,9 +30,8 @@ in order to be certified by the Portuguese Tax Authority.
     """,
     "author": "Paulino / Sysop",
     "depends": ["l10n_pt_saft"],
-    "data": [ 'account_invoice_workflow.xml',  #'invoice_view.xml'
-                    ],
-    "demo": [],
+    "data": [
+        'account_invoice_workflow.xml',
+    ],
     "installable": True,
-    "active": True,
 }
