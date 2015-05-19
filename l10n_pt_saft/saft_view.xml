@@ -7,107 +7,117 @@
             <field name="model">res.company</field>
             <field name="inherit_id" ref="base.view_company_form"/>
             <field name="arch" type="xml">
-                 <page string="Configuration" position="inside">
-                     <field name="open_journal"/>
-                 </page>
+                <page string="Configuration" position="inside">
+                    <field name="open_journal"/>
+                </page>
             </field>
         </record>
 
-        <!--Alteracao da vista Parceiros - novos campos 'Registo comercial' e 'Conservatoria' 
-                Modelo de vista para a VERSAO    6   -->
+        <!-- Alteracao da vista Parceiros -->
         <record model="ir.ui.view" id="res_partner_saft_inherit">
             <field name="name">res.partner.saft.inherit</field>
             <field name="model">res.partner</field>
             <field name="inherit_id" ref="base.view_partner_form"/>
             <field name="arch" type="xml">
                 <field name="lang" position="replace">
-                    <field name="vat"/>
                     <field name="reg_com"/>
                     <field name="conservatoria"/>
+                    <field name="self_bill_sales"/>
+                    <field name="self_bill_purch"/>
                 </field>
             </field>
         </record>
 
-        <record model="ir.ui.view" id="res_partner_saft_inherit_tree">
-            <field name="name">res.partner.saft.inherit2</field>
-            <field name="model">res.partner</field>
-            <field name="type">tree</field>
-            <field name="inherit_id" ref="base.view_partner_tree"/>
-            <field name="arch" type="xml">
-                <field name="ref" position="after">
-                    <field name="vat"/>
-                </field>
-            </field>
-        </record>
-
-        <!--Alteracao da vista Imposto - novos campos 'Espaco fiscal' e 'Nivel de Taxa' -->
+        <!-- Alteracao da vista Imposto - novos campos 'Espaco fiscal' e 'Nivel de Taxa' -->
         <record model="ir.ui.view" id="account_tax_saft_inherit">
             <field name="name">account.tax.saft.inherit</field>
             <field name="model">account.tax</field>
             <field name="inherit_id" ref="account.view_tax_form"/>
             <field name="arch" type="xml">
-                 <page string="Special Computation" position="after">
-                     <page string="Dados SAFT">
+                <page string="Special Computation" position="after">
+                    <page string="Dados SAFT">
                         <field name="country_region"/>
                         <field name="saft_tax_type"/>
                         <field name="saft_tax_code"/>
                         <field name="expiration_date"/>
                         <field name="exemption_reason"/>
-                     </page>
-                 </page>
-            </field>
-        </record>
-
-        <record id="account_journal_saft_inherit" model="ir.ui.view">
-            <field name="name">account.journal.saft.inherit</field>
-            <field name="model">account.journal</field>
-            <field name="inherit_id" ref="account.view_account_journal_form"/>
-            <field name="arch" type="xml">
-                <page string="General Information" position="after">
-                    <page string="Parametros SAFT">
-                        <field name="saft_inv_type"/>
-                        <field name="self_billing"/>
-                        <field name="transaction_type"/>
                     </page>
                 </page>
             </field>
         </record>
 
-        <!-- vista do assistente -->
+
+        <record model="ir.ui.view" id="account_journal_saft_inherit">
+            <field name="name">account.journal.saft.inherit</field>
+            <field name="model">account.journal</field>
+            <field name="inherit_id" ref="account.view_account_journal_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//notebook[last()]" position="inside">
+                    <page string="General Information" position="after">
+                        <page string="Parametros SAFT">
+                            <field name="saft_inv_type"/>
+                            <field name="self_billing"/>
+                            <field name="transaction_type"/>
+                        </page>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- *****************vista do assistente **************** -->
         <record id="wizard_saft_pt" model="ir.ui.view">
             <field name="name">Export Standard Audit File</field>
             <field name="model">wizard.l10n_pt.saft</field>
             <field name="type">form</field>
             <field name="arch" type="xml">
-                <form col="3" string="Gerar SAFT-PT">
+                <form string="Extract SAFT">
+                    <group colspan="4" string="For which company do you want to extract the SAFT?">
+                        <field name="company_id" widget="selection"/>
+                        <field name="year" widget="selection"/>
+                        <field name="tipo"/>
+                    </group>
+
                     <notebook>
-                        <page string="Criterios">
-                            <group col="2" fill="1" states="choose" colspan="4">
-                                <separator colspan="2" string="Export SAFT-PT"/>
-                                <field name="comp" widget="selection"/>
-                                <field name="year" widget="selection"/>
-                                <field name="tipo"/>
-                                <field invisible="1" name="state"/>
-                                <!--field name="filedata" invisible="1"/> <fieldname="name"/ -->
+                        <page string="Filters">
+                            <group>
+                                <field name="filter_by"/>
                             </group>
-                            <group col="1" fill="1" states="get" colspan="4">
-                                <separator string="Pronto"/>
-                                <field name="name" invisible="1"/>
-                                <field name="filedata" nolabel="1" readonly="1" /> <!--fieldname="name"/ -->
-                                <label align="0.0" string="Guarde o ficheiro saft"/>
+                            <group string="Periods" colspan="4" attrs="{'invisible': [('filter_by', '=', 'd')]}">
+                                <group>
+                                    <field name="period_id"/>
+                                </group>
                             </group>
-                            <group col="2" fill="1" colspan="4">
-                                <button icon="gtk-cancel" name="act_cancel" special="cancel" states="choose" string="Cancelar" type="object"/>
-                                <button icon="gtk-ok" name="act_getfile" states="choose" string="Exportar" type="object"/>
-                                <button icon="gtk-close" name="act_destroy" special="cancel" states="get" string="Fechar" type="object"/>
+                            <group string="Dates" colspan="4" attrs="{'invisible': [('filter_by', '=', 'p')]}">
+                                <group>
+                                    <field name="date_start"/>
+                                </group>
+                                <group>
+                                    <field name="date_end"/>
+                                </group>
                             </group>
-                        </page>
-                        <page string="Ajuda">
-                            <label colspan="4" string="O ficheiro vai exportar todos os movimentos existentes na base de dados para o exercicio escolhido"/>
-                            <label colspan="4" string="Escolha o tipo conforme esteja a usar o OpenERP apenas para a Contabilidade ou Facturacao ou para ambas"/>
-                            <label colspan="4" string=""/>
                         </page>
                     </notebook>
+                    <footer>
+                        <button name="action_extract_saft" type="object" class="oe_highlight" string="Extract SAFT"/>
+                        or
+                        <button special="cancel" string="Cancel" class="oe_link"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="wizard_saft_pt_result" model="ir.ui.view">
+            <field name="name">Export Standard Audit File</field>
+            <field name="model">wizard.l10n_pt.saft_result</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Extract SAFT">
+                    <separator string="The SAFT is ready" colspan="4"/>
+                    <field name="saft_extracted" colspan="8" filename="file_name" readonly="1"/>
+                    <field name="file_name" invisible="1"/>
+                    <footer>
+                        <button name="action_close" type="object" class="oe_highlight" string="Done"/>
+                    </footer>
                 </form>
             </field>
         </record>
@@ -120,6 +130,7 @@
             <field name="view_mode">form</field>
             <field name="target">new</field>
         </record>
+
         <menuitem action="action_wizard_saft" id="menu_wizard_saft" parent="account.menu_finance_legal_statement"/>
 
 

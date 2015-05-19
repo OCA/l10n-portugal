@@ -10,6 +10,10 @@
 #    the Free Software Foundation, either version 3 of the License, or
 #    (at your option) any later version.
 #
+#    Autores:
+#	  Este software baseia-se no trabalho inicial de Paulino Ascenção <paulino1@sapo.pt> (l10n_pt_saft-6)
+#    Adaptado à versão 7 por João Figueira<jjnf@communities.pt> e Jorge A. Ferreira <sysop.x0@gmail.com>
+#
 #    This program is distributed in the hope that it will be useful,
 #    but WITHOUT ANY WARRANTY; without even the implied warranty of
 #    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -20,82 +24,80 @@
 #
 ##############################################################################
 
+# Sysop
+from __future__ import print_function
+
 import datetime
-import tools
+#import tools
+# import pooler
+# from openerp import tools
+# from cStringIO import StringIO
 import base64
-import cStringIO
-import csv
-import pooler
-from osv import fields
-from osv import osv
-from tools.translate import _
+#import cStringIO
+# import csv
+#import pooler
+#from osv import fields
+#from osv import osv
+from openerp import models, fields, api, _
+#from tools.translate import _
 #from xml.etree import ElementTree as et
 from lxml import etree as et
 #from xml.dom.minidom import parseString
 import copy
-import netsvc
-logger = netsvc.Logger()
+from openerp import netsvc
+#import netsvc
+#logger = netsvc.Logger()
+import logging
+_logger = logging.getLogger(__name__)
+
 
 ##VALORES FIXO do cabecalho relativos ao OpenERP
-productCompanyTaxID = '999999990'
-productID =           'OpenERP/Paulino'
-productVersion =      '5'
-headerComment =      u'Software criado por Tiny sprl<www.tiny.be> a adaptado pela comunidade OpenERP Portugal'
+productCompanyTaxID = '507477758'
+productID =           'OpenERP/communities'
+productVersion =      '8'
+headerComment =       u'Software criado para a comunidade OpenERP Portugal'
 softCertNr =          '0'
 
 # Versao e codificação do xml
 # xml_version = '<?xml version="1.0" encoding="windows-1252"?>'
 
-class res_partner(osv.osv):
+class res_partner(models.Model):
     """Adiciona os campos requeridos pelo SAFT relativos a clientes e fornecedores:
     conservatória; numero do registo comercial; Indicadores da existencia de acordos de
     autofacturação para compras e vendas
     Torna o campo 'ref' obrigatorio e único e o 'vat' - NIF obrigatório"""
+    _name = 'res.partner'
     _inherit = 'res.partner'
-    _columns = {
-        # Se para os campos saft
-        'ref': fields.char('Reference', size=30, required=True),
-        'vat': fields.char('VAT', size=20, required=True, help="Value Added Tax number. Check the box if the partner is subjected to the VAT. Used by the VAT legal statement."),
-        'reg_com':       fields.char('N.Registo', 32, help="Número do registo comercial"),
-        'conservatoria': fields.char('Conservatoria', 64, help="Conservatória do registo comercial"),
-        # Adicionar campo 'indicador da existencia de acordos de 'auto-facturação' : 1 ou 0
-        'self_bill_sales': fields.boolean('Sales: self-billing', help="Assinale se existe acordo de auto-facturação para as vendas a este parceiro" ),
-        'self_bill_purch': fields.boolean('Purchases self-billing', help="Assinale se existe acordo de auto-facturação para as compras ao parceiro" ),
-    }
-    _sql_constraints = [('ref_unique','unique(ref)', _("Partner 'Ref' must be unique!")),
-                        #('ref_notNull','not-null(ref)', _("Partner 'Ref' must be not null!")),     não funciona!
-                        # ALTER TABLE res_partner ALTER COLUMN ref SET NOT NULL;   usar um cr.execute ?????  esta restrição apenas interfere com os registos ja existentes.
-                        ]
-res_partner()
+
+    # Só para os campos saft
+    reg_com = fields.Char(string="N.Registo", size=32, help="Número do registo comercial")
+    conservatoria = fields.Char(string="Conservatoria", size=64, help="Conservatória do registo comercial")
+
+    # Adicionar campo 'indicador da existencia de acordos de 'auto-facturação' : 1 ou 0
+    self_bill_sales = fields.Boolean(string="Sales: self-billing", help="Assinale se existe acordo de auto-facturação para as vendas a este parceiro")
+    self_bill_purch = fields.Boolean(string="Purchases self-billing", help="Assinale se existe acordo de auto-facturação para as compras ao parceiro" )
+
 # todo: permitir nas facturas de venda apenas parceiros clientes; Nãp permitir desmarcar campo 'cliente' se houver vendas.
 
-class res_company(osv.osv):
+class res_company(models.Model):
+    _name = 'res.company'
     _inherit = 'res.company'
-    _columns = {
-        'open_journal' : fields.many2one('account.journal', 'Diário de Abertura')
-    }
-res_company()
+
+    open_journal = fields.Many2one(comodel_name="account.journal", string="Diário de Abertura", )
 
 
-class account_tax(osv.osv):
+class account_tax(models.Model):
+    _name = 'account.tax'
     _inherit = 'account.tax'
-    _columns = {
-        'country_region': fields.selection([('PT', 'Continente'), ('PT-AC', 'Açores'), ('PT-MA', 'Madeira')], 'Espaço Fiscal', required=True),
-        'saft_tax_type':  fields.selection([('IVA', 'IVA'), ('IS', 'Imp do Selo')], 'Imposto', required=True),
-        'saft_tax_code':  fields.selection([('RED', 'Reduzida'), ('NOR', 'Normal'),('INT', 'Intermédia'),
-                     ('ISE', 'Isenta'), ('OUT', 'Outra')],'Nível de Taxa', required=True),
-        'expiration_date': fields.date('Data Expiração'),
-        'exemption_reason': fields.char('Motivo da isenção', size=60, help="No caso de IVA isento, indique qual a norma do codigo do IVA que autribui a isenção"),
-    }
-    _defaults = {
-        'country_region':   lambda *a: 'PT',
-        'saft_tax_type':    lambda *a: 'IVA',
-        'saft_tax_code':    lambda *a: 'NOR',
-    }
-account_tax()
+
+    country_region = fields.Selection(string="Espaço Fiscal", selection=[('PT', 'Continente'), ('PT-AC', 'Açores'), ('PT-MA', 'Madeira')], required=True, default="PT", )
+    saft_tax_type = fields.Selection(string="Imposto", selection=[('IVA', 'IVA'), ('IS', 'Imp do Selo')], required=True, default="IVA", )
+    saft_tax_code = fields.Selection(string="Nível de Taxa", selection=[('RED', 'Reduzida'), ('NOR', 'Normal'),('INT', 'Intermédia'), ('ISE', 'Isenta'), ('OUT', 'Outra')], required=True, default="NOR", )
+    expiration_date = fields.Date(string="Data Expiração", )
+    exemption_reason = fields.Char(string="Motivo da isenção", size=60, help="No caso de IVA isento, indique qual a norma do codigo do IVA que autribui a isenção")
 
 
-class account_invoice(osv.osv):
+class account_invoice(models.Model):
     """ Campos requeridos pelo saft:
             4.1.4.2. InvoiceStatus - ['N': Normal, 'A': Anulado, 'S':Auto-fact, 'F': Facturado(Talão de venda)]-calculado ao exportar
             4.1.4.3. Hash - assinatura (string 200)
@@ -106,59 +108,45 @@ class account_invoice(osv.osv):
             4.1.4.14.14.    TaxExemptionReason - Motivo da isenção - o preceito legal aplicável - ler na tabela de impostos
 
     """
+    _name = "account.invoice"
     _inherit = "account.invoice"
-    _columns = {
-        'hash':       fields.char('Assinatura', size=200),
-        'hash_control': fields.char('Chave', size=40),
-        'system_entry_date':   fields.datetime('Data de confirmação'),
-        'write_date':   fields.datetime('Data de alteração'),
-    }
-    def grosstotal(self, cr, uid, inv_id):
+
+    hash = fields.Char(string="Assinatura", size=200, )
+    hash_control = fields.Char(string="Chave", size=40, )
+    system_entry_date = fields.Datetime(string="Data de confirmação", )
+    write_date = fields.Datetime(string="Data de alteração", )
+
+    def grosstotal(self, cr, uid,  inv_id):
         invoice = self.browse(cr, uid, inv_id)
         integer, decimal = str(invoice.amount_total).split('.')
         return '.'.join( [integer, decimal.ljust(2, '0')] )
-account_invoice()
 
 
-class account_journal(osv.osv):
+class account_journal(models.Model):
     """ Adição de cmapos requeridos pelo saft:
     3.4.3.7  trasaction_type - para filtrar na contabilidade os tipos de transação conforme abaixo
     4.1.4.2/8  self_billing - servirá para preencher os campos 4.1.4.2 InvoiceStatus e 4.1.4.8 SelfBillingIndicator, nos casos de auto-facturação
     4.1.2.7    InvoiceType  classificar com um de FT, ND, NC  ou VD e AA alienação Acivos ou DA - devol activos
     """
+    _name = "account.journal"
     _inherit = "account.journal"
-    _columns = {
-        'self_billing': fields.boolean('Auto-Facturação', help='''Assinale, se este diário se destina a registar Auto-facturação.
-            As facturas emitidas em substituição dos fornecedores, ao abrigo de acordos de auto-facturação, são assinaladas como tal no SAFT'''),
-        'transaction_type': fields.selection([('N', 'Normal'), ('R', 'Regularizações'),('A', 'Apur. Resultados'), ('J', 'Ajustamentos')],
-                                              'Tipo de Lançamento', help="Categorias para classificar os movimentos contabilísticos ao exportar o SAFT"),
-        'saft_inv_type' : fields.selection([('FT', 'Factura'), ('ND', 'Nota de débito'),('NC', 'Nota de Crédito'), ('VD', 'Venda a Dinheiro'),
-                            #('TV', 'Talão de Venda'), ('TD', 'Talão de Devolução')   # opções para o caso de haver um POS ligado
-                            ('AA', 'Alienação de Activos'), ('DA', 'Devolução de Activos')], 'Tipo de Documento',
-                            help="Categorias para classificar os documentos comerciais, na exportação do SAFT" ),
-    }
-    _defaults =  {
-        'transaction_type': lambda *a: 'N',
-        'saft_inv_type': lambda *a: 'FT',
-    }
-account_journal()
 
-class product_product(osv.osv):
+    self_billing = fields.Boolean(string="Auto-Facturação", help='''Assinale, se este diário se destina a registar Auto-facturação.
+            As facturas emitidas em substituição dos fornecedores, ao abrigo de acordos de auto-facturação, são assinaladas como tal no SAFT''')
+    transaction_type = fields.Selection(string="Tipo de Lançamento", selection=[('N', 'Normal'), ('R', 'Regularizações'),('A', 'Apur. Resultados'), ('J', 'Ajustamentos')], help="Categorias para classificar os movimentos contabilísticos ao exportar o SAFT", default="N", )
+    saft_inv_type = fields.Selection(string="Tipo de Documento", selection=[('FT', 'Factura'), ('ND', 'Nota de débito'),('NC', 'Nota de Crédito'), ('VD', 'Venda a Dinheiro'), ('AA', 'Alienação de Activos'), ('DA', 'Devolução de Activos')], required=False, help="Categorias para classificar os documentos comerciais, na exportação do SAFT", default="FT", )
+
+
+class product_product(models.Model):
+    _name = "product.product"
     _inherit = "product.product"
-    _columns = {
-        'default_code' : fields.char('Reference', size=30, required=True), 
-    }
-    _sql_constraints = [('code_unique','unique(default_code)', _("Product code must be unique!")),
-    ]
-product_product()
 
-class account_invoice_line(osv.osv):
+    _sql_constraints = [('code_unique','unique(default_code)', _("Product code must be unique!")),]
+
+class account_invoice_line(models.Model):
+    _name = "account.invoice.line"
     _inherit = "account.invoice.line"
-    _columns = {
-        'product_id': fields.many2one('product.product', 'Product', ondelete='set null', required=True),
-        }
-account_invoice_line()
-    
+
 
 def date_format(data, tipo='DateType'):
     d = datetime.datetime.strptime(data[:19], '%Y-%m-%d %H:%M:%S')
@@ -176,60 +164,94 @@ tipos_saft = [  ('C', 'Contabilidade'),                         # ctb na v.1
               ]        # novo v.2
 
 
-class wizard_saft(osv.osv_memory):
-
+class wizard_saft(models.TransientModel):
     _name = "wizard.l10n_pt.saft"
-    _columns = {
-            'name': fields.char('Filename', 16, readonly=True),
-            'year': fields.many2one('account.fiscalyear', 'Exercício', required=True),
-            'comp': fields.many2one('res.company', 'Companhia', required=True),
-            'tipo': fields.selection(tipos_saft,'Tipo ficheiro'),
-            'filedata': fields.binary('File', readonly=True),
-            'state': fields.selection( ( ('choose','choose'),   # choose fiscal year
-                                         ('get','get'),         # get the file
-                                       ) ),
-    }
-    
-    def _default_company(self, cr, uid, context={}):
+    _rec_name = 'year'
+
+    # def _default_company(self, cr, uid, context={}):
+    def _default_company(self):
         """Devolve a companhia do utilizador, ou a primeira encontrada"""
-        user = self.pool.get('res.users').browse(cr, uid, uid, context=context)
+        user = self.pool.get('res.users').browse(self._cr, self._uid, self._uid)
         if user.company_id:
             return user.company_id.id
-        return self.pool.get('res.company').search(cr, uid, [('parent_id', '=', False)])[0]
+        return self.pool.get('res.company').search([('parent_id', '=', False)])[0]
 
-    def _current_year(self, cr, uid, context={}):
+    # def _current_year(self, cr, uid, context={}):
+    def _current_year(self):
         """ Devolve o ano mais recente existente na BD"""
-        return self.pool.get('account.fiscalyear').search(cr, uid, [], context=context)[-1]
-        
-    _defaults = { 
-        'state': lambda *a: 'choose',
-        'tipo':  lambda *a: 'F',
-        'comp': _default_company,
-        'year': _current_year,
-        }
+        return self.pool.get('account.fiscalyear').search(self._cr, self._uid, [])[-1]
 
-    def act_cancel(self, cr, uid, ids, context=None):
+    def _default_period(self):
+        """ Devolve período na BD"""
+        ######## verificar
+        ctx = dict(self._context or {}, account_period_prefer_normal=True)
+        period_ids = self.pool.get('account.period').find(self._cr, self._uid, context=ctx)
+        return period_ids[0]
+
+    company_id = fields.Many2one(comodel_name="res.company", string="Companhia", required=True, default=_default_company, )
+    tipo = fields.Selection(string="Tipo ficheiro", selection=tipos_saft, default="F", )
+    year = fields.Many2one(comodel_name="account.fiscalyear", string="Exercício", required=True, default=_current_year, )
+    filter_by = fields.Selection(string="Filter by", selection=[('d', 'Dates'), ('p', 'Periods'), ], required=True, default='d')
+    date_end = fields.Date(string="Data final", default=fields.Date.context_today, )
+    date_start = fields.Date(string="Data Inicial", default=fields.Date.context_today, )
+    period_id = fields.Many2one(comodel_name="account.period", string="Periodo", default=_default_period, )
+
+
+    @api.onchange('period_id')
+    def onchange_period(self):
+        if self.period_id:
+            start_period = end_period = False
+            self._cr.execute('''
+                SELECT * FROM (SELECT p.id
+                               FROM account_period p
+                               LEFT JOIN account_fiscalyear f ON (p.fiscalyear_id = f.id)
+                               WHERE f.id = %s
+                               ORDER BY p.date_start ASC
+                               LIMIT 1) AS period_start
+                UNION ALL
+                SELECT * FROM (SELECT p.id
+                               FROM account_period p
+                               LEFT JOIN account_fiscalyear f ON (p.fiscalyear_id = f.id)
+                               WHERE f.id = %s
+                               AND p.date_start < NOW()
+                               ORDER BY p.date_stop DESC
+                               LIMIT 1) AS period_stop''', (self.period_id.id, self.period_id.id))
+            periods = [i[0] for i in self._cr.fetchall()]
+            if periods and len(periods) > 1:
+                start_period = periods[0]
+                end_period = periods[1]
+            self.period_from= start_period
+            self.period_to= end_period
+        else:
+            self.period_from=False
+            self.period_to= False
+
+
+    def act_cancel(self):
         #self.unlink(cr, uid, ids, context)
         return {'type':'ir.actions.act_window_close' }
 
-    def act_destroy(self, *args):
+    #def act_destroy(self, *args):
+    def action_close(self, *args):
         return {'type':'ir.actions.act_window_close' }
 
-    def getAddress(self, cr, uid, parent_tag, partner_id, add_type='default'):
+    def getAddress(self, cr ,uid, ids, parent_tag, parent_id, add_type='default'):
         # obtem o primeiro id do tipo 'default' ou então o peimeiro id, do parceiro
         if add_type == 'default':
-            cr.execute("SELECT id  FROM res_partner_address WHERE id = COALESCE( \
-                 (SELECT MIN(id) FROM res_partner_address WHERE  partner_id=%d AND type = '%s') , \
-                 (SELECT MIN(id) FROM res_partner_address WHERE  partner_id=%d ))" %(partner_id, add_type, partner_id))
+            cr.execute("SELECT id  FROM res_partner WHERE id = COALESCE( \
+                 (SELECT MIN(id) FROM res_partner WHERE  id=%d AND type = '%s') , \
+                 (SELECT MIN(id) FROM res_partner WHERE  id=%d ))" %(parent_id, add_type, parent_id))
             address_id = cr.fetchone()[0]
         else:
-            cr.execute("SELECT id  FROM res_partner_address WHERE id = \
-                 (SELECT MIN(id) FROM res_partner_address WHERE  partner_id=%d AND type = '%s')" %(partner_id, add_type ))
+            cr.execute("SELECT id  FROM res_partner WHERE id = \
+                 (SELECT MIN(id) FROM res_partner WHERE  id=%d AND type = '%s')" %(parent_id, add_type ))
             address_id = cr.fetchone()[0]
+
+
         # obtem os campos (para o id acima) de addressStruture
         cr.execute("SELECT ad.street||COALESCE(' '||ad.street2, ''), ad.city, ad.zip, c.code, r.name, \
                             COALESCE(ad.phone, ad.mobile), ad.fax, ad.email \
-                    FROM res_partner_address ad \
+                    FROM res_partner ad \
                         LEFT JOIN res_country c ON c.id = ad.country_id \
                         LEFT JOIN res_country_state r ON r.id  = ad.state_id \
                     WHERE ad.id ="+ str(address_id) )
@@ -265,12 +287,15 @@ class wizard_saft(osv.osv_memory):
         return  parent, phone_fax_mail
         #return address
 
-    def act_getfile(self, cr, uid, ids, context=None):
-        logger.notifyChannel("saft :", netsvc.LOG_INFO, ' A exportar o ficheiro xml SAFT ****')
+    def action_extract_saft(self, cr, uid, ids, context=None):
+#        logger.notifyChannel("saft :", netsvc.LOG_INFO, ' A exportar o ficheiro xml SAFT ****')
+        """Gera o conteudo do ficheiro xml
+        """
 
         self.this = self.browse(cr, uid, ids[0])
         #Namespaces declaration
-        self.xmlns = "urn:OECD:StandardAuditFile-Tax:PT_1.01_01"
+        # Sysop
+        self.xmlns = "urn:OECD:StandardAuditFile-Tax:PT_1.03_01"
         attrib={ 'xmlns': self.xmlns,
                  #'xmlns:xsi':"http://www.w3.org/2001/XMLSchema-instance",
                  #'xsi:noNamespaceSchemaLocation' : "saft-pt.xsd"
@@ -280,28 +305,29 @@ class wizard_saft(osv.osv_memory):
         header = et.SubElement(root, 'Header', xmlns=self.xmlns)
         header.tail = '\n'
         #master
-        root.append( self._get_masters(cr, uid) )
+        root.append( self._get_masters(cr, uid, ids, context=context) )
 
         #entries : exclui na facturação
         if self.this.tipo in ('C', 'I'):
-            root.append( self._get_entries(cr, uid) )
+            root.append( self._get_entries() )
         #for el in (header, master, entries) :
         #    el.tail = '\n'
 
-        et.SubElement(header, 'AuditFileVersion').text='1.01_01'
+        # Sysop
+        et.SubElement(header, 'AuditFileVersion').text='1.03_01'
 
         cr.execute("""
             SELECT p.id, p.vat, p.name, p.reg_com, p.conservatoria, p.website
             FROM res_partner p
-            WHERE p.id = 1 """  )
+            WHERE p.id = 1 """)
 
         p_id, vat, name, registo, conserv, web = cr.fetchone()
-        for el, txt in zip(('CompanyID', 'TaxRegistrationNumber', 'TaxAccountingBasis',  'CompanyName'),
-                           (str(conserv)+' '+str(registo), vat[2:], self.this.tipo, name )):
+
+        for el, txt in zip(('CompanyID', 'TaxRegistrationNumber', 'TaxAccountingBasis',  'CompanyName'), (str(conserv)+' '+str(registo), vat and vat[2:] or None, self.this.tipo, name )):
             et.SubElement(header, el).text=txt
         # todo: Falta inserir o BusinessName (1.6), após o CompanyName  opcional
-        compAddress, phone_fax_mail = self.getAddress(cr, uid, 'CompanyAddress', p_id)
-        
+        compAddress, phone_fax_mail = self.getAddress(cr, uid, ids, 'CompanyAddress', p_id)
+
         header.append( compAddress )
 
         # le o ano fiscal na base de dados
@@ -312,9 +338,9 @@ class wizard_saft(osv.osv_memory):
                     ('StartDate',       fy.date_start),
                     ('EndDate',         fy.date_stop),
                     ('CurrencyCode',    'EUR'),
-                    ('DateCreated',     '%s' %str(datetime.date.today()) ),
+                    ('DateCreated',     '%s' %str(datetime.datetime.now().strftime('%Y-%m-%d')) ),
                     ('TaxEntity',       'Sede'),
-                    ('ProductCompanyTaxID',  productCompanyTaxID),   
+                    ('ProductCompanyTaxID',  productCompanyTaxID),
                     ('SoftwareCertificateNumber', softCertNr),
                     ('ProductID',        productID),
                     ('ProductVersion',   productVersion),
@@ -334,22 +360,30 @@ class wizard_saft(osv.osv_memory):
 
         #SourceDocumentos se tipo não é 'C'
         if self.this.tipo != 'C' :
-            root.append( self._write_source_documents( cr, uid, fy.date_start, fy.date_stop) )
+            root.append( self._write_source_documents(cr, uid, fy.date_start, fy.date_stop) )
 
         xml_txt = et.tostring(root, encoding="windows-1252")
-        out=base64.encodestring( xml_txt )   
-        return self.write(cr, uid, ids, {'state':'get', 'filedata':out, 'name':"saftpt.xml"}, context=context)
+        out=base64.encodestring( xml_txt )
+        return {
+            'type': 'ir.actions.act_window',
+            'res_model': 'wizard.l10n_pt.saft_result',
+            'view_mode': 'form',
+            'view_type': 'form',
+            'views': [(False, 'form')],
+            'context': {'default_saft_extracted':out},
+            'target': 'new',
+        }
 
-
-    def _get_masters(self, cr, uid, context={}):
-        logger.notifyChannel("saft :", netsvc.LOG_INFO, ' A exportar MasterFiles')
+    def _get_masters(self, cr, uid, ids, context=None):
+#        logger.notifyChannel("saft :", netsvc.LOG_INFO, ' A exportar MasterFiles')
+#_logger.info('A exportar MasterFiles')
         master = et.Element('MasterFiles', xmlns=self.xmlns)
         master.tail='\n'
         # 2.1 GeneralLedger
         # obtem lista de contas com movimentos, com saldos de abertura
         # precisa obter contas-mãe para cada cta de movimento
         if self.this.tipo in ('C', 'I') :
-            cr.execute("SELECT DISTINCT ac.id, ac.code, ac.name, ac.parent_id, COALESCE(debito, 0.0), COALESCE(credito, 0) \
+            self._cr.execute("SELECT DISTINCT ac.id, ac.code, ac.name, ac.parent_id, COALESCE(debito, 0.0), COALESCE(credito, 0) \
                 FROM account_move_line ml \
                     INNER JOIN account_account  ac  ON  ac.id = ml.account_id\
                     LEFT JOIN (SELECT account_id, SUM( debit) AS debito, SUM( credit ) AS credito\
@@ -361,7 +395,7 @@ class wizard_saft(osv.osv_memory):
             for ac_id, code, name, parent, debit, credit in cr.fetchall():
                 #print code, name, parent, debit, credit
                 acc_dict[ code ] = {'name':name, 'debit':debit, 'credit':credit}
-                account = acc_obj.browse(cr, uid, parent )
+                account = acc_obj.browse(parent )
                 while account :
                     if len(account.code) < 2 :
                         break
@@ -372,7 +406,8 @@ class wizard_saft(osv.osv_memory):
                         acc_dict[account.code] = {'name':account.name, 'debit':debit, 'credit':credit}
                     account = account.parent_id
 
-            logger.notifyChannel("saft :", netsvc.LOG_INFO, ' A exportar Plano de Contas (GeneralLedger)')
+#            logger.notifyChannel("saft :", netsvc.LOG_INFO, ' A exportar Plano de Contas (GeneralLedger)')
+#_logger.info('A exportar tabela de contas (GeneralLedger)')
             for code in sorted( acc_dict ):
                 gl = et.SubElement(master, 'GeneralLedger')
                 gl.tail='\n'
@@ -384,24 +419,26 @@ class wizard_saft(osv.osv_memory):
                     element.tail='\n'
 
         ####   2.2 Customer    ========================================================================
-        logger.notifyChannel("saft :", netsvc.LOG_INFO, ' A exportar Clientes')
-        self._write_partners(cr, uid, master)
+#        logger.notifyChannel("saft :", netsvc.LOG_INFO, ' A exportar Clientes')
+#_logger.info('A exportar Clientes')
+        self._write_partners(cr, uid, ids, master)
 
         ####   2.3 Supplier  =========================================
         if self.this.tipo in ('C', 'I'):
-            logger.notifyChannel("saft :", netsvc.LOG_INFO, ' A exportar Fornecedores')
-            self._write_partners(cr, uid, master, partner_role='Supplier')
-            
+#            logger.notifyChannel("saft :", netsvc.LOG_INFO, ' A exportar Fornecedores')
+#_logger.info('A exportar Fornecedores')
+            self._write_partners(self._cr, self._uid, self.ids, master, partner_role='Supplier')
+
         # 2.4 Product   -   Não entra no tipo 'C'
         if self.this.tipo != 'C' :
-            self._write_products(cr, uid, master)
+            self._write_products(cr, uid, ids,master)
 
         # 2.5 TaxTable
-        master.append( self._get_taxes(cr, uid) )
+        master.append( self._get_taxes(cr, uid, ids, context=context) )
         return master
-        
-        
-    def _write_partners(self, cr, uid, master, partner_role='Customer'):
+
+
+    def _write_partners(self, cr, uid, ids, master, partner_role='Customer'):
         """ Exporta os elementos 2.2 Customer e 2.3 Supplier
          1 CustomerID (Supplier)      * partner.id | partner.ref
          2 AccountID                 * ler em properties ???
@@ -415,7 +452,7 @@ class wizard_saft(osv.osv_memory):
         10 Email                        address[default].email
         11 Website                      partner.website
         12 SelfBillingIndicator """
-        
+
         condition = [('active', '=', 'True')]
         if partner_role == 'Customer':
             condition.append( ('customer', '=', 'True') )
@@ -425,9 +462,9 @@ class wizard_saft(osv.osv_memory):
             #ship_add = 'From'
         else:
             return
-            
+
         partner_obj = self.pool.get('res.partner')
-        partner_ids = partner_obj.search( cr, uid, condition, order='id')
+        partner_ids = partner_obj.search(cr, uid, condition, order='id')
         partners = partner_obj.browse(cr, uid, partner_ids)
         for partner in partners:
             if partner_role == 'Customer':
@@ -440,16 +477,16 @@ class wizard_saft(osv.osv_memory):
             partner_element = et.SubElement(master, partner_role)
             #.1  ID
             et.SubElement(partner_element, '%sID'%partner_role).text = unicode(partner.id)
-            et.SubElement(partner_element, 'AccountID').text = accountId 
+            et.SubElement(partner_element, 'AccountID').text = accountId
             et.SubElement(partner_element, '%sTaxID'%partner_role).text = unicode(partner.vat and partner.vat[2:] or '')
             #.4  CompanyName
             et.SubElement(partner_element, 'CompanyName').text = unicode(partner.name)
-            #.5 Contact   - Opcional  
+            #.5 Contact   - Opcional
 
             #.6  BillingAddress
-            billingAddress, phone_fax_mail = self.getAddress(cr, uid, 'BillingAddress', partner.id)
+            billingAddress, phone_fax_mail = self.getAddress(cr, uid, ids, 'BillingAddress', partner.id)
             partner_element.append( billingAddress )
-            # todo: .7 Ship[To|From]Address   
+            # todo: .7 Ship[To|From]Address
             #8-9-10  elementos facultativos no OpenERP constam do endereço, no saft estão fora.
             for element in phone_fax_mail:
                 partner_element.append( element )
@@ -460,8 +497,9 @@ class wizard_saft(osv.osv_memory):
             partner_element.tail='\n'
 
 
-    def _write_products(self, cr, uid, master):
-        logger.notifyChannel("saft :", netsvc.LOG_INFO, ' A exportar tabela de produtos')
+    def _write_products(self, cr, uid, ids, master):
+#        logger.notifyChannel("saft :", netsvc.LOG_INFO, ' A exportar tabela de produtos')
+#_logger.info('A exportar tabela de produtos')
         ids = self.pool.get('product.product').search(cr, uid, [])
         products = self.pool.get('product.product').browse(cr, uid, ids)
 
@@ -489,8 +527,9 @@ class wizard_saft(osv.osv_memory):
             else:
                 eproduct_number_code.text = unicode(product.default_code)
 
-    def _get_taxes(self, cr, uid, context={}):
-        logger.notifyChannel("saft :", netsvc.LOG_INFO, ' A exportar TaxTable')
+    def _get_taxes(self, cr, uid, ids, context=None):
+#        logger.notifyChannel("saft :", netsvc.LOG_INFO, ' A exportar TaxTable')
+#_logger.info('A exportar TaxTable')
         taxTable = et.Element('TaxTable')
         cr.execute("SELECT DISTINCT saft_tax_type, country_region, saft_tax_code, name, expiration_date, type, amount \
                     FROM account_tax WHERE parent_id is NULL \
@@ -507,12 +546,15 @@ class wizard_saft(osv.osv_memory):
             if tipo == 'percent':
                 et.SubElement(taxTableEntry, 'TaxPercentage').text = str(valor)
             else:
-                et.SubElement(taxTableEntry, 'TaxAmount').text = str(amount)
+                # sysop ToDo - amount: verify where it comes from; quick fix
+                # et.SubElement(taxTableEntry, 'TaxAmount').text = str(amount)
+                et.SubElement(taxTableEntry, 'TaxAmount').text = str(valor)
         return taxTable
 
 
-    def _get_entries(self, cr, uid, context={}):
-        logger.notifyChannel("saft :", netsvc.LOG_INFO, ' A exportar movimentos da contabilidade')
+    def _get_entries(self, cr, uid, ids, context=None):
+#        logger.notifyChannel("saft :", netsvc.LOG_INFO, ' A exportar movimentos da contabilidade')
+#_logger.info('... a exportar movimentos da contabilidade')
         # 3. GeneralLedgerEntries
         entries = et.Element('GeneralLedgerEntries', xmlns=self.xmlns)
         entries.tail='\n'
@@ -531,7 +573,7 @@ class wizard_saft(osv.osv_memory):
         # obtem diarios excepto diario de abertura
         if not self.this.comp.open_journal :
             raise osv.except_osv(_('Error !'), _(u'Falta definir o diário de abertura da companhia'))
-        
+
         cr.execute( " SELECT DISTINCT j.id, j.code, j.name, j.type, j.transaction_type \
                       FROM account_journal_period ajp INNER JOIN account_journal j ON ajp.journal_id = j.id \
                       WHERE j.id <>" + str(self.this.comp.open_journal.id)+ " AND ajp.period_id IN \
@@ -567,12 +609,12 @@ class wizard_saft(osv.osv_memory):
                 et.SubElement(trans_el, 'TransactionDate').text = date
                 et.SubElement(trans_el, 'SourceID').text = unicode(user)
                 et.SubElement(trans_el, 'Description').text = unicode(desc)
-                
+
                 # 3.4.3.6 DocArchivalNumber
                 et.SubElement(trans_el, 'DocArchivalNumber').text = unicode(trans_id.split('/')[1] )
                 # todo: 3.4.3.7 TransactionType   - campo account_journal.transaction_type
                 et.SubElement(trans_el, 'TransactionType').text = unicode(transaction_type)
-                # 3.4.3.8 GLPostingDate  data no formata AAAA-MM-DD Thh:mm:ss 
+                # 3.4.3.8 GLPostingDate  data no formata AAAA-MM-DD Thh:mm:ss
                 #if isinstance(post_date, str) : print move_id, post_date
                 et.SubElement(trans_el, 'GLPostingDate').text = date_format(post_date, 'DateTimeType')
                 # 3.4.3.9|10  CustomerID|SupllierID  se diario é de vendas  - clientes ; se compras : fornecedores
@@ -581,7 +623,7 @@ class wizard_saft(osv.osv_memory):
                     partner_el = et.SubElement(trans_el, 'CustomerID')
                 elif j_type == 'purchase':
                     partner_el = et.SubElement(trans_el, 'SupplierID')
-                    
+
                 # 3.4.3.11 Line   Adiciona linhas dos movimentos
                 cr.execute("SELECT l.id, a.id, a.code, l.ref, COALESCE(l.write_date, l.create_date), \
                                     l.name, l.debit, l.credit, l.partner_id \
@@ -624,6 +666,9 @@ class wizard_saft(osv.osv_memory):
         # elemento 4.1.4 Invoice
         # 4.1.4.1
         et.SubElement(eparent, u"InvoiceNo").text = unicode(invoice.journal_id.saft_inv_type+' '+invoice.number)
+
+        edoc_status = et.SubElement(eparent, u"DocumentStatus")
+
         # 4.1.4.2 - InvoiceStatus
         if invoice.state == 'cancel':
             status_code = 'A'
@@ -631,7 +676,10 @@ class wizard_saft(osv.osv_memory):
             status_code = 'S'
         else:
             status_code = 'N'
-        et.SubElement(eparent, u"InvoiceStatus").text = status_code
+        et.SubElement(edoc_status, u"InvoiceStatus").text = unicode(status_code)
+        et.SubElement(edoc_status, u"InvoiceStatusDate").text = date_format( invoice.system_entry_date or invoice.write_date, 'DateTimeType')
+        et.SubElement(edoc_status, u"SourceID").text = unicode(invoice.user_id.login)
+        et.SubElement(edoc_status, u"SourceBilling").text = 'P'
         # 4.1.4.3 - Hash
         et.SubElement(eparent, u"Hash").text = unicode(invoice.hash)
         # 4.1.4.4 - HasControl
@@ -643,7 +691,14 @@ class wizard_saft(osv.osv_memory):
         # 4.1.4.7 InvoiceType
         et.SubElement(eparent, u"InvoiceType").text = invoice.journal_id.saft_inv_type
         # 4.1.4.8  SelfBillingIndicator
-        et.SubElement(eparent, "SelfBillingIndicator").text = str(invoice.journal_id.self_billing and '1' or '0')
+        regime_special = et.SubElement(eparent, u"SpecialRegimes")
+
+        et.SubElement(regime_special, "SelfBillingIndicator").text = str(invoice.journal_id.self_billing and '1' or '0')
+        #Indicador da existência de adesão ao regime de IVA de Caixa. Deve ser preenchido com 1 se houver adesão e com 0 (zero) no caso contrário.
+        et.SubElement(regime_special, u"CashVATSchemeIndicator").text = '0'
+        #Deve ser preenchido com 1 se respeitar a faturação emitida em nome e por conta de terceiros e com 0 (zero) no caso contrário.
+        et.SubElement(regime_special, u"ThirdPartiesBillingIndicator").text = '0'
+        et.SubElement(eparent, u"SourceID").text = unicode(invoice.user_id.login)
         # 4.1.4.9  SystemEntryDate
         # provisorio enquanto a certificação não funciona, le o write_date
         et.SubElement(eparent, u"SystemEntryDate").text = date_format( invoice.system_entry_date or invoice.write_date, 'DateTimeType')
@@ -660,20 +715,26 @@ class wizard_saft(osv.osv_memory):
 
     def _write_source_documents(self, cr, uid, start_date, final_date):
         esource_documents = et.Element('SourceDocuments')
-        logger.notifyChannel("saft :", netsvc.LOG_INFO, ' A exportar Source Documents')
+#        logger.notifyChannel("saft :", netsvc.LOG_INFO, ' A exportar Source Documents')
+#_logger.info('A exportar Source Documents')
         # todo: verificar facturas no estado 'cancel' que nao passaram pelo estado 'open'. devem se excluidas
         #       neste caso nao tem numero interno preenchido
         # criterios de selecao das facturas:
-        args = [('date_invoice', '>=', start_date), ('date_invoice', '<=', final_date), 
+        args = [('date_invoice', '>=', start_date), ('date_invoice', '<=', final_date),
                 ('state', 'in', ['open', 'paid'])
                 ]
         if self.this.tipo == 'S':
             args.append( ('type', 'in',["in_invoice","in_refund"]) )
             args.append( ('journal_id.self_billing', '=', "True") )
             #args.append( ('partner_id' '=', self.this.partner_id))
-        else :  
-            args.append( ('type', 'in',["out_invoice","out_refund"]) ) 
+        else :
+            args.append( ('type', 'in',["out_invoice","out_refund"]) )
             #args.append( ('journal_id.self_billing', '=', "False") )
+
+        if self.this.filter_by == 'd':
+            args.append( ('date_invoice', '>=', self.this.date_start) )
+            args.append( ('date_invoice', '<=', self.this.date_end) )
+
         invoice_obj = self.pool.get('account.invoice')
         ids = invoice_obj.search(cr, uid, args, order='internal_number')
         invoices = invoice_obj.browse(cr, uid, ids)
@@ -704,7 +765,7 @@ class wizard_saft(osv.osv_memory):
             # edelivery_date.text = invoice.date_invoice
 
             ## Delivery address
-            #ship_address, phone_fax = self.getAddress( cr, uid, 'Address', invoice.partner_id.id, add_type='delivery') 
+            #ship_address, phone_fax = self.getAddress( cr, uid, 'Address', invoice.partner_id.id, add_type='delivery')
             #eship_to.append( ship_address)
 
             ## 4.1.4.13  ShipFrom  Local e data de saida dos artigos
@@ -737,7 +798,7 @@ class wizard_saft(osv.osv_memory):
                 if line.product_id:
                     et.SubElement(eline, u"ProductCode").text = unicode(line.product_id.default_code)
                 et.SubElement(eline, u"ProductDescription").text = unicode(line.product_id and line.product_id.name or line.name)
-                
+
                 # 4.1.4.14.5  Quantity
                 et.SubElement(eline, u"Quantity").text = unicode(line.quantity)
                 # 4.1.4.14.6  UnitOfMeasure
@@ -759,7 +820,7 @@ class wizard_saft(osv.osv_memory):
                 #ecredit_note = et.SubElement(ereferences, u"CreditNote")
                 #et.SubElement(ecredit_note, u"Reference")
                 #et.SubElement(ecredit_note, u"Reason")
-                
+
                 # 4.1.4.14.10  Description
                 et.SubElement(eline, u"Description").text = line.name
 
@@ -790,7 +851,7 @@ class wizard_saft(osv.osv_memory):
                     elif tax.type == 'fixed' :
                         et.SubElement(etax, u"TaxPercentage").text = str( tax.amount )
                 # 4.1.4.14.14**    ExemptionReason - obrigatorio se TaxPercent e TaxAmount ambos zero
-                if line.invoice_line_tax_id: 
+                if line.invoice_line_tax_id:
                     if tax.saft_tax_type == 'IVA' and tax.amount == 0.0:
                         et.SubElement(etax, u"TaxExemptionReason").text = unicode(tax.exemption_reason)
 
@@ -808,12 +869,12 @@ class wizard_saft(osv.osv_memory):
             enet_total.text = invoice.amount_untaxed and unicode(invoice.amount_untaxed) or '0.0'
             egross_total.text = invoice_obj.grosstotal(cr, uid, invoice.id)
             # TODO currency : only in case of foreign currency (optional)
-            if invoice.currency_id.code != 'EUR':
+            if invoice.currency_id.name != 'EUR':
                 ecurrency = et.SubElement(edocument_totals, u"Currency")
-                ecurrency_code = et.SubElement(ecurrency, u"CurrencyCode")
+                ecurrency_name = et.SubElement(ecurrency, u"CurrencyCode")
                 #ecurrency_credit_amount = et.SubElement(ecurrency, u"CurrencyCreditAmount")
                 #ecurrency_debit_amount = et.SubElement(ecurrency, u"CurrencyDebitAmount")
-                ecurrency_code.text = invoice.currency_id.code
+                ecurrency_name.text = invoice.currency_id.name
                 #ecurrency_credit_amount.text = ''
                 #ecurrency_debit_amount.text = ''
 
@@ -833,7 +894,14 @@ class wizard_saft(osv.osv_memory):
         etotal_credit.text = unicode(total_credit)
         return esource_documents
 
-wizard_saft()
 
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+class wizard_saft_result(models.TransientModel):
 
+    _name = "wizard.l10n_pt.saft_result"
+    _rec_name = 'file_name'
+
+    file_name = fields.Char(string='Nome do ficheiro', default="saft_pt.xml")
+    saft_extracted = fields.Binary('SAFT-PT')
+
+    def action_close(self, *args):
+        return {'type':'ir.actions.act_window_close' }

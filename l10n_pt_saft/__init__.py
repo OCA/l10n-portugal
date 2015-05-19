@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    OpenERP, Open Source Management Solution    
+#    OpenERP, Open Source Management Solution
 #    Copyright (C) 2004-2009 Tiny SPRL (<http://tiny.be>). All Rights Reserved
 #    $Id$
 #
@@ -9,6 +9,12 @@
 #    it under the terms of the GNU General Public License as published by
 #    the Free Software Foundation, either version 3 of the License, or
 #    (at your option) any later version.
+#
+#    Autores:
+#    Este software baseia-se no trabalho inicial de
+#    Paulino Ascenção <paulino1@sapo.pt> (l10n_pt_saft-6)
+#    Adaptado à versão 7 por João Figueira<jjnf@communities.pt>
+#    e Jorge A. Ferreira <sysop.x0@gmail.com>
 #
 #    This program is distributed in the hope that it will be useful,
 #    but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -21,4 +27,3 @@
 ##############################################################################
 
 import l10n_pt_saft
-
