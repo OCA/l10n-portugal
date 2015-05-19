@@ -1,0 +1,15 @@
+"id","close_method","partner_account","code","name","sequence","sign"
+"razao","none",,"razao","Razão",5,1
+"vista","none",,"vista","vista",10,1
+"imobilizado","balance",,"imobilizado","Imobilizado",15,1
+"capital","balance",,"capital","Capital",15,1
+"proveitos","none",,"proveitos","Proveitos",15,1
+"custos","none",,"custos","Custos",15,1
+"dinheiro","balance",,"dinheiro","Dinheiro",15,1
+"stock","balance",,"stock","Existências",15,1
+"receber","unreconciled",1,"receber","A Receber",15,1
+"pagar","unreconciled",1,"pagar","A Pagar",15,1
+"impostos","balance",,"impostos","Impostos",15,1
+"ajustamento","balance",,"ajustamento","Ajustamento",15,1
+"especializacao","balance",,"especializacao","Especialização",15,1
+"outras","balance",,"outras","Outras",15,1
