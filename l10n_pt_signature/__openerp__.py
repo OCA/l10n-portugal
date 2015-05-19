@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    OpenERP, Open Source Management Solution	
+#    OpenERP, Open Source Management Solution
 #    Copyright (C) 2004-2009 Tiny SPRL (<http://tiny.be>). All Rights Reserved
 #    $Id$
 #
@@ -22,19 +22,17 @@
 
 {
     "name": "Portugal - Digital signature",
-    "version": "1.0",
+    "version": "1.00122",
     "category": "Localisation/Account",
     "description": """
-        This module allows the OpenERP invoice system to add a digital signature in order to be certified by the
-        Portuguese Tax Authority.
+This module allows the OpenERP invoice system to add a digital signature
+in order to be certified by the Portuguese Tax Authority.
     """,
-    "author": "Paulino",
+    "author": "Paulino / Sysop",
     "depends": ["l10n_pt_saft"],
-    "init_xml": [],
-    "update_xml": [ 'account_invoice_workflow.xml',  #'invoice_view.xml'
+    "data": [ 'account_invoice_workflow.xml',  #'invoice_view.xml'
                     ],
-    "demo_xml": [],
+    "demo": [],
     "installable": True,
     "active": True,
 }
-
