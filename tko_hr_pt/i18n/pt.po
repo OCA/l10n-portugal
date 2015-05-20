@@ -1091,3 +1091,9 @@ msgstr "Relatórios"
 #: view:hr.payslip:0
 msgid "Cancel Payslip"
 msgstr "Cancelar Recibo"
+
+#. module: tko_hr_pt
+#: code:addons/tko_hr_pt/hr_payroll_pt.py:0
+#, python-format
+msgid "%s - Contract reference %s"
+msgstr "%s - Referencia contrato %s"
