@@ -82,12 +82,12 @@ class hr_contract(osv.osv):
                                     readonly=False),
         'meal_option': fields.selection([('cash', 'Cash'),
                                          ('coupons', 'Meal Coupons')],
-                                        'Meal Option', required=True),
+                                        'Meal Option'),
         'working_hours': fields.many2one('resource.calendar',
                                          'Working Schedule', required=True),
         'no_company_ss': fields.boolean('No Company Social Security'),
         'ss_type': fields.many2one('hr.social.security.pt',
-                                   'Social Security Rule', required=True),
+                                   'Social Security Rule'),
 
     }
 
@@ -143,7 +143,7 @@ class hr_employee(osv.osv):
             ('unique', 'Unique'),
             ('double', 'Double'),
             ('none', 'Não definido')
-        ], 'Ownership', select=True, required=True),
+        ], 'Ownership', select=True),
         'military': fields.boolean('Military', help="If is military"),
         'ssnid': fields.char('SS Identification', size=64,
                              help="Social Security Identification of"
@@ -874,7 +874,7 @@ class contrib_register(osv.osv):
                                                  multi='dc',
                                                  string='Total By Company',
                                                  digits=(16, 2)),
-        'code': fields.char('Code', size=64, required=True, readonly=False),
+        'code': fields.char('Code', size=64, readonly=False),
         'rule_id': fields.many2one('hr.salary.rule', 'Salary Rule',
                                    required=False),
         'active': fields.boolean('Active', required=False),
