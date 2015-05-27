@@ -53,7 +53,7 @@
                         <field name="military"/> 
                     </field>
                     <field name ="medic_exam" position="after">
-                    	<field name="ownership" on_change="onchange_ownership(marital, ownership)"/>
+                    	<field name="ownership" on_change="onchange_ownership(marital, ownership)" required="1"/>
                     </field>
                     <field name ="marital" position="replace">
                     	<field name = "marital" required="1" on_change="onchange_marital(marital)"/>
@@ -84,8 +84,8 @@
                 	<page string="Miscellaneous">
                         <group>
                                 <field name="no_company_ss" />
-                                <field name="ss_type" />
-                                <field name="meal_option" />
+                                <field name="ss_type" required="1" />
+                                <field name="meal_option" required="1" />
                         	<group ></group>
                         </group>
                     </page>
@@ -106,7 +106,7 @@
             <field name="inherit_id" ref="hr_holidays.edit_holiday_status_form"/>
             <field name="arch" type="xml">
                 <field name="name" position="after">
-                    <field name="code"/>
+                    <field name="code" required="1"/>
                 </field>
             </field>
          </record>
@@ -132,7 +132,7 @@
                 	<page string="Contribution Lines">
                         <field name="line_ids" nolabel="1" select="1">
                             <tree string="Register Lines" editable="top">
-                                <field name="code"/>
+                                <field name="code" required="1"/>
                                 <field name="name"/>
                                 <field name="employee_id"/>
                                 <field name="emp_deduction"/>

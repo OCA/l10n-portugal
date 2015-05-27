@@ -28,5 +28,5 @@ class hr_holidays_status(osv.osv):
     _inherit = "hr.holidays.status"
 
     _columns = {
-        'code': fields.char('Code', size=64, readonly=False, required=True),
+        'code': fields.char('Code', size=64, readonly=False),
     }
