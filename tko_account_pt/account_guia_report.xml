@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <report
+            auto="False"
+            id="account_guia_report"
+            model="account.guia"
+            name="account.guia"
+            rml="tko_account_pt/report/account_guia.rml"
+            string="Guia"/>
+            
+    </data>
+</openerp>

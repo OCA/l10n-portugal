@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+    
+        <record id="view_picking_out_waybill_form" model="ir.ui.view">
+            <field name="name">stock.picking.waybill.form</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='invoice_state']" position="after">
+                    <field name="waybill_state"/>
+                    <field name="type_picking" invisible="1"/>
+                </xpath>
+                <field name ="date_done" position="after">
+                    <field name="waybill_id"/>
+                </field>
+                <xpath expr="//button[@name='%(stock_account.action_stock_invoice_onshipping)d']" position="replace" >
+                    <button name="%(stock_account.action_stock_invoice_onshipping)d" groups="account.group_account_invoice" string="Create Invoice"  
+                            attrs="{'invisible': ['|','|','|',('waybill_state', '=', 'waybilled'),('state','&lt;&gt;','done'),('invoice_state','=','invoiced'),('invoice_state','=','none')]}"  
+                            type="action" class="oe_highlight"/>
+                </xpath>
+                <xpath expr="//button[@name='%(stock_account.action_stock_invoice_onshipping)d']" position="before" >
+                    <button name="%(action_picking_waybill)d" 
+                            string="Create Waybill"  
+                            attrs="{'invisible': ['|','|',('state','!=','done'),('waybill_state', '=', 'waybilled'), ('invoice_state','=','invoiced')]}"  
+                            type="action" 
+                            class="oe_highlight"/>
+                    <button name="%(action_stock_simplified_invoice_onshipping)d"
+                            string="Create Simplified Invoice"
+                            attrs="{'invisible': ['|','|','|','|',('waybill_state','=','waybilled'),('type_picking','=','return'),('state','&lt;&gt;','done'),('invoice_state','=','invoiced'),('invoice_state','=','none')]}"  
+                            type="action"
+                            class="oe_highlight"
+                            groups="account.group_account_invoice"/>
+                </xpath>
+            </field>
+        </record>
+
+           <record id="view_picking_waybill_search" model="ir.ui.view">
+                <field name="name">stock.picking.waybill.search</field>
+                <field name="model">stock.picking</field>
+                <field name="inherit_id" ref="stock.view_picking_internal_search"/>
+                <field name="arch" type="xml">
+                    <filter name="to_invoice" position="after">
+                        <filter icon="terp-dolar" name="to_waybill" attrs="{'invisible': [('type','!=','out')]}" string="To Waybill" domain="[('waybill_state','=','none')]" help="Pickings to waybill"/>
+                    </filter>
+                </field>
+           </record>
+        
+    </data>
+</openerp>

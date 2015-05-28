@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+    
+    <record id="view_waybill_invoice" model="ir.ui.view">
+            <field name="name">view.waybill.invoice</field>
+            <field name="model">waybill.invoice</field>
+            <field name="arch" type="xml">
+              <form string="Create Invoice" version="7.0">
+                    <group string="Create Invoice">
+                        <field name="journal_id"/>
+                        <field name="group"/>
+                        <field name="invoice_date" />
+                    </group>
+                    <footer>
+                        <button name="open_invoice" class="oe_highlight" string="Create" type="object"/>
+                        or
+                        <button special="cancel" class="oe_link" string="_Cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+        
+        <record id="action_waybill_invoice" model="ir.actions.act_window">
+            <field name="name">Create Invoice</field>
+            <field name="res_model">waybill.invoice</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+        
+        <record id="view_waybill_simplified_invoice" model="ir.ui.view">
+            <field name="name">view.waybill.simplified.invoice</field>
+            <field name="model">waybill.simplified.invoice</field>
+            <field name="arch" type="xml">
+              <form string="Create Simplified Invoices" version="7.0">
+                    <group string="Create Simplified Invoice">
+                        <field name="journal_id"/>
+                        <field name="group"/>
+                        <field name="invoice_date" />
+                    </group>
+                    <footer>
+                        <button class="oe_highlight" name="open_simplified_invoice" string="Create" type="object"/>
+                        or
+                        <button special="cancel" class="oe_link" string="_Cancel"/>
+                    </footer>
+             </form>
+            </field>
+        </record>
+        
+        <record id="action_waybill_simplified_invoice" model="ir.actions.act_window">
+            <field name="name">Create Simplified Invoice</field>
+            <field name="res_model">waybill.simplified.invoice</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <act_window name="Create Invoices"
+            res_model="waybill.invoice"
+            src_model="account.guia"
+            key2="client_action_multi"
+            multi="True"
+            view_mode="form"
+            view_type="form"
+            target="new"
+            groups="account.group_account_invoice"
+            id="action_waybill_invoice_id"/>
+            
+        <act_window name="Create Simplified Invoices"
+            res_model="waybill.simplified.invoice"
+            src_model="account.guia"
+            key2="client_action_multi"
+            multi="True"
+            view_mode="form"
+            view_type="form"
+            target="new"
+            groups="account.group_account_invoice"
+            id="action_waybill_simplified_invoice_id"/>
+            
+    </data>
+</openerp>

@@ -1,0 +1,1881 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#	* tko_account_pt
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 7.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-02-26 16:53+0000\n"
+"PO-Revision-Date: 2013-02-26 16:53+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+
+#. module: purchase
+#: field:purchase.order,partner_ref:0
+msgid "Supplier Reference"
+msgstr "Referência de Pagamento"
+
+#. module: account
+#: field:account.invoice,reference_type:0
+msgid "Payment Reference"
+msgstr "Referência Fornecedor"
+
+#. module: account
+#: field:account.invoice,reference:0
+msgid "Reference"
+msgstr "Ref. Fornecedor"
+
+#. module: account
+#: field:account.invoice,supplier_invoice_number:0
+msgid "Supplier Invoice Number"
+msgstr "Referência de Pagamento"
+
+
+
+#. module: tko_account_pt
+#: report:account.guia:0
+msgid "Os n/fornecimentos ficam sujeitos ao #10 do Art. 102 do C. Comercial."
+msgstr "Os n/fornecimentos ficam sujeitos ao #10 do Art. 102 do C. Comercial."
+
+#. module: tko_account_pt
+#: report:account.guia:0
+msgid "Local Descarga"
+msgstr "Local Descarga"
+
+#. module: tko_account_pt
+#: model:ir.actions.act_window,name:tko_account_pt.action_picking_waybill
+msgid "Creating Waybill"
+msgstr "Criar Guia"
+
+#. module: tko_account_pt
+#: field:account.guia,stock_picking_ids:0
+msgid "Pickings"
+msgstr "Pickings"
+
+#. module: tko_account_pt
+#: code:addons/tko_account_pt/account_invoice.py:354
+#, python-format
+msgid "Cannot find any account journal of %s type for this company.\n"
+"\n"
+"You can create one in the menu: \n"
+"Configuration\\Journals\\Journals."
+msgstr "Cannot find any account journal of %s type for this company.\n"
+"\n"
+"You can create one in the menu: \n"
+"Configuration\\Journals\\Journals."
+
+#. module: tko_account_pt
+#: field:account.invoice,with_transport_info:0
+msgid "Transport Information?"
+msgstr "Guia de Remessa?"
+
+#. module: tko_account_pt
+#: report:account.guia:0
+msgid "____________________________________"
+msgstr "____________________________________"
+
+#. module: tko_account_pt
+#: view:account.guia:0
+msgid "Guia de Remessa "
+msgstr "Guia de Remessa "
+
+#. module: tko_account_pt
+#: selection:account.invoice,exemption_reason:0
+msgid "Não tributado"
+msgstr "Não tributado"
+
+#. module: tko_account_pt
+#: field:account.linha.guia,uos_id:0
+#: field:stock.picking.waybill.line,product_uom:0
+msgid "Unit of Measure"
+msgstr "Unidade de medida"
+
+#. module: tko_account_pt
+#: field:account.invoice,load_place:0
+msgid "Load place"
+msgstr "Local de Carga"
+
+#. module: tko_account_pt
+#: field:account.guia,message_ids:0
+msgid "Messages"
+msgstr "Mensagens"
+
+#. module: tko_account_pt
+#: selection:account.invoice,exemption_reason:0
+msgid "Regime da margem de lucro- Objetos de coleção e antiguidades"
+msgstr "Regime da margem de lucro- Objetos de coleção e antiguidades"
+
+#. module: tko_account_pt
+#: code:addons/tko_account_pt/wizard/stock_simplified_invoice_onshipping.py:103
+#, python-format
+msgid "None of these picking lists require invoicing or already created a waybill."
+msgstr "Nenhum dos pickings requer faturamento ou deve faturar através da Guia."
+
+#. module: tko_account_pt
+#: code:addons/tko_account_pt/account_invoice.py:864
+#, python-format
+msgid "Debit Note '%s' is paid partially: %s%s of %s%s (%s%s remaining)"
+msgstr "Nota de Débito '%s' está paga parcialmente: %s%s de %s%s (%s%s restantes)"
+
+#. module: tko_account_pt
+#: field:account.guia,message_unread:0
+msgid "Unread Messages"
+msgstr "Mensagens não lidas"
+
+#. module: tko_account_pt
+#: view:account.guia:0
+msgid "Validar"
+msgstr "Validar"
+
+#. module: tko_account_pt
+#: field:account.guia,company_id:0
+#: field:account.linha.guia,company_id:0
+msgid "Company"
+msgstr "Empresa"
+
+#. module: tko_account_pt
+#: selection:account.linha.guia,state:0
+msgid "Title"
+msgstr "Título"
+
+#. module: tko_account_pt
+#: code:addons/tko_account_pt/wizard/stock_simplified_invoice_onshipping.py:116
+#, python-format
+msgid "No Simplified Invoices were created."
+msgstr "Não foram criadas Faturas Simplificadas"
+
+#. module: tko_account_pt
+#: field:account.guia,numero:0
+msgid "Numero"
+msgstr "Número"
+
+#. module: tko_account_pt
+#: model:ir.model,name:tko_account_pt.model_stock_simplified_invoice_onshipping
+msgid "Account PT Stock Simplified Invoice Onshipping"
+msgstr "Account PT Stock Simplified Invoice Onshipping"
+
+#. module: tko_account_pt
+#: selection:account.linha.guia,state:0
+msgid "Page Break"
+msgstr "Quebra de Página"
+
+#. module: tko_account_pt
+#: field:stock.picking.waybill,type_waybill:0
+msgid "Waybill Type"
+msgstr "Tipo da Guia"
+
+#. module: tko_account_pt
+#: field:account.invoice.line,type:0
+#: field:account.linha.guia,type:0
+msgid "Invoice type"
+msgstr "Tipo de Fatura"
+
+#. module: tko_account_pt
+#: view:account.tax:0
+msgid "Keep empty to use the expense account"
+msgstr "Deixe em branco para usar a conta de custos"
+
+#. module: tko_account_pt
+#: code:addons/tko_account_pt/wizard/stock_simplified_invoice_onshipping.py:101
+#, python-format
+msgid "This picking list does not require invoicing or already created a waybill."
+msgstr "Os pickings selecionados não requerem de faturação ou deve faturar através da Guia."
+
+#. module: tko_account_pt
+#: code:addons/tko_account_pt/guia.py:497
+#, python-format
+msgid "You selected an Unit of Measure which is not compatible with the product."
+msgstr "Selecionou uma Unidade de Medida que não é compatível com o produto."
+
+#. module: tko_account_pt
+#: report:account.guia:0
+msgid "Nº"
+msgstr "Nº"
+
+#. module: tko_account_pt
+#: field:account.linha.guia,account_id:0
+msgid "Account"
+msgstr "Conta"
+
+#. module: tko_account_pt
+#: model:ir.actions.act_window,name:tko_account_pt.action_open_dashboards
+msgid "Painel de guias"
+msgstr "Painel de guias"
+
+#. module: tko_account_pt
+#: field:product.category,property_stock_variation:0
+msgid "Stock Variation Account"
+msgstr "Stock Variation Account"
+
+#. module: tko_account_pt
+#: help:account.guia,origin:0
+msgid "Referência do documento que deu origem à guia."
+msgstr "Referência do documento que deu origem à guia."
+
+#. module: tko_account_pt
+#: help:account.linha.guia,sequence:0
+msgid "Gives the sequence of this line when displaying the invoice."
+msgstr "Adiciona sequência a esta linha."
+
+#. module: tko_account_pt
+#: view:account.guia:0
+msgid "Descarga"
+msgstr "Descarga"
+
+#. module: tko_account_pt
+#: code:addons/tko_account_pt/account_invoice.py:242
+#, python-format
+msgid "Cannot find a chart of accounts for this company, you should create one."
+msgstr "Plano de Contas não encontrado para esta Empresa. Deve criar um."
+
+#. module: tko_account_pt
+#: field:guias_por_dias,dia:0
+msgid "Dia"
+msgstr "Dia"
+
+#. module: tko_account_pt
+#: view:account.invoice:0
+#: view:account.linha.guia:0
+msgid "Taxes"
+msgstr "Impostos"
+
+#. module: tko_account_pt
+#: selection:account.invoice,exemption_reason:0
+msgid "Isento Artigo 13.º do CIVA"
+msgstr "Isento Artigo 13.º do CIVA"
+
+#. module: tko_account_pt
+#: code:addons/tko_account_pt/account_invoice.py:206
+#: code:addons/tko_account_pt/account_invoice.py:523
+#: code:addons/tko_account_pt/account_invoice.py:557
+#: code:addons/tko_account_pt/account_pt.py:151
+#: code:addons/tko_account_pt/account_pt.py:167
+#, python-format
+msgid "Error!"
+msgstr "Erro!"
+
+#. module: tko_account_pt
+#: field:account.linha.guia,price_subtotal:0
+msgid "Amount"
+msgstr "Montante"
+
+#. module: tko_account_pt
+#: view:stock.picking:0
+msgid "To Waybill"
+msgstr "A Criar Guia"
+
+#. module: tko_account_pt
+#: report:account.guia:0
+msgid "O Cliente"
+msgstr "O Cliente"
+
+#. module: tko_account_pt
+#: code:addons/tko_account_pt/stock.py:134
+#, python-format
+msgid "Please put a partner on the picking list if you want to generate waybill."
+msgstr "Deve adicionar um parceiro no picking."
+
+#. module: tko_account_pt
+#: code:addons/tko_account_pt/guia.py:173
+#: code:addons/tko_account_pt/guia.py:249
+#, python-format
+msgid "Tipo de Fatura"
+msgstr "Tipo de Fatura"
+
+#. module: tko_account_pt
+#: code:addons/tko_account_pt/account_invoice.py:896
+#: code:addons/tko_account_pt/guia.py:421
+#, python-format
+msgid "No Partner Defined !"
+msgstr "Nenhum Parceiro definido !"
+
+#. module: tko_account_pt
+#: selection:stock.picking,waybill_state:0
+#: selection:stock.picking,waybill_state:0
+msgid "Not Applicable"
+msgstr "Não emitida"
+
+#. module: tko_account_pt
+#: help:account.guia,message_unread:0
+msgid "If checked new messages require your attention."
+msgstr "Novas mensagens que requerem atenção."
+
+#. module: tko_account_pt
+#: code:addons/tko_account_pt/wizard/stock_invoice_onshipping.py:46
+#, python-format
+msgid "This picking list does not require invoicing."
+msgstr "Este picking não requer faturação."
+
+#. module: tko_account_pt
+#: selection:account.linha.guia,state:0
+msgid "Separator Line"
+msgstr "Linha separadora"
+
+#. module: tko_account_pt
+#: code:addons/tko_account_pt/account_invoice.py:546
+#, python-format
+msgid "Please verify the price of the invoice !\n"
+"The real total does not match the computed total."
+msgstr "Verifique o preço da fatura !\n"
+"O montante total não corresponde ao montante calculado."
+
+#. module: tko_account_pt
+#: selection:account.invoice,exemption_reason:0
+msgid "Isento Artigo 15.º do CIVA"
+msgstr "Isento Artigo 15.º do CIVA"
+
+#. module: tko_account_pt
+#: field:account.linha.guia,move_line_id:0
+msgid "Stock Move"
+msgstr "Movimento de Stock"
+
+#. module: tko_account_pt
+#: selection:account.invoice,exemption_reason:0
+msgid "Regime da margem de lucro- Bens em segunda mão"
+msgstr "Regime da margem de lucro- Bens em segunda mão"
+
+#. module: tko_account_pt
+#: field:account.tax,account_debit_id:0
+msgid "Debit Tax Account"
+msgstr "Conta de imposto de débito"
+
+#. module: tko_account_pt
+#: model:ir.actions.act_window,name:tko_account_pt.action_waybill_invoice_id
+msgid "Create Invoices"
+msgstr "Criar Faturas"
+
+#. module: tko_account_pt
+#: field:account.guia,amount_tax:0
+#: model:ir.model,name:tko_account_pt.model_account_tax
+msgid "Tax"
+msgstr "Imposto"
+
+#. module: tko_account_pt
+#: selection:account.guia,invoice_state:0
+msgid "Faturado"
+msgstr "Faturado"
+
+#. module: tko_account_pt
+#: report:account.guia:0
+msgid "ORIGINAL"
+msgstr "ORIGINAL"
+
+#. module: tko_account_pt
+#: field:account.linha.guia,account_analytic_id:0
+msgid "Analytic Account"
+msgstr "Conta analítica"
+
+#. module: tko_account_pt
+#: code:addons/tko_account_pt/wizard/waybill_invoice.py:42
+#, python-format
+msgid "Accounting Journals are misconfigured!"
+msgstr "Diários desconfigurados!"
+
+#. module: tko_account_pt
+#: help:account.guia,message_summary:0
+msgid "Holds the Chatter summary (number of messages, ...). This summary is directly in html format in order to be inserted in kanban views."
+msgstr "Holds the Chatter summary (number of messages, ...). This summary is directly in html format in order to be inserted in kanban views."
+
+#. module: tko_account_pt
+#: code:addons/tko_account_pt/account_invoice.py:382
+#, python-format
+msgid "You have to define an analytic journal on the '%s' journal!"
+msgstr "Tem de definir um diário analitico para '%s'!"
+
+#. module: tko_account_pt
+#: code:addons/tko_account_pt/account_invoice.py:241
+#: code:addons/tko_account_pt/account_invoice.py:307
+#: code:addons/tko_account_pt/account_invoice.py:322
+#: code:addons/tko_account_pt/account_invoice.py:330
+#: code:addons/tko_account_pt/account_invoice.py:354
+#, python-format
+msgid "Configuration Error!"
+msgstr "Erro de Configuração!"
+
+#. module: tko_account_pt
+#: report:account.guia:0
+msgid "Fax :"
+msgstr "Fax :"
+
+#. module: tko_account_pt
+#: code:addons/tko_account_pt/wizard/stock_create_waybill.py:81
+#: code:addons/tko_account_pt/wizard/stock_create_waybill.py:83
+#: code:addons/tko_account_pt/wizard/stock_invoice_onshipping.py:46
+#: code:addons/tko_account_pt/wizard/stock_invoice_onshipping.py:48
+#: code:addons/tko_account_pt/wizard/stock_simplified_invoice_onshipping.py:75
+#: code:addons/tko_account_pt/wizard/stock_simplified_invoice_onshipping.py:101
+#: code:addons/tko_account_pt/wizard/stock_simplified_invoice_onshipping.py:103
+#: code:addons/tko_account_pt/wizard/waybill_invoice.py:42
+#: code:addons/tko_account_pt/wizard/waybill_invoice.py:63
+#: code:addons/tko_account_pt/wizard/waybill_invoice.py:65
+#, python-format
+msgid "Warning !"
+msgstr "Aviso !"
+
+#. module: tko_account_pt
+#: view:account.invoice:0
+msgid "Draft Simplified Invoice "
+msgstr "Fatura Simplificada em rascunho "
+
+#. module: tko_account_pt
+#: view:account.invoice:0
+msgid "Hide Cancelled"
+msgstr "Esconder Canceladas"
+
+#. module: tko_account_pt
+#: view:account.guia:0
+msgid "Dados da Guia"
+msgstr "Dados da Guia"
+
+#. module: tko_account_pt
+#: view:account.guia:0
+#: model:ir.actions.report.xml,name:tko_account_pt.account_guia_report
+#: model:ir.model,name:tko_account_pt.model_account_guia
+msgid "Guia"
+msgstr "Guia"
+
+#. module: tko_account_pt
+#: model:ir.model,name:tko_account_pt.model_stock_picking_waybill
+msgid "Creating Waybill From Picking Wizard"
+msgstr "Criar guia através do picking"
+
+#. module: tko_account_pt
+#: field:account.guia,data_carga:0
+msgid "Data de Carga"
+msgstr "Data de Carga"
+
+#. module: tko_account_pt
+#: field:stock.picking.waybill.line,move_id:0
+msgid "Move"
+msgstr "Movimento"
+
+#. module: tko_account_pt
+#: model:ir.actions.act_window,help:tko_account_pt.action_simplified_invoice_tree
+msgid "<p class=\"oe_view_nocontent_create\">\n"
+"                Click to create a customer simplified invoice.\n"
+"              </p><p>\n"
+"                OpenERP's electronic invoicing allows to ease and fasten the\n"
+"                collection of customer payments. You can easily create a invoice without \n"
+"                vat and customer requirement.\n"
+"              </p><p>\n"
+"                OpenERP can also generate draft simplified invoices automatically from\n"
+"                OUT's or waybills. \n"
+"              </p>\n"
+"            "
+msgstr "<p class=\"oe_view_nocontent_create\">\n"
+"                Clique para criar fatura simplificada de cliente.\n"
+"              </p><p>\n"
+"                Com Faturação electrónica do OpenERP é mais fácil e rápido gerir\n"
+"                os pagamentos dos clientes. Com a Fatura Simplificada consegue-se facilmente \n"
+"                criar uma fatura sem a obrigatoriedade do nº Contribuinte.\n"
+"              </p><p>\n"
+"                No OpenERP pode emitir automáticamente as faturas simplificadas nos \n"
+"                OUT's ou nas Guias. \n"
+"              </p>\n"
+"            "
+
+#. module: tko_account_pt
+#: report:account.guia:0
+msgid "Unidade"
+msgstr "Unidade"
+
+#. module: tko_account_pt
+#: view:stock.simplified.invoice.onshipping:0
+#: view:waybill.invoice:0
+#: view:waybill.simplified.invoice:0
+msgid "Create"
+msgstr "Criar"
+
+#. module: tko_account_pt
+#: field:account.linha.guia,guia_id:0
+msgid "Referencia da Guia"
+msgstr "Referência da Guia"
+
+#. module: tko_account_pt
+#: view:board.board:0
+msgid "Guias por Dia"
+msgstr "Guias por Dia"
+
+#. module: tko_account_pt
+#: field:account.license_plate,name:0
+msgid "License Plate"
+msgstr "Matrícula"
+
+#. module: tko_account_pt
+#: selection:account.invoice,exemption_reason:0
+msgid "Isento Artigo 14.º do CIVA"
+msgstr "Isento Artigo 14.º do CIVA"
+
+#. module: tko_account_pt
+#: field:account.guia,sale_id:0
+msgid "Ordem de Venda"
+msgstr "Ordem de Venda"
+
+#. module: tko_account_pt
+#: field:account.guia,message_follower_ids:0
+msgid "Followers"
+msgstr "Seguidores"
+
+#. module: tko_account_pt
+#: model:ir.model,name:tko_account_pt.model_stock_picking_waybill_line
+msgid "stock.picking.waybill.line"
+msgstr "stock.picking.waybill.line"
+
+#. module: tko_account_pt
+#: report:account.guia:0
+msgid "TRIPLICADO"
+msgstr "TRIPLICADO"
+
+#. module: tko_account_pt
+#: field:account.guia,origin:0
+msgid "Origem"
+msgstr "Origem"
+
+#. module: tko_account_pt
+#: code:addons/tko_account_pt/wizard/waybill_invoice.py:63
+#, python-format
+msgid "This waybill is not in state \"arquivada\" or is already invoiced or not type \"Remessa\" or \"Transporte\""
+msgstr "A Guia não se encontra no estado 'arquivada' ou já está faturada ou necessita de ser do tipo Remessa ou Transporte."
+
+#. module: tko_account_pt
+#: selection:account.guia,state:0
+msgid "Aberta"
+msgstr "Aberta"
+
+#. module: tko_account_pt
+#: field:account.linha.guia,state:0
+msgid "Type"
+msgstr "Tipo"
+
+#. module: tko_account_pt
+#: view:stock.picking:0
+msgid "Pickings to waybill"
+msgstr "Pickings a emitir Guia"
+
+#. module: tko_account_pt
+#: selection:account.invoice,exemption_reason:0
+msgid "Isento Artigo 9.º do CIVA"
+msgstr "Isento Artigo 9.º do CIVA"
+
+#. module: tko_account_pt
+#: report:account.guia:0
+msgid "Contribuinte"
+msgstr "Contribuinte"
+
+#. module: tko_account_pt
+#: help:stock.picking.waybill.line,cost:0
+msgid "Unit Cost for this product line"
+msgstr "Unidade de Custo para esta linha de produto"
+
+#. module: tko_account_pt
+#: model:ir.model,name:tko_account_pt.model_product_category
+msgid "Product Category"
+msgstr "Categoria do Artigo"
+
+#. module: tko_account_pt
+#: code:addons/tko_account_pt/guia.py:173
+#: code:addons/tko_account_pt/guia.py:244
+#: code:addons/tko_account_pt/guia.py:248
+#, python-format
+msgid "Error !"
+msgstr "Erro !"
+
+#. module: tko_account_pt
+#: field:account.guia,local_carga:0
+msgid "Local de Carga"
+msgstr "Local de Carga"
+
+#. module: tko_account_pt
+#: code:addons/tko_account_pt/wizard/stock_create_waybill.py:126
+#, python-format
+msgid "No Waybills were created."
+msgstr "Não foram criadas Guias."
+
+#. module: tko_account_pt
+#: field:account.invoice,load_date:0
+msgid "Load date"
+msgstr "Data de Carga"
+
+#. module: tko_account_pt
+#: code:addons/tko_account_pt/report/amount_to_text_pt.py:116
+#, python-format
+msgid "no translation function found for lang: '%s'"
+msgstr "não existe tradução para a língua: '%s'"
+
+#. module: tko_account_pt
+#: code:addons/tko_account_pt/report/tko_account_voucher_print.py:75
+#, python-format
+msgid "Recibo"
+msgstr "Recibo"
+
+#. module: tko_account_pt
+#: field:account.invoice,car_registration:0
+msgid "unknown"
+msgstr "Desconhecido"
+
+#. module: tko_account_pt
+#: field:account.linha.guia,quantity:0
+#: field:stock.picking.waybill.line,product_qty:0
+msgid "Quantity"
+msgstr "Quantidade"
+
+#. module: tko_account_pt
+#: view:account.invoice:0
+msgid "Unload"
+msgstr "Descarga"
+
+#. module: tko_account_pt
+#: constraint:account.journal:0
+msgid "Only one journal can be selected as stock journal!"
+msgstr "Apenas deve ser selecionado um diário para o stock!"
+
+#. module: tko_account_pt
+#: field:account.invoice.line,credit_reason:0
+#: field:account.linha.guia,credit_reason:0
+msgid "Invoice Reason"
+msgstr "Razão da fatura"
+
+#. module: tko_account_pt
+#: view:account.linha.guia:0
+msgid "Line"
+msgstr "Linha"
+
+#. module: tko_account_pt
+#: code:addons/tko_account_pt/account_invoice.py:468
+#, python-format
+msgid "Invoice "
+msgstr "Fatura "
+
+#. module: tko_account_pt
+#: model:ir.actions.act_window,name:tko_account_pt.action_stock_create_waybill
+#: view:stock.picking:0
+#: view:stock.picking.waybill:0
+msgid "Create Waybill"
+msgstr "Criar Guia"
+
+#. module: tko_account_pt
+#: model:res.groups,name:tko_account_pt.tko_group_account_guias
+msgid "Accounting / TKO Guias"
+msgstr "Contabilidade PT / Guias"
+
+#. module: tko_account_pt
+#: code:addons/tko_account_pt/guia.py:496
+#, python-format
+msgid "Warning!"
+msgstr "Aviso!"
+
+#. module: tko_account_pt
+#: view:account.guia:0
+msgid "Criar Fatura"
+msgstr "Criar Fatura"
+
+#. module: tko_account_pt
+#: field:stock.picking.waybill,group:0
+#: field:stock.simplified.invoice.onshipping,group:0
+#: field:waybill.invoice,group:0
+#: field:waybill.simplified.invoice,group:0
+msgid "Group by partner"
+msgstr "Agrupar por Parceiro"
+
+#. module: tko_account_pt
+#: selection:account.guia,state:0
+msgid "Arquivada"
+msgstr "Arquivada"
+
+#. module: tko_account_pt
+#: code:addons/tko_account_pt/wizard/stock_create_waybill.py:81
+#, python-format
+msgid "This picking list does not require creating waybill."
+msgstr "Os Outs selecionados não requerem emissão de guias."
+
+#. module: tko_account_pt
+#: report:account.guia:0
+msgid "DUPLICADO"
+msgstr "DUPLICADO"
+
+#. module: tko_account_pt
+#: field:account.guia,tipo:0
+msgid "Tipo de Guia"
+msgstr "Tipo de Guia"
+
+#. module: tko_account_pt
+#: report:account.guia:0
+msgid "RESERVA DE PROPRIEDADE: A propriedade dos artigos constantes deste documento só passará para o comprador após a liquidação de todos os débitos a"
+msgstr "RESERVA DE PROPRIEDADE: A propriedade dos artigos constantes deste documento só passará para o comprador após a liquidação de todos os débitos a"
+
+#. module: tko_account_pt
+#: field:account.guia,invoice_id:0
+msgid "Fatura"
+msgstr "Fatura"
+
+#. module: tko_account_pt
+#: field:account.journal,stock_journal:0
+msgid "Stock Journal"
+msgstr "Diário de Stock"
+
+#. module: tko_account_pt
+#: view:account.linha.guia:0
+msgid "Waybill Line"
+msgstr "Linha da Guia"
+
+#. module: tko_account_pt
+#: field:account.guia,name:0
+msgid "Client Reference"
+msgstr "V/Referência"
+
+#. module: tko_account_pt
+#: code:addons/tko_account_pt/account_invoice.py:557
+#, python-format
+msgid "Cannot create the invoice.\n"
+"The related payment term is probably misconfigured as it gives a computed amount greater than the total invoiced amount. In order to avoid rounding issues, the latest line of your payment term must be of type 'balance'."
+msgstr "Não é possível criar fatura.\n"
+"The related payment term is probably misconfigured as it gives a computed amount greater than the total invoiced amount. In order to avoid rounding issues, the latest line of your payment term must be of type 'balance'."
+
+#. module: tko_account_pt
+#: model:ir.actions.act_window,help:tko_account_pt.action_debit_note_tree
+msgid "<p class=\"oe_view_nocontent_create\">\n"
+"                With Debit Notes you can manage the debit notes invoice.\n"
+"                </p>\n"
+"                <p>\n"
+"                A note indicating an amount owed by a partner or company. Serves the same function as an invoice.\n"
+"                </p>\n"
+"           "
+msgstr "<p class=\"oe_view_nocontent_create\">\n"
+"                Com as Notas de Débito pode gerir as faturas de débito.\n"
+"                </p>\n"
+"                <p>\n"
+"                Uma Nota de Débito indica o montante em dívida de um parceiro ou empresa.  \n"
+"		 É um documento semelhante a uma fatura. \n"                
+"		</p>\n"
+"  	   "
+
+#. module: tko_account_pt
+#: view:stock.picking.waybill:0
+msgid "Create waybill"
+msgstr "Criar Guia"
+
+#. module: tko_account_pt
+#: code:addons/tko_account_pt/account_pt.py:151
+#, python-format
+msgid "You cannot validate a non-balanced entry.\n"
+"Make sure you have configured payment terms properly.\n"
+"The latest payment term line should be of the \"Balance\" type."
+msgstr "You cannot validate a non-balanced entry.\n"
+"Make sure you have configured payment terms properly.\n"
+"The latest payment term line should be of the \"Balance\" type."
+
+#. module: tko_account_pt
+#: field:account.linha.guia,discount:0
+msgid "Discount (%)"
+msgstr "Desconto (%)"
+
+#. module: tko_account_pt
+#: model:ir.model,name:tko_account_pt.model_account_linha_guia
+msgid "Linha de Guia"
+msgstr "Linha de Guia"
+
+#. module: tko_account_pt
+#: view:account.guia:0
+msgid "Guia de Devolução "
+msgstr "Guia de Devolução "
+
+#. module: tko_account_pt
+#: code:addons/tko_account_pt/report/tko_account_voucher_print.py:139
+#, python-format
+msgid "Configure a morada do parceiro!"
+msgstr "Configure a morada do parceiro!"
+
+#. module: tko_account_pt
+#: report:account.guia:0
+msgid "Forma de Pagamento"
+msgstr "Forma de Pagamento"
+
+#. module: tko_account_pt
+#: field:account.guia,invoice_state:0
+msgid "Faturação"
+msgstr "Faturação"
+
+#. module: tko_account_pt
+#: view:account.guia:0
+msgid "Guia de Transporte em Aberto"
+msgstr "Guia de Transporte em Aberto"
+
+#. module: tko_account_pt
+#: model:ir.model,name:tko_account_pt.model_account_invoice_line
+msgid "Invoice Line"
+msgstr "Linha de Fatura"
+
+#. module: tko_account_pt
+#: model:ir.model,name:tko_account_pt.model_account_license_plate
+msgid "account.license_plate"
+msgstr "account.license_plate"
+
+#. module: tko_account_pt
+#: view:account.guia:0
+msgid "Items a serem transportados"
+msgstr "Items a serem transportados"
+
+#. module: tko_account_pt
+#: field:account.guia,currency_id:0
+msgid "Currency"
+msgstr "Moeda"
+
+#. module: tko_account_pt
+#: view:account.invoice:0
+msgid "Transport"
+msgstr "Transporte"
+
+#. module: tko_account_pt
+#: code:addons/tko_account_pt/account_invoice.py:523
+#, python-format
+msgid "Please define sequence on the journal related to this invoice."
+msgstr "Configure uma sequência para o diário relacionado com a fatura."
+
+#. module: tko_account_pt
+#: field:account.guia,user_id:0
+msgid "User"
+msgstr "Utilizador"
+
+#. module: tko_account_pt
+#: field:stock.picking,type_picking:0
+#: field:stock.picking,type_picking:0
+msgid "Type Picking"
+msgstr "Tipo de Picking"
+
+#. module: tko_account_pt
+#: model:ir.actions.act_window,name:tko_account_pt.action_stock_simplified_invoice_id
+#: model:ir.actions.act_window,name:tko_account_pt.action_stock_simplified_invoice_onshipping
+#: model:ir.actions.act_window,name:tko_account_pt.action_waybill_simplified_invoice
+#: view:stock.picking:0
+#: view:stock.simplified.invoice.onshipping:0
+#: view:waybill.simplified.invoice:0
+msgid "Create Simplified Invoice"
+msgstr "Criar Fatura Simplificada"
+
+#. module: tko_account_pt
+#: model:ir.actions.act_window,help:tko_account_pt.action_account_guia_transporte_form
+msgid "<p class=\"oe_view_nocontent_create\">\n"
+"                Clique para criar uma guia de transporte. \n"
+"              </p>\n"
+"            "
+msgstr "<p class=\"oe_view_nocontent_create\">\n"
+"                Clique para criar uma Guia de Transporte. \n"
+"              </p>\n"
+"            "
+
+#. module: tko_account_pt
+#: field:account.guia,linhas_guia:0
+msgid "Linhas Guia"
+msgstr "Linhas Guia"
+
+#. module: tko_account_pt
+#: field:account.invoice,waybill_ref:0
+msgid "Reference"
+msgstr "Referência da Guia"
+
+#. module: tko_account_pt
+#: model:ir.actions.act_window,name:tko_account_pt.action_waybill_simplified_invoice_id
+#: view:waybill.simplified.invoice:0
+msgid "Create Simplified Invoices"
+msgstr "Criar Faturas Simplificadas"
+
+#. module: tko_account_pt
+#: help:stock.picking.waybill,with_cost:0
+msgid "If true the waybill will be created with product cost."
+msgstr "Se selecionado será criada uma guia com o custo do produto."
+
+#. module: tko_account_pt
+#: code:addons/tko_account_pt/account_invoice.py:867
+#, python-format
+msgid "Invoice '%s' is paid partially: %s%s of %s%s (%s%s remaining)"
+msgstr "Invoice '%s' is paid partially: %s%s of %s%s (%s%s remaining)"
+
+#. module: tko_account_pt
+#: code:addons/tko_account_pt/account_invoice.py:308
+#: code:addons/tko_account_pt/account_invoice.py:323
+#, python-format
+msgid "Cannot find a chart of account, you should create one from Settings\\Configuration\\Accounting menu."
+msgstr "Cannot find a chart of account, you should create one from Settings\\Configuration\\Accounting menu."
+
+#. module: tko_account_pt
+#: field:account.guia,matricula:0
+msgid "Matrícula"
+msgstr "Matrícula"
+
+#. module: tko_account_pt
+#: code:addons/tko_account_pt/wizard/waybill_invoice.py:65
+#, python-format
+msgid "The waybills selected are not in state draft or are already invoiced or not type \"Remessa\" or \"Transporte\""
+msgstr "Não é possível efetuar esta acção se as guias selecionadas não se encontram no estado aberto ou não são do tipo Remessa ou Transporte."
+
+#. module: tko_account_pt
+#: code:addons/tko_account_pt/account_invoice.py:639
+#, python-format
+msgid "User Error!"
+msgstr "Erro de Utilizador!"
+
+#. module: tko_account_pt
+#: report:account.guia:0
+msgid "Hora Carga"
+msgstr "Hora Carga"
+
+#. module: tko_account_pt
+#: model:account.payment.term,name:tko_account_pt.payment_term
+msgid "Pronto Pagamento"
+msgstr "Pronto Pagamento"
+
+#. module: tko_account_pt
+#: selection:account.linha.guia,state:0
+msgid "Note"
+msgstr "Nota"
+
+#. module: tko_account_pt
+#: code:addons/tko_account_pt/account_invoice.py:546
+#, python-format
+msgid "Bad total !"
+msgstr "Total Errado !"
+
+#. module: tko_account_pt
+#: field:stock.picking.waybill,with_cost:0
+msgid "With Cost?"
+msgstr "Com Custo?"
+
+#. module: tko_account_pt
+#: view:account.invoice:0
+msgid "Draft Fund "
+msgstr "Nota de Débito em Rascunho "
+
+#. module: tko_account_pt
+#: help:account.linha.guia,origin:0
+msgid "Reference of the document that produced this invoice."
+msgstr "Referência do documento que originou esta factura."
+
+#. module: tko_account_pt
+#: view:account.invoice:0
+msgid "PRO-FORMA"
+msgstr "Pro-forma"
+
+#. module: tko_account_pt
+#: view:account.invoice:0
+msgid "Recompute fiscal position accounts and taxes"
+msgstr "Recalcule as contas da posição fiscal e os impostos"
+
+#. module: tko_account_pt
+#: model:ir.model,name:tko_account_pt.model_stock_invoice_onshipping
+msgid "Stock Invoice Onshipping"
+msgstr "Fatura do stock Onshipping"
+
+#. module: tko_account_pt
+#: selection:account.guia,invoice_state:0
+msgid "Não Faturado"
+msgstr "Não Faturado"
+
+#. module: tko_account_pt
+#: code:addons/tko_account_pt/report/tko_account_voucher_print.py:139
+#, python-format
+msgid "Erro !"
+msgstr "Erro !"
+
+#. module: tko_account_pt
+#: help:account.invoice,waybill_ref:0
+msgid "To reference invoice lines you must write waybill number."
+msgstr "Para referênciar as Linhas da Faturas deve escrever o número da Guia."
+
+#. module: tko_account_pt
+#: view:waybill.invoice:0
+#: view:waybill.simplified.invoice:0
+msgid "_Cancel"
+msgstr "_Cancelar"
+
+#. module: tko_account_pt
+#: code:addons/tko_account_pt/account_invoice.py:466
+#: code:addons/tko_account_pt/account_invoice.py:468
+#, python-format
+msgid "is validated."
+msgstr "está validado."
+
+#. module: tko_account_pt
+#: code:addons/tko_account_pt/guia.py:245
+#, python-format
+msgid "There is no sales journal defined for this company: \"%s\" (id:%d)"
+msgstr "Não existe diário de vendas para a empresa: \"%s\" (id:%d)"
+
+#. module: tko_account_pt
+#: report:account.guia:0
+msgid "Viatura"
+msgstr "Viatura"
+
+#. module: tko_account_pt
+#: selection:account.invoice,exemption_reason:0
+msgid "IVA – Autoliquidação"
+msgstr "IVA – Autoliquidação"
+
+#. module: tko_account_pt
+#: view:stock.picking.waybill:0
+#: view:stock.simplified.invoice.onshipping:0
+#: view:waybill.invoice:0
+#: view:waybill.simplified.invoice:0
+msgid "or"
+msgstr "ou"
+
+#. module: tko_account_pt
+#: field:account.guia,message_is_follower:0
+msgid "Is a Follower"
+msgstr "É um seguidor"
+
+#. module: tko_account_pt
+#: selection:account.invoice,exemption_reason:0
+msgid "Exigibilidade de caixa"
+msgstr "Exigibilidade de caixa"
+
+#. module: tko_account_pt
+#: selection:account.invoice,exemption_reason:0
+msgid "IVA – Regime de isenção"
+msgstr "IVA – Regime de isenção"
+
+#. module: tko_account_pt
+#: model:ir.model,name:tko_account_pt.model_waybill_simplified_invoice
+msgid "Account PT Simplified Invoice Waybill"
+msgstr "Account PT Simplified Invoice Waybill"
+
+#. module: tko_account_pt
+#: code:addons/tko_account_pt/account_invoice.py:206
+#, python-format
+msgid "Waybill Reference not found: %s"
+msgstr "Referência da Guia não encontrado: %s"
+
+#. module: tko_account_pt
+#: view:account.guia:0
+#: selection:account.guia,tipo:0
+#: model:ir.ui.menu,name:tko_account_pt.menu_action_account_guias_devolucao
+#: selection:stock.picking.waybill,type_waybill:0
+msgid "Devolução"
+msgstr "Devolução"
+
+#. module: tko_account_pt
+#: field:account.guia,state:0
+msgid "Estado"
+msgstr "Estado"
+
+#. module: tko_account_pt
+#: code:addons/tko_account_pt/account_invoice.py:525
+#, python-format
+msgid "No Invoice Lines !"
+msgstr "Sem Linhas de Faturas !"
+
+#. module: tko_account_pt
+#: code:addons/tko_account_pt/stock.py:133
+#, python-format
+msgid "Error, no partner !"
+msgstr "Erro, sem parceiro !"
+
+#. module: tko_account_pt
+#: field:stock.picking.waybill.line,wizard_id:0
+msgid "Wizard"
+msgstr "Wizard"
+
+#. module: tko_account_pt
+#: view:account.guia:0
+#: selection:account.guia,tipo:0
+#: model:ir.ui.menu,name:tko_account_pt.menu_action_account_guias_transporte
+#: selection:stock.picking.waybill,type_waybill:0
+msgid "Transporte"
+msgstr "Transporte"
+
+#. module: tko_account_pt
+#: view:account.guia:0
+msgid "Guia de Devolução em Aberto"
+msgstr "Guia de Devolução em Aberto"
+
+#. module: tko_account_pt
+#: field:stock.picking,waybill_id:0
+#: field:stock.picking,waybill_id:0
+msgid "Waybill"
+msgstr "Guia"
+
+#. module: tko_account_pt
+#: field:account.linha.guia,invoice_line_tax_id:0
+msgid "Impostos"
+msgstr "Impostos"
+
+#. module: tko_account_pt
+#: field:stock.picking,waybill_state:0
+#: field:stock.picking,waybill_state:0
+msgid "Waybill Control"
+msgstr "Controlo de Guias"
+
+#. module: tko_account_pt
+#: field:account.guia,message_summary:0
+msgid "Summary"
+msgstr "Resumo"
+
+#. module: tko_account_pt
+#: model:ir.model,name:tko_account_pt.model_sale_order
+msgid "Sales Order"
+msgstr "Ordem de venda"
+
+#. module: tko_account_pt
+#: code:addons/tko_account_pt/account_pt.py:167
+#, python-format
+msgid "Please define a sequence on the journal."
+msgstr "Please define a sequence on the journal."
+
+#. module: tko_account_pt
+#: field:account.invoice,exemption_reason:0
+msgid "Exemption Reason"
+msgstr "Razão da Isenção"
+
+#. module: tko_account_pt
+#: view:account.guia:0
+msgid "Boletim"
+msgstr "Boletim"
+
+#. module: tko_account_pt
+#: code:addons/tko_account_pt/wizard/stock_create_waybill.py:126
+#: code:addons/tko_account_pt/wizard/stock_simplified_invoice_onshipping.py:116
+#, python-format
+msgid "Error"
+msgstr "Erro"
+
+#. module: tko_account_pt
+#: selection:account.linha.guia,state:0
+msgid "Sub Total"
+msgstr "Subtotal"
+
+#. module: tko_account_pt
+#: model:ir.actions.act_window,name:tko_account_pt.action_debit_note_supplier_tree
+#: model:ir.ui.menu,name:tko_account_pt.menu_action_debit_note_supplier
+msgid "Supplier Debit Notes"
+msgstr "Notas de Débito"
+
+#. module: tko_account_pt
+#: field:account.guia,partner_id:0
+msgid "Cliente"
+msgstr "Cliente"
+
+#. module: tko_account_pt
+#: selection:account.invoice,exemption_reason:0
+msgid "Isento Artigo 14.º do RITI"
+msgstr "Isento Artigo 14.º do RITI"
+
+#. module: tko_account_pt
+#: view:account.invoice:0
+msgid "Load"
+msgstr "Carga"
+
+#. module: tko_account_pt
+#: model:ir.model,name:tko_account_pt.model_account_invoice_tax
+msgid "Invoice Tax"
+msgstr "Taxa de faturação"
+
+#. module: tko_account_pt
+#: code:addons/tko_account_pt/account_invoice.py:382
+#, python-format
+msgid "No Analytic Journal !"
+msgstr "No Analytic Journal !"
+
+#. module: tko_account_pt
+#: report:account.guia:0
+msgid "Data"
+msgstr "Data"
+
+#. module: tko_account_pt
+#: field:product.template,property_stock_account_client_return:0
+msgid "Stock Client Return Account"
+msgstr "Stock Client Return Account"
+
+#. module: tko_account_pt
+#: code:addons/tko_account_pt/wizard/stock_simplified_invoice_onshipping.py:75
+#, python-format
+msgid "Either there are no moves linked to the picking or Accounting Journals are misconfigured!"
+msgstr "Either there are no moves linked to the picking or Accounting Journals are misconfigured!"
+
+#. module: tko_account_pt
+#: model:ir.model,name:tko_account_pt.model_account_invoice
+msgid "Invoice"
+msgstr "Fatura"
+
+#. module: tko_account_pt
+#: selection:account.guia,state:0
+msgid "Cancelada"
+msgstr "Cancelada"
+
+#. module: tko_account_pt
+#: view:stock.picking.waybill:0
+#: view:stock.simplified.invoice.onshipping:0
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: tko_account_pt
+#: selection:account.invoice,exemption_reason:0
+msgid "Regime da margem de lucro- Objetos de arte"
+msgstr "Regime da margem de lucro- Objetos de arte"
+
+#. module: tko_account_pt
+#: view:account.invoice:0
+msgid "Fund "
+msgstr "Nota de Débito "
+
+#. module: tko_account_pt
+#: report:account.guia:0
+msgid "TRANSPORTE: de conta e risco do Cliente"
+msgstr "TRANSPORTE: de conta e risco do Cliente"
+
+#. module: tko_account_pt
+#: report:account.guia:0
+msgid "Local Carga"
+msgstr "Local Carga"
+
+#. module: tko_account_pt
+#: field:account.linha.guia,origin:0
+msgid "Source Document"
+msgstr "Origem"
+
+#. module: tko_account_pt
+#: help:product.category,property_stock_variation:0
+msgid "When real-time inventory valuation is enabled on a product, this account will hold the current value of the products."
+msgstr "When real-time inventory valuation is enabled on a product, this account will hold the current value of the products."
+
+#. module: tko_account_pt
+#: selection:account.invoice,exemption_reason:0
+msgid "Artigo 16.º n.º 6 alínea c) do CIVA"
+msgstr "Artigo 16.º n.º 6 alínea c) do CIVA"
+
+#. module: tko_account_pt
+#: view:board.board:0
+msgid "Paineis"
+msgstr "Paineis"
+
+#. module: tko_account_pt
+#: code:addons/tko_account_pt/account_invoice.py:331
+#, python-format
+msgid "Invoice line account's company and invoice's compnay does not match."
+msgstr "Invoice line account's company and invoice's compnay does not match."
+
+#. module: tko_account_pt
+#: view:account.invoice:0
+msgid "Other Info"
+msgstr "Outras Informações"
+
+#. module: tko_account_pt
+#: model:ir.model,name:tko_account_pt.model_stock_picking
+msgid "Picking List"
+msgstr "Lista Picking"
+
+#. module: tko_account_pt
+#: view:account.guia:0
+msgid "Carga"
+msgstr "Carga"
+
+#. module: tko_account_pt
+#: model:ir.actions.act_window,help:tko_account_pt.action_debit_note_supplier_tree
+msgid "<p class=\"oe_view_nocontent_create\">\n"
+"            With Debit Notes you can manage the debit notes invoice.\n"
+"            </p>\n"
+"            <p>\n"
+"            A note indicating an amount owed by a partner or company. Serves the same function as an invoice.\n"
+"            </p>\n"
+"       "
+msgstr "<p class=\"oe_view_nocontent_create\">\n"
+"            Com as Notas de Débito pode gerir as faturas de débito.\n"
+"            </p>\n"
+"            <p>\n"
+"            Uma Nota de Débito indica o montante em dívida de um parceiro ou empresa.  \n"
+"	      É um documento semelhante a uma fatura. \n"
+"            </p>\n"
+"       "
+
+#. module: tko_account_pt
+#: code:addons/tko_account_pt/wizard/stock_create_waybill.py:83
+#, python-format
+msgid "None of these picking lists require creating waybill."
+msgstr "Nenhuma das Ordens de Entrega requerem a emissão de Guia."
+
+#. module: tko_account_pt
+#: model:ir.actions.act_window,name:tko_account_pt.action_waybill_invoice
+#: view:stock.picking:0
+#: view:waybill.invoice:0
+msgid "Create Invoice"
+msgstr "Criar Fatura"
+
+#. module: tko_account_pt
+#: model:ir.actions.act_window,help:tko_account_pt.action_account_guia_remessa_form
+msgid "<p class=\"oe_view_nocontent_create\">\n"
+"                Clique para criar uma guia de remessa. \n"
+"              </p>\n"
+"            "
+msgstr "<p class=\"oe_view_nocontent_create\">\n"
+"                Clique para criar uma guia de remessa. \n"
+"              </p>\n"
+"            "
+
+#. module: tko_account_pt
+#: view:account.guia:0
+#: model:ir.actions.act_window,name:tko_account_pt.action_account_guia_devolucao_form
+#: model:ir.actions.act_window,name:tko_account_pt.action_account_guia_remessa_form
+#: model:ir.actions.act_window,name:tko_account_pt.action_account_guia_transporte_form
+#: model:ir.ui.menu,name:tko_account_pt.menu_action_account_guias
+msgid "Guias"
+msgstr "Guias"
+
+#. module: tko_account_pt
+#: report:account.guia:0
+msgid "Quantidade"
+msgstr "Quantidade"
+
+#. module: tko_account_pt
+#: constraint:account.invoice:0
+msgid "The Simplified Invoices can only have a total up to 100€"
+msgstr "A Fatura Simplificada não pode exceder o total de 100€."
+
+#. module: tko_account_pt
+#: field:account.linha.guia,price_unit:0
+msgid "Unit Price"
+msgstr "Preço unitário"
+
+#. module: tko_account_pt
+#: code:addons/tko_account_pt/account_invoice.py:525
+#, python-format
+msgid "Please create some invoice lines."
+msgstr "Please create some invoice lines."
+
+#. module: tko_account_pt
+#: model:ir.actions.act_window,help:tko_account_pt.action_account_guia_devolucao_form
+msgid "<p class=\"oe_view_nocontent_create\">\n"
+"                Clique para criar uma guia de devolução. \n"
+"              </p>\n"
+"            "
+msgstr "<p class=\"oe_view_nocontent_create\">\n"
+"                Clique para criar uma guia de devolução. \n"
+"              </p>\n"
+"            "
+
+#. module: tko_account_pt
+#: view:account.journal:0
+msgid "Stock"
+msgstr "Stock"
+
+#. module: tko_account_pt
+#: field:account.linha.guia,product_id:0
+#: selection:account.linha.guia,state:0
+#: field:stock.picking.waybill.line,product_id:0
+msgid "Product"
+msgstr "Produto"
+
+#. module: tko_account_pt
+#: view:account.guia:0
+msgid "Criar Fatura Simplificada"
+msgstr "Criar Fatura Simplificada"
+
+#. module: tko_account_pt
+#: field:account.linha.guia,name:0
+msgid "Description"
+msgstr "Descrição"
+
+#. module: tko_account_pt
+#: view:account.invoice:0
+msgid "Simplified Invoice "
+msgstr "Fatura Simplificada "
+
+#. module: tko_account_pt
+#: view:account.guia:0
+msgid "Guia de Remessa em Aberto"
+msgstr "Guia de Remessa em Aberto"
+
+#. module: tko_account_pt
+#: field:account.invoice,unload_date:0
+msgid "Unload date"
+msgstr "Data de Descarga"
+
+#. module: tko_account_pt
+#: model:ir.model,name:tko_account_pt.model_account_journal
+msgid "Journal"
+msgstr "Diário"
+
+#. module: tko_account_pt
+#: help:account.linha.guia,account_id:0
+msgid "The income or expense account related to the selected product."
+msgstr "A conta de débito ou crédito relacionada com o producto selecionado."
+
+#. module: tko_account_pt
+#: selection:account.invoice,exemption_reason:0
+msgid "Regime da margem de lucro- Agências de Viagens"
+msgstr "Regime da margem de lucro- Agências de Viagens"
+
+#. module: tko_account_pt
+#: selection:account.invoice,exemption_reason:0
+msgid "Artigo 6.º do Decreto‐Lei n.º 198/90, de 19 de Junho"
+msgstr "Artigo 6.º do Decreto‐Lei n.º 198/90, de 19 de Junho"
+
+#. module: tko_account_pt
+#: report:account.guia:0
+msgid "Tel. :"
+msgstr "Telefone:"
+
+#. module: tko_account_pt
+#: view:account.guia:0
+msgid "Guia de Transporte "
+msgstr "Guia de Transporte "
+
+#. module: tko_account_pt
+#: report:account.guia:0
+msgid ", procederemos sem novo aviso à cobrança do valor das n/facturas, sem desconto de pronto pagamento."
+msgstr ", procederemos sem novo aviso à cobrança do valor das n/facturas, sem desconto de pronto pagamento."
+
+#. module: tko_account_pt
+#: field:stock.simplified.invoice.onshipping,journal_id:0
+#: field:waybill.invoice,journal_id:0
+#: field:waybill.simplified.invoice,journal_id:0
+msgid "Destination Journal"
+msgstr "Diário de Destino"
+
+#. module: tko_account_pt
+#: view:account.guia:0
+#: selection:account.guia,tipo:0
+#: model:ir.ui.menu,name:tko_account_pt.menu_action_account_guias_remessa
+#: selection:stock.picking.waybill,type_waybill:0
+msgid "Remessa"
+msgstr "Remessa"
+
+#. module: tko_account_pt
+#: view:account.guia:0
+#: view:account.linha.guia:0
+msgid "Linhas da Guia"
+msgstr "Linhas da Guia"
+
+#. module: tko_account_pt
+#: field:stock.picking.waybill,picking_id:0
+msgid "Picking"
+msgstr "Picking"
+
+#. module: tko_account_pt
+#: field:account.invoice.line,waybill_date:0
+#: field:account.linha.guia,waybill_date:0
+msgid "Waybill Date"
+msgstr "Data da Guia"
+
+#. module: tko_account_pt
+#: view:account.linha.guia:0
+#: field:account.linha.guia,note:0
+msgid "Notes"
+msgstr "Notas"
+
+#. module: tko_account_pt
+#: report:account.guia:0
+msgid "COBRANÇA: Decorridos"
+msgstr "COBRANÇA: Decorridos"
+
+#. module: tko_account_pt
+#: view:account.invoice:0
+msgid "Customer"
+msgstr "Cliente"
+
+#. module: tko_account_pt
+#: field:account.invoice.line,credit_reference:0
+#: field:account.linha.guia,credit_reference:0
+#: field:account.linha.guia,invoice_id:0
+msgid "Invoice Reference"
+msgstr "Referência da factura"
+
+#. module: tko_account_pt
+#: report:account.guia:0
+msgid "Ref Cliente"
+msgstr "V/Referência"
+
+#. module: tko_account_pt
+#: model:ir.model,name:tko_account_pt.model_account_invoice_refund
+msgid "Invoice Refund"
+msgstr "Reembolso da fatura"
+
+#. module: tko_account_pt
+#: field:account.guia,local_entrega:0
+msgid "Local de Descarga"
+msgstr "Local de Descarga"
+
+#. module: tko_account_pt
+#: help:sale.order,hide_discounts:0
+msgid "If True is visible in report."
+msgstr "If True is visible in report."
+
+#. module: tko_account_pt
+#: field:product.template,property_stock_account_supplier_return:0
+msgid "Stock Supplier Return Account"
+msgstr "Stock Supplier Return Account"
+
+#. module: tko_account_pt
+#: model:ir.model,name:tko_account_pt.model_product_template
+msgid "Product Template"
+msgstr "Template Artigo"
+
+#. module: tko_account_pt
+#: view:account.guia:0
+msgid "Outras Informações"
+msgstr "Outras Informações"
+
+#. module: tko_account_pt
+#: field:stock.simplified.invoice.onshipping,invoice_date:0
+#: field:waybill.invoice,invoice_date:0
+#: field:waybill.simplified.invoice,invoice_date:0
+msgid "Invoiced date"
+msgstr "Data de Faturação"
+
+#. module: tko_account_pt
+#: view:account.invoice:0
+msgid "Payments"
+msgstr "Pagamentos"
+
+#. module: tko_account_pt
+#: view:guias_por_dias:0
+#: model:ir.actions.act_window,name:tko_account_pt.action_count_by_days_graph
+#: model:ir.model,name:tko_account_pt.model_guias_por_dias
+msgid "Guias por dias"
+msgstr "Guias por dias"
+
+#. module: tko_account_pt
+#: report:account.guia:0
+msgid "RECLAMAÇÕES/DEVOLUÇÕES: Só são aceites dentro de 8 dias da data deste documento, com indicação do seu número e acompanhadas de Nota de Devolução."
+msgstr "RECLAMAÇÕES/DEVOLUÇÕES: Só são aceites dentro de 8 dias da data deste documento, com indicação do seu número e acompanhadas de Nota de Devolução."
+
+#. module: tko_account_pt
+#: field:account.invoice.line,waybill_reference:0
+#: field:account.linha.guia,waybill_reference:0
+msgid "Waybill Reference"
+msgstr "Waybill Reference"
+
+#. module: tko_account_pt
+#: report:account.guia:0
+msgid "Ref Ordem Entrega"
+msgstr "Ref Ordem Entrega"
+
+#. module: tko_account_pt
+#: report:account.guia:0
+msgid "Hora Descarga"
+msgstr "Hora Descarga"
+
+#. module: tko_account_pt
+#: help:account.guia,message_ids:0
+msgid "Messages and communication history"
+msgstr "Mensagens e histórico de comunicação"
+
+#. module: tko_account_pt
+#: code:addons/tko_account_pt/account_invoice.py:466
+#, python-format
+msgid "Debit Note "
+msgstr "Nota de Débito "
+
+#. module: tko_account_pt
+#: selection:stock.picking,waybill_state:0
+#: selection:stock.picking,waybill_state:0
+msgid "Waybilled"
+msgstr "Guia Emitida"
+
+#. module: tko_account_pt
+#: view:account.invoice:0
+msgid "(change)"
+msgstr "(Atualizar)"
+
+#. module: tko_account_pt
+#: selection:account.invoice,exemption_reason:0
+msgid "IVA ‐ não confere direito a dedução"
+msgstr "IVA ‐ não confere direito a dedução"
+
+#. module: tko_account_pt
+#: model:ir.model,name:tko_account_pt.model_account_move
+msgid "Account Entry"
+msgstr "Movimento da conta"
+
+#. module: tko_account_pt
+#: model:ir.model,name:tko_account_pt.model_waybill_invoice
+msgid "Account PT Invoice Waybill"
+msgstr "Account PT Invoice Waybill"
+
+#. module: tko_account_pt
+#: field:account.linha.guia,sequence:0
+msgid "Sequence"
+msgstr "Sequência"
+
+#. module: tko_account_pt
+#: code:addons/tko_account_pt/account_invoice.py:640
+#, python-format
+msgid "You cannot create an invoice on a centralized journal. Uncheck the centralized counterpart box in the related journal from the configuration menu."
+msgstr "You cannot create an invoice on a centralized journal. Uncheck the centralized counterpart box in the related journal from the configuration menu."
+
+#. module: tko_account_pt
+#: view:account.guia:0
+msgid "Cancelar"
+msgstr "Cancelar"
+
+#. module: tko_account_pt
+#: report:account.guia:0
+#: field:account.guia,observacoes:0
+msgid "Descrição"
+msgstr "Descrição"
+
+#. module: tko_account_pt
+#: code:addons/tko_account_pt/wizard/stock_invoice_onshipping.py:48
+#, python-format
+msgid "None of these picking lists require invoicing."
+msgstr "Nenhuma destas ordens de entrega requerem faturação."
+
+#. module: tko_account_pt
+#: code:addons/tko_account_pt/account_invoice.py:896
+#: code:addons/tko_account_pt/guia.py:421
+#, python-format
+msgid "You must first select a partner !"
+msgstr "Deve selecionar um parceiro !"
+
+#. module: tko_account_pt
+#: view:board.board:0
+#: model:ir.actions.act_window,name:tko_account_pt.open_guias_abertas_tree
+msgid "Guias Abertas"
+msgstr "Guias Abertas"
+
+#. module: tko_account_pt
+#: field:account.invoice,waybill_ids:0
+msgid "Waybills"
+msgstr "Guias"
+
+#. module: tko_account_pt
+#: field:stock.picking.waybill.line,cost:0
+msgid "Cost"
+msgstr "Custo"
+
+#. module: tko_account_pt
+#: field:account.invoice,unload_place:0
+msgid "Unload place"
+msgstr "Local de Descarga"
+
+#. module: tko_account_pt
+#: field:account.guia,data_descarga:0
+msgid "Data da Descarga"
+msgstr "Data da Descarga"
+
+#. module: tko_account_pt
+#: model:ir.actions.act_window,name:tko_account_pt.action_debit_note_tree
+#: model:ir.ui.menu,name:tko_account_pt.menu_action_debit_note
+msgid "Debit Notes"
+msgstr "Notas de Débito"
+
+#. module: tko_account_pt
+#: field:account.linha.guia,partner_id:0
+msgid "Partner"
+msgstr "Parceiro"
+
+#. module: tko_account_pt
+#: view:account.invoice:0
+msgid "Hide cancelled invoices"
+msgstr "Esconder Faturas Canceladas"
+
+#. module: tko_account_pt
+#: field:guias_por_dias,total:0
+msgid "Total"
+msgstr "Total"
+
+#. module: tko_account_pt
+#: field:sale.order,hide_discounts:0
+msgid "Hide Discounts"
+msgstr "Esconder Descontos"
+
+#. module: tko_account_pt
+#: model:ir.actions.act_window,name:tko_account_pt.action_simplified_invoice_tree
+#: model:ir.ui.menu,name:tko_account_pt.menu_action_simplified_invoice
+msgid "Simplified Invoice"
+msgstr "Faturas Simplificadas"
+
+#. module: account
+#: field:account.invoice,comment:0
+#: view:account.invoice:0
+msgid "Additional Information"
+msgstr "Descrição"
+
+#. module: account
+#: field:account.invoice,name:0
+#: view:account.invoice:0
+msgid "Customer Reference"
+msgstr "V/Referência"
+
+#. module: tko_account_pt
+#: field:account.config.settings,waybill_dev_seq:0
+msgid "Waybill Return Sequence"
+msgstr "Sequência Guia de Devolução"
+
+#. module: tko_account_pt
+#: field:account.config.settings,debit_seq_prefix:0
+msgid "Debit note sequence"
+msgstr "Sequência Nota de Débito"
+
+#. module: tko_account_pt
+#: field:account.config.settings,waybill_rem_seq:0
+msgid "Waybill Remittance Sequence"
+msgstr "Sequência Guia de Remessa"
+
+#. module: tko_account_pt
+#: view:account.config.settings:0
+msgid "This sequence only accept letters and numbers.Example: \"2013/\". The ICS service will put the pre-prefix sequence.(GD)."
+msgstr "Esta sequência apenas aceita letras e números sem espaços. Exemplo: \"2013/\"". O serviço de ICS coloca o pre-prefixo na sequência(GD) e gere as numerações. Exemplo: GD 2013/." 
+
+#. module: tko_account_pt
+#: view:account.config.settings:0
+msgid "This sequence only accept letters and numbers.Example: \"2013/\". The ICS service will put the pre-prefix sequence.(GT)."
+msgstr "Esta sequência apenas aceita letras e números sem espaços. Exemplo: \"2013/\"". O serviço de ICS coloca o pre-prefixo na sequência(GT) e gere as numerações. Exemplo: GT 2013/."
+
+#. module: tko_account_pt
+#: help:account.config.settings,module_tko_account_pt_stock_return:0
+msgid "Adds options to return products. This installs the module tko_account_pt_stock_return."
+msgstr "Adiciona opções para as devoluções de produto. Instala o módulo tko_account_pt_stock_return."
+
+
+#. module: tko_account_pt
+#: field:account.config.settings,module_tko_account_pt_account_reports:0
+msgid "Overwrites accounting reports to add acumulated amounts."
+msgstr "Substitui relatórios da contabilidade com acumulados"
+
+#. module: tko_account_pt
+#: field:account.config.settings,waybill_rem_seq_prefix:0
+msgid "Waybill remittance sequence"
+msgstr "Sequência Guia de Remessa"
+
+#. module: tko_account_pt
+#: field:account.config.settings,module_tko_account_pt_stock_return:0
+msgid "Allow manage the stock returns"
+msgstr "Permite gerir opções nas devoluções de produto"
+
+#. module: tko_account_pt
+#: field:account.config.settings,debit_sup_seq_id:0
+msgid "Supplier Debit Note Sequence"
+msgstr "Sequência Notas de Débito de Fornecedor"
+
+#. module: tko_account_pt
+#: field:account.config.settings,waybill_trsp_seq_prefix:0
+msgid "Waybill transport sequence"
+msgstr "Sequência Guia de Transporte"
+
+#. module: tko_account_pt
+#: view:account.config.settings:0
+msgid "Accounting PT"
+msgstr "Account PT"
+
+#. module: tko_account_pt
+#: view:account.config.settings:0
+msgid "This sequence only accept letters and numbers.Example: \"2013/\". The ICS service will put the pre-prefix sequence.(GR)."
+msgstr "Esta sequência apenas aceita letras e números sem espaços. Exemplo: \"2013/\"". O serviço de ICS coloca o pre-prefixo na sequência(GR) e gere as numerações. Exemplo: GR 2013/."
+
+#. module: tko_account_pt
+#: field:account.config.settings,waybill_dev_seq_prefix:0
+msgid "Waybill return sequence"
+msgstr "Sequência Guia de Devolução"
+
+#. module: tko_account_pt
+#: field:account.config.settings,waybill_trsp_seq:0
+msgid "Waybill Transport Sequence"
+msgstr "Sequência Guia de Transporte"
+
+#. module: tko_account_pt
+#: field:account.config.settings,debit_sup_seq_prefix:0
+msgid "Supplier debit note sequence"
+msgstr "Sequência Notas de Débito de Fornecedor"
+
+#. module: tko_account_pt
+#: model:ir.model,name:tko_account_pt.model_account_config_settings
+msgid "account.config.settings"
+msgstr "account.config.settings"
+
+#. module: tko_account_pt
+#: field:account.config.settings,module_tko_account_pt_partner_reports:0
+msgid "Allows to download partner PT reports."
+msgstr "Adiciona ou subtitui relatórios de parceiros"
+
+#. module: tko_account_pt
+#: field:account.config.settings,debit_journal_id:0
+msgid "Debit Note journal"
+msgstr "Diário de Nota de Débito"
+
+#. module: tko_account_pt
+#: help:account.config.settings,module_tko_account_pt_account_reports:0
+msgid "Overwrites the Balance, General Ledger and adds a summary extracts report. This installs the module tko_account_pt_account_reports."
+msgstr "Susbtitui os relatórios do Balancete e Razão para adicionar os acumulados e adiciona o extrato de conta agrupado. Instala o módulo tko_account_pt_account_reports."
+
+#. module: tko_account_pt
+#: view:account.config.settings:0
+msgid "This sequence only accept letters and numbers.Example: \"2013/\". The ICS service will put the pre-prefix sequence.(ND)."
+msgstr "Esta sequência apenas aceita letras e números sem espaços. Exemplo: \"2013/\"". O serviço de ICS coloca o pre-prefixo na sequência(ND) e gere as numerações. Exemplo: ND 2013/."
+
+#. module: tko_account_pt
+#: view:account.config.settings:0
+msgid "Configs"
+msgstr "Configurações"
+
+#. module: tko_account_pt
+#: field:account.config.settings,debit_sup_seq_next:0
+msgid "Supplier debit note next number"
+msgstr "Próximo número das notas de débito de fornecedor"
+
+#. module: tko_account_pt
+#: view:account.config.settings:0
+msgid "If you put \"%(year)s\" in the prefix, it will be replaced by the current year."
+msgstr "Se escrever  \"%(year)s\" no prefixo, será substituido pelo ano recorrente.
+
+#. module: tko_account_pt
+#: field:account.config.settings,days_to_invoice:0
+msgid "Waybill Overdue"
+msgstr "Vencimento das Guias"
+
+#. module: tko_account_pt
+#: view:account.config.settings:0
+#: help:account.config.settings,days_to_invoice:0
+#: view:account.config.settings:0
+#: help:account.config.settings,days_to_invoice:0
+msgid "Number of days to invoice a waybill"
+msgstr "Número de dias para faturar uma guia"
+
+#. module: tko_account_pt
+#: field:account.waybill.config,days_to_invoice:0
+msgid "Days to Invoice"
+msgstr "Dias para Faturar"
+
+#. module: tko_account_pt
+#: field:account.guia,days_to_invoice:0
+msgid "Days to invoice"
+msgstr "Dias para faturar"
+
+#. module: tko_account_pt
+#: field:account.guia,validation_date:0
+msgid "Date of validation"
+msgstr "Data de Emissão"
+
+#. module: tko_account_pt
+#: field:account.guia,invoice_deadline:0
+msgid "Deadline"
+msgstr "Prazo limite"
+
+#. module: tko_account_pt
+#: field:account.invoice,load_postal_code:0
+msgid "Load postal_code"
+msgstr "Codigo Postal de Carga"
+
+#. module: tko_account_pt
+#: field:account.invoice,unload_postal_code:0
+msgid "Unload postal_code"
+msgstr "Codigo Postal de Descarga"
+
+#. module: tko_account_pt
+#: field:account.invoice,load_city:0
+msgid "Load city"
+msgstr "Cidade de Carga"
+
+#. module: tko_account_pt
+#: field:account.invoice,unload_city:0
+msgid "Unload city"
+msgstr "Cidade de Descarga"
+
+#. module: tko_account_pt
+#: field:account.invoice,car_registration:0
+#: field:account.license_plate,name:0
+msgid "License Plate"
+msgstr "Matrícula"

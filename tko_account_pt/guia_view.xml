@@ -1,0 +1,402 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        
+
+        <!-- Guia -->
+        <record model="ir.ui.view" id="account_guia_tree_view">
+            <field name="name">account.guia.tree</field>
+            <field name="model">account.guia</field>
+            <field name="arch" type="xml">
+                <tree colors="blue:state in ('aberta');gray:state in ('cancelada');black:state in ('arquivada')" string="Boletim" >
+                    <field name="numero"/>
+                    <field name="partner_id" context="{'default_customer': 0, 'search_default_supplier': 1, 'default_supplier': 1}"/>
+                    <field name="tipo"/>
+                    <field name="company_id" invisible="1"/>
+                    <field name="data_carga"/>
+                    <field name="local_carga" invisible="1"/>
+                    <field name="local_entrega"  invisible="1"/>
+                    <field name="matricula"/>
+                    <field name="invoice_state" attrs="{'invisible': [('tipo','in',['devolucao'])]}" />
+                    <field name="amount_untaxed" sum="Untaxed Amount"/>
+                    <field name="amount_total" sum="Total Amount"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+        
+        <record model="ir.ui.view" id="account_guia_form_view">
+            <field name="name">account.guia.form</field>
+            <field name="model">account.guia</field>
+            <field name="arch" type="xml">
+                <form string="Guia" version="7.0">
+                    <header>
+                        <button name="action_close"
+                            type="object"
+                            string="Validar"
+                            states="aberta"
+                            class="oe_highlight"/>
+                        <button name="action_cancel"
+                            type="object"
+                            string="Cancelar"
+                            states="arquivada"/>
+                        <button name="action_invoice_onguia" 
+                            groups="account.group_account_invoice" 
+                            context="{'type':'out_invoice'}" 
+                            string="Criar Fatura"
+                            attrs="{'invisible': ['|','|','|',('invoice_state','=','invoiced'),('state','!=', 'arquivada'),('tipo','=','devolucao'), ('invoice_id','!=',False)]}"  
+                            type="object"
+                            class="oe_highlight" />
+                        <button name="action_invoice_onguia" 
+                            groups="account.group_account_invoice" 
+                            context="{'type':'simplified_invoice'}" 
+                            string="Criar Fatura Simplificada"
+                            class="oe_highlight" 
+                            attrs="{'invisible': ['|','|','|',('invoice_state','=','invoiced'),('state','!=', 'arquivada'),('tipo','=','devolucao'),('invoice_id','!=',False)]}"  
+                            type="object" />
+                        <field name="state" widget="statusbar" nolabel="1" statusbar_visible="aberta,arquivada,cancelada"/>
+                    </header>
+                    <sheet string="Dados da Guia">
+                        <h1>
+                            <label string="Guia de Remessa em Aberto" attrs="{'invisible': ['|',('state','not in', ['aberta']),('tipo','!=', 'remessa')]}"/>
+                            <label string="Guia de Transporte em Aberto" attrs="{'invisible': ['|',('state','not in', ['aberta']), ('tipo','!=', 'transporte')]}"/>
+                            <label string="Guia de Devolução em Aberto" attrs="{'invisible': ['|',('state','not in', ['aberta']), ('tipo','!=', 'devolucao')]}"/>
+                            <label string="Guia de Remessa " attrs="{'invisible': ['|', ('state', 'in', ['aberta']),('tipo','!=', 'remessa')]}"/>
+                            <label string="Guia de Transporte " attrs="{'invisible': ['|', ('state', 'in', ['aberta']), ('tipo','!=', 'transporte')]}"/>
+                            <label string="Guia de Devolução " attrs="{'invisible': ['|', ('state', 'in', ['aberta']), ('tipo','!=', 'devolucao')]}"/>
+                            <field name="numero" readonly="1" class="oe_inline"/>
+                        </h1>
+                        <group>
+                        <field name="tipo" invisible="1"/>
+                        </group>
+                        <group></group>
+                        <field name="currency_id" invisible="1"/>
+                        <field name="company_id" invisible="1"/>
+                        <group>
+                            <group>
+                                <field name="partner_id" context="{'search_default_customer':1, 'show_address': 1}" on_change="onchange_partner_id(partner_id)"/>
+                            </group>
+                            <group>
+                                <field name="name" attrs="{'readonly': ['|',('state','=','arquivada'),('state','=','cancelada')]}"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="local_carga" required="1" attrs="{'readonly': ['|',('state','=','arquivada'),('state','=','cancelada')]}"/>
+                                <field name="cidade_carga" required="1" attrs="{'readonly': ['|',('state','=','arquivada'),('state','=','cancelada')]}"/>
+                                <field name="codigo_postal_carga" required="1" attrs="{'readonly': ['|',('state','=','arquivada'),('state','=','cancelada')]}"/>
+                                <field name="data_carga" attrs="{'readonly': ['|',('state','=','arquivada'),('state','=','cancelada')]}"/>
+                            </group>
+                            <group>
+                                <field name="local_entrega" attrs="{'required': ['|',('cidade_entrega','!=',False),('codigo_postal_entrega','!=',False)], 'readonly': ['|',('state','=','arquivada'),('state','=','cancelada')]}"/>
+                                <field name="cidade_entrega" attrs="{'required': ['|',('local_entrega','!=',False),('codigo_postal_entrega','!=',False)], 'readonly': ['|',('state','=','arquivada'),('state','=','cancelada')]}"/>
+                                <field name="codigo_postal_entrega" attrs="{'required': ['|',('local_entrega','!=',False),('cidade_entrega','!=',False)], 'readonly': ['|',('state','=','arquivada'),('state','=','cancelada')]}"/>
+                                <field name="data_descarga" attrs="{'readonly': ['|',('state','=','arquivada'),('state','=','cancelada')], 'required': [('tipo','=','remessa')]}"/>
+                            </group>
+                            <group >
+                                <group>
+                                    <field name="matricula" attrs="{'readonly': ['|',('state','=','arquivada'),('state','=','cancelada')]}"/>
+                                </group>
+                                <group>
+                                <field name="invoice_state" attrs="{'invisible': [('tipo','in',['devolucao'])]}" />
+                                </group>
+                            </group>
+                        </group>
+                        <notebook >
+                            <page string="Linhas da Guia">
+                                <field name="linhas_guia" nolabel="1" widget="one2many_list"/>
+                                <group class="oe_subtotal_footer oe_right">
+                                <field name="amount_untaxed" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="amount_tax" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="amount_total" class="oe_subtotal_footer_separator" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                </group>
+                                <div class="oe_clear">
+                                    <label for="observacoes"/>
+                                </div>
+                                <field name="observacoes" placeholder="Notas Adicionais..."/>
+                            </page>
+                            <page string="Outras Informações">
+                                <group>
+                                    <group>
+                                        <field name="origin"/>
+                                        <field name="invoice_id" attrs="{'invisible': [('tipo','=','devolucao')]}" />
+                                   </group>
+                                   <group>
+                                        <field name="user_id" />
+                                        <field name="validation_date" attrs="{'readonly': ['|',('state','=','arquivada'),('state','=','cancelada')]}"/>
+                                   </group>
+                               </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread" placeholder="Share a note..."/>
+                    </div>
+                </form>
+            </field>
+        </record>
+        
+        <record id="account_guia_search_form_view" model="ir.ui.view">
+            <field name="name">accout.guia.search.form</field>
+            <field name="model">account.guia</field>
+            <field name="arch" type="xml">
+                <search string="Guias" >
+                    <filter name="remessa" string="Remessa" icon="terp-folder-blue" domain="[('tipo','=','remessa')]"/>
+                    <filter name="transporte" string="Transporte" icon="terp-folder-blue" domain="[('tipo','=','transporte')]"/>
+                    <filter name="devolucao" string="Devolução" icon="terp-folder-blue" domain="[('tipo','=','devolucao')]"/>
+                    <field name="numero"/>
+                    <field name="partner_id"/>
+                    <field name="local_entrega"/>
+                    <field name="state"/>
+                </search>
+            </field>
+        </record>
+        
+        <record model="ir.actions.act_window" id="action_account_guia_remessa_form">
+            <field name="name">Guias</field>
+            <field name="res_model">account.guia</field>
+            <field name="view_id" ref="account_guia_tree_view" />
+            <field name="search_view_id" ref="account_guia_search_form_view"/>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{"search_default_remessa":1, 'show_address': 1}</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Clique para criar uma guia de remessa. 
+              </p>
+            </field>
+        </record>
+        
+        <record model="ir.actions.act_window" id="action_account_guia_transporte_form">
+            <field name="name">Guias</field>
+            <field name="res_model">account.guia</field>
+            <field name="view_id" ref="account_guia_tree_view" />
+            <field name="search_view_id" ref="account_guia_search_form_view"/>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{"search_default_transporte":1, 'show_address': 1}</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Clique para criar uma guia de transporte. 
+              </p>
+            </field>
+        </record>
+        
+        <record model="ir.actions.act_window" id="action_account_guia_devolucao_form">
+            <field name="name">Guias</field>
+            <field name="res_model">account.guia</field>
+            <field name="view_id" ref="account_guia_tree_view" />
+            <field name="search_view_id" ref="account_guia_search_form_view"/>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{"search_default_devolucao":1, 'show_address': 1}</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Clique para criar uma guia de devolução. 
+              </p>
+            </field>
+        </record>
+        
+        <record id="view_guia_linha_tree" model="ir.ui.view">
+            <field name="name">account.linha.guia.tree</field>
+            <field name="model">account.linha.guia</field>
+            <field name="arch" type="xml">
+                <tree string="Waybill Line" editable="bottom">
+                    <field name="sequence" string="Seq."/>
+                    <field name="product_id" on_change="product_id_change(product_id, uos_id, quantity, name, parent.tipo, parent.partner_id, price_unit, parent.currency_id, parent.company_id, context)"/>
+                    <field name="name"/>
+                    <field name="quantity"/>
+                    <field name="uos_id" groups="product.group_uom" on_change="uos_id_change(product_id, uos_id, quantity, name, parent.tipo, parent.partner_id, price_unit, parent.currency_id, parent.company_id, context)"/>
+                    <field name="price_unit"/>
+                    <field name="discount" groups="sale.group_discount_per_so_line"/>
+                    <field name="company_id" groups="base.group_multi_company"/>
+                    <field name="price_subtotal"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_guia_linha_form" model="ir.ui.view">
+            <field name="name">account.linha.guia.form</field>
+            <field name="model">account.linha.guia</field>
+            <field name="arch" type="xml">
+                <form string="Linhas da Guia" version="7.0">
+                    <notebook>
+                        <page string="Line">
+                            <field name="product_id" on_change="product_id_change(product_id, uos_id, quantity, name, parent.tipo, parent.partner_id, price_unit, parent.currency_id, parent.company_id, context)"/>
+                            <field name="uos_id"  on_change="uos_id_change(product_id, uos_id, quantity, name, parent.tipo, parent.partner_id, price_unit, parent.currency_id, parent.company_id, context)"/>
+                            <field name="quantity"/>
+                            <field name="price_unit"/>
+                            <field name="discount" groups="base.group_extended"/>
+                            <field name="sequence"/>
+                            <field name="name"/>
+                            <newline/>
+                            <field name="company_id" groups="base.group_multi_company" readonly="1"/>
+                            <separator string="Taxes"/>
+                            <field name="invoice_line_tax_id" nolabel="1"/>
+                        </page>
+                        <page string="Notes">
+                            <field name="note" nolabel="1"/>
+                        </page>
+                    </notebook>
+                </form>
+            </field>
+        </record>
+
+        <!-- Dashboards -->
+        <record id="view_guias_count_by_days_graph" model="ir.ui.view">
+            <field name="name">guias.count.by.days.graph</field>
+            <field name="model">guias_por_dias</field>
+            <field name="arch" type="xml">
+                <graph string="Guias por dias" type="bar">
+                    <field name="dia"/>
+                    <field name="total"/>
+                </graph>
+            </field>
+        </record>
+        
+        <record id="action_count_by_days_graph" model="ir.actions.act_window">
+            <field name="name">Guias por dias</field>
+            <field name="res_model">guias_por_dias</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">graph</field>
+            <field name="view_id" ref="view_guias_count_by_days_graph"/>
+        </record>
+        
+        <record model="ir.ui.view" id="view_guias_abertas_tree">
+            <field name="name">guias.abertas.tree</field>
+            <field name="model">account.guia</field>
+            <field name="arch" type="xml">
+                <tree string="Guias">
+                    <field name="numero"/>
+                    <field name="partner_id"/>
+                    <field name="tipo"/>
+                    <field name="data_carga"/>
+                    <field name="local_entrega"/>
+                </tree>
+            </field>
+        </record>
+        
+        <record id="open_guias_abertas_tree" model="ir.actions.act_window">
+            <field name="name">Guias Abertas</field>
+            <field name="res_model">account.guia</field>
+            <field name="view_mode">tree</field>
+            <field name="domain">[('state','=','aberta')]</field>
+            <field name="view_id" ref="view_guias_abertas_tree"/>
+        </record>
+        
+        <record id="board_guia_form" model="ir.ui.view">
+            <field name="name">guia.dashboards.form</field>
+            <field name="model">board.board</field>
+            <field name="arch" type="xml">
+                <form string="Paineis">
+                    <hpaned>
+                        <child1>
+                            <action name="%(open_guias_abertas_tree)d" string="Guias Abertas"/>
+                        </child1>
+                        <child2>
+                            <action name="%(action_count_by_days_graph)d" string="Guias por Dia"/>
+                        </child2>
+                    </hpaned>
+                </form>
+            </field>
+        </record>
+        
+        <record id="action_open_dashboards" model="ir.actions.act_window">
+            <field name="name">Painel de guias</field>
+            <field name="res_model">board.board</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="usage">menu</field>
+            <field name="view_id" ref="board_guia_form"/>
+        </record>
+        
+        <record model="ir.ui.view" id="view_waybill_to_invoice_tree">
+            <field name="name">waybill.to.invoice.tree</field>
+            <field name="model">account.guia</field>
+            <field name="arch" type="xml">
+                <tree string="Guias" create="false" colors="red:days_to_invoice &lt;= 0;blue:state in ('aberta');gray:state in ('cancelada');black:state in ('arquivada')">
+                    <field name="numero"/>
+                    <field name="partner_id"/>
+                    <field name="tipo"/>
+                    <field name="validation_date"/>
+                    <field name="data_carga"/>
+                    <field name="matricula"/>
+                    <field name="amount_untaxed" sum="Untaxed Amount"/>
+                    <field name="amount_total" sum="Total Amount"/>
+                    <field name="days_to_invoice" />
+                    <field name="invoice_deadline" />
+                    <field name="state" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+        
+        <record id="view_waybill_to_invoice_filter" model="ir.ui.view">
+            <field name="name">waybill.to.invoice.filter</field>
+            <field name="model">account.guia</field>
+            <field name="arch" type="xml">
+                <search>
+                    <filter name="only_remessa" string="Remessa" domain="[('tipo','=','remessa')]" help="Apenas mostrar guias de remessa"/>
+                </search>
+            </field>
+        </record>
+        
+        <record id="action_waybill_to_invoice" model="ir.actions.act_window">
+            <field name="name">Guias por Faturar</field>
+            <field name="res_model">account.guia</field>
+            <field name="view_mode">tree, form</field>
+            <field name="domain">[('invoice_state','=','none'), ('tipo','in',['remessa','transporte']), ('state','=','arquivada')]</field>
+            <field name="context">{'search_default_only_remessa': 1}</field>
+            <field name="search_view_id" ref="view_waybill_to_invoice_filter"/>
+        </record>
+        
+        <record id="action_waybill_to_invoice_form" model="ir.actions.act_window.view">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="account_guia_form_view"/>
+            <field name="act_window_id" ref="action_waybill_to_invoice"/>
+        </record>
+      
+        <record id="action_waybill_to_invoice_tree" model="ir.actions.act_window.view">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_waybill_to_invoice_tree"/>
+            <field name="act_window_id" ref="action_waybill_to_invoice"/>
+        </record>
+        
+        <menuitem name="Guias"
+        parent="account.menu_finance"
+        id="menu_action_account_guias"
+        action="action_open_dashboards"
+        groups="tko_group_account_guias"
+        sequence="3"/>
+        
+        <menuitem name="Remessa"
+        parent="menu_action_account_guias"
+        id="menu_action_account_guias_remessa"
+        action="action_account_guia_remessa_form"
+        groups="tko_group_account_guias"/>
+        
+        <menuitem name="Transporte"
+        parent="menu_action_account_guias"
+        id="menu_action_account_guias_transporte"
+        action="action_account_guia_transporte_form"
+        groups="tko_group_account_guias"/>
+        
+        <menuitem name="Devolução"
+        parent="menu_action_account_guias"
+        id="menu_action_account_guias_devolucao"
+        action="action_account_guia_devolucao_form"
+        groups="tko_group_account_guias"/>
+        
+        <menuitem name="Controlo de Guias"
+        parent="account.menu_finance"
+        id="menu_action_account_control_waybill"
+        groups="tko_group_account_guias"
+        sequence="3"/>
+        
+        <menuitem name="Guias por Faturar"
+        parent="menu_action_account_control_waybill"
+        id="menu_action_account_waybill_invoice"
+        action="action_waybill_to_invoice"
+        groups="tko_group_account_guias"/>
+
+    </data>
+</openerp>

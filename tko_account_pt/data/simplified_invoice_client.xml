@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="simplified_invoice_client" model="res.partner">
+            <field name="name">Consumidor Final</field>
+            <field name="vat">PT999999990</field>
+            <field name="type">invoice</field>
+            <field name="email">-</field>
+            <field name="street">-</field>
+            <field name="zip">0000-000</field>
+            <field name="city">-</field>
+            <field name="country_id" ref="base.pt"/>
+            <field name="property_payment_term" ref="tko_account_pt.payment_term"/>
+			<field name="notify_email">none</field>
+        </record>
+        
+       <!--  <record id="simplified_invoice_client_address" model="res.partner">
+            <field name="partner_id" ref="tko_account_pt.simplified_invoice_client"/>
+            <field name="type">invoice</field>
+            <field name="email">-</field>
+            <field name="street">-</field>
+            <field name="zip">-</field>
+            <field name="city">-</field>
+            <field name="country_id" ref="base.pt"/> Portugal
+        </record> -->
+    </data>
+</openerp>
+        

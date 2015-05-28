@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="zero_invoice_open_paid" model="workflow.transition">
+            <field name="act_from" ref="account.act_open"/>
+            <field name="act_to" ref="account.act_paid"/>
+            <field name="condition">amount_total==0.00</field>
+        </record>
+        
+    </data>
+</openerp>
