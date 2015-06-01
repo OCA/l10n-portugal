@@ -26,7 +26,7 @@
     "sequence": 38,
     'author': "ThinkOpen Solutions PT,Odoo Community Association (OCA)",
     'website': 'http://thinkopen.solutions/',
-    'license': 'LGPL',
+    'license': 'Other OSI approved licence',
     'images': [],
     'depends': [
         'base', 'hr_payroll',
