@@ -19,8 +19,8 @@
 #
 ##############################################################################
 
-import account_guia_report
-import tko_account_voucher_print
-import amount_to_text_pt
+from . import account_guia_report
+from . import tko_account_voucher_print
+from . import amount_to_text_pt
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

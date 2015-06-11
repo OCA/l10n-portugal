@@ -23,10 +23,9 @@
 
 import time
 from openerp.report import report_sxw
-import amount_to_text_pt
-from openerp.osv.orm import browse_null
 from openerp.osv import osv
 from openerp.tools.translate import _
+from . import amount_to_text_pt
 
 
 class report_voucher_print(report_sxw.rml_parse):
@@ -138,26 +137,15 @@ class report_voucher_print(report_sxw.rml_parse):
 
     def _adr_get(self, voucher):
         cr, uid = self.cr, self.uid
-        res = {}
         res_partner = self.pool.get('res.partner')
-        result = {
-            'street': '',
-            'street2': '',
-            'city': '',
-            'zip': '',
-            'country_id': '',
-            'state_id': '',
-        }
-        addresses = res_partner.address_get(
-            cr, uid, [voucher.partner_id.id], ['invoice'])
-        addr_id = addresses and addresses['invoice'] or False
-        if addr_id:
-            result = res_partner.read(cr, uid, addr_id)
-        else:
+        partner_id = voucher.partner_id.id
+        addresses = res_partner.address_get(cr, uid, [partner_id], ['invoice'])
+        address_id = addresses.get('invoice')
+        if not address_id:
             raise osv.except_osv(
                 _('Erro !'),
                 _('Configure the partner\'s address!'))
-        return result
+        return res_partner.read(cr, uid, address_id)
 
 report_sxw.report_sxw(
     'report.tko.voucher.print',

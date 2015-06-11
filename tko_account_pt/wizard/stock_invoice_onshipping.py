@@ -21,7 +21,7 @@
 #
 ##############################################################################
 
-from openerp.osv import fields, osv
+from openerp.osv import osv
 from openerp.tools.translate import _
 
 
@@ -35,7 +35,6 @@ class stock_invoice_onshipping(osv.osv_memory):
         res = super(stock_invoice_onshipping, self).view_init(
             cr, uid, fields_list, context=context)
         pick_obj = self.pool.get('stock.picking')
-        pick_out_obj = self.pool.get('stock.picking')
         count = 0
         active_ids = context.get('active_ids', [])
         for pick in pick_obj.browse(cr, uid, active_ids, context=context):

@@ -71,7 +71,7 @@ class account_pt_invoice_refund(osv.osv_memory):
         inv_type = context.get('type', 'out_invoice')
         user = user_obj.browse(cr, uid, uid, context=context)
         company_id = user.company_id.id
-        type = TYPE_MAPPING.get(inv_type, False)
+        type = self.TYPE_MAPPING.get(inv_type, False)
         query = [('type', '=', type), ('company_id', '=', company_id)]
         journal = obj_journal.search(cr, uid, query, limit=1, context=context)
         return journal and journal[0] or False
@@ -89,7 +89,7 @@ class account_pt_invoice_refund(osv.osv_memory):
         type = context.get('type', 'out_invoice')
         user = user_obj.browse(cr, uid, uid, context=context)
         company_id = user.company_id.id
-        journal_type = TYPE_MAPPING.get(type, False)
+        journal_type = self.TYPE_MAPPING.get(type, False)
         query = [('type', '=', journal_type),
                  ('company_id', 'child_of', [company_id])]
         journal_select = journal_obj._name_search(
@@ -176,6 +176,7 @@ class account_pt_invoice_refund(osv.osv_memory):
                                     'between date_start AND date_stop '\
                                     'limit 1'
                             params = (date,)
+                        cr.execute(query, params)
                         res = cr.fetchone()
                         if res:
                             period = res[0]

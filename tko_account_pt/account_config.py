@@ -21,10 +21,7 @@
 #
 ##############################################################################
 
-import time
-from openerp.osv import fields, osv, orm
-from openerp.tools.translate import _
-from datetime import datetime
+from openerp.osv import fields, osv
 
 
 class account_pt_config(osv.osv_memory):

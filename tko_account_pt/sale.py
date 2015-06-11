@@ -21,10 +21,8 @@
 #
 ##############################################################################
 
-import time
-from openerp.osv import fields, osv, orm
+from openerp.osv import fields, osv
 from openerp.tools.translate import _
-from datetime import datetime
 
 
 class sale_order(osv.osv):

@@ -139,16 +139,11 @@ class stock_simplified_onshipping(osv.osv_memory):
         picking_pool = self.pool.get('stock.picking')
         fields = ['journal_id', 'group', 'invoice_date', 'origin']
         onshipdata_obj = self.read(cr, uid, ids, fields)
-        journal_pool = self.pool.get('account.journal')
         if context.get('new_picking', False):
             onshipdata_obj['id'] = onshipdata_obj.new_picking
             onshipdata_obj[ids] = onshipdata_obj.new_picking
         context['date_inv'] = onshipdata_obj[0]['invoice_date']
         active_ids = context.get('active_ids', [])
-        pick_id = context.get('active_id', False)
-        active_picking = picking_pool.browse(cr, uid, pick_id, context=context)
-        journal_id = onshipdata_obj[0]['journal_id']
-        journal_type = journal_pool.browse(cr, uid, journal_id).type
         res = picking_pool.action_invoice_create(
             cr, uid, active_ids, journal_id=onshipdata_obj[0]['journal_id'],
             group=onshipdata_obj[0]['group'], type='simplified_invoice',

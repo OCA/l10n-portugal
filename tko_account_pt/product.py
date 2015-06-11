@@ -23,7 +23,6 @@
 
 from openerp.osv import osv
 from openerp.osv import fields
-from openerp.tools.translate import _
 
 
 class product_template(osv.osv):
@@ -51,6 +50,3 @@ class product_category(osv.osv):
             help="When real-time inventory valuation is enabled on a product, "
             "this account will hold the current value of the products."),
     }
-
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

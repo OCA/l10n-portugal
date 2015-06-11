@@ -321,9 +321,9 @@ class account_guia(osv.osv):
         osv.osv.unlink(self, cr, uid, unlink_ids, context=context)
         return True
 
-    def copy(self, cr, uid, id, default={}, context=None):
-        if context is None:
-            context = {}
+    def copy(self, cr, uid, id, default=None, context=None):
+        if default is None:
+            default = {}
         default.update({
             'numero': False,
             'invoice_state': 'none',
@@ -336,13 +336,13 @@ class account_guia(osv.osv):
     def _invoice_line_sale_hook(self, cursor, user, picking, invoice_line_id):
         sale_line_obj = self.pool.get('sale.order.line')
         if picking.sale_line_id:
-            sale_line_obj.write(cursor, user, [move_line.sale_line_id.id],
-                                {
+            vals = {
                 'invoiced': True,
-                'invoice_lines': [(4, invoice_line_id)],
-            })
-        return super(stock_picking, self)._invoice_line_hook(
-            cursor, user, move_line, invoice_line_id)
+                'invoice_lines': [(4, invoice_line_id)]
+            }
+            sale_line_obj.write(cursor, user, [picking.sale_line_id.id], vals)
+        return super(account_guia, self)._invoice_line_hook(
+            cursor, user, picking, invoice_line_id)
 
     def _prepare_invoice_group(self, cr, uid, guia, partner, invoice,
                                context=None):
@@ -392,7 +392,6 @@ class account_guia(osv.osv):
             context = {}
         inv_type = context.get('type', False)
         group = context.get('group', False)
-        date_invoice = context.get('date_inv', False)
         if not inv_type:
             raise osv.except_osv(_('Error !'), _('Tipo de Fatura'))
         for guia in self.browse(cr, uid, ids, context=context):
@@ -443,7 +442,6 @@ class account_guia(osv.osv):
                              if p.invoice_state not in ('invoiced', 'none')]
                 pick_vals = {'invoice_state': 'invoiced'}
                 picking_obj.write(cr, uid, picks_ids, pick_vals)
-        mod_obj = self.pool.get('ir.model.data')
         action_model = False
         action = {}
         data_pool = self.pool.get('ir.model.data')
@@ -495,7 +493,7 @@ class account_guia(osv.osv):
         if partner.property_account_position:
             account_position_id = partner.property_account_position.id
         else:
-            account_position_id = Falsee
+            account_position_id = False
         today = time.strftime('%Y-%m-%d')
         invoice_vals = {
             'name': guia.name or '',
@@ -523,7 +521,7 @@ class account_guia(osv.osv):
             if guia.stock_picking_ids[-1].sale_id:
                 sale_id = guia.stock_picking_ids[-1].sale_id
                 if sale_id.user_id:
-                    invoice['user_id'] = sale_id.user_id.id
+                    invoice_vals['user_id'] = sale_id.user_id.id
                 if sale_id.payment_term:
                     invoice_vals['payment_term'] = sale_id.payment_term.id
                 if sale_id.partner_invoice_id:
@@ -602,7 +600,6 @@ class account_guia(osv.osv):
             line.guia_id.data_carga, DEFAULT_SERVER_DATETIME_FORMAT)
         return {
             'name': name,
-            'origin': origin,
             'sequence': line.sequence,
             'invoice_id': invoice_id,
             'uos_id': line.uos_id.id,

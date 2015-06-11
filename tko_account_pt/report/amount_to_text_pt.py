@@ -19,6 +19,7 @@
 #
 ##############################################################################
 
+from openerp.report.int_to_text import int_to_text
 from openerp.tools.translate import _
 import logging
 
@@ -127,8 +128,8 @@ if __name__ == '__main__':
     lang = 'pt'
     if len(argv) < 2:
         for i in range(1, 200):
-            print i, ">>", int_to_text(i, lang)
+            logging.info("%s >> %s", i, int_to_text(i, lang))
         for i in range(200, 999999, 139):
-            print i, ">>", int_to_text(i, lang)
+            logging.info("%s >> %s", i, int_to_text(i, lang))
     else:
         print int_to_text(int(argv[1]), lang)

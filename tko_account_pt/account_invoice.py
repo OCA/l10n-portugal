@@ -21,16 +21,14 @@
 #
 ##############################################################################
 
-from openerp.osv import fields, osv, orm
+from openerp.osv import fields, osv
 from openerp import fields as new_fields, SUPERUSER_ID
 from openerp.tools.translate import _
 from openerp import api
 
-from datetime import datetime
-from lxml import etree
-import time
 from itertools import groupby
-from operator import itemgetter
+from datetime import datetime
+import time
 
 EXEMPTION_REASONS = enumerate([
     u'Artigo 16.º n.º 6 alínea c) do CIVA',
@@ -116,7 +114,6 @@ class account_pt_invoice(osv.osv):
     # To clean fields of reference documents from invoice_lines when create
     # refund
     def _refund_cleanup_lines(self, cr, uid, lines, context=None):
-        res = []
         lines = super(account_pt_invoice, self)._refund_cleanup_lines(
             cr, uid, lines, context=context)
         for x, y, line in lines:
@@ -347,14 +344,14 @@ class account_pt_invoice(osv.osv):
         for invoice in self.browse(cr, uid, ids):
             get_account_name = lambda line: line.account_id.id
             sorted_lines = sorted(invoice.invoice_line, key=get_account_name)
-            grouped_lines = dict(groupby(invoice_lines, get_account_name))
+            grouped_lines = dict(groupby(sorted_lines, get_account_name))
             original_accounts_names = grouped_lines.keys()
             query = [('name', 'in', original_accounts_names),
                      ('company_id', '=', company_id)]
             resp_accounts_ids = account_obj.search(cr, uid, query)
             if len(original_accounts_names) < len(resp_accounts_ids):
-                msg = _('Cannot find a chart of account, you should create '
-                        'one from Settings\Configuration\Accounting menu.')
+                msg = _(r'Cannot find a chart of account, you should create '
+                        r'one from Settings\Configuration\Accounting menu.')
                 raise osv.except_osv(_('Configuration Error!'), msg)
             resp_accounts = account_obj.browse(cr, uid, resp_accounts_ids)
             for account in resp_accounts:
@@ -369,7 +366,6 @@ class account_pt_invoice(osv.osv):
         dom = {}
         obj_journal = self.pool.get('account.journal')
         account_obj = self.pool.get('account.account')
-        inv_line_obj = self.pool.get('account.invoice.line')
         partner_obj = self.pool.get('res.partner')
         if company_id and part_id and type:
             acc_id = False
@@ -507,7 +503,6 @@ class account_pt_invoice(osv.osv):
         self.write({})
 
         for obj_inv in self:
-            id = obj_inv.id
             invtype = obj_inv.type
             number = obj_inv.number
             move_id = obj_inv.move_id and obj_inv.move_id.id or False
@@ -563,9 +558,7 @@ class account_pt_invoice(osv.osv):
 
     # TKO ACCOUNT PT: New method
     def pay_zero_invoice(self, cr, uid, invoice, context):
-        self.pool.get('account.move.line').copy(cr, uid, credit_line.id)
-        reconcile_invoice(self, cr, uid, invoice, context)
-        # debit_line.credit =
+        raise NotImplementedError("This must be fixed or removed.")
 
     # TKO ACCOUNT PT: New method
     @api.one
@@ -587,7 +580,7 @@ class account_pt_invoice(osv.osv):
                 if inv.type == 'in_debit_note' and totals_match:
                     msg = _('Please verify the price of the invoice!\nThe '
                             'encoded total does not match the computed total.')
-                    raise except_orm(_('Bad Total!'), msg)
+                    raise Warning(_('Bad Total!'), msg)
         return super(account_pt_invoice, self).action_move_create()
 
     def name_get(self, cr, uid, ids, context=None):
@@ -1073,55 +1066,56 @@ class account_pt_invoice_tax(osv.osv):
                       'simplified_invoice', 'in_invoice')
         today = time.strftime('%Y-%m-%d')
         date_context = {'date': invoice.date_invoice or today}
+
+        def convert(amount):
+            """convert currency"""
+            return cur_obj.compute(
+                cr, uid, cur.id, company_currency,
+                amount, context=date_context,
+                round=False)
+
         for tax in tax_obj.compute_all(cr, uid, line.invoice_line_tax_id,
                                        line.price_unit * discount,
                                        line.quantity, line.product_id,
                                        invoice.partner_id)['taxes']:
             tax['price_unit'] = cur_obj.round(cr, uid, cur, tax['price_unit'])
-            val = {}
-            val['invoice_id'] = invoice.id
-            val['name'] = tax['name']
-            val['amount'] = tax['amount']
-            val['manual'] = False
-            val['sequence'] = tax['sequence']
-            val['base'] = tax['price_unit'] * line['quantity']
+            val = {
+                'invoice_id': invoice.id,
+                'name': tax['name'],
+                'amount': tax['amount'],
+                'manual': False,
+                'sequence': tax['sequence'],
+                'base': tax['price_unit'] * line['quantity'],
+            }
             if invoice.type in base_types:
-                val['base_code_id'] = tax['base_code_id']
-                val['tax_code_id'] = tax['tax_code_id']
-                val['base_amount'] = cur_obj.compute(
-                    cr, uid, cur.id, company_currency,
-                    val['base'] * tax['base_sign'], context=date_context,
-                    round=False)
-                val['tax_amount'] = cur_obj.compute(
-                    cr, uid, cur.id, company_currency,
-                    val['amount'] * tax['tax_sign'], context=date_context,
-                    round=False)
-                val['account_id'] = tax['account_collected_id'] or \
-                    line.account_id.id
-                val['account_analytic_id'] = \
-                    tax['account_analytic_collected_id']
+                account_id = tax['account_collected_id'] or line.account_id.id
+                account_analytic_id = tax['account_analytic_collected_id']
+                val.update({
+                    'base_code_id': tax['base_code_id'],
+                    'tax_code_id': tax['tax_code_id'],
+                    'base_amount': convert(val['base'] * tax['base_sign']),
+                    'tax_amount': convert(val['amount'] * tax['tax_sign']),
+                    'account_id': account_id,
+                    'account_analytic_id': account_analytic_id,
+                })
             else:
-                val['base_code_id'] = tax['ref_base_code_id']
-                val['tax_code_id'] = tax['ref_tax_code_id']
-                val['base_amount'] = cur_obj.compute(
-                    cr, uid, cur.id, company_currency,
-                    val['base'] * tax['ref_base_sign'], context=date_context,
-                    round=False)
-                val['tax_amount'] = cur_obj.compute(
-                    cr, uid, icur.id, company_currency,
-                    val['amount'] * tax['ref_tax_sign'], context=date_context,
-                    round=False)
-                val['account_id'] = tax['account_paid_id'] or \
-                    line.account_id.id
-                val['account_analytic_id'] = tax['account_analytic_paid_id']
+                account_id = tax['account_paid_id'] or line.account_id.id
+                val.update({
+                    'base_code_id': tax['ref_base_code_id'],
+                    'tax_code_id': tax['ref_tax_code_id'],
+                    'base_amount': convert(val['base'] * tax['ref_base_sign']),
+                    'tax_amount': convert(val['amount'] * tax['ref_tax_sign']),
+                    'account_id': account_id,
+                    'account_analytic_id': tax['account_analytic_paid_id'],
+                })
             key = (val['tax_code_id'], val['base_code_id'],
                    val['account_id'], val['account_analytic_id'])
         return key, val
 
     def compute(self, cr, uid, invoice, context=None):
         tax_grouped = {}
-        tax_obj = self.pool.get('account.tax')
         cur_obj = self.pool.get('res.currency')
+        cur = invoice.currency_id
 
         for line in invoice.invoice_line:
             key, val = self._calculate_tax_group(cr, uid, invoice, line)

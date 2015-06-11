@@ -36,9 +36,9 @@ class stock_picking(osv.osv):
     _description = "Delivery Orders"
     _inherit = 'stock.picking'
 
-    def copy(self, cr, uid, id, default={}, context=None):
-        if context is None:
-            context = {}
+    def copy(self, cr, uid, id, default=None, context=None):
+        if default is None:
+            default = {}
         default.update({
             'waybill_state': 'none',
             'waybill_id': False,
@@ -173,10 +173,10 @@ class stock_picking(osv.osv):
                 if picking.name:
                     origin += picking.name
                 if picking.origin:
-                    origin += ':' + picking.origin
-                observacoes = waybill_vals['observacoes']
+                    origin += u':' + picking.origin
+                observacoes = waybill.observacoes
                 if picking.name:
-                    observacoes += ', ' + picking.name
+                    observacoes += u', ' + picking.name
                 waybill_vals = {
                     'origin': origin,
                     'stock_picking_ids': [(4, picking.id)],
@@ -184,14 +184,14 @@ class stock_picking(osv.osv):
                 }
                 if waybill.sale_id:
                     if picking.sale_id.client_order_ref:
-                        waybill_vals['name'] += ', ' + \
-                            picking.sale_id.client_order_ref
+                        client_order_ref = picking.sale_id.client_order_ref
+                        waybill_vals['name'] += u', ' + client_order_ref
                     if waybill.sale_id.id == picking.sale_id.id:
                         waybill_vals['sale_id'] = picking.sale_id.id
                 guia_obj.write(
                     cr, uid, [guia_id], waybill_vals, context=context)
             else:
-                observacoes = ''
+                observacoes = u''
                 if picking.name:
                     observacoes += _("Ref Delivery Orders: ") + picking.name
                 waybill_vals = {
@@ -203,11 +203,10 @@ class stock_picking(osv.osv):
                     'observacoes': observacoes,
                 }
                 if picking.origin:
-                    waybill_vals['origin'] = waybill_vals[
-                        'origin'] + ': ' + picking.origin
+                    waybill_vals['origin'] += ': ' + picking.origin
                 if picking.sale_id:
-                    waybill_vals[
-                        'name'] = picking.sale_id.client_order_ref or ''
+                    waybill_name = picking.sale_id.client_order_ref or ''
+                    waybill_vals['name'] = waybill_name
                 # Create Waybill
                 guia_id = guia_obj.create(
                     cr, uid, waybill_vals, context=context)
@@ -244,8 +243,7 @@ class stock_picking(osv.osv):
                         discount = invoice_vals.get('discount', False)
                         waybill_lines['discount'] = discount
                 # create waybill lines
-                guia_line_id = guia_line_obj.create(
-                    cr, uid, waybill_lines, context=context)
+                guia_line_obj.create(cr, uid, waybill_lines, context=context)
             res[picking.id] = guia_id
             vals = {'waybill_id': guia_id, 'waybill_state': 'waybilled'}
             self.write(cr, uid, [picking.id], vals)
@@ -260,9 +258,9 @@ class stock_picking(osv.osv):
 class stock_picking_out(osv.osv):
     _inherit = 'stock.picking'
 
-    def copy(self, cr, uid, id, default={}, context=None):
-        if context is None:
-            context = {}
+    def copy(self, cr, uid, id, default=None, context=None):
+        if default is None:
+            default = {}
         default.update({
             'waybill_state': 'none',
             'waybill_id': False,
