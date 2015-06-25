@@ -1,0 +1,168 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_pt_account_asset
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-06-25 13:21-0000\n"
+"PO-Revision-Date: 2015-06-25 13:21-0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"Language: pt\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"X-Generator: Poedit 1.8.1\n"
+
+#. module: l10n_pt_account_asset
+#: model:ir.model,name:l10n_pt_account_asset.model_account_asset_asset
+msgid "Asset"
+msgstr "Imobilizado"
+
+#. module: l10n_pt_account_asset
+#: view:account.asset.legal_rate:l10n_pt_account_asset.account_asset_legal_rate_view_form
+#: view:account.asset.legal_rate:l10n_pt_account_asset.account_asset_legal_rate_view_search
+#: view:account.asset.legal_rate:l10n_pt_account_asset.account_asset_legal_rate_view_tree
+#: model:ir.model,name:l10n_pt_account_asset.model_account_asset_legal_rate
+msgid "Asset Legal Rate"
+msgstr "Taxa Legal"
+
+#. module: l10n_pt_account_asset
+#: model:ir.actions.act_window,name:l10n_pt_account_asset.action_asset_legal_rate_form
+msgid "Asset Legal Rates"
+msgstr "Taxas Legais"
+
+#. module: l10n_pt_account_asset
+#: model:ir.model,name:l10n_pt_account_asset.model_account_asset_category
+msgid "Asset category"
+msgstr "Categoria do Imobilizado"
+
+#. module: l10n_pt_account_asset
+#: model:ir.model,name:l10n_pt_account_asset.model_account_asset_history
+msgid "Asset history"
+msgstr "Histórico do Imobilizado"
+
+#. module: l10n_pt_account_asset
+#: field:account.asset.asset,move_end_period:0
+#: field:account.asset.category,move_end_period:0
+msgid "At the end of the period"
+msgstr "No final do período"
+
+#. module: l10n_pt_account_asset
+#: help:account.asset.asset,move_end_period:0
+#: help:account.asset.category,move_end_period:0
+msgid ""
+"Check if you wish to set the date of your depreciation entries at the end of "
+"the period."
+msgstr ""
+"Assinale se pretende que as datas das depreciações coincidam com o último "
+"dia do período"
+
+#. module: l10n_pt_account_asset
+#: field:account.asset.legal_rate,code:0
+msgid "Code"
+msgstr "Código"
+
+#. module: l10n_pt_account_asset
+#: field:account.asset.legal_rate,create_uid:0
+msgid "Created by"
+msgstr "Criado por"
+
+#. module: l10n_pt_account_asset
+#: field:account.asset.legal_rate,create_date:0
+msgid "Created on"
+msgstr "Criado em"
+
+#. module: l10n_pt_account_asset
+#: help:account.asset.asset,legal_rate_id:0
+#: help:account.asset.category,legal_rate_id:0
+msgid ""
+"Default legal rate. It will be copied to the asset form on creation but can "
+"be modified afterwards"
+msgstr ""
+"Taxa legal a aplicar por defeito. Será copiada para a ficha de imobilizado "
+"no momento da criação mas poderá ser posteriormente modificada"
+
+#. module: l10n_pt_account_asset
+#: field:account.asset.asset,depreciation_rate:0
+#: field:account.asset.category,depreciation_rate:0
+#: field:account.asset.history,depreciation_rate:0
+#: field:account.asset.legal_rate,depreciation_rate:0
+msgid "Depreciation rate (%)"
+msgstr ""
+"Taxa de depreciação (%\n"
+")"
+
+#. module: l10n_pt_account_asset
+#: field:account.asset.legal_rate,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: l10n_pt_account_asset
+#: sql_constraint:account.asset.asset:0
+#: sql_constraint:account.asset.category:0
+#: sql_constraint:account.asset.legal_rate:0
+msgid "Invalid percentage!"
+msgstr "Percentagem inválida!"
+
+#. module: l10n_pt_account_asset
+#: field:account.asset.legal_rate,write_uid:0
+msgid "Last Updated by"
+msgstr "Última atualização por"
+
+#. module: l10n_pt_account_asset
+#: field:account.asset.legal_rate,write_date:0
+msgid "Last Updated on"
+msgstr "Última atualização em"
+
+#. module: l10n_pt_account_asset
+#: field:account.asset.asset,legal_rate_id:0
+#: field:account.asset.category,legal_rate_id:0
+msgid "Legal Rate"
+msgstr "Taxa Legal"
+
+#. module: l10n_pt_account_asset
+#: model:ir.actions.act_window,name:l10n_pt_account_asset.account_asset_legal_rate_action_list
+#: model:ir.ui.menu,name:l10n_pt_account_asset.account_asset_legal_rate_menu
+msgid "Legal Rates"
+msgstr "Taxas Legais"
+
+#. module: l10n_pt_account_asset
+#: field:account.asset.legal_rate,name:0
+msgid "Name"
+msgstr "Nome"
+
+#. module: l10n_pt_account_asset
+#: constraint:account.asset.asset:0
+msgid "Unexpected error in the prorata constraint!"
+msgstr "Unexpected error in the prorata constraint!"
+
+#. module: l10n_pt_account_asset
+#: view:account.asset.asset:l10n_pt_account_asset.view_account_asset_asset_form
+#: view:account.asset.category:l10n_pt_account_asset.view_account_asset_category_form
+msgid ""
+"{'invisible':[('method_time','!=','number')], 'required':"
+"[('method_time','=','number')]}"
+msgstr ""
+"{'invisible':[('method_time','!=','number')], 'required':"
+"[('method_time','=','number')]}"
+
+#. module: l10n_pt_account_asset
+#: view:account.asset.asset:l10n_pt_account_asset.view_account_asset_asset_form
+#: view:account.asset.category:l10n_pt_account_asset.view_account_asset_category_form
+msgid ""
+"{'invisible':[('method_time','in',('number','percentage'))], 'required':"
+"[('method_time','=','end')]}"
+msgstr ""
+"{'invisible':[('method_time','in',('number','percentage'))], 'required':"
+"[('method_time','=','end')]}"
+
+#. module: l10n_pt_account_asset
+#: selection:account.asset.asset,method_time:0
+#: selection:account.asset.category,method_time:0
+#: selection:account.asset.history,method_time:0
+msgid "Fixed percentage"
+msgstr "Percentagem fixa"
