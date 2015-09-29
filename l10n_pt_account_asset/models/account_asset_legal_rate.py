@@ -20,7 +20,7 @@
 #
 ##############################################################################
 
-from openerp import models, fields
+from openerp import api, models, fields
 
 
 class AccountAssetLegalRate(models.Model):
@@ -46,3 +46,26 @@ class AccountAssetLegalRate(models.Model):
          ' CHECK (depreciation_rate > 0 and depreciation_rate <= 100)',
          'Invalid percentage!'),
     ]
+
+    @api.multi
+    @api.depends('name', 'code')
+    def name_get(self):
+        result = []
+        for rec in self:
+            result.append((rec.id, '%s %s' % (rec.code, rec.name)))
+        return result
+
+    def name_search(self, cr, uid, name,
+                    args=None, operator='ilike', context=None, limit=100):
+        if args is None:
+            args = []
+        if context is None:
+            context = {}
+        ids = []
+        if name:
+            ids = self.search(cr, uid,
+                              [('name', 'ilike', name)] + args, limit=limit)
+        if not ids:
+            ids = self.search(cr, uid,
+                              [('code', 'ilike', name)] + args, limit=limit)
+        return self.name_get(cr, uid, ids, context=context)
