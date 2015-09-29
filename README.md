@@ -4,3 +4,6 @@
 # Portuguese Localization for Odoo
 
 WRITE ME !
+
+[//]: # (addons)
+[//]: # (end addons)
