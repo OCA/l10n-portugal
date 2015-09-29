@@ -23,28 +23,13 @@
 {
     "name": "Gestão de Imobilizado para Portugal",
     "version": "0.2",
-    "depends": ["account_asset"],
-    "author": "Sossia, P. Baeza, "
-              "Odoo Community Association (OCA)",
-    'summary': 'Implementa os requisitos legais para gestão de Imobilizado',
-    "description": """
-Gestão de Imobilizado para Portugal
-===================================
-
-Este módulo adiciona as funcionalidades necessárias para o cumprimento dos
- requisitos legais e operacionais da gestão de imobilizado, incluindo:
-
-* Alteração do método de cálculo para o prorata temporal.
-* Adicionar um novo método de cálculo baseado em percentagem fixa por período
-* Adiciona a opção de trasladar a depreciação para o final do período
-* Utilização da tabela de taxas legais definidas no DR nº 25/2009
-
-    """,
+    "depends": ["account_asset_management"],
+    "author": "Sossia, Odoo Community Association (OCA)",
+    'summary': 'Implementa os requisitos legais para gestão de Imobilizado em Portugal',
     "website": "http://www.sossia.pt",
     "category": "Accounting & Finance",
     "data": [
         "security/ir.model.access.csv",
-        "views/account_asset_asset.xml",
         "views/account_asset_category.xml",
         "views/account_legal_rate.xml",
         "data/account_legal_rate.xml",

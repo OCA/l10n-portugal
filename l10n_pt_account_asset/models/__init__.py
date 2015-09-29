@@ -20,7 +20,5 @@
 #
 ##############################################################################
 
-import account_asset_legal_rate
-import account_asset_asset
-import account_asset_category
-import account_asset_history
+from . import account_asset_legal_rate
+from . import account_asset_category

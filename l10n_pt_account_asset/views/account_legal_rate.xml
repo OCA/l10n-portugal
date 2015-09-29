@@ -56,7 +56,7 @@
             <field name="search_view_id" ref="account_asset_legal_rate_view_search"/>
         </record>
 
-    	<menuitem id="account_asset_legal_rate_menu" parent="account_asset.menu_finance_config_assets"  action="account_asset_legal_rate_action_list"/>
+    	<menuitem id="account_asset_legal_rate_menu" parent="account_asset_management.menu_finance_config_assets"  action="account_asset_legal_rate_action_list"/>
 
    </data>
 </openerp>
