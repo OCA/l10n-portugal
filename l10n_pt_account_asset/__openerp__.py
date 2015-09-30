@@ -22,10 +22,10 @@
 
 {
     "name": "Gestão de Imobilizado para Portugal",
-    "version": "0.2",
+    "version": "1.0.0",
     "depends": ["account_asset_management"],
     "author": "Sossia, Odoo Community Association (OCA)",
-    'summary': 'Implementa os requisitos legais para gestão de Imobilizado em Portugal',
+    "summary": "Requisitos legais para Gestão de Imobilizado em Portugal",
     "website": "http://www.sossia.pt",
     "category": "Accounting & Finance",
     "data": [
