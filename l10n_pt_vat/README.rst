@@ -16,7 +16,7 @@ Contributors
 ------------
 
 - Pedro Castro Silva (Sossia)
-- Odoo Community Association (OCA)
+
 
 Maintainer
 ----------
