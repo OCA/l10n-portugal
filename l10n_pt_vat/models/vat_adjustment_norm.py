@@ -23,12 +23,9 @@
 from openerp import api, models, fields
 from openerp import exceptions
 
-#
-# VAT Adjustment Norm (Fields 40/41 of the VAT Statement)
-#
-
-
 class account_vat_adjustment_norm(models.Model):
+    "VAT Adjustment Norm (Fields 40/41 of the VAT Statement)"
+
     _name = "account.vat.adjustment_norm"
     _description = "VAT Adjustment Norm"
 
