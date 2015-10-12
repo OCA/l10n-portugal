@@ -31,14 +31,16 @@
 		<field name="model">account.vat.adjustment_norm</field>
 		<field name="arch" type="xml">
 			<form string="VAT Adjustment Norm">
-				<group col="4">
-					<field name="name" placeholder="Legal Norm (ex: Art. 78º, nº 8, alínea b)) ..."/>
-					<field name="active"/>
-				</group>
 				<group>
-					 <field name="note"/>
-					 <field name="out_refunds"/>
-					 <field name="in_refunds"/>
+				  	<group>
+						<field name="name" placeholder="Legal Norm (ex: Art. 78º, nº 8, alínea b)) ..."/>
+				  	  	<field name="note"/>
+						<field name="out_refunds"/>
+						<field name="in_refunds"/>
+					</group>
+				  	<group>
+				  		<field name="active"/>
+					</group>
 				</group>
 			</form>
 		</field>
