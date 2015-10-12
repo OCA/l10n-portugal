@@ -3,7 +3,6 @@
 #
 #    Odoo, Open Source Management Solution
 #    Copyright (C) 2014- Sossia, Lda. (<http://www.sossia.pt>)
-#    Copyright (C) 2004 OpenERP SA (<http://www.odoo.com>)
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -22,7 +21,7 @@
 
 {
     "name": "Portugal - IVA",
-    "version": "0.2",
+    "version": "8.0.0.0.2",
     "depends": ['account', 'base_vat'],
     "author": "Sossia, Odoo Community Association (OCA)",
     "summary": "Portuguese VAT requirements extensions",
