@@ -3,7 +3,6 @@
 #
 #    Odoo, Open Source Management Solution
 #    Copyright (C) 2014- Sossia, Lda. (<http://www.sossia.pt>)
-#    Copyright (C) 2004  OpenERP SA (<http://www.odoo.com>)
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -22,7 +21,7 @@
 
 {
     "name": "Gestão de Imobilizado para Portugal",
-    "version": "1.0.0",
+    "version": "8.0.1.0.0",
     "depends": ["account_asset_management"],
     "author": "Sossia, Odoo Community Association (OCA)",
     "summary": "Requisitos legais para Gestão de Imobilizado em Portugal",

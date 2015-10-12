@@ -35,8 +35,8 @@ class AccountAssetCategory(models.Model):
             self.method_time = 'year'
             self.method_period = 'year'
             self.prorata = True
-            self.method_number = round(100 /
-                                       self.legal_rate_id.depreciation_rate, 0)
+            self.method_number = round(
+                100 / self.legal_rate_id.depreciation_rate, 0)
 
     _defaults = {
         'prorata': True,
