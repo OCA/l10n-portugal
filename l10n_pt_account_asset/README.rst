@@ -10,20 +10,14 @@ Este módulo adiciona as funcionalidades necessárias para o cumprimento dos
 * Utilização da tabela de taxas legais definidas no DR nº 25/2009
 
 
-Configuração
-=============
 
-Não é necessária qualquer configuração.
-
-
-Créditos
+Credits
 ========
 
 Contributors
 ------------
 
 - Pedro Castro Silva (Sossia)
-- Odoo Community Association (OCA)
 
 Maintainer
 ----------
