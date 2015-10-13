@@ -24,7 +24,7 @@ from openerp import api, models, fields
 from openerp import exceptions
 
 class AccountVATAdjustmentNorm(models.Model):
-    "VAT Adjustment Norm (Fields 40/41 of the VAT Statement)"
+    "Support fields 40/41 of the VAT Statement)"
 
     _name = "account.vat.adjustment_norm"
     _description = "VAT Adjustment Norm"
@@ -65,4 +65,4 @@ class AccountVATAdjustmentNorm(models.Model):
             raise exceptions.Warning("Couldn't delete the adjustment norms"
                                      "because they are still referenced in"
                                      "refunds.")
-        return super(account_vat_adjustment_norm, self).unlink()
+        return super(AccountVATAdjustmentNorm, self).unlink()
