@@ -23,6 +23,7 @@
 from openerp import api, models, fields
 from openerp import exceptions
 
+
 class AccountVATAdjustmentNorm(models.Model):
     "Support fields 40/41 of the VAT Statement)"
 
