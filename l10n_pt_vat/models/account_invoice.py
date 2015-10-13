@@ -28,4 +28,5 @@ class AccountInvoice(models.Model):
     # VAT Adjustment Norm (Fields 40/41 of the VAT Statement)
     vat_adjustment_norm_id = fields.Many2one(
         'account.vat.adjustment_norm',
-        string='VAT Adjustment Norm',)
+        string='VAT Adjustment Norm',
+        ondelete='restrict')
