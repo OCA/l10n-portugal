@@ -1,28 +1,27 @@
-<openerp>
-<data>
-
-    <record id="view_account_asset_category_form" model="ir.ui.view" >
-        <field name="name">account.asset.category.form.l10n_pt</field>
-        <field name="model">account.asset.category</field>
-        <field name="inherit_id" ref="account_asset_management.view_account_asset_category_form"/>
-        <field name="arch" type="xml">
-            <field name="name" position="after">
-            	<field name="legal_rate_id"/>    
-            </field>
-            <field name="method_number" position="attributes">
-                <attribute name="attrs">{'readonly':[('legal_rate_id','!=','')]}</attribute>
-            </field>
-            <field name="method_time" position="attributes">
-                <attribute name="attrs">{'readonly':[('legal_rate_id','!=','')]}</attribute>
-            </field>
-            <field name="method_period" position="attributes">
-                <attribute name="attrs">{'readonly':[('legal_rate_id','!=','')]}</attribute>
-            </field>
-            <field name="prorata" position="attributes">
-                <attribute name="attrs">{'readonly':[('legal_rate_id','!=','')]}</attribute>
-            </field>
-        </field>
-    </record>
-    
-</data>
-</openerp>
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+	    <record id="view_account_asset_category_form" model="ir.ui.view" >
+        	<field name="name">account.asset.category.form.l10n_pt</field>
+	        <field name="model">account.asset.category</field>
+    	    <field name="inherit_id" ref="account_asset_management.view_account_asset_category_form"/>
+    	    <field name="arch" type="xml">
+    	        <field name="name" position="after">
+    	        	<field name="legal_rate_id"/>
+    	        </field>
+	            <field name="method_number" position="attributes">
+    	            <attribute name="attrs">{'readonly':[('legal_rate_id','!=','')]}</attribute>
+    	        </field>
+    	        <field name="method_time" position="attributes">
+    	            <attribute name="attrs">{'readonly':[('legal_rate_id','!=','')]}</attribute>
+    	        </field>
+    	        <field name="method_period" position="attributes">
+    	            <attribute name="attrs">{'readonly':[('legal_rate_id','!=','')]}</attribute>
+    	        </field>
+    	        <field name="prorata" position="attributes">
+    	            <attribute name="attrs">{'readonly':[('legal_rate_id','!=','')]}</attribute>
+    	        </field>
+    	    </field>
+    	</record>
+	</data>
+</odoo>

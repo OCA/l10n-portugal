@@ -15,4 +15,3 @@
 # sale-workflow https://github.com/OCA/sale-workflow branchname
 
 account_asset_management
-account-financial-tools
