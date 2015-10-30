@@ -36,6 +36,7 @@ class AccountVATAdjustmentNorm(models.Model):
 
     active = fields.Boolean(
         string='Active',
+        default=True,
         help="If the active field is set to False, it "
              "will allow you to hide the adjustment norm without removing it.")
 
@@ -52,18 +53,3 @@ class AccountVATAdjustmentNorm(models.Model):
         string='Use on third party refunds',
         help="If True, it will allow you to apply the adjustment"
              "norm to third party companies refunds.")
-
-    _defaults = {
-        'active': True,
-    }
-
-    @api.multi
-    def unlink(self):
-        inv_obj = self.env['account.invoice']
-        rule_ranges = inv_obj.search(
-            [('vat_adjustment_norm_id', 'in', self.ids)])
-        if rule_ranges:
-            raise exceptions.Warning("Couldn't delete the adjustment norms"
-                                     "because they are still referenced in"
-                                     "refunds.")
-        return super(AccountVATAdjustmentNorm, self).unlink()
