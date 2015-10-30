@@ -29,6 +29,8 @@ class AccountAssetCategory(models.Model):
         'account.asset.legal_rate',
         string='Legal Rate',)
 
+    prorata = fields.Boolean(default=True)
+
     @api.onchange('legal_rate_id')
     def onchange_legal_rate(self):
         if self.legal_rate_id:
@@ -37,7 +39,3 @@ class AccountAssetCategory(models.Model):
             self.prorata = True
             self.method_number = round(
                 100 / self.legal_rate_id.depreciation_rate, 0)
-
-    _defaults = {
-        'prorata': True,
-    }
