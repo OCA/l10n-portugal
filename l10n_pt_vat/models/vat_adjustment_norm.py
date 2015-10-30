@@ -20,8 +20,7 @@
 #
 ##############################################################################
 
-from openerp import api, models, fields
-from openerp import exceptions
+from openerp import models, fields
 
 
 class AccountVATAdjustmentNorm(models.Model):
