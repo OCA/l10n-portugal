@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<openerp>
+<odoo>
    <data>
 
 	<!-- Sales invoice form !-->
@@ -37,6 +37,4 @@
 	</record>
 
    </data>
-</openerp>
-
-
+</odoo>
