@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+   <data>
+
+	<!-- VAT Adjustment Norm -->
+	<!-- Relates to fields 40/41 of the VAT statement -->
+	<record id="vat_adjustment_norm_view_search" model="ir.ui.view">
+		<field name="name">account.vat.adjustment_norm.search</field>
+		<field name="model">account.vat.adjustment_norm</field>
+		<field name="arch" type="xml">
+			<search string="VAT Adjustment Norm">
+				<field name="name"/>
+				<field name="note"/>
+			</search>
+		</field>
+	</record>
+	<record id="vat_adjustment_norm_view_tree" model="ir.ui.view">
+		<field name="name">account.vat.adjustment_norm.tree</field>
+		<field name="model">account.vat.adjustment_norm</field>
+		<field name="field_parent">child_ids</field>
+		<field name="priority">100</field>
+		<field name="arch" type="xml">
+			<tree string="VAT Adjustment Norm">
+				<field name="name"/>
+				<field name="note"/>
+			</tree>
+		</field>
+	</record>
+	<record id="vat_adjustment_norm_view_form" model="ir.ui.view">
+		<field name="name">account.vat.adjustment_norm.form</field>
+		<field name="model">account.vat.adjustment_norm</field>
+		<field name="arch" type="xml">
+			<form string="VAT Adjustment Norm">
+				<group>
+				  	<group>
+						<field name="name" placeholder="Legal Norm (ex: Art. 78º, nº 8, alínea b)) ..."/>
+				  	  	<field name="note"/>
+						<field name="out_refunds"/>
+						<field name="in_refunds"/>
+					</group>
+				  	<group>
+				  		<field name="active"/>
+					</group>
+				</group>
+			</form>
+		</field>
+	</record>
+	<record id="action_vat_adjustment_norm_form" model="ir.actions.act_window">
+		<field name="name">VAT Adjustment Norm</field>
+		<field name="res_model">account.vat.adjustment_norm</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">tree,form</field>
+		<field name="search_view_id" ref="vat_adjustment_norm_view_search"/>
+	</record>
+
+	<record id="vat_adjustment_norm_action_list" model="ir.actions.act_window">
+		<field name="name">VAT Adjustment Norms</field>
+		<field name="res_model">account.vat.adjustment_norm</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">tree,form</field>
+		<field name="view_id" ref="vat_adjustment_norm_view_tree"/>
+		<field name="search_view_id" ref="vat_adjustment_norm_view_search"/>
+	</record>
+
+	<menuitem id="menu_action_vat_adjustment_norm_list"
+		parent="account.next_id_27"
+		action="vat_adjustment_norm_action_list"
+		sequence="41" groups="base.group_no_one"/>
+
+	<menuitem id="menu_action_vat_adjustment_norm_form"
+		action="action_vat_adjustment_norm_form"
+		parent="account.account_template_taxes"
+		sequence="30"/>
+
+   </data>
+</openerp>
