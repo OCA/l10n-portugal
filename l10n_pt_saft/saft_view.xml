@@ -131,8 +131,8 @@
             <field name="target">new</field>
         </record>
 
-        <menuitem action="action_wizard_saft" id="menu_wizard_saft" parent="account.menu_finance_legal_statement"/>
-
+        <menuitem action="action_wizard_saft" id="menu_wizard_saft"
+                  parent="account.menu_finance_legal_statement"/>
 
     </data>
 </openerp>

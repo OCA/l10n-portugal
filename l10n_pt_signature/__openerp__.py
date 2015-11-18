@@ -1,9 +1,8 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    OpenERP, Open Source Management Solution
-#    Copyright (C) 2004-2009 Tiny SPRL (<http://tiny.be>). All Rights Reserved
-#    $Id$
+#    Copyright (C) 2010 Paulino Ascenção <paulino1@sapo.pt>
+#    Modificações (C) Jorge A. Ferreira sysop.x0@gmail.com 9/2013
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -24,10 +23,6 @@
     "name": "Portugal - Digital signature",
     "version": "1.00122",
     "category": "Localisation/Account",
-    "description": """
-This module allows the OpenERP invoice system to add a digital signature
-in order to be certified by the Portuguese Tax Authority.
-    """,
     "author": "Paulino / Sysop",
     "depends": ["l10n_pt_saft"],
     "data": [

@@ -1,10 +1,6 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    OpenERP, Open Source Management Solution
-#    Copyright (C) 2004-2013 Tiny SPRL (<http://tiny.be>). All Rights Reserved
-#    $Id$
-#
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
 #    the Free Software Foundation, either version 3 of the License, or
@@ -32,13 +28,7 @@
     'depends': ['account'],
     'author': 'Paulino Ascenção, João Figueira, Jorge A. Ferreira',
     'category': 'Localisation/Account charts',
-    'description': """
-Implementação da versão portuguesa do Ficheiro para auditoria fiscal.
-===============================================================================
-SAFT - Standard Audit File for Tax purposes
-Módulo l10n_pt_saft.
-""",
-    'website': 'www.communities.pt',
+    'website': 'https://github.com/OCA/l10-portugal',
     'data': ['saft_view.xml'],
     'installable': True,
 }

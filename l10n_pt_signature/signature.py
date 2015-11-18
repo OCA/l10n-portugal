@@ -1,31 +1,29 @@
 #! -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Digital signature module for OpenERP, signs with an RSA private key the invoices
-#    in complyance to the portuguese law - Decree nº 363/2010, of the 23rd June.
+#    This file is a part of l10n_pt_digital_signature
 #    Copyright (C) 2010 Paulino Ascenção <paulino1@sapo.pt>
 #    Modificações (C) Jorge A. Ferreira sysop.x0@gmail.com 9/2013
 #
-#    This file is a part of l10n_pt_digital_signature
-#
-#    l10n_pt_digital_sign is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as published by
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
 #    the Free Software Foundation, either version 3 of the License, or
 #    (at your option) any later version.
 #
-#    l10n_pt_digital_sign is distributed in the hope that it will be useful,
+#    This program is distributed in the hope that it will be useful,
 #    but WITHOUT ANY WARRANTY; without even the implied warranty of
 #    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU Affero General Public License for more details.
+#    GNU General Public License for more details.
 #
-#    You should have received a copy of the GNU Affero General Public License
+#    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
 ##############################################################################
 
 import datetime
 import os
 
-from openerp import models, _
+from openerp import models, _, exceptions
 
 
 key = """-----BEGIN RSA PRIVATE KEY-----
@@ -68,17 +66,21 @@ class account_invoice(models.Model):
         res = {}
         #invoice_obj=self.pool.get('account.invoice')
         invoice = self.browse(inv_id)
-        self._cr.execute(
-            "SELECT hash FROM account_invoice inv \
-             WHERE internal_number = (\
-                SELECT MAX( internal_number) FROM account_invoice \
-                WHERE journal_id = " + str(invoice.journal_id.id)+" \
-                    AND internal_number < '" + invoice.internal_number + "'\
-                    AND period_id in ( \
-                        SELECT id FROM account_period \
-                        WHERE fiscalyear_id = " + str(
-            invoice.period_id.fiscalyear_id.id) + ") \
-                        AND state in ('open', 'paid', 'cancel') )" )
+        self.env.cr.execute(
+            """
+            SELECT hash FROM account_invoice inv
+             WHERE internal_number = (
+                SELECT MAX( internal_number) FROM account_invoice
+                WHERE journal_id = %d
+                  AND internal_number < %s
+                  AND period_id in (
+                        SELECT id FROM account_period
+                        WHERE fiscalyear_id = %d)
+                  AND state in ('open', 'paid', 'cancel') )
+            """,
+            (invoice.journal_id.id,
+             invoice.internal_number,
+             invoice.period_id.fiscalyear_id.id))
         res = self._cr.fetchone()
         if res is None:
             return ''
@@ -106,11 +108,9 @@ class account_invoice(models.Model):
                 invoiceNo = str(
                     invoice.journal_id.saft_inv_type + ' ' + invoice.number)
             except TypeError:
-                # FIXME
-                raise osv.except_osv(
-                    _('Error !'),
+                raise exceptions.ValidationError(
                     _("Please set the doc type at Journal's SAFT parameters!"))
-                return
+                return False
             gross_total = self.grosstotal(invoice.id)
             prev_hash = self.get_hash(invoice.id)
 
@@ -142,9 +142,7 @@ class account_invoice(models.Model):
                         not invoice.journal_id.self_billing) or \
                         (invoice.type in ('in_refund', 'in_invoice') and
                          invoice.journal_id.self_billing):
-                    # FIXME
-                    raise osv.except_osv(
-                        _('Error !'),
+                    raise exceptions.ValidationError(
                         _('You cannot cancel confirmed Invoices '
                           'subject to digital signature!'))
                     return False
@@ -160,9 +158,7 @@ class account_invoice(models.Model):
                 for move_line in pay_ids:
                     if move_line.reconcile_partial_id and \
                             move_line.reconcile_partial_id.line_partial_ids:
-                        # FIXME
-                        raise osv.except_osv(
-                            _('Error !'),
+                        raise exceptions.ValidationError(
                             _('You cannot cancel the Invoice which is '
                               'Partially Paid! You need to unreconcile '
                               'concerned payment entries!'))
