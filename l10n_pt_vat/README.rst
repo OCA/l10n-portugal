@@ -15,7 +15,7 @@ Credits
 Contributors
 ------------
 
-- Pedro Castro Silva (Sossia)
+- Pedro Castro Silva (`Sossia <http://www.sossia.pt>`_)
 
 
 Maintainer

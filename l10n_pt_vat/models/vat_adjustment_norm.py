@@ -45,10 +45,10 @@ class AccountVATAdjustmentNorm(models.Model):
 
     out_refunds = fields.Boolean(
         string='Use on company refunds',
-        help="If True, it will allow you to apply the adjustment"
+        help="If True, it will allow you to apply the adjustment "
              "norm to your company refunds.")
 
     in_refunds = fields.Boolean(
         string='Use on third party refunds',
-        help="If True, it will allow you to apply the adjustment"
+        help="If True, it will allow you to apply the adjustment "
              "norm to third party companies refunds.")

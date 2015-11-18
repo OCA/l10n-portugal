@@ -21,18 +21,18 @@
 
 {
     "name": "Portugal - IVA",
-    "version": "8.0.0.0.2",
+    "version": "8.0.0.0.3",
     "license": "AGPL-3",
     "depends": ['account', 'base_vat'],
     "author": "Sossia, Odoo Community Association (OCA)",
     "summary": "Portuguese VAT requirements extensions",
-    "website": "http://www.sossia.pt",
-    "category": "Accounting & Finance",
+    "website": "https://github.com/OCA/l10n-portugal",
+    "category": "Localisation/Europe",
     "data": [
             "security/ir.model.access.csv",
             "data/vat_adjustment_norm.xml",
             "views/vat_adjustment_norm_view.xml",
-        "views/account_invoice_view.xml",
+            "views/account_invoice_view.xml",
     ],
     "installable": True,
     "auto_install": False,
