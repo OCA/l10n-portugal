@@ -27,7 +27,7 @@
     "author": "Sossia, Odoo Community Association (OCA)",
     "summary": "Portuguese asset management localization",
     "website": "https://github.com/OCA/l10n-portugal",
-    "category": "Localisation/Europe",
+    "category": "Localization/Portugal",
     "data": [
             "security/ir.model.access.csv",
             "views/account_asset_category.xml",
