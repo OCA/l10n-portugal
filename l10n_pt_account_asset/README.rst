@@ -1,14 +1,14 @@
 .. image:: https://img.shields.io/badge/licence-AGPL--3-blue.svg
     :alt: License: AGPL-3
 
-Gestão de Imobilizado para Portugal
+Portugal - Asset Management
 ===================================
 
-Este módulo adiciona as funcionalidades necessárias para o cumprimento dos
- requisitos legais e operacionais da gestão de imobilizado em Portugal, incluindo:
+This module extends the *account_asset_management* module in order to meet
+the legal and functional requirements of the Portuguese localization,
+including:
 
-* Utilização da tabela de taxas legais definidas no DR nº 25/2009
-
+* The use of legal depreciation rates as defined in the *DR nº 25/2009* norm.
 
 
 Credits
@@ -17,7 +17,7 @@ Credits
 Contributors
 ------------
 
-- Pedro Castro Silva (Sossia)
+- Pedro Castro Silva (`Sossia <http://www.sossia.pt>`_)
 
 Maintainer
 ----------

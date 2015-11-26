@@ -20,14 +20,14 @@
 ##############################################################################
 
 {
-    "name": "Gestão de Imobilizado para Portugal",
-    "version": "8.0.1.0.0",
+    "name": "Portugal - Asset Management",
+    "version": "8.0.1.0.1",
     "license": "AGPL-3",
     "depends": ["account_asset_management"],
     "author": "Sossia, Odoo Community Association (OCA)",
-    "summary": "Requisitos legais para Gestão de Imobilizado em Portugal",
-    "website": "http://www.sossia.pt",
-    "category": "Accounting & Finance",
+    "summary": "Portuguese asset management localization",
+    "website": "https://github.com/OCA/l10n-portugal",
+    "category": "Localisation/Portugal",
     "data": [
             "security/ir.model.access.csv",
             "views/account_asset_category.xml",
