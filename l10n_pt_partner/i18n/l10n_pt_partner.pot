@@ -1,0 +1,198 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* l10n_pt_partner
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-11-27 14:50+0000\n"
+"PO-Revision-Date: 2015-11-27 14:50+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_pt_partner
+#: code:addons/l10n_pt_partner/models/l10n_pt_partner.py:79
+#, python-format
+msgid "Account number should have 21 digits."
+msgstr ""
+
+#. module: l10n_pt_partner
+#: field:res.company,account_officer_vat:0
+msgid "Accountant TIN"
+msgstr ""
+
+#. module: l10n_pt_partner
+#: field:res.partner,alias:0
+msgid "Alias"
+msgstr ""
+
+#. module: l10n_pt_partner
+#: view:res.partner:l10n_pt_partner.view_partner_form
+#: view:res.partner:l10n_pt_partner.view_partner_simple_form
+msgid "Alias name"
+msgstr ""
+
+#. module: l10n_pt_partner
+#: model:ir.model,name:l10n_pt_partner.model_res_bank
+msgid "Bank"
+msgstr ""
+
+#. module: l10n_pt_partner
+#: model:ir.model,name:l10n_pt_partner.model_res_partner_bank
+msgid "Bank Accounts"
+msgstr ""
+
+#. module: l10n_pt_partner
+#: selection:res.partner,self_billing:0
+msgid "Both"
+msgstr ""
+
+#. module: l10n_pt_partner
+#: field:res.bank,code:0
+msgid "Code"
+msgstr ""
+
+#. module: l10n_pt_partner
+#: model:ir.model,name:l10n_pt_partner.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: l10n_pt_partner
+#: field:res.partner.bank,acc_country_id:0
+msgid "Country"
+msgstr ""
+
+#. module: l10n_pt_partner
+#: code:addons/l10n_pt_partner/models/l10n_pt_partner.py:113
+#, python-format
+msgid "IBAN account is not valid"
+msgstr ""
+
+#. module: l10n_pt_partner
+#: help:res.partner.bank,acc_country_id:0
+msgid "If the bank account is Portuguese, the account number will be validated and formatted accordingly."
+msgstr ""
+
+#. module: l10n_pt_partner
+#: help:res.partner,self_billing:0
+msgid "Indicate if the partner is under any kind of self billing agreement"
+msgstr ""
+
+#. module: l10n_pt_partner
+#: code:addons/l10n_pt_partner/models/l10n_pt_partner.py:87
+#, python-format
+msgid "Invalid bank account."
+msgstr ""
+
+#. module: l10n_pt_partner
+#: view:res.company:l10n_pt_partner.view_company_form
+msgid "Lisboa / 12345"
+msgstr ""
+
+#. module: l10n_pt_partner
+#: field:res.bank,lname:0
+msgid "Long name"
+msgstr ""
+
+#. module: l10n_pt_partner
+#: field:res.partner,invoice_copies:0
+msgid "No. of copies"
+msgstr ""
+
+#. module: l10n_pt_partner
+#: model:ir.model,name:l10n_pt_partner.model_res_partner
+msgid "Partner"
+msgstr ""
+
+#. module: l10n_pt_partner
+#: selection:res.partner,self_billing:0
+msgid "Purchases"
+msgstr ""
+
+#. module: l10n_pt_partner
+#: selection:res.partner,self_billing:0
+msgid "Sales"
+msgstr ""
+
+#. module: l10n_pt_partner
+#: field:res.partner,self_billing:0
+msgid "Self Billing"
+msgstr ""
+
+#. module: l10n_pt_partner
+#: help:res.partner,invoice_copies:0
+msgid "Set the number of copies of invoices (or other legal documents) to print. A value of 1 means that a print job will output the original document plus one copy."
+msgstr ""
+
+#. module: l10n_pt_partner
+#: field:res.company,share_capital:0
+msgid "Share Capital"
+msgstr ""
+
+#. module: l10n_pt_partner
+#: field:res.bank,vat:0
+msgid "TIN"
+msgstr ""
+
+#. module: l10n_pt_partner
+#: help:res.company,account_officer_vat:0
+msgid "TIN of the certified accounting officer"
+msgstr ""
+
+#. module: l10n_pt_partner
+#: sql_constraint:res.partner:0
+msgid "The no. of invoice copies should be a number between 0 and 3!"
+msgstr ""
+
+#. module: l10n_pt_partner
+#: code:addons/l10n_pt_partner/models/l10n_pt_company.py:52
+#, python-format
+msgid "The value %s for the Accountant TIN does not seem to be valid. \n"
+"Note: the expected format is %s"
+msgstr ""
+
+#. module: l10n_pt_partner
+#: sql_constraint:res.company:0
+msgid "The value of the field 'Share Capital' must be positive."
+msgstr ""
+
+#. module: l10n_pt_partner
+#: help:res.partner,alias:0
+msgid "Trade name or any other form of alternative name"
+msgstr ""
+
+#. module: l10n_pt_partner
+#: code:addons/l10n_pt_partner/models/l10n_pt_partner.py:78
+#: code:addons/l10n_pt_partner/models/l10n_pt_partner.py:86
+#: code:addons/l10n_pt_partner/models/l10n_pt_partner.py:112
+#, python-format
+msgid "Warning"
+msgstr ""
+
+#. module: l10n_pt_partner
+#: field:res.bank,website:0
+msgid "Website"
+msgstr ""
+
+#. module: l10n_pt_partner
+#: code:addons/l10n_pt_partner/models/l10n_pt_partner.py:199
+#, python-format
+msgid "You can't change the TIN of a customer who has posted invoices"
+msgstr ""
+
+#. module: l10n_pt_partner
+#: code:addons/l10n_pt_partner/models/l10n_pt_partner.py:191
+#, python-format
+msgid "You can't change the name of a customer who has posted invoices"
+msgstr ""
+
+#. module: l10n_pt_partner
+#: view:res.partner.bank:l10n_pt_partner.view_partner_bank_form_banco
+msgid "onchange_bank_account(acc_number, acc_country_id, state)"
+msgstr ""
+
