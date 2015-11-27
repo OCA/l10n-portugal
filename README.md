@@ -10,7 +10,7 @@ Available addons
 ----------------
 addon | version | summary
 --- | --- | ---
-[l10n_pt_account_asset](l10n_pt_account_asset/) | 8.0.1.0.0 | Requisitos legais para Gestão de Imobilizado em Portugal
-[l10n_pt_vat](l10n_pt_vat/) | 8.0.0.0.2 | Portuguese VAT requirements extensions
+[l10n_pt_account_asset](l10n_pt_account_asset/) | 8.0.1.0.1 | Portuguese asset management localization
+[l10n_pt_vat](l10n_pt_vat/) | 8.0.0.0.3 | Portuguese VAT requirements extensions
 
 [//]: # (end addons)
