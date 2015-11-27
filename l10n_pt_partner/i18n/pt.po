@@ -1,0 +1,199 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* l10n_pt_partner
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-11-27 14:50+0000\n"
+"PO-Revision-Date: 2015-11-27 14:50+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_pt_partner
+#: code:addons/l10n_pt_partner/models/l10n_pt_partner.py:79
+#, python-format
+msgid "Account number should have 21 digits."
+msgstr "O Nº de Identificação Bancária deve ter 21 dígitos."
+
+#. module: l10n_pt_partner
+#: field:res.company,account_officer_vat:0
+msgid "Accountant TIN"
+msgstr "NIF do TOC"
+
+#. module: l10n_pt_partner
+#: field:res.partner,alias:0
+msgid "Alias"
+msgstr "Alias"
+
+#. module: l10n_pt_partner
+#: view:res.partner:l10n_pt_partner.view_partner_form
+#: view:res.partner:l10n_pt_partner.view_partner_simple_form
+msgid "Alias name"
+msgstr "Nome alternativo"
+
+#. module: l10n_pt_partner
+#: model:ir.model,name:l10n_pt_partner.model_res_bank
+msgid "Bank"
+msgstr "Banco"
+
+#. module: l10n_pt_partner
+#: model:ir.model,name:l10n_pt_partner.model_res_partner_bank
+msgid "Bank Accounts"
+msgstr "Contas Bancárias"
+
+#. module: l10n_pt_partner
+#: selection:res.partner,self_billing:0
+msgid "Both"
+msgstr "Ambos"
+
+#. module: l10n_pt_partner
+#: field:res.bank,code:0
+msgid "Code"
+msgstr "Código"
+
+#. module: l10n_pt_partner
+#: model:ir.model,name:l10n_pt_partner.model_res_company
+msgid "Companies"
+msgstr "Empresas"
+
+#. module: l10n_pt_partner
+#: field:res.partner.bank,acc_country_id:0
+msgid "Country"
+msgstr "País"
+
+#. module: l10n_pt_partner
+#: code:addons/l10n_pt_partner/models/l10n_pt_partner.py:113
+#, python-format
+msgid "IBAN account is not valid"
+msgstr "O nº da conta IBAN não é válido."
+
+#. module: l10n_pt_partner
+#: help:res.partner.bank,acc_country_id:0
+msgid "If the bank account is Portuguese, the account number will be validated and formatted accordingly."
+msgstr "Se a conta bancária é Portuguesa, o respetivo número será devidamente validado e formatado."
+
+#. module: l10n_pt_partner
+#: help:res.partner,self_billing:0
+msgid "Indicate if the partner is under any kind of self billing agreement"
+msgstr "Indica se há algum tipo de acordo de autofaturação com o parceiro"
+
+#. module: l10n_pt_partner
+#: code:addons/l10n_pt_partner/models/l10n_pt_partner.py:87
+#, python-format
+msgid "Invalid bank account."
+msgstr "Nº de conta bancária inválido."
+
+#. module: l10n_pt_partner
+#: view:res.company:l10n_pt_partner.view_company_form
+msgid "Lisboa / 12345"
+msgstr "Lisboa nº 12345"
+
+#. module: l10n_pt_partner
+#: field:res.bank,lname:0
+msgid "Long name"
+msgstr "Nome longo"
+
+#. module: l10n_pt_partner
+#: field:res.partner,invoice_copies:0
+msgid "No. of copies"
+msgstr "Nº de cópias"
+
+#. module: l10n_pt_partner
+#: model:ir.model,name:l10n_pt_partner.model_res_partner
+msgid "Partner"
+msgstr "Parceiro"
+
+#. module: l10n_pt_partner
+#: selection:res.partner,self_billing:0
+msgid "Purchases"
+msgstr "Compras"
+
+#. module: l10n_pt_partner
+#: selection:res.partner,self_billing:0
+msgid "Sales"
+msgstr "Vendas"
+
+#. module: l10n_pt_partner
+#: field:res.partner,self_billing:0
+msgid "Self Billing"
+msgstr "Autofaturação"
+
+#. module: l10n_pt_partner
+#: help:res.partner,invoice_copies:0
+msgid "Set the number of copies of invoices (or other legal documents) to print. A value of 1 means that a print job will output the original document plus one copy."
+msgstr "Indique o nº de cópias pretendido para impressões de faturas (ou outros documentos legais). O valor 1 significa que serão impressos um original e uma cópia."
+
+#. module: l10n_pt_partner
+#: field:res.company,share_capital:0
+msgid "Share Capital"
+msgstr "Capital Social"
+
+#. module: l10n_pt_partner
+#: field:res.bank,vat:0
+msgid "TIN"
+msgstr "NIPC"
+
+#. module: l10n_pt_partner
+#: help:res.company,account_officer_vat:0
+msgid "TIN of the certified accounting officer"
+msgstr "NIF do Técnico Oficial de Contas"
+
+#. module: l10n_pt_partner
+#: sql_constraint:res.partner:0
+msgid "The no. of invoice copies should be a number between 0 and 3!"
+msgstr "O nº de cópias deve ser valor entre 0 e 3!"
+
+#. module: l10n_pt_partner
+#: code:addons/l10n_pt_partner/models/l10n_pt_company.py:52
+#, python-format
+msgid "The value %s for the Accountant TIN does not seem to be valid. \n"
+"Note: the expected format is %s"
+msgstr "O valor %s no campo 'NIF do TOC' não parece válido. \n"
+"Nota: o formato esperado é %s"
+
+#. module: l10n_pt_partner
+#: sql_constraint:res.company:0
+msgid "The value of the field 'Share Capital' must be positive."
+msgstr "O valor do campo 'Capital Social' tem que ser positivo."
+
+#. module: l10n_pt_partner
+#: help:res.partner,alias:0
+msgid "Trade name or any other form of alternative name"
+msgstr "Nome comercial ou qualquer outra forma de nome alternativo"
+
+#. module: l10n_pt_partner
+#: code:addons/l10n_pt_partner/models/l10n_pt_partner.py:78
+#: code:addons/l10n_pt_partner/models/l10n_pt_partner.py:86
+#: code:addons/l10n_pt_partner/models/l10n_pt_partner.py:112
+#, python-format
+msgid "Warning"
+msgstr "Aviso"
+
+#. module: l10n_pt_partner
+#: field:res.bank,website:0
+msgid "Website"
+msgstr "Website"
+
+#. module: l10n_pt_partner
+#: code:addons/l10n_pt_partner/models/l10n_pt_partner.py:199
+#, python-format
+msgid "You can't change the TIN of a customer who has posted invoices"
+msgstr "Não pode alterar o NIPC de um cliente com faturas registadas"
+
+#. module: l10n_pt_partner
+#: code:addons/l10n_pt_partner/models/l10n_pt_partner.py:191
+#, python-format
+msgid "You can't change the name of a customer who has posted invoices"
+msgstr "Não pode alterar o nome de um cliente com faturas registadas"
+
+#. module: l10n_pt_partner
+#: view:res.partner.bank:l10n_pt_partner.view_partner_bank_form_banco
+msgid "onchange_bank_account(acc_number, acc_country_id, state)"
+msgstr ""
+
