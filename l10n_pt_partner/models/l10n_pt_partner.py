@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    Odoo, Open Source Management Solution
-#    Copyright (C) 2014- Sossia, Lda. (<http://www.sossia.pt>)
+#    Copyright (C) 2015 Sossia, Lda. (<http://www.sossia.pt>)
 #    Copyright (c) 2008 Spanish Localization Team
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -128,8 +128,8 @@ class ResPartner(models.Model):
 
     previous_vat = ''
 
-    alias = fields.Char(
-        string='Alias',
+    alias_name = fields.Char(
+        string='Alias Name',
         help='Trade name or any other form of alternative name',
         size=128, select=True)
 
@@ -143,7 +143,7 @@ class ResPartner(models.Model):
              'billing agreement')
 
     invoice_copies = fields.Integer(
-        string="No. of copies",
+        string="No. of print copies",
         default=0,
         help="Set the number of copies of invoices (or other legal documents)"
              " to print. A value of 1 means that a print job will output the"
@@ -164,7 +164,7 @@ class ResPartner(models.Model):
                                                        limit)
         ids = [x[0] for x in partners]
         if name and len(ids) == 0:
-            ids = self.search(cr, uid, [('alias', operator, name)] + args,
+            ids = self.search(cr, uid, [('alias_name', operator, name)] + args,
                               limit=limit, context=context)
         return self.name_get(cr, uid, ids, context=context)
 

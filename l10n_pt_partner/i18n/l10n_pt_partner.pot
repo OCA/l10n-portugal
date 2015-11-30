@@ -27,8 +27,8 @@ msgid "Accountant TIN"
 msgstr ""
 
 #. module: l10n_pt_partner
-#: field:res.partner,alias:0
-msgid "Alias"
+#: field:res.partner,alias_name:0
+msgid "Alias Name"
 msgstr ""
 
 #. module: l10n_pt_partner
@@ -101,7 +101,7 @@ msgstr ""
 
 #. module: l10n_pt_partner
 #: field:res.partner,invoice_copies:0
-msgid "No. of copies"
+msgid "No. of print copies"
 msgstr ""
 
 #. module: l10n_pt_partner
@@ -162,7 +162,7 @@ msgid "The value of the field 'Share Capital' must be positive."
 msgstr ""
 
 #. module: l10n_pt_partner
-#: help:res.partner,alias:0
+#: help:res.partner,alias_name:0
 msgid "Trade name or any other form of alternative name"
 msgstr ""
 

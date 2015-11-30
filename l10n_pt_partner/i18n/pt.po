@@ -27,9 +27,9 @@ msgid "Accountant TIN"
 msgstr "NIF do TOC"
 
 #. module: l10n_pt_partner
-#: field:res.partner,alias:0
-msgid "Alias"
-msgstr "Alias"
+#: field:res.partner,alias_name:0
+msgid "Alias Name"
+msgstr "Nome alternativo"
 
 #. module: l10n_pt_partner
 #: view:res.partner:l10n_pt_partner.view_partner_form
@@ -101,8 +101,8 @@ msgstr "Nome longo"
 
 #. module: l10n_pt_partner
 #: field:res.partner,invoice_copies:0
-msgid "No. of copies"
-msgstr "Nº de cópias"
+msgid "No. of print copies"
+msgstr "Nº de cópias a imprimir"
 
 #. module: l10n_pt_partner
 #: model:ir.model,name:l10n_pt_partner.model_res_partner
@@ -163,7 +163,7 @@ msgid "The value of the field 'Share Capital' must be positive."
 msgstr "O valor do campo 'Capital Social' tem que ser positivo."
 
 #. module: l10n_pt_partner
-#: help:res.partner,alias:0
+#: help:res.partner,alias_name:0
 msgid "Trade name or any other form of alternative name"
 msgstr "Nome comercial ou qualquer outra forma de nome alternativo"
 
