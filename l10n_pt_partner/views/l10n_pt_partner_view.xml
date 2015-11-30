@@ -53,7 +53,7 @@
         <field name="inherit_id" ref="base.view_partner_form"/>
         <field name="arch" type="xml">
             <field name="parent_id" position="after">
-                <field name="alias" placeholder="Alias name"
+                <field name="alias_name"
                     domain="[('is_company', '=', False)]"
                     context="{'default_is_company': False}"
                     attrs="{'invisible': [('is_company','=', False)]}"/>
@@ -70,7 +70,7 @@
         <field name="inherit_id" ref="base.view_partner_simple_form"/>
         <field name="arch" type="xml">
             <field name="parent_id" position="after">
-                <field name="alias" placeholder="Alias name"
+                <field name="alias_name"
                        domain="[('is_company', '=', False)]"
                        context="{'default_is_company': False}"
                        attrs="{'invisible': [('is_company','=', False)]}"  />
@@ -83,7 +83,7 @@
         <field name="inherit_id" ref="base.view_partner_tree"/>
         <field name="arch" type="xml">
             <field name="display_name" position="after">
-                <field name="alias"
+                <field name="alias_name"
                        domain="[('is_company', '=', False)]"
                        context="{'default_is_company': False}"
                        attrs="{'invisible': [('is_company','=', False)]}"  />

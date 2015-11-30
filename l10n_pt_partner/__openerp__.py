@@ -21,8 +21,8 @@
 ##############################################################################
 
 {
-    "name": "Portugal - Partners, Banks and Company",
-    "summary": "Partner, bank and company localization for Portugal",
+    "name": "Portugal - Partners",
+    "summary": "Partner, bank and company localisation for Portugal",
     "version": "8.0.0.1.9",
     "author": "Sossia, Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-portugal",
