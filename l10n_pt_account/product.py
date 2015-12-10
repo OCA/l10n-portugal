@@ -43,4 +43,3 @@ class ProductCategory(models.Model):
         company_dependent=True,
         help='When real-time inventory valuation is enabled on a product, '
              'this account will hold the current value of the products.')
-
