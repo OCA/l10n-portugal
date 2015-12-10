@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+	   <record id="view_l10n_pt_account_config_settings" model="ir.ui.view">
+            <field name="name">tko account pt settings</field>
+            <field name="model">account.config.settings</field>
+            <field name="inherit_id" ref="account.view_account_config_settings"/>
+            <field name="arch" type="xml">
+               <div name="customer_payments" position='inside'>
+               <div>
+                    <label for="debit_seq_prefix"/>
+                    <field name="debit_seq_prefix"
+                        class="oe_inline"
+                        help='This sequence only accept letters and numbers.Example: "2013/". The ICS service will put the pre-prefix sequence.(ND).'/>
+                </div>
+                <div>
+                    <label for="waybill_rem_seq_prefix"/>
+                    <field name="waybill_rem_seq_prefix"
+                        class="oe_inline"
+                        help='This sequence only accept letters and numbers.Example: "2013/". The ICS service will put the pre-prefix sequence.(GR).'/>
+                </div>
+                <div>
+                    <label for="waybill_trsp_seq_prefix"/>
+                    <field name="waybill_trsp_seq_prefix"
+                        class="oe_inline"
+                        help='This sequence only accept letters and numbers.Example: "2013/". The ICS service will put the pre-prefix sequence.(GT).'/>
+                </div>
+                <div>
+                    <label for="waybill_dev_seq_prefix"/>
+                    <field name="waybill_dev_seq_prefix"
+                        class="oe_inline"
+                        help='This sequence only accept letters and numbers.Example: "2013/". The ICS service will put the pre-prefix sequence.(GD).'/>
+                </div>
+                <div>
+                    <label for="debit_sup_seq_next"/>
+                    <field name="debit_sup_seq_prefix"
+                        class="oe_inline"
+                        help='If you put "%%(year)s" in the prefix, it will be replaced by the current year.'/>
+                    <field name="debit_sup_seq_next"
+                        class="oe_inline"
+                        />
+                </div>
+               </div>
+               <group name="bank_cash" position="after">
+                    <separator string="Accounting PT" />
+                    <group>
+                        <label for="id" string="Configs"/>
+                        <div>
+                            <div>
+                                <field name="module_tko_account_pt_stock_return" class="oe_inline"/>
+                                <label for="module_tko_account_pt_stock_return"/>
+                           </div>
+                           <div>
+                                <field name="module_tko_account_pt_partner_reports" class="oe_inline"/>
+                                <label for="module_tko_account_pt_partner_reports"/>
+                           </div>
+                           <div>
+                                <field name="module_tko_account_pt_account_reports" class="oe_inline"/>
+                                <label for="module_tko_account_pt_account_reports"/>
+                           </div>
+                       </div>
+                     </group>
+               </group>
+            </field>
+        </record>
+        
+    </data>
+</openerp>
