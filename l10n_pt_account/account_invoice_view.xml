@@ -1,0 +1,376 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="account_pt_form" model="ir.ui.view">
+            <field name="name">account.pt.form.inherit</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_form"/>
+            <field name="arch" type="xml">
+                <button name="%(account.action_account_invoice_refund)d" position="replace">
+                    <button name="%(account.action_account_invoice_refund)d" type='action' string='Refund Invoice' states='open,proforma2,paid' groups="base.group_user"/>
+                </button>
+                <field name="date_invoice" position="replace">
+                    <field name="date_invoice" required="True"/>
+                </field>
+                <button name="action_cancel_draft" position="replace"/>
+                <button name="invoice_proforma2" position = "replace">
+                    <button name="invoice_proforma2"
+                            string="PRO-FORMA" 
+                            icon="terp-gtk-media-pause" 
+                            groups="account.group_account_user"
+                            attrs="{'invisible': ['|',('type','in',['debit_note']), ('state', '!=','draft')]}" />
+                </button>
+                <field name="fiscal_position_id" position="replace">
+                    <div>
+                        <label for="fiscal_position_id" style="font-weight: bold;"/>
+                        <button name="button_change_fiscal_position" states="draft" string="(change)" 
+                        type="object" class="oe_link oe_edit_only" help="Recompute fiscal position accounts and taxes" />
+                    </div>
+                    <field name="fiscal_position_id" nolabel="1" widget="selection"/>
+                    <field name="name" />
+                    <field name="with_transport_info" attrs="{'invisible': ['|',('waybill_ref','!=',False),('type','not in',['out_invoice'])]}"/>
+                </field>
+                <field name="move_id" position="after">
+                    <field name="exemption_reason"/>
+                    <field name="waybill_ref" readonly="1" attrs="{'invisible': [('type', 'not in', ('out_invoice', 'simplified_invoice'))]}"/>
+                </field>
+                <field name="tax_line_ids" position="replace"/>
+                <xpath expr="//group[@class='oe_subtotal_footer oe_right']" position="after">
+                    <div></div>
+                    <div style="width: 50%%">
+                        <field name="tax_line_ids">
+                            <tree editable="bottom" string="Taxes">
+                                    <field name="name"/>
+                                    <!--Need invisible fields for on_change to create all necessary info -->
+                                    <field name="tax_id" invisible="1"/>
+                                    <field name="account_analytic_id" invisible="1"/>
+                                    <field name="sequence" invisible="1"/>
+                                    <field name="manual" invisible="1"/>
+                                    <field name="account_id" groups="account.group_account_user"/>
+                                    <field name="amount"/>
+                                    <field name="currency_id" invisible="1"/>
+                            </tree>
+                        </field>
+                    </div>
+                </xpath>
+                <xpath expr="//notebook/page/group/group/field[@name='name']" position="replace"/>
+                <xpath expr="//notebook/page[1]" position="after">
+                    <page string="Transport" attrs="{'invisible': [('with_transport_info','=',False)]}">
+                        <group>
+                            <group string="Load">
+                                <field name="load_date"  attrs="{'required': [('with_transport_info','=',True)]}"/>
+                                <field name="load_place"  attrs="{'required': [('with_transport_info','=',True)]}"/>
+                                <field name="load_city"  attrs="{'required': [('with_transport_info','=',True)]}"/>
+                                <field name="load_postal_code"  attrs="{'required': [('with_transport_info','=',True)]}"/>
+                            </group>
+                            <group string="Unload">
+                                <field name="unload_date" attrs="{'required': [('with_transport_info','=',True)]}"/>
+                                <field name="unload_place" attrs="{'required': [('with_transport_info','=',True)]}"/>
+                                <field name="unload_city"  attrs="{'required': [('with_transport_info','=',True)]}"/>
+                                <field name="unload_postal_code"  attrs="{'required': [('with_transport_info','=',True)]}"/>
+                            </group>
+                            <group string="Other Info">
+                                <field name="car_registration"/>
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
+<!--                 <button string='Re-Open' position="replace"></button> -->
+            </field>
+        </record>
+        
+<!--          <record id="view_tko_invoice_line_tree" model="ir.ui.view">
+            <field name="name">tko.account.invoice.line.tree</field>
+            <field name="model">account.invoice.line</field>
+            <field name="inherit_id" ref="account.view_invoice_line_tree"/>
+            <field name="arch" type="xml">
+                <field name="name" position="before">
+                    <field name="sequence" string="Seq." />
+                </field>
+            </field>
+        </record>
+        
+        <record id="view_tko_invoice_line_form" model="ir.ui.view">
+            <field name="name">tko.account.invoice.line.form</field>
+            <field name="model">account.invoice.line</field>
+            <field name="inherit_id" ref="account.view_invoice_line_form"/>
+            <field name="arch" type="xml">
+                <field name="discount" position="after">
+                    <field name="sequence"/>
+                </field>
+            </field>
+        </record> -->
+        
+        <record id="view_account_invoice_filter" model="ir.ui.view">
+            <field name="name">account.invoice.select</field>
+            <field name="model">account.invoice</field>
+            <field name="type">search</field>
+            <field name="inherit_id" ref="account.view_account_invoice_filter"/>
+            <field name="arch" type="xml">
+                <filter name="draft" position="before">
+                    <filter name="hide_cancelled" string="Hide Cancelled" domain="[('state','!=','cancel')]" icon="gtk-stop" help="Hide cancelled invoices"/>
+                </filter>
+            </field>
+        </record>
+
+        <!-- Reinstate original action with 'Hide Cancelled' filter as default -->
+        <record id="account.action_invoice_tree3" model="ir.actions.act_window">
+            <field name="name">Customer Refunds</field>
+            <field name="res_model">account.invoice</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,calendar,graph</field>
+            <field name="domain">[('type','=','out_refund')]</field>
+            <field name="context">{'default_type':'out_refund', 'type':'out_refund', 'journal_type': 'sale_refund', 'search_default_hide_cancelled': 1}</field>
+            <field name="search_view_id" ref="account.view_account_invoice_filter"/>
+            <field name="help">With Customer Refunds you can manage the credit notes for your customers. A refund is a document that credits an invoice completely or partially. You can easily generate refunds and reconcile them directly from the invoice form.</field>
+        </record>
+
+        <record id="action_credit_note_view1" model="ir.actions.act_window.view">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="account.invoice_tree"/>
+            <field name="act_window_id" ref="account.action_invoice_tree3"/>
+        </record>
+
+        <record id="action_credit_note_view2" model="ir.actions.act_window.view">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="account.invoice_form"/>
+            <field name="act_window_id" ref="account.action_invoice_tree3"/>
+        </record>
+
+        <!-- Replace original action to set the 'Hide Cancelled' filter as default -->
+        <record id="account.action_invoice_tree1" model="ir.actions.act_window">
+            <field name="name">Customer Invoices</field>
+            <field name="res_model">account.invoice</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,calendar,graph</field>
+            <field eval="False" name="view_id"/>
+            <field name="domain">[('type','=','out_invoice')]</field>
+            <field name="context">{'default_type':'out_invoice', 'type':'out_invoice', 'journal_type': 'sale', 'search_default_hide_cancelled': 1}</field>
+            <field name="search_view_id" ref="account.view_account_invoice_filter"/>
+            <field name="help">With Customer Invoices you can create and manage sales invoices issued to your customers. OpenERP can also generate draft invoices automatically from sales orders or deliveries. You should only confirm them before sending them to your customers.</field>
+        </record>
+        
+        <record id="debit_note_invoice_form" model="ir.ui.view">
+            <field name="name">debit.note.invoice.form.inherit</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account_pt_form"/>
+            <field name="arch" type="xml">
+                 <field name="number" position="before">
+                    <label string="Draft Fund " attrs="{'invisible': ['|',('state','not in',('draft',)), ('type','&lt;&gt;','debit_note')]}"/>
+                </field>
+            </field>
+        </record>
+        
+        <record id="action_debit_note_tree" model="ir.actions.act_window">
+            <field name="name">Debit Notes</field>
+            <field name="res_model">account.invoice</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,calendar,graph</field>
+            <field eval="False" name="view_id"/>
+            <field name="domain">[('type','=','debit_note')]</field>
+            <field name="context">{'type':'debit_note', 'journal_type': 'general', 'show_address': 1, 'search_default_hide_cancelled': 1}</field>
+            <field name="search_view_id" ref="account.view_account_invoice_filter"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                With Debit Notes you can manage the debit notes invoice.
+                </p>
+                <p>
+                A note indicating an amount owed by a partner or company. Serves the same function as an invoice.
+                </p>
+           </field>
+        </record>
+
+        <record id="action_debit_note_tree_view1" model="ir.actions.act_window.view">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="account.invoice_tree"/>
+            <field name="act_window_id" ref="action_debit_note_tree"/>
+        </record>
+
+        <record id="action_invoice_tree_view2" model="ir.actions.act_window.view">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="account.invoice_form"/>
+            <field name="act_window_id" ref="action_debit_note_tree"/>
+        </record>
+        <menuitem action="action_debit_note_tree" sequence="9" id="menu_action_debit_note" parent="account.menu_finance_receivables"/>
+        
+<!--         <record id="view_vendor_receipt_dialog_form" model="ir.ui.view">
+            <field name="name">account.voucher.receipt.dialog.form</field>
+            <field name="model">account.voucher</field>
+            <field name="inherit_id" ref="account_voucher.view_purchase_receipt_form"/>
+            <field name="arch" type="xml">
+            	<field name="journal_id" position="attributes">
+            		<attribute name="domain">[('type','in',['bank', 'cash']), ('company_id','=',company_id)]</attribute>
+            	</field>
+            </field>
+        </record> -->
+        
+    <!--   
+    ===================================================================
+                Adding view Forma de pagamento in menu configuration
+    ===================================================================
+    -->
+    
+   <!--  <record model="ir.ui.view" id="view_account_voucher_payment_tree">
+            <field name="name">account.voucher.payment.tree</field>
+            <field name="model">account.payment.mode</field>
+            <field name="arch" type="xml">
+                <tree string="Forma de Pagamento">
+                    <field name="name"/>
+                    <field name="description"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_account_voucher_payment_form">
+            <field name="name">account.voucher.payment.form</field>
+            <field name="model">account.payment.mode</field>
+            <field name="arch" type="xml">
+               <form string="Forma de Pagamento">
+                    <field name="name" select="1"/>
+                    <newline/>
+                    <field name="description"/>
+                </form>
+            </field>
+        </record>
+        
+        <record model="ir.actions.act_window" id="action_account_voucher_payment_form">
+            <field name="name">Forma de Pagamento</field>
+            <field name="res_model">account.payment.mode</field>
+            <field name="view_id" ref="view_account_voucher_payment_tree" />
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem action="action_account_voucher_payment_form" 
+                  id="menu_action_account_voucher_payment_form" 
+                  parent="account.menu_configuration_misc"/> -->
+    <!--   
+    ==================================================================
+              Change Tree Supplier Invoice
+    ===================================================================
+    -->
+    
+       <record id="view_supplier_account_invoice_tree" model="ir.ui.view">
+            <field name="name">supplier.account.invoice.tree</field>
+            <field name="model">account.invoice</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree colors="blue:state == 'draft';black:state in ('proforma','proforma2','open');gray:state == 'cancel'" string="Invoice">
+                    <field name="partner_id" groups="base.group_user"/>
+                    <field name="commercial_partner_id" invisible="1"/>
+                    <field name="date_invoice"/>
+                    <field name="number"/>
+                    <field name="reference" />
+                    <field name="name" invisible="1"/>
+                    <field name="journal_id" invisible="1"/>
+                    <field name="company_id" groups="base.group_multi_company" widget="selection"/>
+                    <field name="user_id" string="Responsible"/>
+                    <field name="date_due"/>
+                    <field name="origin"/>
+                    <field name="currency_id" groups="base.group_multi_currency"/>
+                    <field name="residual" sum="Residual Amount"/>
+                    <field name="amount_untaxed" sum="Untaxed Amount"/>
+                    <field name="amount_total" sum="Total Amount"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+        
+        <!-- <record id="account.action_invoice_tree2" model="ir.actions.act_window">
+            <field name="name">Supplier Invoices</field>
+            <field name="res_model">account.invoice</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,calendar,graph</field>
+            <field name="view_id" ref="view_supplier_account_invoice_tree"/>
+            <field name="domain">[('type','=','in_invoice')]</field>
+            <field name="context">{'default_type': 'in_invoice', 'type': 'in_invoice', 'journal_type': 'purchase'}</field>
+            <field name="search_view_id" ref="account.view_account_invoice_filter"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to record a new supplier invoice.
+              </p><p>
+                You can control the invoice from your supplier according to
+                what you purchased or received. Odoo can also generate
+                draft invoices automatically from purchase orders or receipts.
+              </p>
+            </field>
+        </record> -->
+     
+     <!-- <record id="action_supplier_invoice_tree" model="ir.actions.act_window.view">
+          <field eval="2" name="sequence"/>
+          <field name="view_mode">tree</field>
+          <field name="view_id" ref="view_supplier_account_invoice_tree"/>
+          <field name="act_window_id" ref="account.action_invoice_tree2"/>
+     </record> -->
+     
+     <!-- <record id="action_supplier_invoice_refund_tree" model="ir.actions.act_window.view">
+          <field eval="2" name="sequence"/>
+          <field name="view_mode">tree</field>
+          <field name="view_id" ref="view_supplier_account_invoice_tree"/>
+          <field name="act_window_id" ref="account.action_invoice_tree4"/>
+     </record> -->
+    
+    
+    <!--   
+    ==================================================================
+              Debit Note supplier
+    ===================================================================
+    -->
+     
+     <record id="action_debit_note_supplier_tree" model="ir.actions.act_window">
+        <field name="name">Supplier Debit Notes</field>
+        <field name="res_model">account.invoice</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form,calendar,graph</field>
+        <field name="view_id" ref="view_supplier_account_invoice_tree"/>
+        <field name="domain">[('type','=','in_debit_note')]</field>
+        <field name="context">{'type':'in_debit_note', 'journal_type': 'general'}</field>
+        <field name="search_view_id" ref="account.view_account_invoice_filter"/>
+        <field name="help" type="html">
+          <p class="oe_view_nocontent_create">
+            With Debit Notes you can manage the debit notes invoice.
+            </p>
+            <p>
+            A note indicating an amount owed by a partner or company. Serves the same function as an invoice.
+            </p>
+       </field>
+     </record>
+
+     <menuitem action="action_debit_note_supplier_tree" id="menu_action_debit_note_supplier" parent="account.menu_finance_payables" sequence="3"/>
+     
+    <!--   
+    ==================================================================
+              Inherit Change Fiscal Position
+    ===================================================================
+    -->
+      <record model="ir.ui.view" id="account_invoice_form_onchange_fiscal_position_supplier">
+        <field name="name">account.invoice.form.onchange.fiscal.position.supplier</field>
+        <field name="model">account.invoice</field>
+        <field name="inherit_id" ref="account.invoice_supplier_form"/>
+        <field name="arch" type="xml">
+            <field name="number" position="before">
+                <label string="Draft Fund " attrs="{'invisible': ['|',('state','not in',('draft',)), ('type','&lt;&gt;','in_debit_note')]}"/>
+            </field>
+            <field name="number" position="before">
+                <label string="Fund " attrs="{'invisible': ['|',('state','in',('draft','proforma','proforma2')), ('type','&lt;&gt;','in_debit_note')]}"/>
+            </field>
+           <field name="fiscal_position_id" position="replace">
+                <div>
+                    <label for="fiscal_position_id" />
+                    <button name="button_change_fiscal_position" states="draft" string="(change)" 
+                    type="object" class="oe_link oe_edit_only" help="Recompute fiscal position accounts and taxes" />
+                </div>
+                <field name="fiscal_position_id" nolabel="1" widget="selection"/>
+           </field>
+        </field>
+     </record>
+     
+    
+     
+     
+     
+    </data>
+</openerp>

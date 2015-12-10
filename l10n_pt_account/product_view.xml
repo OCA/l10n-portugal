@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+    
+	<!--   
+    ==================================================================
+    			inherit product.product: Acrescentar propriedades para processar retornos
+    ==================================================================
+	-->
+	<record id="view_normal_property_acc_form_inherit" model="ir.ui.view">
+            <field name="name">view.normal.property.acc.form.form.inherit</field>
+            <field name="model">product.template</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="stock_account.view_template_property_form"/>
+            <field name="arch" type="xml">
+	                <field name="property_stock_account_output" position="after">
+	                    <field name="property_stock_account_client_return" />
+	                    <field name="property_stock_account_supplier_return" />
+	                </field>
+            </field>
+        </record>
+        
+        <record id="tko_view_category_property_form_inherit" model="ir.ui.view">
+            <field name="name">tko.view.category.property.form.inherit</field>
+            <field name="model">product.category</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="stock_account.view_category_property_form"/>
+            <field name="arch" type="xml">
+				<field name="property_stock_journal" position="after">
+                        <field name="property_stock_variation"/>
+                </field>
+            </field>
+        </record>
+	
+	</data>
+</openerp>
