@@ -1,32 +1,13 @@
 # -*- coding: utf-8 -*-
-##############################################################################
-#
-#    OpenERP, Open Source Management Solution
-#    Copyright (C) 2012 Thinkopen Solutions, Lda. All Rights Reserved
-#    http://www.thinkopensolutions.com.
-#    $Id$
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as
-#    published by the Free Software Foundation, either version 3 of the
-#    License, or (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU Affero General Public License for more details.
-#
-#    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-##############################################################################
-
-import time
 from openerp.report import report_sxw
-import amount_to_text_pt
 from openerp.osv.orm import browse_null
 from openerp.osv import osv
 from openerp.tools.translate import _
+
+import time
+
+from . import amount_to_text_pt
+
 
 class report_voucher_print(report_sxw.rml_parse):
     def __init__(self, cr, uid, name, context):
@@ -156,5 +137,3 @@ report_sxw.report_sxw(
     'addons-tko/tko_acount_pt/report/account_voucher_print.rml',
     parser=report_voucher_print,header=True
 )
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
