@@ -1,0 +1,313 @@
+id,level,code,name,country_id/id
+concelho_0101,1,0101,Aveiro / Agueda,base.pt
+concelho_0102,1,0102,Aveiro / Albergaria-a-Velha,base.pt
+concelho_0103,1,0103,Aveiro / Anadia,base.pt
+concelho_0104,1,0104,Aveiro / Arouca,base.pt
+concelho_0105,1,0105,Aveiro / Aveiro,base.pt
+concelho_0106,1,0106,Aveiro / Castelo de Paiva,base.pt
+concelho_0107,1,0107,Aveiro / Espinho,base.pt
+concelho_0108,1,0108,Aveiro / Estarreja,base.pt
+concelho_0109,1,0109,Aveiro / Santa Maria da Feira,base.pt
+concelho_0110,1,0110,Aveiro / Ilhavo,base.pt
+concelho_0111,1,0111,Aveiro / Mealhada,base.pt
+concelho_0112,1,0112,Aveiro / Murtosa,base.pt
+concelho_0113,1,0113,Aveiro / Oliveira de Azemeis,base.pt
+concelho_0114,1,0114,Aveiro / Oliveira do Bairro,base.pt
+concelho_0115,1,0115,Aveiro / Ovar,base.pt
+concelho_0116,1,0116,Aveiro / São João da Madeira,base.pt
+concelho_0117,1,0117,Aveiro / Sever do Vouga,base.pt
+concelho_0118,1,0118,Aveiro / Vagos,base.pt
+concelho_0119,1,0119,Aveiro / Vale de Cambra,base.pt
+concelho_0201,1,0201,Beja / Aljustrel,base.pt
+concelho_0202,1,0202,Beja / Almodôvar,base.pt
+concelho_0203,1,0203,Beja / Alvito,base.pt
+concelho_0204,1,0204,Beja / Barrancos,base.pt
+concelho_0205,1,0205,Beja / Beja,base.pt
+concelho_0206,1,0206,Beja / Castro Verde,base.pt
+concelho_0207,1,0207,Beja / Cuba,base.pt
+concelho_0208,1,0208,Beja / Ferreira do Alentejo,base.pt
+concelho_0209,1,0209,Beja / Mértola,base.pt
+concelho_0210,1,0210,Beja / Moura,base.pt
+concelho_0211,1,0211,Beja / Odemira,base.pt
+concelho_0212,1,0212,Beja / Ourique,base.pt
+concelho_0213,1,0213,Beja / Serpa,base.pt
+concelho_0214,1,0214,Beja / Vidigueira,base.pt
+concelho_0301,1,0301,Braga / Amares,base.pt
+concelho_0302,1,0302,Braga / Barcelos,base.pt
+concelho_0303,1,0303,Braga / Braga,base.pt
+concelho_0304,1,0304,Braga / Cabeceiras de Basto,base.pt
+concelho_0305,1,0305,Braga / Celorico de Basto,base.pt
+concelho_0306,1,0306,Braga / Esposende,base.pt
+concelho_0307,1,0307,Braga / Fafe,base.pt
+concelho_0308,1,0308,Braga / Guimarães,base.pt
+concelho_0309,1,0309,Braga / Póvoa de Lanhoso,base.pt
+concelho_0310,1,0310,Braga / Terras de Bouro,base.pt
+concelho_0311,1,0311,Braga / Vieira do Minho,base.pt
+concelho_0312,1,0312,Braga / Vila Nova Famalicão,base.pt
+concelho_0313,1,0313,Braga / Vila Verde,base.pt
+concelho_0314,1,0314,Braga / Vizela,base.pt
+concelho_0401,1,0401,Braganca / Alfândega da Fé,base.pt
+concelho_0402,1,0402,Braganca / Bragança,base.pt
+concelho_0403,1,0403,Braganca / Carrezeda de Anciães,base.pt
+concelho_0404,1,0404,Braganca / Freixo Esp. à Cinta,base.pt
+concelho_0405,1,0405,Braganca / Macedo de Cavaleiros,base.pt
+concelho_0406,1,0406,Braganca / Miranda do Douro,base.pt
+concelho_0407,1,0407,Braganca / Mirandela,base.pt
+concelho_0408,1,0408,Braganca / Mogadouro,base.pt
+concelho_0409,1,0409,Braganca / Torre de Moncorvo,base.pt
+concelho_0410,1,0410,Braganca / Vila Flor,base.pt
+concelho_0411,1,0411,Braganca / Vimioso,base.pt
+concelho_0412,1,0412,Braganca / Vinhais,base.pt
+concelho_0501,1,0501,Castelo Branco / Belmonte,base.pt
+concelho_0502,1,0502,Castelo Branco / Castelo Branco,base.pt
+concelho_0503,1,0503,Castelo Branco / Covilhã,base.pt
+concelho_0504,1,0504,Castelo Branco / Fundão,base.pt
+concelho_0505,1,0505,Castelo Branco / Idanha-a-Nova,base.pt
+concelho_0506,1,0506,Castelo Branco / Oleiros,base.pt
+concelho_0507,1,0507,Castelo Branco / Penamacor,base.pt
+concelho_0508,1,0508,Castelo Branco / Proença-a-Nova,base.pt
+concelho_0509,1,0509,Castelo Branco / Sertã,base.pt
+concelho_0510,1,0510,Castelo Branco / Vila de Rei,base.pt
+concelho_0511,1,0511,Castelo Branco / Vila Velha de Ródão,base.pt
+concelho_0601,1,0601,Coimbra / Arganil,base.pt
+concelho_0602,1,0602,Coimbra / Cantanhede,base.pt
+concelho_0603,1,0603,Coimbra / Coimbra,base.pt
+concelho_0604,1,0604,Coimbra / Condeixa-a-Nova,base.pt
+concelho_0605,1,0605,Coimbra / Fiqgueira da Foz,base.pt
+concelho_0606,1,0606,Coimbra / Góis,base.pt
+concelho_0607,1,0607,Coimbra / Lousã,base.pt
+concelho_0608,1,0608,Coimbra / Mira,base.pt
+concelho_0609,1,0609,Coimbra / Miranda do Corvo,base.pt
+concelho_0610,1,0610,Coimbra / Montemor-o-Velho,base.pt
+concelho_0611,1,0611,Coimbra / Oliveira do Hospital,base.pt
+concelho_0612,1,0612,Coimbra / Pampilhosa da Serra,base.pt
+concelho_0613,1,0613,Coimbra / Penacova,base.pt
+concelho_0614,1,0614,Coimbra / Penela,base.pt
+concelho_0615,1,0615,Coimbra / Soure,base.pt
+concelho_0616,1,0616,Coimbra / Tábua,base.pt
+concelho_0617,1,0617,Coimbra / Vila Nova de Poiares,base.pt
+concelho_0701,1,0701,Évora / Alandroal,base.pt
+concelho_0702,1,0702,Évora / Arraiolos,base.pt
+concelho_0703,1,0703,Évora / Borba,base.pt
+concelho_0704,1,0704,Évora / Estremoz,base.pt
+concelho_0705,1,0705,Évora / Évora,base.pt
+concelho_0706,1,0706,Évora / Montemor-o-Novo,base.pt
+concelho_0707,1,0707,Évora / Mora,base.pt
+concelho_0708,1,0708,Évora / Mourão,base.pt
+concelho_0709,1,0709,Évora / Portel,base.pt
+concelho_0710,1,0710,Évora / Redondo,base.pt
+concelho_0711,1,0711,Évora / Reguengos  Monsaraz,base.pt
+concelho_0712,1,0712,Évora / Vendas Novas,base.pt
+concelho_0713,1,0713,Évora / Viana do Alentejo,base.pt
+concelho_0714,1,0714,Évora / Vila Viçosa,base.pt
+concelho_0801,1,0801,Faro / Albufeira,base.pt
+concelho_0802,1,0802,Faro / Alcoutim,base.pt
+concelho_0803,1,0803,Faro / Aljezur,base.pt
+concelho_0804,1,0804,Faro / Castro Marim,base.pt
+concelho_0805,1,0805,Faro / Faro,base.pt
+concelho_0806,1,0806,Faro / Lagoa,base.pt
+concelho_0807,1,0807,Faro / Lagos,base.pt
+concelho_0808,1,0808,Faro / Loulé,base.pt
+concelho_0809,1,0809,Faro / Monchique,base.pt
+concelho_0810,1,0810,Faro / Olhão,base.pt
+concelho_0811,1,0811,Faro / Portimão,base.pt
+concelho_0812,1,0812,Faro / São Brás de Alportel,base.pt
+concelho_0813,1,0813,Faro / Silves,base.pt
+concelho_0814,1,0814,Faro / Tavira,base.pt
+concelho_0815,1,0815,Faro / Vila do Bispo,base.pt
+concelho_0816,1,0816,Faro / Vila Real S. António,base.pt
+concelho_0901,1,0901,Guarda / Aguiar da Beira,base.pt
+concelho_0902,1,0902,Guarda / Almeida,base.pt
+concelho_0903,1,0903,Guarda / Celorico da Beira,base.pt
+concelho_0904,1,0904,Guarda / Fig. Castelo Rodrigo,base.pt
+concelho_0905,1,0905,Guarda / Fornos de Algodres,base.pt
+concelho_0906,1,0906,Guarda / Gouveia,base.pt
+concelho_0907,1,0907,Guarda / Guarda,base.pt
+concelho_0908,1,0908,Guarda / Manteigas,base.pt
+concelho_0909,1,0909,Guarda / Meda,base.pt
+concelho_0910,1,0910,Guarda / Pinhel,base.pt
+concelho_0911,1,0911,Guarda / Sabugal,base.pt
+concelho_0912,1,0912,Guarda / Seia,base.pt
+concelho_0913,1,0913,Guarda / Trancoso,base.pt
+concelho_0914,1,0914,Guarda / V. Nova de Foz Côa,base.pt
+concelho_1001,1,1001,Leiria / Alcobaça,base.pt
+concelho_1002,1,1002,Leiria / Alvaiázere,base.pt
+concelho_1003,1,1003,Leiria / Ansião,base.pt
+concelho_1004,1,1004,Leiria / Batalha,base.pt
+concelho_1005,1,1005,Leiria / Bombarral,base.pt
+concelho_1006,1,1006,Leiria / Caldas da Rainha,base.pt
+concelho_1007,1,1007,Leiria / Castanheira de Pêra,base.pt
+concelho_1008,1,1008,Leiria / Figueiró dos Vinhos,base.pt
+concelho_1009,1,1009,Leiria / Leiria,base.pt
+concelho_1010,1,1010,Leiria / Marinha Grande,base.pt
+concelho_1011,1,1011,Leiria / Nazaré,base.pt
+concelho_1012,1,1012,Leiria / Óbidos,base.pt
+concelho_1013,1,1013,Leiria / Pedrógão Grande,base.pt
+concelho_1014,1,1014,Leiria / Peniche,base.pt
+concelho_1015,1,1015,Leiria / Pombal,base.pt
+concelho_1016,1,1016,Leiria / Porto de Mós,base.pt
+concelho_1101,1,1101,Lisboa / Alenquer,base.pt
+concelho_1102,1,1102,Lisboa / Arruda dos Vinhos,base.pt
+concelho_1103,1,1103,Lisboa / Azambuja,base.pt
+concelho_1104,1,1104,Lisboa / Cadaval,base.pt
+concelho_1105,1,1105,Lisboa / Cascais,base.pt
+concelho_1106,1,1106,Lisboa / Lisboa,base.pt
+concelho_1107,1,1107,Lisboa / Loures,base.pt
+concelho_1108,1,1108,Lisboa / Lourinhã,base.pt
+concelho_1109,1,1109,Lisboa / Mafra,base.pt
+concelho_1110,1,1110,Lisboa / Oeiras,base.pt
+concelho_1111,1,1111,Lisboa / Sintra,base.pt
+concelho_1112,1,1112,Lisboa / Sobral  Monte Agraço,base.pt
+concelho_1113,1,1113,Lisboa / Torres Vedras,base.pt
+concelho_1114,1,1114,Lisboa / Vila Franca de Xira,base.pt
+concelho_1115,1,1115,Lisboa / Amadora,base.pt
+concelho_1116,1,1116,Lisboa / Odivelas,base.pt
+concelho_1201,1,1201,Portalegre / Alter do Chão,base.pt
+concelho_1202,1,1202,Portalegre / Arronches,base.pt
+concelho_1203,1,1203,Portalegre / Avis,base.pt
+concelho_1204,1,1204,Portalegre / Campo Maior,base.pt
+concelho_1205,1,1205,Portalegre / Castelo de Vide,base.pt
+concelho_1206,1,1206,Portalegre / Crato,base.pt
+concelho_1207,1,1207,Portalegre / Elvas,base.pt
+concelho_1208,1,1208,Portalegre / Fronteira,base.pt
+concelho_1209,1,1209,Portalegre / Gavião,base.pt
+concelho_1210,1,1210,Portalegre / Marvão,base.pt
+concelho_1211,1,1211,Portalegre / Monforte,base.pt
+concelho_1212,1,1212,Portalegre / Nisa,base.pt
+concelho_1213,1,1213,Portalegre / Ponte de Sor,base.pt
+concelho_1214,1,1214,Portalegre / Portalegre,base.pt
+concelho_1215,1,1215,Portalegre / Sousel,base.pt
+concelho_1301,1,1301,Porto / Amarante,base.pt
+concelho_1302,1,1302,Porto / Baião,base.pt
+concelho_1303,1,1303,Porto / Felgueiras,base.pt
+concelho_1304,1,1304,Porto / Gondomar,base.pt
+concelho_1305,1,1305,Porto / Lousada,base.pt
+concelho_1306,1,1306,Porto / Maia,base.pt
+concelho_1307,1,1307,Porto / Marco de Canaveses,base.pt
+concelho_1308,1,1308,Porto / Matosinhos,base.pt
+concelho_1309,1,1309,Porto / Paços de Ferreira,base.pt
+concelho_1310,1,1310,Porto / Paredes,base.pt
+concelho_1311,1,1311,Porto / Penafiel,base.pt
+concelho_1312,1,1312,Porto / Porto,base.pt
+concelho_1313,1,1313,Porto / Póvoa de Varzim,base.pt
+concelho_1314,1,1314,Porto / Santo Tirso,base.pt
+concelho_1315,1,1315,Porto / Valongo,base.pt
+concelho_1316,1,1316,Porto / Vila do Conde,base.pt
+concelho_1317,1,1317,Porto / Vila Nova de Gaia,base.pt
+concelho_1318,1,1318,Porto / Trofa,base.pt
+concelho_1401,1,1401,Santarém / Abrantes,base.pt
+concelho_1402,1,1402,Santarém / Alcanena,base.pt
+concelho_1403,1,1403,Santarém / Almeirim,base.pt
+concelho_1404,1,1404,Santarém / Alpiarça,base.pt
+concelho_1405,1,1405,Santarém / Benavente,base.pt
+concelho_1406,1,1406,Santarém / Cartaxo,base.pt
+concelho_1407,1,1407,Santarém / Chamusca,base.pt
+concelho_1408,1,1408,Santarém / Constância,base.pt
+concelho_1409,1,1409,Santarém / Coruche,base.pt
+concelho_1410,1,1410,Santarém / Entroncamento,base.pt
+concelho_1411,1,1411,Santarém / Ferreira do Zêzere,base.pt
+concelho_1412,1,1412,Santarém / Golegã,base.pt
+concelho_1413,1,1413,Santarém / Mação,base.pt
+concelho_1414,1,1414,Santarém / Rio Maior,base.pt
+concelho_1415,1,1415,Santarém / Salvaterra de Magos,base.pt
+concelho_1416,1,1416,Santarém / Santarém,base.pt
+concelho_1417,1,1417,Santarém / Sardoal,base.pt
+concelho_1418,1,1418,Santarém / Tomar,base.pt
+concelho_1419,1,1419,Santarém / Torres Novas,base.pt
+concelho_1420,1,1420,Santarém / Vila Nova Barquinha,base.pt
+concelho_1421,1,1421,Santarém / Ourém,base.pt
+concelho_1501,1,1501,Setúbal / Alcácer do Sal,base.pt
+concelho_1502,1,1502,Setúbal / Alcochete,base.pt
+concelho_1503,1,1503,Setúbal / Almada,base.pt
+concelho_1504,1,1504,Setúbal / Barreiro,base.pt
+concelho_1505,1,1505,Setúbal / Grândola,base.pt
+concelho_1506,1,1506,Setúbal / Moita,base.pt
+concelho_1507,1,1507,Setúbal / Montijo,base.pt
+concelho_1508,1,1508,Setúbal / Palmela,base.pt
+concelho_1509,1,1509,Setúbal / Santiago do Cacém,base.pt
+concelho_1510,1,1510,Setúbal / Seixal,base.pt
+concelho_1511,1,1511,Setúbal / Sesimbra,base.pt
+concelho_1512,1,1512,Setúbal / Setúbal,base.pt
+concelho_1513,1,1513,Setúbal / Sines,base.pt
+concelho_1601,1,1601,Viana do Castelo / Arcos de Valdevez,base.pt
+concelho_1602,1,1602,Viana do Castelo / Caminha,base.pt
+concelho_1603,1,1603,Viana do Castelo / Melgaço,base.pt
+concelho_1604,1,1604,Viana do Castelo / Monção,base.pt
+concelho_1605,1,1605,Viana do Castelo / Paredes de Coura,base.pt
+concelho_1606,1,1606,Viana do Castelo / Ponte da Barca,base.pt
+concelho_1607,1,1607,Viana do Castelo / Ponte de Lima,base.pt
+concelho_1608,1,1608,Viana do Castelo / Valença,base.pt
+concelho_1609,1,1609,Viana do Castelo / Viana do Castelo,base.pt
+concelho_1610,1,1610,Viana do Castelo / Vila Nova Cerveira,base.pt
+concelho_1701,1,1701,Vila Real / Alijó,base.pt
+concelho_1702,1,1702,Vila Real / Boticas,base.pt
+concelho_1703,1,1703,Vila Real / Chaves,base.pt
+concelho_1704,1,1704,Vila Real / Mesão Frio,base.pt
+concelho_1705,1,1705,Vila Real / Mondim de Basto,base.pt
+concelho_1706,1,1706,Vila Real / Montalegre,base.pt
+concelho_1707,1,1707,Vila Real / Murça,base.pt
+concelho_1708,1,1708,Vila Real / Peso da Régua,base.pt
+concelho_1709,1,1709,Vila Real / Ribeira de Pena,base.pt
+concelho_1710,1,1710,Vila Real / Sabrosa,base.pt
+concelho_1711,1,1711,Vila Real / Sta Marta Penaguião,base.pt
+concelho_1712,1,1712,Vila Real / Valpaços,base.pt
+concelho_1713,1,1713,Vila Real / Vila Pouca de Aguiar,base.pt
+concelho_1714,1,1714,Vila Real / Vila Real,base.pt
+concelho_1801,1,1801,Viseu / Armamar,base.pt
+concelho_1802,1,1802,Viseu / Carregal do Sal,base.pt
+concelho_1803,1,1803,Viseu / Castro Daire,base.pt
+concelho_1804,1,1804,Viseu / Cinfães,base.pt
+concelho_1805,1,1805,Viseu / Lamego,base.pt
+concelho_1806,1,1806,Viseu / Mangualde,base.pt
+concelho_1807,1,1807,Viseu / Moimenta da Beira,base.pt
+concelho_1808,1,1808,Viseu / Mortágua,base.pt
+concelho_1809,1,1809,Viseu / Nelas,base.pt
+concelho_1810,1,1810,Viseu / Oliveira de Frades,base.pt
+concelho_1811,1,1811,Viseu / Penalva do Castelo,base.pt
+concelho_1812,1,1812,Viseu / Penedono,base.pt
+concelho_1813,1,1813,Viseu / Resende,base.pt
+concelho_1814,1,1814,Viseu / Santa Comba Dão,base.pt
+concelho_1815,1,1815,Viseu / São João Pesqueira,base.pt
+concelho_1816,1,1816,Viseu / São Pedro do Sul,base.pt
+concelho_1817,1,1817,Viseu / Sátão,base.pt
+concelho_1818,1,1818,Viseu / Sernancelhe,base.pt
+concelho_1819,1,1819,Viseu / Tabuaço,base.pt
+concelho_1820,1,1820,Viseu / Tarouca,base.pt
+concelho_1821,1,1821,Viseu / Tondela,base.pt
+concelho_1822,1,1822,Viseu / Vila Nova de Paiva,base.pt
+concelho_1823,1,1823,Viseu / Viseu,base.pt
+concelho_1824,1,1824,Viseu / Vouzela,base.pt
+concelho_3101,1,3101,Ilha da Madeira / Calheta,base.pt
+concelho_3102,1,3102,Ilha da Madeira / Câmara de Lobos,base.pt
+concelho_3103,1,3103,Ilha da Madeira / Funchal,base.pt
+concelho_3104,1,3104,Ilha da Madeira / Machico,base.pt
+concelho_3105,1,3105,Ilha da Madeira / Ponta do Sol,base.pt
+concelho_3106,1,3106,Ilha da Madeira / Porto Moniz,base.pt
+concelho_3107,1,3107,Ilha da Madeira / Ribeira Brava,base.pt
+concelho_3108,1,3108,Ilha da Madeira / Santa Cruz,base.pt
+concelho_3109,1,3109,Ilha da Madeira / Santana,base.pt
+concelho_3110,1,3110,Ilha da Madeira / São Vicente,base.pt
+concelho_3201,1,3201,Ilha de Porto Santo / Porto Santo,base.pt
+concelho_4101,1,4101,Ilha de Santa Maria / Vila do Porto,base.pt
+concelho_4201,1,4201,Ilha de São Miguel / Lagoa,base.pt
+concelho_4202,1,4202,Ilha de São Miguel / Nordeste,base.pt
+concelho_4203,1,4203,Ilha de São Miguel / Ponta Delgada,base.pt
+concelho_4204,1,4204,Ilha de São Miguel / Povoacão,base.pt
+concelho_4205,1,4205,Ilha de São Miguel / Ribeira Grande,base.pt
+concelho_4206,1,4206,Ilha de São Miguel / Vila Franca do Campo,base.pt
+concelho_4301,1,4301,Ilha Terceira / Angra do Heroísmo,base.pt
+concelho_4302,1,4302,Ilha Terceira / Vila Praia Vitória,base.pt
+concelho_4401,1,4401,Ilha da Graciosa / Sta Cruz da Graciosa,base.pt
+concelho_4501,1,4501,Ilha de São Jorge / Calheta,base.pt
+concelho_4502,1,4502,Ilha de São Jorge / Velas,base.pt
+concelho_4601,1,4601,Ilha do Pico / Lajes do Pico,base.pt
+concelho_4602,1,4602,Ilha do Pico / Madalena,base.pt
+concelho_4603,1,4603,Ilha do Pico / São Roque do Pico,base.pt
+concelho_4701,1,4701,Ilha do Faial / Horta,base.pt
+concelho_4801,1,4801,Ilha das Flores / Lajes das Flores,base.pt
+concelho_4802,1,4802,Ilha das Flores / Sta Cruz das Flores,base.pt
+concelho_4901,1,4901,Ilha do Corvo / Corvo,base.pt
+concelho_8888,1,8888,Macau / Macau,base.pt
+concelho_9997,1,9997,Moçambique / Moçambique,base.pt
+concelho_9998,1,9998,Angola / Angola,base.pt
+concelho_9999,1,9999,Estrangeiro / Estrangeiro,base.pt
