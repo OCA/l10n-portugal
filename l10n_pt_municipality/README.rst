@@ -29,7 +29,7 @@ Sales > Configuration > Address Book
 Usage
 =====
 
-Onle the Administrator user has acces to the LAU setup table.
+Only the Administrator user has access to the LAU setup table.
 
 
 .. image:: https://odoo-community.org/website/image/ir.attachment/5784_f2813bd/datas
@@ -49,7 +49,7 @@ Bug Tracker
 ===========
 
 Bugs are tracked on `GitHub Issues
-<https://github.com/OCA/{project_repo}/issues>`_. In case of trouble, please
+<https://github.com/OCA/l10n-portugal/issues>`_. In case of trouble, please
 check there if your issue has already been reported. If you spotted it first,
 help us smashing it by providing a detailed and welcomed feedback.
 
