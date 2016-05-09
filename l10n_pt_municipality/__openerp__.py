@@ -14,6 +14,6 @@
         'base_location_lau',  # from oca/partner-contact
         ],
     'data': [
-        'data/hr.municipality.csv',
+        'data/res.partner.lau.csv',
         ],
 }
