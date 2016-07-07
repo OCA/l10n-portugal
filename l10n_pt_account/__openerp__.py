@@ -1,26 +1,11 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'Contabilidade PT',
-    'version': '1.122',
+    'version': '9.0.2.0.0',
     'author': 'ThinkOpen Solutions,Odoo Community Association (OCA)',
     'category' : 'Accounting & Finance',
-    'sequence': 1,
     'license' : 'LGPL-3',
-    'description': '''Customization of Accounting for Portugal.
-This module implements several Portuguese specific accounting documents:
-    Documents:
-        * Debit Notes; 
-        * Credit Notes;
-        * Supplier Debit Notes;
-        * All Waybill Types.
-        
-    Reports:
-        * Voucher Print
-        
-    * Allows you to import products, clients and invoices to saft
-NOTE: This documents to be valid, need a certification from Portuguese Treasury, for that you must install and configure the tko_ics2_pt module, provided by Thinkopen Solutions.''',
     'website': 'http://www.thinkopen.solutions/',
-    'init_xml': [],
     'depends': ['base',
                 'account',
                 'account_cancel',
@@ -29,9 +14,9 @@ NOTE: This documents to be valid, need a certification from Portuguese Treasury,
                 'sale',
                 'stock',
                 'stock_account',
-                'l10n_pt'
+                'l10n_pt',  # FIXME Not available!
                 ],
-    'update_xml': [
+    'data': [
                    'security/account_security.xml',
                    'security/ir.model.access.csv',
                    'account_invoice_view.xml',
@@ -52,10 +37,8 @@ NOTE: This documents to be valid, need a certification from Portuguese Treasury,
                    'res_config_view.xml',
                    'wizard/sale_make_invoice_advance.xml',
                    ],
-    'demo_xml': [
-                 ],
+    'demo': []
     'test': [],
     'installable': True,
     'application': True,
-    'active': True,
 }
