@@ -1,0 +1,1998 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_pt_account
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 9.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-12-03 17:45+0000\n"
+"PO-Revision-Date: 2015-11-02 18:16+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_pt_account
+#: model:ir.ui.view,arch_db:l10n_pt_account.account_invoice_form_onchange_fiscal_position_supplier
+#: model:ir.ui.view,arch_db:l10n_pt_account.account_pt_form
+msgid "(change)"
+msgstr "(Atualizar)"
+
+#. module: l10n_pt_account
+#: report:account.guia:0
+msgid ""
+", procederemos sem novo aviso à cobrança do valor das n/facturas, sem "
+"desconto de pronto pagamento."
+msgstr ""
+", procederemos sem novo aviso à cobrança do valor das n/facturas, sem "
+"desconto de pronto pagamento."
+
+#. module: l10n_pt_account
+#: model:ir.actions.act_window,help:l10n_pt_account.action_debit_note_supplier_tree
+#: model:ir.actions.act_window,help:l10n_pt_account.action_debit_note_tree
+msgid ""
+"A note indicating an amount owed by a partner or company. Serves the same "
+"function as an invoice."
+msgstr ""
+"A note indicating an amount owed by a partner or company. Serves the same "
+"function as an invoice."
+
+#. module: l10n_pt_account
+#: selection:account.guia,state:0
+msgid "Aberta"
+msgstr "Aberta"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_linha_guia_account_id
+msgid "Account"
+msgstr "Conta"
+
+#. module: l10n_pt_account
+#: model:ir.model,name:l10n_pt_account.model_account_move
+msgid "Account Entry"
+msgstr "Movimento da Conta"
+
+#. module: l10n_pt_account
+#: model:ir.model,name:l10n_pt_account.model_waybill_invoice
+msgid "Account PT Invoice Waybill"
+msgstr "Guia"
+
+#. module: l10n_pt_account
+#: model:ir.model,name:l10n_pt_account.model_waybill_simplified_invoice
+msgid "Account PT Simplified Invoice Waybill"
+msgstr "Contabilidade PT Simplificado Guia"
+
+#. module: l10n_pt_account
+#: model:res.groups,name:l10n_pt_account.tko_group_account_guias
+msgid "Accounting / TKO Guias"
+msgstr "Contabilidade PT/ Guias"
+
+#. module: l10n_pt_account
+#: model:ir.ui.view,arch_db:l10n_pt_account.view_l10n_pt_account_config_settings
+msgid "Accounting PT"
+msgstr "Contabilidade PT"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_guia_message_needaction
+msgid "Action Needed"
+msgstr "Ação Necessária"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,help:l10n_pt_account.field_account_config_settings_module_tko_account_pt_stock_return
+msgid ""
+"Adds options to return products. This installs the module "
+"tko_account_pt_stock_return."
+msgstr ""
+"Adiciona opções para as devoluções de produto. Instala o módulo "
+"tko_account_pt_stock_return."
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,help:l10n_pt_account.field_account_config_settings_module_tko_account_pt_partner_reports
+msgid ""
+"Adds several reports. This installs the module "
+"tko_account_pt_partner_reports."
+msgstr ""
+"Adiciona múltiplos relatórios. Instala o módulo "
+"tko_account_pt_partner_reports."
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_config_settings_module_tko_account_pt_stock_return
+msgid "Allow manage the stock returns"
+msgstr "Permite gerir opções nas devoluções de produto"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_config_settings_module_tko_account_pt_partner_reports
+msgid "Allows to download partner PT reports."
+msgstr "Adiciona ou subtitui relatórios de parceiros"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_linha_guia_price_subtotal
+msgid "Amount"
+msgstr "Montante"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_linha_guia_price_subtotal_signed
+msgid "Amount Signed"
+msgstr "Montante Assinado"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_linha_guia_account_analytic_id
+msgid "Analytic Account"
+msgstr "Conta Analítica"
+
+#. module: l10n_pt_account
+#: model:ir.ui.view,arch_db:l10n_pt_account.view_waybill_to_invoice_filter
+msgid "Apenas mostrar guias de remessa"
+msgstr "Apenas mostrar guias de remessa"
+
+#. module: l10n_pt_account
+#: selection:account.guia,state:0
+msgid "Arquivada"
+msgstr "Arquivada"
+
+#. module: l10n_pt_account
+#: selection:account.invoice,exemption_reason:0
+msgid "Artigo 16.º n.º 6 alínea c) do CIVA"
+msgstr "Artigo 16.º n.º 6 alínea c) do CIVA"
+
+#. module: l10n_pt_account
+#: selection:account.invoice,exemption_reason:0
+msgid "Artigo 6.º do Decreto‐Lei n.º 198/90, de 19 de Junho"
+msgstr "Artigo 6.º do Decreto‐Lei n.º 198/90, de 19 de Junho"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,help:l10n_pt_account.field_account_linha_guia_purchase_id
+msgid ""
+"Associated Purchase Order. Filled in automatically when a PO is chosen on "
+"the vendor bill."
+msgstr ""
+"Ordem de compra associada. Preenchida automaticamente quando uma compra é "
+"escolhida na fatura de forrnecedor."
+
+#. module: l10n_pt_account
+#: model:ir.ui.view,arch_db:l10n_pt_account.account_guia_tree_view
+msgid "Boletim"
+msgstr "Boletim"
+
+#. module: l10n_pt_account
+#: report:account.guia:0
+msgid "COBRANÇA: Decorridos"
+msgstr "COBRANÇA: Decorridos"
+
+#. module: l10n_pt_account
+#: model:ir.ui.view,arch_db:l10n_pt_account.stock_picking_waybill_form
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: l10n_pt_account
+#: selection:account.guia,state:0
+msgid "Cancelada"
+msgstr "Cancelada"
+
+#. module: l10n_pt_account
+#: model:ir.ui.view,arch_db:l10n_pt_account.account_guia_form_view
+msgid "Cancelar"
+msgstr "Cancelar"
+
+#. module: l10n_pt_account
+#: model:mail.message.subtype,name:l10n_pt_account.mt_invoice_canceled
+#: model:mail.message.subtype,name:l10n_pt_account.mt_waybill_canceled
+msgid "Canceled"
+msgstr "Cancelada"
+
+#. module: l10n_pt_account
+#: code:addons/l10n_pt_account/account_invoice.py:299
+#: code:addons/l10n_pt_account/account_invoice.py:314
+#, python-format
+msgid ""
+"Cannot find a chart of account, you should create one from Settings"
+"\\Configuration\\Accounting menu."
+msgstr ""
+"Não foi possível encontrar um plano de contas, deve criar ou "
+"instalar um novo plano"
+
+#. module: l10n_pt_account
+#: code:addons/l10n_pt_account/account_invoice.py:347
+#, python-format
+msgid ""
+"Cannot find any account journal of %s type for this company.\n"
+"\n"
+"You can create one in the menu: \n"
+"Configuration\\Journals\\Journals."
+msgstr ""
+"Não foi possível encontrar nenhum diário do tipo %s para esta empresa.\n"
+"\n"
+"Deve criar um ou instalar um plano de contas que o contenha."
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_guia_cidade_carga
+msgid "Cidade de Carga"
+msgstr "Cidade de Carga"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_guia_cidade_entrega
+msgid "Cidade de Descarga"
+msgstr "Cidade de Descarga"
+
+#. module: l10n_pt_account
+#: model:ir.actions.act_window,help:l10n_pt_account.action_simplified_invoice_tree
+msgid "Click to create a customer simplified invoice."
+msgstr "Clique para criar uma fatura simplificada"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_guia_name
+msgid "Client Reference"
+msgstr "V/Referência"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_guia_partner_id
+msgid "Cliente"
+msgstr "Cliente"
+
+#. module: l10n_pt_account
+#: model:ir.actions.act_window,help:l10n_pt_account.action_account_guia_devolucao_form
+msgid "Clique para criar uma guia de devolução."
+msgstr "Clique para criar uma guia de devolução."
+
+#. module: l10n_pt_account
+#: model:ir.actions.act_window,help:l10n_pt_account.action_account_guia_remessa_form
+msgid "Clique para criar uma guia de remessa."
+msgstr "Clique para criar uma guia de remessa."
+
+#. module: l10n_pt_account
+#: model:ir.actions.act_window,help:l10n_pt_account.action_account_guia_transporte_form
+msgid "Clique para criar uma guia de transporte."
+msgstr "Clique para criar uma guia de transporte."
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_guia_codigo_postal_carga
+msgid "Codigo Postal de Carga"
+msgstr "Codigo Postal de Carga"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_guia_codigo_postal_entrega
+msgid "Codigo Postal de Descarga"
+msgstr "Codigo Postal de Descarga"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_guia_company_id
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_linha_guia_company_id
+msgid "Company"
+msgstr "Empresa"
+
+#. module: l10n_pt_account
+#: code:addons/l10n_pt_account/wizard/account_pt_invoice_refund.py:52
+#, python-format
+msgid "Company Journal is different of Invoice Company"
+msgstr "O diário da empresa é diferente do diário do documento"
+
+#. module: l10n_pt_account
+#: code:addons/l10n_pt_account/sale.py:42
+#, python-format
+msgid "Company must be iqual to company of partner!"
+msgstr "A empresa deve ser a mesma que a do parceiro!"
+
+#. module: l10n_pt_account
+#: model:ir.ui.view,arch_db:l10n_pt_account.view_l10n_pt_account_config_settings
+msgid "Configs"
+msgstr "Configurações"
+
+#. module: l10n_pt_account
+#: code:addons/l10n_pt_account/account_invoice.py:298
+#: code:addons/l10n_pt_account/account_invoice.py:313
+#: code:addons/l10n_pt_account/account_invoice.py:323
+#: code:addons/l10n_pt_account/account_invoice.py:347
+#, python-format
+msgid "Configuration Error!"
+msgstr "Erro de configuração!"
+
+#. module: l10n_pt_account
+#: report:account.guia:0
+msgid "Contribuinte"
+msgstr "Contribuinte"
+
+#. module: l10n_pt_account
+#: model:ir.ui.menu,name:l10n_pt_account.menu_action_account_control_waybill
+msgid "Controlo de Guias"
+msgstr "Controlo de Guias"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_stock_picking_waybill_line_cost
+msgid "Cost"
+msgstr "Custo"
+
+#. module: l10n_pt_account
+#: model:ir.ui.view,arch_db:l10n_pt_account.view_waybill_invoice
+#: model:ir.ui.view,arch_db:l10n_pt_account.view_waybill_simplified_invoice
+msgid "Create"
+msgstr "Criar"
+
+#. module: l10n_pt_account
+#: model:ir.actions.act_window,name:l10n_pt_account.action_waybill_invoice
+#: model:ir.ui.view,arch_db:l10n_pt_account.view_waybill_invoice
+msgid "Create Invoice"
+msgstr "Criar Fatura"
+
+#. module: l10n_pt_account
+#: model:ir.actions.act_window,name:l10n_pt_account.action_waybill_invoice_id
+msgid "Create Invoices"
+msgstr "Criar Faturas"
+
+#. module: l10n_pt_account
+#: model:ir.actions.act_window,name:l10n_pt_account.action_waybill_simplified_invoice
+#: model:ir.ui.view,arch_db:l10n_pt_account.view_waybill_simplified_invoice
+msgid "Create Simplified Invoice"
+msgstr "Criar Fatura Simplificada"
+
+#. module: l10n_pt_account
+#: model:ir.actions.act_window,name:l10n_pt_account.action_waybill_simplified_invoice_id
+#: model:ir.ui.view,arch_db:l10n_pt_account.view_waybill_simplified_invoice
+msgid "Create Simplified Invoices"
+msgstr "Criar Faturas Simplificadas"
+
+#. module: l10n_pt_account
+#: model:ir.actions.act_window,name:l10n_pt_account.action_stock_create_waybill
+#: model:ir.ui.view,arch_db:l10n_pt_account.stock_picking_waybill_form
+msgid "Create Waybill"
+msgstr "Criar Guia"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_guia_create_uid
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_license_plate_create_uid
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_linha_guia_create_uid
+#: model:ir.model.fields,field_description:l10n_pt_account.field_stock_picking_waybill_create_uid
+#: model:ir.model.fields,field_description:l10n_pt_account.field_stock_picking_waybill_line_create_uid
+#: model:ir.model.fields,field_description:l10n_pt_account.field_waybill_invoice_create_uid
+#: model:ir.model.fields,field_description:l10n_pt_account.field_waybill_simplified_invoice_create_uid
+msgid "Created by"
+msgstr "Criada por"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_guia_create_date
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_license_plate_create_date
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_linha_guia_create_date
+#: model:ir.model.fields,field_description:l10n_pt_account.field_stock_picking_waybill_create_date
+#: model:ir.model.fields,field_description:l10n_pt_account.field_stock_picking_waybill_line_create_date
+#: model:ir.model.fields,field_description:l10n_pt_account.field_waybill_invoice_create_date
+#: model:ir.model.fields,field_description:l10n_pt_account.field_waybill_simplified_invoice_create_date
+msgid "Created on"
+msgstr "Criado em"
+
+#. module: l10n_pt_account
+#: model:ir.actions.act_window,name:l10n_pt_account.action_picking_waybill
+msgid "Creating Waybill"
+msgstr "Criando Guia"
+
+#. module: l10n_pt_account
+#: model:ir.model,name:l10n_pt_account.model_stock_picking_waybill
+msgid "Creating Waybill From Picking Wizard"
+msgstr "Criando Guia através de Movimento de Stock"
+
+#. module: l10n_pt_account
+#: model:ir.ui.view,arch_db:l10n_pt_account.account_guia_form_view
+msgid "Criar Fatura"
+msgstr "Criar Fatura"
+
+#. module: l10n_pt_account
+#: model:ir.ui.view,arch_db:l10n_pt_account.account_guia_form_view
+msgid "Criar Fatura Simplificada"
+msgstr "Criar Fatura Simplificada"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_guia_currency_id
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_linha_guia_company_currency_id
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_linha_guia_currency_id
+msgid "Currency"
+msgstr "Moeda"
+
+#. module: l10n_pt_account
+#: model:ir.ui.view,arch_db:l10n_pt_account.simplified_invoice_form
+msgid "Customer"
+msgstr "Cliente"
+
+#. module: l10n_pt_account
+#: code:addons/l10n_pt_account/wizard/sale_make_invoice_advance.py:71
+#, python-format
+msgid "Customer Invoices"
+msgstr "Faturas de Clientes"
+
+#. module: l10n_pt_account
+#: report:account.guia:0
+msgid "DUPLICADO"
+msgstr "DUPLICADO"
+
+#. module: l10n_pt_account
+#: model:ir.ui.view,arch_db:l10n_pt_account.account_guia_form_view
+msgid "Dados da Guia"
+msgstr "Dados da Guia"
+
+#. module: l10n_pt_account
+#: report:account.guia:0
+msgid "Data"
+msgstr "Data"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_guia_data_descarga
+msgid "Data da Descarga"
+msgstr "Data da Descarga"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_guia_data_carga
+msgid "Data de Carga"
+msgstr "Data de Carga"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,help:l10n_pt_account.field_account_guia_message_last_post
+msgid "Date of the last message posted on the record."
+msgstr "Data da Ultima Mensagem Inserida no Registo"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_guia_validation_date
+msgid "Date of validation"
+msgstr "Data de Emissão"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_guia_days_to_invoice
+msgid "Days to invoice"
+msgstr "Dias para faturar"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_guia_invoice_deadline
+msgid "Deadline"
+msgstr "Prazo limite"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,help:l10n_pt_account.field_account_guia_invoice_deadline
+msgid "Deadline to invoice the waybill"
+msgstr "Prazo para faturar Guia"
+
+#. module: l10n_pt_account
+#: code:addons/l10n_pt_account/account_invoice.py:427
+#, python-format
+msgid "Debit Note "
+msgstr "Nota de Débito "
+
+#. module: l10n_pt_account
+#: code:addons/l10n_pt_account/account_invoice.py:637
+#, python-format
+msgid "Debit Note '%s' is paid partially: %s%s of %s%s (%s%s remaining)"
+msgstr "A nota de débito %s está parcialmente paga: %s%s de %s%s (%s%s restante)"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_config_settings_debit_journal_id
+msgid "Debit Note journal"
+msgstr "Diário de Nota de Débito"
+
+#. module: l10n_pt_account
+#: model:ir.actions.act_window,name:l10n_pt_account.action_debit_note_tree
+#: model:ir.ui.menu,name:l10n_pt_account.menu_action_debit_note
+msgid "Debit Notes"
+msgstr "Notas de Débito"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_tax_account_debit_id
+msgid "Debit Tax Account"
+msgstr "Conta de imposto de débito"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_config_settings_debit_seq_prefix
+msgid "Debit note sequence"
+msgstr "Sequência Nota de Débito"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_linha_guia_name
+msgid "Description"
+msgstr "Descrição"
+
+#. module: l10n_pt_account
+#: report:account.guia:0
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_guia_observacoes
+msgid "Descrição"
+msgstr "Descrição"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_waybill_invoice_journal_id
+#: model:ir.model.fields,field_description:l10n_pt_account.field_waybill_simplified_invoice_journal_id
+msgid "Destination Journal"
+msgstr "Diário de Destino"
+
+#. module: l10n_pt_account
+#: selection:account.guia,tipo:0
+#: model:ir.ui.menu,name:l10n_pt_account.menu_action_account_guias_devolucao
+#: model:ir.ui.view,arch_db:l10n_pt_account.account_guia_search_form_view
+#: selection:stock.picking.waybill,type_waybill:0
+msgid "Devolução"
+msgstr "Devolução"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_guias_por_dias_dia
+msgid "Dia"
+msgstr "Dia"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_linha_guia_discount
+msgid "Discount (%)"
+msgstr "Desconto (%)"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_guia_display_name
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_license_plate_display_name
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_linha_guia_display_name
+#: model:ir.model.fields,field_description:l10n_pt_account.field_guias_por_dias_display_name
+#: model:ir.model.fields,field_description:l10n_pt_account.field_stock_picking_waybill_display_name
+#: model:ir.model.fields,field_description:l10n_pt_account.field_stock_picking_waybill_line_display_name
+#: model:ir.model.fields,field_description:l10n_pt_account.field_waybill_invoice_display_name
+#: model:ir.model.fields,field_description:l10n_pt_account.field_waybill_simplified_invoice_display_name
+msgid "Display Name"
+msgstr "Nome a Mostrar"
+
+#. module: l10n_pt_account
+#: model:ir.ui.view,arch_db:l10n_pt_account.account_invoice_form_onchange_fiscal_position_supplier
+#: model:ir.ui.view,arch_db:l10n_pt_account.debit_note_invoice_form
+msgid "Draft Fund"
+msgstr "Rascunho de Nota de Débito"
+
+#. module: l10n_pt_account
+#: model:ir.ui.view,arch_db:l10n_pt_account.simplified_invoice_form
+msgid "Draft Simplified Invoice"
+msgstr "Fatura simplificada em Rascunho"
+
+#. module: l10n_pt_account
+#: code:addons/l10n_pt_account/wizard/stock_simplified_invoice_onshipping.py:74
+#, python-format
+msgid ""
+"Either there are no moves linked to the picking or Accounting Journals are "
+"misconfigured!"
+msgstr ""
+"Ou não existem movimentos associados ao Picking, ou os diários estão mal "
+"configurados!"
+
+#. module: l10n_pt_account
+#: code:addons/l10n_pt_account/wizard/stock_create_waybill.py:112
+#: code:addons/l10n_pt_account/wizard/stock_create_waybill.py:136
+#: code:addons/l10n_pt_account/wizard/stock_simplified_invoice_onshipping.py:115
+#, python-format
+msgid "Error"
+msgstr "Erro"
+
+#. module: l10n_pt_account
+#: code:addons/l10n_pt_account/stock.py:181
+#, python-format
+msgid "Error, no partner !"
+msgstr "Erro: sem parceiro!"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_guia_state
+msgid "Estado"
+msgstr "Estado"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_invoice_exemption_reason
+msgid "Exemption Reason"
+msgstr "Razão da Isenção"
+
+#. module: l10n_pt_account
+#: selection:account.invoice,exemption_reason:0
+msgid "Exigibilidade de caixa"
+msgstr "Exigibilidade de caixa"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_guia_invoice_id
+msgid "Fatura"
+msgstr "Fatura"
+
+#. module: l10n_pt_account
+#: selection:account.guia,invoice_state:0
+msgid "Faturado"
+msgstr "Faturado"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_guia_invoice_state
+msgid "Faturação"
+msgstr "Faturação"
+
+#. module: l10n_pt_account
+#: report:account.guia:0
+msgid "Fax :"
+msgstr "Fax :"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_guia_message_follower_ids
+msgid "Followers"
+msgstr "Seguidores"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_guia_message_channel_ids
+msgid "Followers (Channels)"
+msgstr "Seguidores (Canais)"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_guia_message_partner_ids
+msgid "Followers (Partners)"
+msgstr "Seguidores (Parceiros)"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_invoice_refund_force_open
+msgid "Force Open"
+msgstr "Forçar Abertura"
+
+#. module: l10n_pt_account
+#: report:account.guia:0
+msgid "Forma de Pagamento"
+msgstr "Forma de Pagamento"
+
+#. module: l10n_pt_account
+#: model:ir.ui.view,arch_db:l10n_pt_account.account_invoice_form_onchange_fiscal_position_supplier
+#: model:ir.ui.view,arch_db:l10n_pt_account.debit_note_invoice_form
+msgid "Fund"
+msgstr "Fundo"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,help:l10n_pt_account.field_account_linha_guia_sequence
+msgid "Gives the sequence of this line when displaying the invoice."
+msgstr "Adiciona sequência a esta linha."
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_stock_picking_waybill_group
+#: model:ir.model.fields,field_description:l10n_pt_account.field_waybill_invoice_group
+#: model:ir.model.fields,field_description:l10n_pt_account.field_waybill_simplified_invoice_group
+msgid "Group by partner"
+msgstr "Agrupar por Parceiro"
+
+#. module: l10n_pt_account
+#: model:ir.actions.report.xml,name:l10n_pt_account.account_guia_report
+#: model:ir.model,name:l10n_pt_account.model_account_guia
+#: model:ir.ui.view,arch_db:l10n_pt_account.account_guia_form_view
+msgid "Guia"
+msgstr "Guia"
+
+#. module: l10n_pt_account
+#: model:mail.message.subtype,description:l10n_pt_account.mt_waybill_validated
+msgid "Guia Arquivada"
+msgstr "Guia Arquivada"
+
+#. module: l10n_pt_account
+#: model:mail.message.subtype,description:l10n_pt_account.mt_waybill_canceled
+msgid "Guia Cancelada"
+msgstr "Guia Cancelada"
+
+#. module: l10n_pt_account
+#: model:ir.ui.view,arch_db:l10n_pt_account.account_guia_form_view
+msgid "Guia de Devolução"
+msgstr "Guia de Devolução"
+
+#. module: l10n_pt_account
+#: model:ir.ui.view,arch_db:l10n_pt_account.account_guia_form_view
+msgid "Guia de Devolução em Aberto"
+msgstr "Guia de Devolução em Aberto"
+
+#. module: l10n_pt_account
+#: model:ir.ui.view,arch_db:l10n_pt_account.account_guia_form_view
+msgid "Guia de Remessa"
+msgstr "Guia de Remessa"
+
+#. module: l10n_pt_account
+#: model:ir.ui.view,arch_db:l10n_pt_account.account_guia_form_view
+msgid "Guia de Remessa em Aberto"
+msgstr "Guia de Remessa em Aberto"
+
+#. module: l10n_pt_account
+#: model:ir.ui.view,arch_db:l10n_pt_account.account_guia_form_view
+msgid "Guia de Transporte"
+msgstr "Guia de Transporte"
+
+#. module: l10n_pt_account
+#: model:ir.ui.view,arch_db:l10n_pt_account.account_guia_form_view
+msgid "Guia de Transporte em Aberto"
+msgstr "Guia de Transporte em Aberto"
+
+#. module: l10n_pt_account
+#: model:ir.actions.act_window,name:l10n_pt_account.action_account_guia_devolucao_form
+#: model:ir.actions.act_window,name:l10n_pt_account.action_account_guia_remessa_form
+#: model:ir.actions.act_window,name:l10n_pt_account.action_account_guia_transporte_form
+#: model:ir.ui.menu,name:l10n_pt_account.menu_action_account_guias
+#: model:ir.ui.view,arch_db:l10n_pt_account.account_guia_search_form_view
+#: model:ir.ui.view,arch_db:l10n_pt_account.view_guias_abertas_tree
+#: model:ir.ui.view,arch_db:l10n_pt_account.view_waybill_to_invoice_tree
+msgid "Guias"
+msgstr "Guias"
+
+#. module: l10n_pt_account
+#: model:ir.actions.act_window,name:l10n_pt_account.open_guias_abertas_tree
+msgid "Guias Abertas"
+msgstr "Guias Abertas"
+
+#. module: l10n_pt_account
+#: model:ir.actions.act_window,name:l10n_pt_account.action_waybill_to_invoice
+#: model:ir.ui.menu,name:l10n_pt_account.menu_action_account_waybill_invoice
+msgid "Guias por Faturar"
+msgstr "Guias por Faturar"
+
+#. module: l10n_pt_account
+#: model:ir.actions.act_window,name:l10n_pt_account.action_count_by_days_graph
+#: model:ir.model,name:l10n_pt_account.model_guias_por_dias
+#: model:ir.ui.view,arch_db:l10n_pt_account.view_guias_count_by_days_graph
+msgid "Guias por dias"
+msgstr "Guias por dias"
+
+#. module: l10n_pt_account
+#: model:ir.ui.view,arch_db:l10n_pt_account.view_account_invoice_filter
+msgid "Hide Cancelled"
+msgstr "Esconder Canceladas"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_sale_order_hide_discounts
+msgid "Hide Discounts"
+msgstr "Esconder Descontos"
+
+#. module: l10n_pt_account
+#: model:ir.ui.view,arch_db:l10n_pt_account.view_account_invoice_filter
+msgid "Hide cancelled invoices"
+msgstr "Esconder Faturas Canceladas"
+
+#. module: l10n_pt_account
+#: report:account.guia:0
+msgid "Hora Carga"
+msgstr "Hora Carga"
+
+#. module: l10n_pt_account
+#: report:account.guia:0
+msgid "Hora Descarga"
+msgstr "Hora Descarga"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_guia_id
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_license_plate_id
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_linha_guia_id
+#: model:ir.model.fields,field_description:l10n_pt_account.field_guias_por_dias_id
+#: model:ir.model.fields,field_description:l10n_pt_account.field_stock_picking_waybill_id
+#: model:ir.model.fields,field_description:l10n_pt_account.field_stock_picking_waybill_line_id
+#: model:ir.model.fields,field_description:l10n_pt_account.field_waybill_invoice_id
+#: model:ir.model.fields,field_description:l10n_pt_account.field_waybill_simplified_invoice_id
+msgid "ID"
+msgstr "Id."
+
+#. module: l10n_pt_account
+#: selection:account.invoice,exemption_reason:0
+msgid "IVA – Autoliquidação"
+msgstr "IVA – Autoliquidação"
+
+#. module: l10n_pt_account
+#: selection:account.invoice,exemption_reason:0
+msgid "IVA – Regime de isenção"
+msgstr "IVA – Regime de isenção"
+
+#. module: l10n_pt_account
+#: selection:account.invoice,exemption_reason:0
+msgid "IVA ‐ não confere direito a dedução"
+msgstr "IVA ‐ não confere direito a dedução"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,help:l10n_pt_account.field_sale_order_hide_discounts
+msgid "If True is visible in report."
+msgstr "Se marcado, é visivel no relatório"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,help:l10n_pt_account.field_account_guia_message_unread
+msgid "If checked new messages require your attention."
+msgstr "Se marcado, há novas mensagens que pedem a sua atenção."
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,help:l10n_pt_account.field_account_guia_message_needaction
+msgid "If checked, new messages require your attention."
+msgstr "Se marcado, há novas mensagens que pedem a sua atenção."
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,help:l10n_pt_account.field_stock_picking_waybill_with_cost
+msgid "If true the waybill will be created with product cost."
+msgstr "Se selecionado será criada uma guia com o custo do produto."
+
+#. module: l10n_pt_account
+#: model:ir.ui.view,arch_db:l10n_pt_account.view_l10n_pt_account_config_settings
+msgid ""
+"If you put \"%(year)s\" in the prefix, it will be replaced by the current "
+"year."
+msgstr ""
+"Se escrever  \"%(year)s\" no prefixo, será substituido pelo ano recorrente."
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_linha_guia_invoice_line_tax_id
+msgid "Impostos"
+msgstr "Impostos"
+
+#. module: l10n_pt_account
+#: model:ir.model,name:l10n_pt_account.model_account_invoice
+#: model:ir.ui.view,arch_db:l10n_pt_account.view_supplier_account_invoice_tree
+msgid "Invoice"
+msgstr "Fatura"
+
+#. module: l10n_pt_account
+#: code:addons/l10n_pt_account/account_invoice.py:429
+#, python-format
+msgid "Invoice "
+msgstr "Fatura "
+
+#. module: l10n_pt_account
+#: code:addons/l10n_pt_account/account_invoice.py:640
+#, python-format
+msgid "Invoice '%s' is paid partially: %s%s of %s%s (%s%s remaining)"
+msgstr "A fatura %s está parcialmente paga: %s%s de %s%s (%s%s restante)"
+
+#. module: l10n_pt_account
+#: model:ir.model,name:l10n_pt_account.model_account_invoice_line
+msgid "Invoice Line"
+msgstr "Linha de Fatura"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_invoice_line_credit_reason
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_linha_guia_credit_reason
+msgid "Invoice Reason"
+msgstr "Razão da fatura"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_invoice_line_credit_reference
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_linha_guia_credit_reference
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_linha_guia_invoice_id
+msgid "Invoice Reference"
+msgstr "Referência da factura"
+
+#. module: l10n_pt_account
+#: model:ir.model,name:l10n_pt_account.model_account_invoice_refund
+msgid "Invoice Refund"
+msgstr "Reembolso da fatura"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_stock_picking_invoice_state
+msgid "Invoice State"
+msgstr "Estado da Fatura"
+
+#. module: l10n_pt_account
+#: model:ir.model,name:l10n_pt_account.model_account_invoice_tax
+msgid "Invoice Tax"
+msgstr "Taxa de faturação"
+
+#. module: l10n_pt_account
+#: model:mail.message.subtype,description:l10n_pt_account.mt_invoice_canceled
+msgid "Invoice canceled"
+msgstr "Fatura Cancelada"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_sale_advance_payment_inv_date_invoice
+msgid "Invoice date"
+msgstr "Data da Fatura"
+
+#. module: l10n_pt_account
+#: code:addons/l10n_pt_account/account_invoice.py:324
+#, python-format
+msgid "Invoice line account's company and invoice's company does not match."
+msgstr "A empresa da conta da linha da fatura não coincide com a empresa da fatura."
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_invoice_line_type
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_linha_guia_type
+msgid "Invoice type"
+msgstr "Tipo de Fatura"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_waybill_invoice_invoice_date
+#: model:ir.model.fields,field_description:l10n_pt_account.field_waybill_simplified_invoice_invoice_date
+msgid "Invoiced date"
+msgstr "Data de Faturação"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_guia_message_is_follower
+msgid "Is Follower"
+msgstr "É um seguidor"
+
+#. module: l10n_pt_account
+#: selection:account.invoice,exemption_reason:0
+msgid "Isento Artigo 13.º do CIVA"
+msgstr "Isento Artigo 13.º do CIVA"
+
+#. module: l10n_pt_account
+#: selection:account.invoice,exemption_reason:0
+msgid "Isento Artigo 14.º do CIVA"
+msgstr "Isento Artigo 14.º do CIVA"
+
+#. module: l10n_pt_account
+#: selection:account.invoice,exemption_reason:0
+msgid "Isento Artigo 14.º do RITI"
+msgstr "Isento Artigo 14.º do RITI"
+
+#. module: l10n_pt_account
+#: selection:account.invoice,exemption_reason:0
+msgid "Isento Artigo 15.º do CIVA"
+msgstr "Isento Artigo 15.º do CIVA"
+
+#. module: l10n_pt_account
+#: selection:account.invoice,exemption_reason:0
+msgid "Isento Artigo 9.º do CIVA"
+msgstr "Isento Artigo 9.º do CIVA"
+
+#. module: l10n_pt_account
+#: model:ir.model,name:l10n_pt_account.model_account_journal
+msgid "Journal"
+msgstr "Diário"
+
+#. module: l10n_pt_account
+#: model:ir.ui.view,arch_db:l10n_pt_account.ics_form
+msgid "Keep empty to use the expense account"
+msgstr "Deixe em branco para usar a conta de custos"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_guia_message_last_post
+msgid "Last Message Date"
+msgstr "Data da Última Mensagem"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_guia___last_update
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_license_plate___last_update
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_linha_guia___last_update
+#: model:ir.model.fields,field_description:l10n_pt_account.field_guias_por_dias___last_update
+#: model:ir.model.fields,field_description:l10n_pt_account.field_stock_picking_waybill___last_update
+#: model:ir.model.fields,field_description:l10n_pt_account.field_stock_picking_waybill_line___last_update
+#: model:ir.model.fields,field_description:l10n_pt_account.field_waybill_invoice___last_update
+#: model:ir.model.fields,field_description:l10n_pt_account.field_waybill_simplified_invoice___last_update
+msgid "Last Modified on"
+msgstr "Última Modificação em"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_guia_write_uid
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_license_plate_write_uid
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_linha_guia_write_uid
+#: model:ir.model.fields,field_description:l10n_pt_account.field_stock_picking_waybill_line_write_uid
+#: model:ir.model.fields,field_description:l10n_pt_account.field_stock_picking_waybill_write_uid
+#: model:ir.model.fields,field_description:l10n_pt_account.field_waybill_invoice_write_uid
+#: model:ir.model.fields,field_description:l10n_pt_account.field_waybill_simplified_invoice_write_uid
+msgid "Last Updated by"
+msgstr "Última Atualização por"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_guia_write_date
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_license_plate_write_date
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_linha_guia_write_date
+#: model:ir.model.fields,field_description:l10n_pt_account.field_stock_picking_waybill_line_write_date
+#: model:ir.model.fields,field_description:l10n_pt_account.field_stock_picking_waybill_write_date
+#: model:ir.model.fields,field_description:l10n_pt_account.field_waybill_invoice_write_date
+#: model:ir.model.fields,field_description:l10n_pt_account.field_waybill_simplified_invoice_write_date
+msgid "Last Updated on"
+msgstr "Última Atualização em"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_invoice_car_registration
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_license_plate_name
+msgid "License Plate"
+msgstr "Matrícula"
+
+#. module: l10n_pt_account
+#: model:ir.ui.view,arch_db:l10n_pt_account.view_guia_linha_form
+msgid "Line"
+msgstr "Linha"
+
+#. module: l10n_pt_account
+#: model:ir.model,name:l10n_pt_account.model_account_linha_guia
+msgid "Linha de Guia"
+msgstr "Linha de Guia"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_guia_linhas_guia
+msgid "Linhas Guia"
+msgstr "Linhas Guia"
+
+#. module: l10n_pt_account
+#: model:ir.ui.view,arch_db:l10n_pt_account.account_guia_form_view
+#: model:ir.ui.view,arch_db:l10n_pt_account.view_guia_linha_form
+msgid "Linhas da Guia"
+msgstr "Linhas da Guia"
+
+#. module: l10n_pt_account
+#: model:ir.ui.view,arch_db:l10n_pt_account.account_pt_form
+msgid "Load"
+msgstr "Carga"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_invoice_load_city
+msgid "Load city"
+msgstr "Cidade de Carga"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_invoice_load_date
+msgid "Load date"
+msgstr "Data de Carga"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_invoice_load_place
+msgid "Load place"
+msgstr "Local de Carga"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_invoice_load_postal_code
+msgid "Load postal_code"
+msgstr "Codigo Postal de Carga"
+
+#. module: l10n_pt_account
+#: report:account.guia:0
+msgid "Local Carga"
+msgstr "Local Carga"
+
+#. module: l10n_pt_account
+#: report:account.guia:0
+msgid "Local Descarga"
+msgstr "Local Descarga"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_guia_local_carga
+msgid "Local de Carga"
+msgstr "Local de Carga"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_guia_local_entrega
+msgid "Local de Descarga"
+msgstr "Local de Descarga"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_guia_matricula
+msgid "Matrícula"
+msgstr "Matrícula"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_guia_message_ids
+msgid "Messages"
+msgstr "Mensagens"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,help:l10n_pt_account.field_account_guia_message_ids
+msgid "Messages and communication history"
+msgstr "Histórico de mensagens e comunicação"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_stock_picking_waybill_line_move_id
+msgid "Move"
+msgstr "Movimento"
+
+#. module: l10n_pt_account
+#: code:addons/l10n_pt_account/wizard/stock_simplified_invoice_onshipping.py:115
+#, python-format
+msgid "No Simplified Invoices were created."
+msgstr "Nenhuma Fatura Simplificada criada."
+
+#. module: l10n_pt_account
+#: code:addons/l10n_pt_account/wizard/stock_create_waybill.py:136
+#, python-format
+msgid "No Waybills were created."
+msgstr "Nenhuma Guia criada."
+
+#. module: l10n_pt_account
+#: code:addons/l10n_pt_account/wizard/stock_create_waybill.py:82
+#, python-format
+msgid "None of these picking lists require creating waybill."
+msgstr "Nenhuma destas listas de Pickings requerem a criação de uma Guia."
+
+#. module: l10n_pt_account
+#: code:addons/l10n_pt_account/wizard/stock_simplified_invoice_onshipping.py:102
+#, python-format
+msgid ""
+"None of these picking lists require invoicing or already created a waybill."
+msgstr ""
+"Nenhuma destes listas de Pickings requerem a criação de uma Fatura, ou já "
+"têm uma Guia associada."
+
+#. module: l10n_pt_account
+#: code:addons/l10n_pt_account/wizard/stock_invoice_onshipping.py:48
+#, python-format
+msgid "None of these picking lists require invoicing."
+msgstr "Nenhuma das listas de Pickings precisam de ser faturas."
+
+#. module: l10n_pt_account
+#: selection:stock.picking,waybill_state:0
+msgid "Not Applicable"
+msgstr "Não aplicável"
+
+#. module: l10n_pt_account
+#: code:addons/l10n_pt_account/report/tko_account_voucher_print.py:84
+#, python-format
+msgid "Nota de pagamento"
+msgstr "Nota de Pagamento"
+
+#. module: l10n_pt_account
+#: model:ir.ui.view,arch_db:l10n_pt_account.account_guia_form_view
+msgid "Notas Adicionais..."
+msgstr "Notas Adicionais..."
+
+#. module: l10n_pt_account
+#: selection:account.linha.guia,state:0
+msgid "Note"
+msgstr "Nota"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_linha_guia_note
+#: model:ir.ui.view,arch_db:l10n_pt_account.view_guia_linha_form
+msgid "Notes"
+msgstr "Notas"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_guia_message_needaction_counter
+msgid "Number of Actions"
+msgstr "Número de Ações"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,help:l10n_pt_account.field_account_guia_days_to_invoice
+msgid "Number of days to invoice the waybill"
+msgstr "Número de dias para faturar a Guia"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,help:l10n_pt_account.field_account_guia_message_needaction_counter
+msgid "Number of messages which requires an action"
+msgstr "Número de mensagens que requerem uma ação"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,help:l10n_pt_account.field_account_guia_message_unread_counter
+msgid "Number of unread messages"
+msgstr "Número de mensagens por ler"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_guia_numero
+msgid "Numero"
+msgstr "Número"
+
+#. module: l10n_pt_account
+#: selection:account.guia,invoice_state:0
+msgid "Não Faturado"
+msgstr "Não Faturado"
+
+#. module: l10n_pt_account
+#: selection:account.invoice,exemption_reason:0
+msgid "Não tributado"
+msgstr "Não tributado"
+
+#. module: l10n_pt_account
+#: report:account.guia:0
+msgid "O Cliente"
+msgstr "O Cliente"
+
+#. module: l10n_pt_account
+#: report:account.guia:0
+msgid "ORIGINAL"
+msgstr "ORIGINAL"
+
+#. module: l10n_pt_account
+#: constraint:account.journal:0
+msgid "Only one journal can be selected as stock journal!"
+msgstr "Apenas deve ser selecionado um diário para o stock!"
+
+#. module: l10n_pt_account
+#: model:ir.actions.act_window,help:l10n_pt_account.action_simplified_invoice_tree
+msgid ""
+"OpenERP can also generate draft simplified invoices automatically from\n"
+"                OUT's or waybills."
+msgstr ""
+"Também pode gerar faturas simplificadas automáticamente através \n"
+"                do armazém ou das guias."
+
+#. module: l10n_pt_account
+#: model:ir.ui.view,arch_db:l10n_pt_account.stock_picking_waybill_form
+msgid "Options"
+msgstr "Opções"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_guia_sale_id
+msgid "Ordem de Venda"
+msgstr "Ordem de Venda"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_guia_origin
+msgid "Origem"
+msgstr "Origem"
+
+#. module: l10n_pt_account
+#: report:account.guia:0
+msgid "Os n/fornecimentos ficam sujeitos ao #10 do Art. 102 do C. Comercial."
+msgstr "Os n/fornecimentos ficam sujeitos ao #10 do Art. 102 do C. Comercial."
+
+#. module: l10n_pt_account
+#: model:ir.ui.view,arch_db:l10n_pt_account.account_pt_form
+msgid "Other Info"
+msgstr "Outras Informações"
+
+#. module: l10n_pt_account
+#: model:ir.ui.view,arch_db:l10n_pt_account.account_guia_form_view
+msgid "Outras Informações"
+msgstr "Outras Informações"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_config_settings_module_tko_account_pt_account_reports
+msgid "Overwrites accounting reports to add acumulated amounts."
+msgstr "Substitui relatórios da contabilidade com acumulados"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,help:l10n_pt_account.field_account_config_settings_module_tko_account_pt_account_reports
+msgid ""
+"Overwrites the Balance, General Ledger and adds a summary extracts report. "
+"This installs the module tko_account_pt_account_reports."
+msgstr ""
+"Susbtitui os relatórios do Balancete e Razão para adicionar os acumulados e "
+"adiciona o extrato de conta agrupado. Instala o módulo "
+"tko_account_pt_account_reports."
+
+#. module: l10n_pt_account
+#: model:ir.ui.view,arch_db:l10n_pt_account.account_pt_form
+msgid "PRO-FORMA"
+msgstr "Pro-forma"
+
+#. module: l10n_pt_account
+#: selection:account.linha.guia,state:0
+msgid "Page Break"
+msgstr "Quebra de Página"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_linha_guia_partner_id
+msgid "Partner"
+msgstr "Parceiro"
+
+#. module: l10n_pt_account
+#: code:addons/l10n_pt_account/account_invoice.py:664
+#, python-format
+msgid "Pay Invoice"
+msgstr "Pagar Fatura"
+
+#. module: l10n_pt_account
+#: model:ir.model,name:l10n_pt_account.model_account_payment
+msgid "Payments"
+msgstr "Pagamentos"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_guia_stock_picking_ids
+msgid "Pickings"
+msgstr "Pickings"
+
+#. module: l10n_pt_account
+#: model:ir.ui.view,arch_db:l10n_pt_account.view_picking_waybill_search
+msgid "Pickings to waybill"
+msgstr "Pickings a emitir Guia"
+
+#. module: l10n_pt_account
+#: code:addons/l10n_pt_account/account_pt.py:101
+#, python-format
+msgid "Please define a sequence on the journal."
+msgstr "Por favor defina a sequência no diário."
+
+#. module: l10n_pt_account
+#: code:addons/l10n_pt_account/stock.py:182
+#, python-format
+msgid ""
+"Please put a partner on the picking list if you want to generate waybill."
+msgstr ""
+"Por favor preencha o parceiro na lista de Pickings se deseja gerar uma Guia."
+
+#. module: l10n_pt_account
+#: selection:account.linha.guia,state:0
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_linha_guia_product_id
+#: model:ir.model.fields,field_description:l10n_pt_account.field_stock_picking_waybill_line_product_id
+msgid "Product"
+msgstr "Produto"
+
+#. module: l10n_pt_account
+#: model:ir.model,name:l10n_pt_account.model_product_category
+msgid "Product Category"
+msgstr "Categoria do Artigo"
+
+#. module: l10n_pt_account
+#: model:ir.model,name:l10n_pt_account.model_product_template
+msgid "Product Template"
+msgstr "Template Artigo"
+
+#. module: l10n_pt_account
+#: model:account.payment.term,name:l10n_pt_account.payment_term
+msgid "Pronto Pagamento"
+msgstr "Pronto Pagamento"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_linha_guia_purchase_id
+msgid "Purchase Order"
+msgstr "Ordem de Compra"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_linha_guia_purchase_line_id
+msgid "Purchase Order Line"
+msgstr "Linha de Ordem de Compra"
+
+#. module: l10n_pt_account
+#: report:account.guia:0
+msgid "Quantidade"
+msgstr "Quantidade"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_linha_guia_quantity
+#: model:ir.model.fields,field_description:l10n_pt_account.field_stock_picking_waybill_line_product_qty
+msgid "Quantity"
+msgstr "Quantidade"
+
+#. module: l10n_pt_account
+#: report:account.guia:0
+msgid ""
+"RECLAMAÇÕES/DEVOLUÇÕES: Só são aceites dentro de 8 dias da data deste "
+"documento, com indicação do seu número e acompanhadas de Nota de Devolução."
+msgstr ""
+"RECLAMAÇÕES/DEVOLUÇÕES: Só são aceites dentro de 8 dias da data deste "
+"documento, com indicação do seu número e acompanhadas de Nota de Devolução."
+
+#. module: l10n_pt_account
+#: report:account.guia:0
+msgid ""
+"RESERVA DE PROPRIEDADE: A propriedade dos artigos constantes deste documento "
+"só passará para o comprador após a liquidação de todos os débitos a"
+msgstr ""
+"RESERVA DE PROPRIEDADE: A propriedade dos artigos constantes deste documento "
+"só passará para o comprador após a liquidação de todos os débitos a"
+
+#. module: l10n_pt_account
+#: model:ir.ui.view,arch_db:l10n_pt_account.account_invoice_form_onchange_fiscal_position_supplier
+#: model:ir.ui.view,arch_db:l10n_pt_account.account_pt_form
+msgid "Recompute fiscal position accounts and taxes"
+msgstr "Recalcule as contas da posição fiscal e os impostos"
+
+#. module: l10n_pt_account
+#: report:account.guia:0
+msgid "Ref Cliente"
+msgstr "V/Referência"
+
+#. module: l10n_pt_account
+#: report:account.guia:0
+msgid "Ref Ordem Entrega"
+msgstr "Ref Ordem Entrega"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_invoice_waybill_ref
+msgid "Reference"
+msgstr "Referência"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,help:l10n_pt_account.field_account_linha_guia_origin
+msgid "Reference of the document that produced this invoice."
+msgstr "Referência do documento que originou esta factura."
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_linha_guia_guia_id
+msgid "Referencia da Guia"
+msgstr "Referência da Guia"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,help:l10n_pt_account.field_account_guia_origin
+msgid "Referência ao documento que deu origem à guia."
+msgstr "Referência ao documento que deu origem à guia."
+
+#. module: l10n_pt_account
+#: model:ir.ui.view,arch_db:l10n_pt_account.account_pt_form
+msgid "Refund Invoice"
+msgstr "Nota de Crédito"
+
+#. module: l10n_pt_account
+#: selection:account.invoice,exemption_reason:0
+msgid "Regime da margem de lucro- Agências de Viagens"
+msgstr "Regime da margem de lucro- Agências de Viagens"
+
+#. module: l10n_pt_account
+#: selection:account.invoice,exemption_reason:0
+msgid "Regime da margem de lucro- Bens em segunda mão"
+msgstr "Regime da margem de lucro- Bens em segunda mão"
+
+#. module: l10n_pt_account
+#: selection:account.invoice,exemption_reason:0
+msgid "Regime da margem de lucro- Objetos de arte"
+msgstr "Regime da margem de lucro- Objetos de arte"
+
+#. module: l10n_pt_account
+#: selection:account.invoice,exemption_reason:0
+msgid "Regime da margem de lucro- Objetos de coleção e antiguidades"
+msgstr "Regime da margem de lucro- Objetos de coleção e antiguidades"
+
+#. module: l10n_pt_account
+#: selection:account.guia,tipo:0
+#: model:ir.ui.menu,name:l10n_pt_account.menu_action_account_guias_remessa
+#: model:ir.ui.view,arch_db:l10n_pt_account.account_guia_search_form_view
+#: model:ir.ui.view,arch_db:l10n_pt_account.view_waybill_to_invoice_filter
+#: selection:stock.picking.waybill,type_waybill:0
+msgid "Remessa"
+msgstr "Remessa"
+
+#. module: l10n_pt_account
+#: model:ir.ui.view,arch_db:l10n_pt_account.view_supplier_account_invoice_tree
+msgid "Residual Amount"
+msgstr "Residual"
+
+#. module: l10n_pt_account
+#: model:ir.ui.view,arch_db:l10n_pt_account.view_supplier_account_invoice_tree
+msgid "Responsible"
+msgstr "Responsável"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_linha_guia_sale_line_ids
+msgid "Sale Order Lines"
+msgstr "Linhas da Ordem de Venda"
+
+#. module: l10n_pt_account
+#: model:ir.model,name:l10n_pt_account.model_sale_advance_payment_inv
+msgid "Sales Advance Payment Invoice"
+msgstr "Fatura de Pagamento de Adiantamento das vendas"
+
+#. module: l10n_pt_account
+#: model:ir.model,name:l10n_pt_account.model_sale_order
+msgid "Sales Order"
+msgstr "Ordem de Vendas"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,help:l10n_pt_account.field_account_invoice_refund_force_open
+msgid ""
+"Select to force the opening of this document, even if there are older drafts "
+"or created ones.\n"
+"It doesn't force opening if there are higher ones."
+msgstr ""
+"Selecione para forçar a abertura deste documento, mesmo que existam "
+"anteriores em estado draft ou proforma.\\ão forçará a abertura se existirem "
+"posteriores"
+
+#. module: l10n_pt_account
+#: selection:account.linha.guia,state:0
+msgid "Separator Line"
+msgstr "Linha separadora"
+
+#. module: l10n_pt_account
+#: model:ir.ui.view,arch_db:l10n_pt_account.view_guia_linha_tree
+msgid "Seq."
+msgstr "Seq."
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_linha_guia_sequence
+msgid "Sequence"
+msgstr "Sequência"
+
+#. module: l10n_pt_account
+#: model:ir.ui.view,arch_db:l10n_pt_account.account_guia_form_view
+msgid "Share a note..."
+msgstr "Partilhe uma nota"
+
+#. module: l10n_pt_account
+#: model:ir.actions.act_window,name:l10n_pt_account.action_simplified_invoice_tree
+#: model:ir.ui.menu,name:l10n_pt_account.menu_action_simplified_invoice
+msgid "Simplified Invoice"
+msgstr "Faturas Simplificadas"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_linha_guia_origin
+msgid "Source Document"
+msgstr "Origem"
+
+#. module: l10n_pt_account
+#: model:ir.ui.view,arch_db:l10n_pt_account.view_account_journal_form_inherit
+msgid "Stock"
+msgstr "Stock"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_product_template_property_stock_account_client_return
+msgid "Stock Client Return Account"
+msgstr "Conta de devolução de stock"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_journal_stock_journal
+msgid "Stock Journal"
+msgstr "Diário de Stock"
+
+#. module: l10n_pt_account
+#: model:ir.model,name:l10n_pt_account.model_stock_move
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_linha_guia_move_line_id
+msgid "Stock Move"
+msgstr "Movimento do Stock"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_product_template_property_stock_account_supplier_return
+msgid "Stock Supplier Return Account"
+msgstr "Stock Supplier Return Account"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_product_category_property_stock_variation
+msgid "Stock Variation Account"
+msgstr "Stock Variation Account"
+
+#. module: l10n_pt_account
+#: selection:account.linha.guia,state:0
+msgid "Sub Total"
+msgstr "Subtotal"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_guia_amount_untaxed
+msgid "Subtotal"
+msgstr "Subtotal"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_config_settings_debit_sup_seq_id
+msgid "Supplier Debit Note Sequence"
+msgstr "Sequência Notas de Débito de Fornecedor"
+
+#. module: l10n_pt_account
+#: model:ir.actions.act_window,name:l10n_pt_account.action_debit_note_supplier_tree
+#: model:ir.ui.menu,name:l10n_pt_account.menu_action_debit_note_supplier
+msgid "Supplier Debit Notes"
+msgstr "Notas de Débito"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_config_settings_debit_sup_seq_next
+msgid "Supplier debit note next number"
+msgstr "Próximo número das notas de débito de fornecedor"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_config_settings_debit_sup_seq_prefix
+msgid "Supplier debit note sequence"
+msgstr "Sequência Notas de Débito de Fornecedor"
+
+#. module: l10n_pt_account
+#: report:account.guia:0
+msgid "TRANSPORTE: de conta e risco do Cliente"
+msgstr "TRANSPORTE: de conta e risco do Cliente"
+
+#. module: l10n_pt_account
+#: report:account.guia:0
+msgid "TRIPLICADO"
+msgstr "TRIPLICADO"
+
+#. module: l10n_pt_account
+#: model:ir.model,name:l10n_pt_account.model_account_tax
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_guia_amount_tax
+msgid "Tax"
+msgstr "Imposto"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_linha_guia_invoice_line_tax_ids
+#: model:ir.ui.view,arch_db:l10n_pt_account.account_pt_form
+#: model:ir.ui.view,arch_db:l10n_pt_account.view_guia_linha_form
+msgid "Taxes"
+msgstr "Impostos"
+
+#. module: l10n_pt_account
+#: report:account.guia:0
+msgid "Tel. :"
+msgstr "Telefone:"
+
+#. module: l10n_pt_account
+#: constraint:account.invoice:0
+msgid "The Simplified Invoices can only have a total up to 1000€"
+msgstr "The Simplified Invoices can only have a total up to 1000€"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,help:l10n_pt_account.field_account_linha_guia_account_id
+msgid "The income or expense account related to the selected product."
+msgstr "A conta de débito ou crédito relacionada com o producto selecionado."
+
+#. module: l10n_pt_account
+#: code:addons/l10n_pt_account/wizard/waybill_invoice.py:64
+#, python-format
+msgid ""
+"The waybills selected are not in state draft or are already invoiced or not "
+"type \"Remessa\" or \"Transporte\""
+msgstr ""
+"As guias selecionadas não estão em rascunho, ou já estão faturadas, ou não "
+"são do tipo \"Remessa\" ou \"Transporte\""
+
+#. module: l10n_pt_account
+#: code:addons/l10n_pt_account/guia.py:310
+#, python-format
+msgid "There is no sales journal defined for this company: \"%s\" (id: %d)"
+msgstr "Não há diário de vendas definidio para esta empresa: \"%s\" (id: %s)"
+
+#. module: l10n_pt_account
+#: code:addons/l10n_pt_account/wizard/stock_create_waybill.py:80
+#, python-format
+msgid "This picking list does not require creating waybill."
+msgstr "Esta lista de Pickings não requer a criação de Guia."
+
+#. module: l10n_pt_account
+#: code:addons/l10n_pt_account/wizard/stock_simplified_invoice_onshipping.py:100
+#, python-format
+msgid ""
+"This picking list does not require invoicing or already created a waybill."
+msgstr ""
+"Nenhuma destes listas de Pickings requerem a criação de uma Fatura, ou já "
+"têm uma Guia associada."
+
+#. module: l10n_pt_account
+#: code:addons/l10n_pt_account/wizard/stock_invoice_onshipping.py:46
+#, python-format
+msgid "This picking list does not require invoicing."
+msgstr "Nenhuma das listas de Pickings precisam de ser faturas."
+
+#. module: l10n_pt_account
+#: model:ir.ui.view,arch_db:l10n_pt_account.view_l10n_pt_account_config_settings
+msgid ""
+"This sequence only accept letters and numbers.Example: \"2013/\". The ICS "
+"service will put the pre-prefix sequence.(GD)."
+msgstr ""
+"Esta sequência apenas aceita letras e números sem espaços. Exemplo: \"2013/"
+"\"\". O serviço de ICS coloca o pre-prefixo na sequência(GD) e gere as "
+"numerações. Exemplo: GD 2013/."
+
+#. module: l10n_pt_account
+#: model:ir.ui.view,arch_db:l10n_pt_account.view_l10n_pt_account_config_settings
+msgid ""
+"This sequence only accept letters and numbers.Example: \"2013/\". The ICS "
+"service will put the pre-prefix sequence.(GR)."
+msgstr ""
+"Esta sequência apenas aceita letras e números sem espaços. Exemplo: \"2013/"
+"\"\". O serviço de ICS coloca o pre-prefixo na sequência(GR) e gere as "
+"numerações. Exemplo: GR 2013/."
+
+#. module: l10n_pt_account
+#: model:ir.ui.view,arch_db:l10n_pt_account.view_l10n_pt_account_config_settings
+msgid ""
+"This sequence only accept letters and numbers.Example: \"2013/\". The ICS "
+"service will put the pre-prefix sequence.(GT)."
+msgstr ""
+"Esta sequência apenas aceita letras e números sem espaços. Exemplo: \"2013/"
+"\"\". O serviço de ICS coloca o pre-prefixo na sequência(GT) e gere as "
+"numerações. Exemplo: GT 2013/."
+
+#. module: l10n_pt_account
+#: model:ir.ui.view,arch_db:l10n_pt_account.view_l10n_pt_account_config_settings
+msgid ""
+"This sequence only accept letters and numbers.Example: \"2013/\". The ICS "
+"service will put the pre-prefix sequence.(ND)."
+msgstr ""
+"Esta sequência apenas aceita letras e números sem espaços. Exemplo: \"2013/"
+"\"\". O serviço de ICS coloca o pre-prefixo na sequência(ND) e gere as "
+"numerações. Exemplo: ND 2013/."
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_guia_tipo
+msgid "Tipo de Guia"
+msgstr "Tipo de Guia"
+
+#. module: l10n_pt_account
+#: selection:account.linha.guia,state:0
+msgid "Title"
+msgstr "Título"
+
+#. module: l10n_pt_account
+#: model:ir.ui.view,arch_db:l10n_pt_account.view_picking_waybill_search
+msgid "To Waybill"
+msgstr "A Criar Guia"
+
+#. module: l10n_pt_account
+#: code:addons/l10n_pt_account/wizard/stock_create_waybill.py:112
+#, python-format
+msgid ""
+"To create %s waybills, the invoice control must not be \"Not Applicable\""
+msgstr ""
+"Para criar Guia (%s), o controlo de faturação não pode ser \"Não Aplicável\""
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,help:l10n_pt_account.field_account_invoice_waybill_ref
+msgid "To reference invoice lines you must write waybill number."
+msgstr "Para referênciar as Linhas da Faturas deve escrever o número da Guia."
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_guia_amount_total
+#: model:ir.model.fields,field_description:l10n_pt_account.field_guias_por_dias_total
+msgid "Total"
+msgstr "Total"
+
+#. module: l10n_pt_account
+#: model:ir.ui.view,arch_db:l10n_pt_account.account_guia_tree_view
+#: model:ir.ui.view,arch_db:l10n_pt_account.view_supplier_account_invoice_tree
+#: model:ir.ui.view,arch_db:l10n_pt_account.view_waybill_to_invoice_tree
+msgid "Total Amount"
+msgstr "Total"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,help:l10n_pt_account.field_account_linha_guia_price_subtotal_signed
+msgid "Total amount in the currency of the company, negative for credit notes."
+msgstr "O valor total na moeda da empresa, negativo para notas de crédito ."
+
+#. module: l10n_pt_account
+#: model:ir.model,name:l10n_pt_account.model_stock_picking
+msgid "Transfer"
+msgstr "Transferir"
+
+#. module: l10n_pt_account
+#: model:ir.ui.view,arch_db:l10n_pt_account.account_pt_form
+msgid "Transport"
+msgstr "Transporte"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_invoice_with_transport_info
+msgid "Transport Information?"
+msgstr "Guia de Remessa?"
+
+#. module: l10n_pt_account
+#: selection:account.guia,tipo:0
+#: model:ir.ui.menu,name:l10n_pt_account.menu_action_account_guias_transporte
+#: model:ir.ui.view,arch_db:l10n_pt_account.account_guia_search_form_view
+#: selection:stock.picking.waybill,type_waybill:0
+msgid "Transporte"
+msgstr "Transporte"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_linha_guia_state
+msgid "Type"
+msgstr "Tipo"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_stock_picking_type_picking
+msgid "Type Picking"
+msgstr "Tipo de Picking"
+
+#. module: l10n_pt_account
+#: report:account.guia:0
+msgid "Unidade"
+msgstr "Unidade"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,help:l10n_pt_account.field_stock_picking_waybill_line_cost
+msgid "Unit Cost for this product line"
+msgstr "Unidade de Custo para esta linha de produto"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_linha_guia_price_unit
+msgid "Unit Price"
+msgstr "Preço unitário"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_linha_guia_uom_id
+#: model:ir.model.fields,field_description:l10n_pt_account.field_stock_picking_waybill_line_product_uom
+msgid "Unit of Measure"
+msgstr "Unidade de Medida"
+
+#. module: l10n_pt_account
+#: model:ir.ui.view,arch_db:l10n_pt_account.account_pt_form
+msgid "Unload"
+msgstr "Descarga"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_invoice_unload_city
+msgid "Unload city"
+msgstr "Cidade de Descarga"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_invoice_unload_date
+msgid "Unload date"
+msgstr "Data de Descarga"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_invoice_unload_place
+msgid "Unload place"
+msgstr "Local de Descarga"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_invoice_unload_postal_code
+msgid "Unload postal_code"
+msgstr "Codigo Postal de Descarga"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_guia_message_unread
+msgid "Unread Messages"
+msgstr "Mensagens por ler"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_guia_message_unread_counter
+msgid "Unread Messages Counter"
+msgstr "Contador de Mensagens por Ler"
+
+#. module: l10n_pt_account
+#: model:ir.ui.view,arch_db:l10n_pt_account.account_guia_tree_view
+#: model:ir.ui.view,arch_db:l10n_pt_account.view_supplier_account_invoice_tree
+#: model:ir.ui.view,arch_db:l10n_pt_account.view_waybill_to_invoice_tree
+msgid "Untaxed Amount"
+msgstr "Valor sem Impostos"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_guia_user_id
+msgid "User"
+msgstr "Utilizador"
+
+#. module: l10n_pt_account
+#: model:ir.ui.view,arch_db:l10n_pt_account.account_guia_form_view
+msgid "Validar"
+msgstr "Validar"
+
+#. module: l10n_pt_account
+#: model:mail.message.subtype,name:l10n_pt_account.mt_waybill_validated
+msgid "Validated"
+msgstr "Validado"
+
+#. module: l10n_pt_account
+#: report:account.guia:0
+msgid "Viatura"
+msgstr "Viatura"
+
+#. module: l10n_pt_account
+#: code:addons/l10n_pt_account/wizard/stock_create_waybill.py:80
+#: code:addons/l10n_pt_account/wizard/stock_create_waybill.py:82
+#: code:addons/l10n_pt_account/wizard/stock_invoice_onshipping.py:46
+#: code:addons/l10n_pt_account/wizard/stock_invoice_onshipping.py:48
+#: code:addons/l10n_pt_account/wizard/stock_simplified_invoice_onshipping.py:74
+#: code:addons/l10n_pt_account/wizard/stock_simplified_invoice_onshipping.py:100
+#: code:addons/l10n_pt_account/wizard/stock_simplified_invoice_onshipping.py:102
+#: code:addons/l10n_pt_account/wizard/waybill_invoice.py:62
+#: code:addons/l10n_pt_account/wizard/waybill_invoice.py:64
+#, python-format
+msgid "Warning !"
+msgstr "Aviso!"
+
+#. module: l10n_pt_account
+#: code:addons/l10n_pt_account/guia.py:453
+#, python-format
+msgid "Warning!"
+msgstr "Aviso"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_stock_picking_waybill_id_6713
+msgid "Waybill"
+msgstr "Guia"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_stock_picking_waybill_state
+msgid "Waybill Control"
+msgstr "Controlo de Guias"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_invoice_line_waybill_date
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_linha_guia_waybill_date
+msgid "Waybill Date"
+msgstr "Data da Guia"
+
+#. module: l10n_pt_account
+#: model:ir.ui.view,arch_db:l10n_pt_account.view_guia_linha_tree
+msgid "Waybill Line"
+msgstr "Linha da Guia"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_invoice_line_waybill_reference
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_linha_guia_waybill_reference
+msgid "Waybill Reference"
+msgstr "Ref. Guia"
+
+#. module: l10n_pt_account
+#: code:addons/l10n_pt_account/account_invoice.py:248
+#, python-format
+msgid "Waybill Reference not found: %s"
+msgstr "Ref. Guia não encontrada: %s"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_config_settings_waybill_rem_seq
+msgid "Waybill Remittance Sequence"
+msgstr "Sequência Guia de Remessa"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_config_settings_waybill_dev_seq
+msgid "Waybill Return Sequence"
+msgstr "Sequência Guia de Devolução"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_config_settings_waybill_trsp_seq
+msgid "Waybill Transport Sequence"
+msgstr "Sequência Guia de Transporte"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_stock_picking_waybill_type_waybill
+msgid "Waybill Type"
+msgstr "Tipo da Guia"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_config_settings_waybill_rem_seq_prefix
+msgid "Waybill remittance sequence"
+msgstr "Sequência Guia de Remessa"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_config_settings_waybill_dev_seq_prefix
+msgid "Waybill return sequence"
+msgstr "Sequência Guia de Devolução"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_config_settings_waybill_trsp_seq_prefix
+msgid "Waybill transport sequence"
+msgstr "Sequência Guia de Transporte"
+
+#. module: l10n_pt_account
+#: selection:stock.picking,waybill_state:0
+msgid "Waybilled"
+msgstr "Guia Emitida"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_invoice_waybill_ids
+msgid "Waybills"
+msgstr "Guias"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_account_guia_website_message_ids
+msgid "Website Messages"
+msgstr "Mensagens do Site"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,help:l10n_pt_account.field_account_guia_website_message_ids
+msgid "Website communication history"
+msgstr "Histórico de mensagens e comunicação do Site"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,help:l10n_pt_account.field_product_category_property_stock_variation
+msgid ""
+"When real-time inventory valuation is enabled on a product, this account "
+"will hold the current value of the products."
+msgstr ""
+"Quanto o cálculo em tempo-real do valor do inventário está ativo para um produto, "
+"esta conta contém o valor atual dos produtos."
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_stock_picking_waybill_with_cost
+msgid "With Cost?"
+msgstr "Com Custo?"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_stock_picking_waybill_line_wizard_id
+msgid "Wizard"
+msgstr "Wizard"
+
+#. module: l10n_pt_account
+#: code:addons/l10n_pt_account/account_invoice.py:230
+#, python-format
+msgid "You can't create simplified invoices with a total over 1000€"
+msgstr "Não pode criar faturas simplificadas cujo total ultrapasse os 1000€"
+
+#. module: l10n_pt_account
+#: code:addons/l10n_pt_account/guia.py:403
+#, python-format
+msgid "You must first select a partner !"
+msgstr "Deve selecionar um parceiro primeiro!"
+
+#. module: l10n_pt_account
+#: code:addons/l10n_pt_account/guia.py:454
+#, python-format
+msgid ""
+"You selected an Unit of Measure which is not compatible with the product."
+msgstr ""
+"Selecionou uma unidade de medida que não é compatível com o produto."
+
+#. module: l10n_pt_account
+#: model:ir.ui.view,arch_db:l10n_pt_account.view_waybill_invoice
+#: model:ir.ui.view,arch_db:l10n_pt_account.view_waybill_simplified_invoice
+msgid "_Cancel"
+msgstr "_Cancelar"
+
+#. module: l10n_pt_account
+#: report:account.guia:0
+msgid "____________________________________"
+msgstr "____________________________________"
+
+#. module: l10n_pt_account
+#: model:ir.model,name:l10n_pt_account.model_account_config_settings
+msgid "account.config.settings"
+msgstr "account.config.settings"
+
+#. module: l10n_pt_account
+#: model:ir.model,name:l10n_pt_account.model_account_license_plate
+msgid "account.license_plate"
+msgstr "account.license_plate"
+
+#. module: l10n_pt_account
+#: code:addons/l10n_pt_account/account_invoice.py:427
+#: code:addons/l10n_pt_account/account_invoice.py:429
+#, python-format
+msgid "is validated."
+msgstr "Validado"
+
+#. module: l10n_pt_account
+#: model:ir.ui.view,arch_db:l10n_pt_account.stock_picking_waybill_form
+#: model:ir.ui.view,arch_db:l10n_pt_account.view_waybill_invoice
+#: model:ir.ui.view,arch_db:l10n_pt_account.view_waybill_simplified_invoice
+msgid "or"
+msgstr "ou"
+
+#. module: l10n_pt_account
+#: model:ir.model,name:l10n_pt_account.model_stock_picking_waybill_line
+msgid "stock.picking.waybill.line"
+msgstr "stock.picking.waybill.line"
+
+#. module: l10n_pt_account
+#: model:ir.model.fields,field_description:l10n_pt_account.field_stock_picking_sale_order_ids
+msgid "unknown"
+msgstr "Desconhecido"
