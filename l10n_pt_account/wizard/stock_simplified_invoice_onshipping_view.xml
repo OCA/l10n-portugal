@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
-    
+
     <record id="view_stock_simplified_invoice_onshipping" model="ir.ui.view">
             <field name="name">Simplified Invoice Onshipping</field>
             <field name="model">stock.simplified.invoice.onshipping</field>
@@ -20,7 +20,7 @@
                 </form>
             </field>
         </record>
-        
+
         <record id="action_stock_simplified_invoice_onshipping" model="ir.actions.act_window">
             <field name="name">Create Simplified Invoice</field>
             <field name="res_model">stock.simplified.invoice.onshipping</field>
@@ -38,6 +38,6 @@
             view_type="form"
             target="new"
             id="action_stock_simplified_invoice_id"/>
-            
+
     </data>
 </openerp>

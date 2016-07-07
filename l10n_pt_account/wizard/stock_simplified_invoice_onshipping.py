@@ -1,4 +1,8 @@
 # -*- coding: utf-8 -*-
+# Copyright (C) 2012 Thinkopen Solutions, Lda. All Rights Reserved
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+
+
 from openerp.osv import fields, osv
 from openerp.tools.translate import _
 
@@ -13,7 +17,7 @@ class stock_simplified_onshipping(osv.osv_memory):
         if res:
             return res[0][0]
         return False
-    
+
     def _get_journal_id(self, cr, uid, context=None):
         if context is None:
             context = {}
@@ -27,7 +31,7 @@ class stock_simplified_onshipping(osv.osv_memory):
         res_ids = context and context.get('active_ids', [])
         vals = []
         browse_picking = model_pool.browse(cr, uid, res_ids, context=context)
-        
+
         for pick in browse_picking:
             if not pick.move_lines:
                 continue
@@ -44,7 +48,7 @@ class stock_simplified_onshipping(osv.osv_memory):
                 journal_type = 'sale_refund'
             else:
                 journal_type = 'sale'
-                
+
             value = journal_obj.search(cr, uid, [('type','=',journal_type )])
             for jr_type in journal_obj.browse(cr, uid, value, context=context):
                 t1 = jr_type.id,jr_type.name
@@ -52,7 +56,7 @@ class stock_simplified_onshipping(osv.osv_memory):
                     vals.append(t1)
         if not vals:
             raise osv.except_osv(_('Warning !'), _('Either there are no moves linked to the picking or Accounting Journals are misconfigured!'))
-        
+
         return vals
 
     _columns = {
@@ -61,11 +65,11 @@ class stock_simplified_onshipping(osv.osv_memory):
         'invoice_date': fields.date('Invoiced date'),
         #'force_open': fields.boolean('Force Open', help='Select to force the opening of this document, even if there are older drafts or created ones.\nIt doesn\'t force opening if there are higher ones.')
     }
-    
+
     _defaults = {
         'journal_id' : _get_journal,
     }
-    
+
     def view_init(self, cr, uid, fields_list, context=None):
         if context is None:
             context = {}
@@ -105,14 +109,11 @@ class stock_simplified_onshipping(osv.osv_memory):
             context = {}
         picking_pool = self.pool.get('stock.picking')
         onshipdata_obj = self.read(cr, uid, ids, ['journal_id', 'group', 'invoice_date', 'origin'])
-        journal_pool = self.pool.get('account.journal')
         if context.get('new_picking', False):
             onshipdata_obj['id'] = onshipdata_obj.new_picking
             onshipdata_obj[ids] = onshipdata_obj.new_picking
         context['date_inv'] = onshipdata_obj[0]['invoice_date']
         active_ids = context.get('active_ids', [])
-        active_picking = picking_pool.browse(cr, uid, context.get('active_id',False), context=context)
-        journal_type = journal_pool.browse(cr, uid, onshipdata_obj[0]['journal_id']).type
         res = picking_pool.action_invoice_create(cr, uid, active_ids,
               journal_id = onshipdata_obj[0]['journal_id'],
               group = onshipdata_obj[0]['group'],

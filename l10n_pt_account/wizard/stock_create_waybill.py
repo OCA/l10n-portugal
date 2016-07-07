@@ -1,57 +1,43 @@
-# -*- encoding: utf-8 -*-
-##############################################################################
-#
-#    OpenERP, Open Source Management Solution
-#    Copyright (C) Tiny SPRL (<http://tiny.be>).
-#
-#    Thinkopen - Portugal & Brasil
-#    Copyright (C) Thinkopen Solutions (<http://www.thinkopensolutions.com>).
-#
-#    $Id$
-#
-#    This module was developed by ThinkOpen Solutions for OpenERP as a
-#    contribution to the community.
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU General Public License as published by
-#    the Free Software Foundation, either version $revnoof the License, or
-#    (at your option) any later version.51
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU General Public License for more details.
-#
-#    You should have received a copy of the GNU General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-##############################################################################
+# -*- coding: utf-8 -*-
+# Copyright (C) 2012 Thinkopen Solutions, Lda. All Rights Reserved
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-import time
+
 from openerp.osv import fields, osv
-from openerp.tools.misc import DEFAULT_SERVER_DATETIME_FORMAT
 import openerp.addons.decimal_precision as dp
 from openerp.tools.translate import _
+
 
 class stock_picking_waybill_line(osv.osv_memory):
 
     _name = "stock.picking.waybill.line"
     _rec_name = 'product_id'
     _columns = {
-        'product_id' : fields.many2one('product.product', string="Product", required=True, ondelete='CASCADE'),
-        'product_qty' : fields.float("Quantity", digits_compute=dp.get_precision('Product UoM'), required=True),
-        'product_uom': fields.many2one('product.uom', 'Unit of Measure', required=True, ondelete='CASCADE'),
-        'move_id' : fields.many2one('stock.move', "Move", ondelete='CASCADE'),
-        'wizard_id' : fields.many2one('stock.picking.waybill', string="Wizard", ondelete='CASCADE'),
-        'cost' : fields.float("Cost", help="Unit Cost for this product line"),
+        'product_id': fields.many2one(
+            'product.product', string="Product",
+            required=True, ondelete='CASCADE'),
+        'product_qty': fields.float(
+            "Quantity",
+            digits_compute=dp.get_precision('Product UoM'),
+            required=True),
+        'product_uom': fields.many2one(
+            'product.uom',
+            'Unit of Measure',
+            required=True, ondelete='CASCADE'),
+        'move_id': fields.many2one(
+            'stock.move', "Move", ondelete='CASCADE'),
+        'wizard_id': fields.many2one(
+            'stock.picking.waybill',
+            string="Wizard", ondelete='CASCADE'),
+        'cost': fields.float(
+            "Cost", help="Unit Cost for this product line"),
     }
 
-stock_picking_waybill_line()
 
 class stock_picking_waybill(osv.osv_memory):
     _name = "stock.picking.waybill"
     _description = "Creating Waybill From Picking Wizard"
-    
+
     _columns = {
         'type_waybill': fields.selection([("remessa", "Remessa"), ("transporte", "Transporte"), ("devolucao", "Devolução")], "Waybill Type", required=True, select=1),
         'with_cost': fields.boolean("With Cost?", help="If true the waybill will be created with product cost."),
@@ -60,7 +46,7 @@ class stock_picking_waybill(osv.osv_memory):
         #'picking_id': fields.many2one('stock.picking', 'Picking', ondelete='CASCADE'),
         'group': fields.boolean("Group by partner"),
      }
-    
+
     _defaults = {
                 'with_cost': True,
                 'type_waybill': 'remessa'
@@ -104,7 +90,7 @@ class stock_picking_waybill(osv.osv_memory):
 #            moves = [self._partial_move_for(cr, uid, m) for m in picking.move_lines if m.state in ('done')]
 #            res.update(move_ids=moves)
         return res
-    
+
     def _check_invoice_control_conflicts_with_waybill_type(self, cr, uid, type_waybill, pickings, context):
         waybill_obj = self.pool.get('account.guia')
         if type_waybill != 'transporte' and any(p.invoice_state == 'none' for p in pickings):
@@ -146,6 +132,3 @@ class stock_picking_waybill(osv.osv_memory):
             action = action_pool.read(cr, uid, action_id, context=context)
             action['domain'] = "[('id','in', ["+','.join(map(str,waybill_ids))+"])]"
         return action
-
-
-stock_picking_waybill()

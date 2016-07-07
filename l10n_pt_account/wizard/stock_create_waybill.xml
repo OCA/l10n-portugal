@@ -20,7 +20,7 @@
                 </form>
             </field>
         </record>
-        
+
        <record id="action_picking_waybill" model="ir.actions.act_window">
             <field name="name">Creating Waybill</field>
             <field name="res_model">stock.picking.waybill</field>
@@ -40,6 +40,6 @@
             target="new"
             context="{'origin': 'action'}"
             id="action_stock_create_waybill"/>
-        
+
     </data>
 </openerp>

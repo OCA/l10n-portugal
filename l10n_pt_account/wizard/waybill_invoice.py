@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+# Copyright (C) 2012 Thinkopen Solutions, Lda. All Rights Reserved
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+
 from openerp.osv import fields, osv
 from openerp.tools.translate import _
 
@@ -6,7 +9,7 @@ from openerp.tools.translate import _
 class waybill_invoice(osv.osv_memory):
     _name = "waybill.invoice"
     _description = "Account PT Invoice Waybill"
-    
+
     def _get_journal_id(self, cr, uid, context=None):
         if context is None:
             context = {}
@@ -27,7 +30,7 @@ class waybill_invoice(osv.osv_memory):
         'invoice_date': fields.date('Invoiced date'),
         #'force_open': fields.boolean('Force Open', help='Select to force the opening of this document, even if there are older drafts or created ones.\nIt doesn\'t force opening if there are higher ones.')
     }
-    
+
     def view_init(self, cr, uid, fields_list, context=None):
         if context is None:
             context = {}
@@ -44,7 +47,7 @@ class waybill_invoice(osv.osv_memory):
             raise osv.except_osv(_('Warning !'), _('The waybills selected are not in state draft or are already invoiced or not type "Remessa" or "Transporte"'))
         return res
 
-    
+
     def open_invoice(self, cr, uid, ids, context=None):
         if context is None:
             context = {}
@@ -54,16 +57,14 @@ class waybill_invoice(osv.osv_memory):
         context['type'] = 'out_invoice'
         context['group'] = waybilldata_obj[0]['group']
         active_ids = context.get('active_ids', [])
-        active_waybill = guia_pool.browse(cr, uid, context.get('active_id',False), context=context)
         return guia_pool.action_invoice_onguia(cr, uid, active_ids, context=context)
 
-waybill_invoice()
 
 class waybill_simplified_invoice(osv.osv_memory):
     _name = "waybill.simplified.invoice"
     _inherit = "waybill.invoice"
     _description = "Account PT Simplified Invoice Waybill"
-    
+
     def open_simplified_invoice(self, cr, uid, ids, context=None):
         if context is None:
             context = {}
@@ -73,6 +74,5 @@ class waybill_simplified_invoice(osv.osv_memory):
         context['type'] = 'simplified_invoice'
         context['group'] = waybilldata_obj[0]['group']
         active_ids = context.get('active_ids', [])
-        active_waybill = guia_pool.browse(cr, uid, context.get('active_id',False), context=context)
         res = guia_pool.action_invoice_onguia(cr, uid, active_ids, context=context)
         return res
