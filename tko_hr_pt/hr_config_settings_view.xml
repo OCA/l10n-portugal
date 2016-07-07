@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+       <record id="view_tko_hr_config_settings" model="ir.ui.view">
+            <field name="name">tko.hr.settings</field>
+            <field name="model">hr.config.settings</field>
+            <field name="inherit_id" ref="hr.view_human_resources_configuration"/>
+            <field name="arch" type="xml">
+                <group name="contract_grp" position="after">
+                    <separator string="Human Resources PT"/>
+                    <group name="hr_pt">
+                        <label for="id" string="Configs"/>
+                        <div>
+                            <div>
+                                <field name="module_tko_hr_reports" class="oe_inline"/>
+                                <label for="module_tko_hr_reports" />
+                            </div>
+                            <div>
+                                 <field name="module_tko_hr_tax_returns" class="oe_inline"/>
+                                <label for="module_tko_hr_tax_returns" />
+                            </div>
+                            <div>
+                                <field name="module_tko_hr_training" class="oe_inline"/>
+                                <label for="module_tko_hr_training" />
+                            </div>
+                            <div>
+                                <field name="group_adhoc_rules" class="oe_inline"/>
+                                <label for="group_adhoc_rules" />
+                            </div>
+                        </div>
+                    </group>
+                </group>
+            </field>
+       </record>
+    </data>
+</openerp>
