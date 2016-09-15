@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+# Copyright 2010-2016 ThinkOpen Solutions
 
 from openerp import api, models, fields, _
 from openerp.exceptions import Warning

@@ -1,4 +1,5 @@
 # -*- encoding: utf-8 -*-
+# Copyright 2010-2016 ThinkOpen Solutions
 ##############################################################################
 #
 #    OpenERP, Open Source Management Solution

@@ -1,4 +1,5 @@
 #-*- coding:utf-8 -*-
+# Copyright 2010-2016 ThinkOpen Solutions
 from openerp.report import report_sxw
 
 import time

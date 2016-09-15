@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+# Copyright 2010-2016 ThinkOpen Solutions
 {
     'name': 'Contabilidade PT',
     'version': '1.122',

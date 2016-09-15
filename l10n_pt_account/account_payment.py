@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+# Copyright 2010-2016 ThinkOpen Solutions
 
 from openerp import models, fields, api
 from report.amount_to_text_pt import amount_to_text
