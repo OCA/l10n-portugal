@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from openerp import models, fields, api, _
-from report import amount_to_text_pt
+from openerp import models, fields, api
+from report.amount_to_text_pt import amount_to_text
 import json
 
 from openerp.addons.account.models.account_payment \
@@ -44,20 +44,22 @@ class account_payment(models.Model):
             rec['partner_id'] = invoice['partner_id'][0]
             rec['amount'] = invoice['residual']
         return rec
-    
-    total_regulated = fields.Float(string="Total Regulated Amount", compute='_compute_total_regulated')
-    
+
+    total_regulated = fields.Float(
+        string="Total Regulated Amount", compute='_compute_total_regulated')
+
     @api.depends('invoice_ids')
     def _compute_total_regulated(self):
         for record in self:
-            record.total_regulated=0
+            record.total_regulated = 0
             for invoice in record.invoice_ids:
-                record.total_regulated+=self.get_invoice_paid_amount(invoice)
-                
+                record.total_regulated += self.get_invoice_paid_amount(invoice)
+
     @api.multi
     def text_amount(self):
-        return amount_to_text_pt.amount_to_text(self.amount, 'pt', self.company_id.currency_id.name)
-    
+        currency_name = self.company_id.currency_id.name
+        return amount_to_text(self.amount, 'pt', currency_name)
+
     @api.multi
     def get_invoice_paid_amount(self, invoice):
         data = json.loads(invoice.payments_widget)

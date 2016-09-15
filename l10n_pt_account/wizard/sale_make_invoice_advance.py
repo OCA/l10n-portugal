@@ -29,8 +29,9 @@ class SaleAdvancePaymentInvoice(models.TransientModel):
         string='Invoice date', required=True, default=fields.Date.today)
 
     @api.multi
-    def _prepare_advance_invoice_vals():
-        res = super(SaleAdvancePaymentInvoice, self)._prepare_advance_invoice_vals()
+    def _prepare_advance_invoice_vals(self):
+        res = super(SaleAdvancePaymentInvoice, self)\
+            ._prepare_advance_invoice_vals()
         for order_id, invoice_vals in res:
             invoice_vals['date_invoice'] = self.date_invoice
         return res
@@ -58,7 +59,8 @@ class SaleAdvancePaymentInvoice(models.TransientModel):
         orders = sale_obj.browse(sale_ids)
         get_invoices = itemgetter('invoice_ids')
         invoices0 = orders.mapped(get_invoices)
-        orders.with_context(date_invoice=wizard.date_invoice).action_invoice_create()
+        orders.with_context(date_invoice=wizard.date_invoice)\
+            .action_invoice_create()
         invoices1 = sale_obj.browse(sale_ids).mapped(get_invoices)
         # determine newly created invoices
         new_invoices = invoices1 - invoices0

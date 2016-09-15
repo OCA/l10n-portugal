@@ -21,7 +21,7 @@
 #
 ##############################################################################
 
-from openerp import fields, models, api, _
+from openerp import fields, models
 
 
 class ProductTemplate(models.Model):

@@ -21,13 +21,16 @@
 from openerp.osv import fields, osv
 from openerp.tools.translate import _
 
+
 class sale_order(osv.osv):
     _inherit = "sale.order"
-    
+
     def _prepare_order_picking(self, cr, uid, order, context=None):
-        dict = super(sale_order, self)._prepare_order_picking( cr, uid, order, context)
+        dict = super(sale_order, self)\
+            ._prepare_order_picking(cr, uid, order, context)
         dict.update({'waybill_state': 'none'})
         return dict
+
 
 class stock_picking(osv.osv):
     _description = "Delivery Orders"
@@ -43,39 +46,46 @@ class stock_picking(osv.osv):
                 'invoice_ids': [(4, invoice_id)],
             })
             for sale_line in picking.sale_id.order_line:
-                if sale_line.product_id.type == 'service' and not sale_line.invoiced:
-                    vals = order_line_obj._prepare_order_line_invoice_line(cursor, user, sale_line, False)
+                if sale_line.product_id.type == 'service'\
+                   and not sale_line.invoiced:
+                    vals = order_line_obj\
+                        ._prepare_order_line_invoice_line(
+                            cursor, user, sale_line, False)
                     vals['invoice_id'] = invoice_id
-                    invoice_line_id = invoice_line_obj.create(cursor, user, vals)
-                    order_line_obj.write(cursor, user, [sale_line.id], {
-                        'invoice_lines': [(6, 0, [invoice_line_id])],
-                    })
+                    invoice_line_id = invoice_line_obj\
+                        .create(cursor, user, vals)
+                    order_line_obj.write(
+                        cursor, user, [sale_line.id], {
+                            'invoice_lines': [(6, 0, [invoice_line_id])],
+                        }
+                    )
                     invoice_obj.button_compute(cursor, user, [invoice_id])
         return
-    
+
     def _invoice_line_hook(self, cursor, user, move_line, invoice_line_id):
         if move_line.sale_line_id:
-            move_line.sale_line_id.write({'invoice_lines': [(4, invoice_line_id)]})
+            line_vals = {'invoice_lines': [(4, invoice_line_id)]}
+            move_line.sale_line_id.write(line_vals)
         return
 
     def copy(self, cr, uid, id, default={}, context=None):
         if context is None:
             context = {}
         default.update({
-                        'waybill_state': 'none',
-                        'waybill_id': False,
-                        })
+            'waybill_state': 'none',
+            'waybill_id': False,
+        })
         return super(stock_picking, self).copy(cr, uid, id, default, context)
 
     def _type_picking(self, cr, uid, ids, prop, unknow_none, context):
-        res={}
+        res = {}
         for picking in self.browse(cr, uid, ids, context):
             if picking.name.find('-return') > 0:
-                res[picking.id]= 'return'
+                res[picking.id] = 'return'
             else:
-                res[picking.id] ='none'
+                res[picking.id] = 'none'
         return res
-    
+
     def _get_sale_orders(self, cr, uid, ids, field_name, arg, context=None):
         res = {}
         order_pool = self.pool['sale.order']
@@ -83,75 +93,108 @@ class stock_picking(osv.osv):
             query = [('procurement_group_id', '=', picking.group_id.id)]
             res[picking.id] = order_pool.search(cr, uid, query)
         return res
-    
-    def _sale_order_invoiced(self, cr, uid, ids, field_name, arg, context=None):
+
+    def _sale_order_invoiced(self, cr, uid, ids,
+                             field_name, arg, context=None):
         res = {}
-        order_pool = self.pool['sale.order']
         for picking in self.browse(cr, uid, ids, context=context):
-            res[picking.id] = all(order.invoice_status == 'invoiced' for order in picking.sale_order_ids)
+            res[picking.id] = all(order.invoice_status == 'invoiced'
+                                  for order in picking.sale_order_ids)
         return res
-            
-    
+
     _columns = {
-                'waybill_state': fields.selection([('waybilled', 'Waybilled'), ("none", "Not Applicable")], "Waybill Control", readonly = True),
-                'waybill_id': fields.many2one('account.guia', "Waybill"),
-                'type_picking': fields.function(_type_picking, method = True, string="Type Picking", type="char"),
-                'sale_order_ids': fields.function(_get_sale_orders, type='many2many', relation='sale.order'),
-                'invoice_state': fields.function(_sale_order_invoiced, type='char', string='Invoice State'),
-                }
-    _defaults = {'waybill_state': 'none'
+        'waybill_state': fields.selection(
+            [
+                ('waybilled', 'Waybilled'),
+                ("none", "Not Applicable"),
+            ], "Waybill Control", readonly=True),
+        'waybill_id': fields.many2one('account.guia', "Waybill"),
+        'type_picking': fields.function(
+            _type_picking, method=True, string="Type Picking", type="char"),
+        'sale_order_ids': fields.function(
+            _get_sale_orders, type='many2many', relation='sale.order'),
+        'invoice_state': fields.function(
+            _sale_order_invoiced, type='char', string='Invoice State'),
     }
-    
-    def _prepare_invoice_line(self, cr, uid, group, picking, move_line, invoice_id,
-        invoice_vals, context=None):
-        """ Inherit the original function of the 'stock' module in order to correct 
+
+    _defaults = {
+        'waybill_state': 'none'
+    }
+
+    def _prepare_invoice_line(self, cr, uid, group, picking,
+                              move_line, invoice_id,
+                              invoice_vals, context=None):
+        """ Inherit the original function of the 'stock' module in order to correct
             the account in simplified invoice
         """
-        invoice_line_vals = super(stock_picking, self)._prepare_invoice_line(cr, uid, group, picking, move_line, invoice_id, invoice_vals, context=context)
+        invoice_line_vals = super(stock_picking, self)._prepare_invoice_line(
+            cr, uid, group, picking, move_line, invoice_id, invoice_vals,
+            context=context)
         if invoice_vals['type'] in ('simplified_invoice'):
             account_id = move_line.product_id.property_account_income_id.id
             if not account_id:
-                account_id = move_line.product_id.categ_id.property_account_income_categ_id.id
+                account_id = move_line.product_id.categ_id\
+                    .property_account_income_categ_id.id
             if invoice_vals['fiscal_position_id']:
                 fp_obj = self.pool.get('account.fiscal.position')
-                fiscal_position = fp_obj.browse(cr, uid, invoice_vals['fiscal_position_id'], context=context)
-                account_id = fp_obj.map_account(cr, uid, fiscal_position, account_id)
-            uom_id = move_line.product_uos and move_line.product_uos.id or False
+                fiscal_position = fp_obj.browse(
+                    cr, uid, invoice_vals['fiscal_position_id'],
+                    context=context)
+                account_id = fp_obj.map_account(
+                    cr, uid, fiscal_position, account_id)
+            if move_line.product_uos:
+                uom_id = move_line.product_uos.id
+            else:
+                uom_id = False
             if not uom_id:
                 uom_id = move_line.product_uom.id
             invoice_line_vals.update({
-                                      'account_id': account_id,
-                                      'uom_id': uom_id,
-                                      })
+                'account_id': account_id,
+                'uom_id': uom_id,
+            })
         return invoice_line_vals
-    
-    def _prepare_invoice(self, cr, uid, picking, partner, inv_type, journal_id, context=None):
-        """ Inherit the original function of the 'stock' module in order to correct some
-            values if the picking has been generated by a sales order.
-            account_id from order partner_id, fiscal_position from order or property of order partner_id
+
+    def _prepare_invoice(self, cr, uid, picking, partner,
+                         inv_type, journal_id, context=None):
+        """ Inherit the original function of the 'stock' module
+            in order to correct some values if the picking has been
+            generated by a sales order. account_id from order partner_id,
+            fiscal_position from order or property of order partner_id
         """
-        invoice_vals = super(stock_picking, self)._prepare_invoice(cr, uid, picking, partner, inv_type, journal_id, context=context)
-        if picking.sale_id:
-            invoice_vals['fiscal_position_id'] = picking.sale_id.fiscal_position_id.id or picking.sale_id.partner_id.property_account_position_id.id
-            invoice_vals['account_id'] = picking.sale_id.partner_id.property_account_receivable.id
+        invoice_vals = super(stock_picking, self)._prepare_invoice(
+            cr, uid, picking, partner, inv_type, journal_id, context=context)
+        sale = picking.sale_id
+        if sale:
+            if sale.fiscal_position_id:
+                invoice_vals['fiscal_position_id'] = sale.fiscal_position_id.id
+            else:
+                invoice_vals['fiscal_position_id'] = sale.partner_id\
+                    .property_account_position_id.id
+            invoice_vals['account_id'] = sale.partner_id\
+                .property_account_receivable.id
         return invoice_vals
-    
+
     def _get_partner_to_invoice(self, cr, uid, picking, context=None):
         """ Inherit the original function of the 'stock' module
-            We select the partner_invoice_id of the sales order as the partner of the customer invoice
+            We select the partner_invoice_id of the sales order
+            as the partner of the customer invoice
         """
         if picking.sale_id:
             return picking.sale_id.partner_invoice_id
-        return super(stock_picking, self)._get_partner_to_invoice(cr, uid, picking, context=context)
-    
+        return super(stock_picking, self)._get_partner_to_invoice(
+            cr, uid, picking, context=context)
+
     def _get_partner_to_waybill(self, cr, uid, picking, context=None):
-        """ We select the partner_invoice_id of the sales order as the partner of the customer invoice
+        """ We select the partner_invoice_id of the sales order
+            as the partner of the customer invoice
         """
         if picking.sale_id:
             return picking.sale_id.partner_shipping_id
         return picking.partner_id
- 
-    def action_waybill_create(self, cr, uid, ids, group=False, type_waybill=None, with_cost=None, context=None):
+
+    def action_waybill_create(self, cr, uid, ids, group=False,
+                              type_waybill=None, with_cost=None,
+                              context=None):
         """
         Creates waybill based on picking
         """
@@ -168,41 +211,53 @@ class stock_picking(osv.osv):
         stock_move_obj = self.pool.get('stock.move')
         for picking in self.browse(cr, uid, ids, context=context):
             # Confirm if picking is done
-            if picking.state != 'done' or picking.invoice_state == 'invoiced' or picking.waybill_state != 'none':
+            if picking.state != 'done'\
+               or picking.invoice_state == 'invoiced'\
+               or picking.waybill_state != 'none':
                 continue
             # If invoice not aplicable only create transport waybills
-            if picking.invoice_state == 'none' and type_waybill != 'transporte':
+            if picking.invoice_state == 'none'\
+               and type_waybill != 'transporte':
                 continue
             # If picking is return only create devolucao waybills
-            if picking.type_picking == 'return' and type_waybill != 'devolucao':
+            if picking.type_picking == 'return'\
+               and type_waybill != 'devolucao':
                 continue
             partner = picking.partner_id
             if not partner:
-                raise osv.except_osv(_('Error, no partner !'),
-                    _('Please put a partner on the picking list if you want to generate waybill.'))
+                raise osv.except_osv(
+                    _('Error, no partner !'),
+                    _('Please put a partner on the picking list '
+                      'if you want to generate waybill.'))
             # Group pickings when same partner and same address
             if group and partner.id in waybill_group:
                 guia_id = waybill_group[partner.id]['guia_id']
                 waybill = guia_obj.browse(cr, uid, guia_id)
                 waybill_vals = {
-                                'origin': (waybill.origin or '') + ', ' + (picking.name or '')  + (picking.origin and (':' + picking.origin) or ''),
-                                'stock_picking_ids': [(4, picking.id)],
-                                'observacoes': waybill_vals['observacoes'] + ', ' + picking.name or ''
-                                }
+                    'origin': (waybill.origin or '') + ', ' +
+                              (picking.name or '') +
+                              (picking.origin and
+                                  (':' + picking.origin) or ''),
+                    'stock_picking_ids': [(4, picking.id)],
+                    'observacoes': picking.name or ''
+                }
                 if waybill.sale_id:
-                    waybill_vals['name'] = waybill_vals['name'] + (picking.sale_id.client_order_ref and (', '  + picking.sale_id.client_order_ref ) or '')
+                    if picking.sale_id.client_order_ref:
+                        waybill_vals['name'] += ', ' + picking.sale_id\
+                            .client_order_ref
                     if waybill.sale_id.id == picking.sale_id.id:
                         waybill_vals['sale_id'] = picking.sale_id.id
-                guia_obj.write(cr, uid, [guia_id], waybill_vals, context=context)
+                guia_obj.write(
+                    cr, uid, [guia_id], waybill_vals, context=context)
             else:
                 waybill_vals = {
-                                'tipo': type_waybill,
-                                'partner_id': partner.id,
-                                'stock_picking_ids': [(4, picking.id)],
-                                'company_id': picking.company_id.id,
-                                'origin': picking.name or '',
-                                'observacoes': (picking.name and ("Ref Ordens Entrega: " + picking.name) or '')
-                                }
+                    'tipo': type_waybill,
+                    'partner_id': partner.id,
+                    'stock_picking_ids': [(4, picking.id)],
+                    'company_id': picking.company_id.id,
+                    'origin': picking.name or '',
+                    'observacoes': (picking.name and ("Ref Ordens Entrega: " + picking.name) or '')
+                }
                 if picking.origin:
                     waybill_vals['origin'] = waybill_vals['origin'] + ': ' + picking.origin
                 if picking.sale_order_ids:

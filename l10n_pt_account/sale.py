@@ -25,13 +25,13 @@ from openerp import models, fields, api, _
 
 
 class SaleOrder(models.Model):
-    _inherit="sale.order"
+    _inherit = "sale.order"
 
     hide_discounts = fields.Boolean(
         string="Hide Discounts", required=False,
         help="If True is visible in report.")
 
-    ## FIX problem of multicompany.
+    # FIX problem of multicompany.
     @api.onchange('company_id')
     def onchange_company_id(self):
         if not self.partner_id or not self.company_id:
@@ -44,7 +44,6 @@ class SaleOrder(models.Model):
         warehouse = self.env['stock.warehouse'].search(query, limit=1)
         if warehouse:
             self.warehouse_id = warehouse
-
 
     @api.depends('state', 'order_line.invoice_status')
     def _get_invoiced(self):

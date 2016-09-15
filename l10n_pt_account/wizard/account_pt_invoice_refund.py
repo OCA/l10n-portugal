@@ -75,8 +75,7 @@ class AccountInvoiceRefund(models.TransientModel):
             return 'account.action_invoice_tree1'
         elif inv_type == 'in_refund':
             return 'account.action_invoice_tree2'
-        elif inv_type in ('out_invoice','simplified_invoice', 'debit_note'):
+        elif inv_type in ('out_invoice', 'simplified_invoice', 'debit_note'):
             return 'account.action_invoice_tree3'
         elif inv_type == 'in_invoice':
             return 'l10n_pt_account.action_invoice_tree4'
-                 
