@@ -61,12 +61,11 @@
         
         <menuitem action="account.action_invoice_tree1" id="account.menu_action_invoice_tree1" parent="account.menu_finance_receivables" sequence="1"/>
         <menuitem action="account.action_invoice_tree3" id="account.menu_action_invoice_tree3" parent="account.menu_finance_receivables" sequence="8"/>
-        <delete model="ir.ui.menu" id="account_voucher.action_vendor_receipt"/>
         
         <menuitem action="action_simplified_invoice_tree" 
                   id="menu_action_simplified_invoice" 
                   parent="account.menu_finance_receivables"
-                  sequence="9"/>
+                  sequence="4"/>
                 
     </data>
 </openerp>

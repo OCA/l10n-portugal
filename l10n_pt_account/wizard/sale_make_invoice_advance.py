@@ -58,9 +58,7 @@ class SaleAdvancePaymentInvoice(models.TransientModel):
         orders = sale_obj.browse(sale_ids)
         get_invoices = itemgetter('invoice_ids')
         invoices0 = orders.mapped(get_invoices)
-        orders.action_invoice_create(date_invoice=wizard.date_invoice)
-        manual_orders = orders.filtered(lambda o: o.order_policy == 'manual')
-        manual_orders.signal_workflow('manual_invoice')
+        orders.with_context(date_invoice=wizard.date_invoice).action_invoice_create()
         invoices1 = sale_obj.browse(sale_ids).mapped(get_invoices)
         # determine newly created invoices
         new_invoices = invoices1 - invoices0

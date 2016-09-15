@@ -54,6 +54,7 @@ EXEMPTION_REASONS = enumerate([
     u'Regime da margem de lucro- Objetos de arte',
     u'Regime da margem de lucro- Objetos de coleção e antiguidades',
     u'Isento Artigo 14.º do RITI',
+    u'Regime particular do tabaco',
 ])
 EXEMPTION_SELECTION = [(str(i), t) for (i, t) in EXEMPTION_REASONS]
 
@@ -73,6 +74,22 @@ class account_pt_invoice(osv.osv):
         },
     }
 
+    # TKO ACCOUNT PT (v9): Inherit to remove sign of refunds
+    @api.one
+    @api.depends('invoice_line_ids.price_subtotal', 'tax_line_ids.amount', 'currency_id', 'company_id')
+    def _compute_amount(self):
+        self.amount_untaxed = sum(line.price_subtotal for line in self.invoice_line_ids)
+        self.amount_tax = sum(line.amount for line in self.tax_line_ids)
+        self.amount_total = self.amount_untaxed + self.amount_tax
+        amount_total_company_signed = self.amount_total
+        amount_untaxed_signed = self.amount_untaxed
+        if self.currency_id and self.currency_id != self.company_id.currency_id:
+            amount_total_company_signed = self.currency_id.compute(self.amount_total, self.company_id.currency_id)
+            amount_untaxed_signed = self.currency_id.compute(self.amount_untaxed, self.company_id.currency_id)
+        #sign = self.type in ['in_refund', 'out_refund'] and -1 or 1
+        self.amount_total_company_signed = amount_total_company_signed
+        self.amount_total_signed = self.amount_total
+        self.amount_untaxed_signed = amount_untaxed_signed
 
     def _convert_ref(self, ref):
         return (ref or '').replace('/','')
@@ -81,10 +98,6 @@ class account_pt_invoice(osv.osv):
         if field == 'type' and value in ('debit_note', 'in_debit_note', 'simplified_invoice'):
             return 
         super(account_pt_invoice, self)._check_selection_field_value(cr, uid, field, value, context=context)
-
-    # TKO ACCOUNT PT: New method
-    def _today(*a):
-        return datetime.now().strftime("%Y-%m-%d")
 
     # TKO ACCOUNT PT: Inherit method
     # To clean fields of reference documents from invoice_lines when create refund
@@ -145,9 +158,9 @@ class account_pt_invoice(osv.osv):
             return super(account_pt_invoice, self)._default_journal()
 
     type = new_fields.Selection(selection_add=[
-            ('debit_note', 'Debit Note'),
-            ('in_debit_note', 'Supplier Debit Note'),
-            ('simplified_invoice', 'Simplified Invoice')])
+            ('debit_note', "Debit Note"),
+            ('in_debit_note', "Supplier Debit Note"),
+            ('simplified_invoice', "Simplified Invoice")])
 
     journal_id = new_fields.Many2one(default=_default_journal)
 
@@ -166,6 +179,7 @@ class account_pt_invoice(osv.osv):
         'car_registration': fields.many2one("account.license_plate", string="License Plate", readonly=True, states={'draft':[('readonly', False)]}),
         'exemption_reason': fields.selection(EXEMPTION_SELECTION, 'Exemption Reason', readonly=True, states={'draft':[('readonly', False)]}),
         'waybill_ref': fields.char('Reference', help="To reference invoice lines you must write waybill number.", readonly=True, states={'draft':[('readonly', False)]}),
+        'date_invoice': fields.date(string='Invoice Date', readonly=True, states={'draft': [('readonly', False)], 'proforma': [('readonly', False)], 'proforma2': [('readonly', False)]}, index=True, help="Keep empty to use the current date", copy=False)
     }
 
     def copy(self, cr, uid, id, default=None, context=None):
@@ -174,8 +188,6 @@ class account_pt_invoice(osv.osv):
             'with_transport_info': False,
             'waybill_ref': False,
             'waybill_ids': False,
-            'date_invoice': self._today(),
-            'invoice_line_ids': False,
         })
         return super(account_pt_invoice, self).copy(cr, uid, id, default, context)
 
@@ -210,7 +222,6 @@ class account_pt_invoice(osv.osv):
     _defaults = {
         'payment_term': _get_payment_term,
         'partner_id': _get_client_if_simplified,
-        'date_invoice': _today,
 #        'address_invoice_id': _get_address_if_simplified,
         'account_id': _get_account_if_simplified,
         'load_place': "N/ Armazém",
@@ -653,36 +664,18 @@ class account_pt_invoice(osv.osv):
                 # Here the onchange will automatically write to the database
                 inv._onchange_payment_term_date_invoice()
         return True
+    
+    def unlink(self, cr, uid, ids, context=None):
+        if context is None:
+            context = {}
+        invoices = self.read(cr, uid, ids, ['state','internal_number'], context=context)
+        unlink_ids = []
 
-    # Inherit method t pay account pt documents
-    def invoice_pay_customer(self, cr, uid, ids, context=None):
-        if not ids: return []
-        dummy, view_id = self.pool.get('ir.model.data').get_object_reference(cr, uid, 'account_voucher', 'view_vendor_receipt_dialog_form')
-
-        inv = self.browse(cr, uid, ids[0], context=context)
-        return {
-            'name':_("Pay Invoice"),
-            'view_mode': 'form',
-            'view_id': view_id,
-            'view_type': 'form',
-            'res_model': 'account.voucher',
-            'type': 'ir.actions.act_window',
-            'nodestroy': True,
-            'target': 'new',
-            'domain': '[]',
-            'context': {
-                'default_partner_id': self.pool.get('res.partner')._find_accounting_partner(inv.partner_id).id,
-                'default_amount': inv.type in ('out_refund', 'in_refund') and -inv.residual or inv.residual,
-                'default_reference': inv.name,
-                'close_after_process': True,
-                'invoice_type': inv.type,
-                'invoice_id': inv.id,
-                'default_type': inv.type in ('out_invoice', 'debit_note', 'simplified_invoice', 'out_refund') and 'receipt' or 'payment',
-                'type': inv.type in ('out_invoice', 'debit_note', 'simplified_invoice', 'out_refund') and 'receipt' or 'payment'
-            }
-        }
-
-
+        for t in invoices:
+            if t['state'] not in ('draft', 'cancel', 'proforma', 'proforma2'):
+                raise openerp.exceptions.Warning(_('You cannot delete an invoice which is not draft or cancelled. You should refund it instead.'))
+        return super(account_pt_invoice, self).unlink(cr, uid, ids, context=context)
+    
 class account_pt_invoice_line(osv.osv):
     _name = "account.invoice.line"
     _description = "Invoice Line"
@@ -696,7 +689,8 @@ class account_pt_invoice_line(osv.osv):
         elif self.invoice_id.type == 'in_debit_note':
             self.invoice_id.type = 'in_invoice'
         res = super(account_pt_invoice_line, self)._onchange_product_id()
-        self.invoice_id.type = old_type
+        if self.invoice_id:
+            self.invoice_id.type = old_type
         self.name = self.product_id.partner_ref
         if self.product_id.description:
             self.name += '\n' + self.product_id.description
@@ -810,7 +804,7 @@ class account_pt_invoice_tax(osv.osv):
                     val['tax_amount'] = cur_obj.compute(cr, uid, invoice.currency_id.id, company_currency, val['amount'] * tax['ref_tax_sign'], context={'date': invoice.date_invoice or time.strftime('%Y-%m-%d')}, round=False)
                     val['account_id'] = tax['account_paid_id'] or line.account_id.id
                     val['account_analytic_id'] = tax['account_analytic_paid_id']
-                key = (val['tax_code_id'], val['base_code_id'], val['account_id'], val['account_analytic_id'])
+                key = (val['tax_code_id'], val['base_code_id'], val['account_id'])
                 if not key in tax_grouped:
                     tax_grouped[key] = val
                 else:

@@ -58,7 +58,7 @@ class AccountInvoiceRefund(models.TransientModel):
         inv_type = last_invoice.type if last_invoice else False
         xml_id = self.get_action_window(inv_type)
         if xml_id:
-            result = self.env.ref('account.%s' % (xml_id)).read()[0]
+            result = self.env.ref(xml_id).read()[0]
             result['domain'] = [(field, op, value)
                                 for (field, op, value) in res['domain']
                                 if field == 'id']
@@ -72,11 +72,11 @@ class AccountInvoiceRefund(models.TransientModel):
         if not inv_type:
             return False
         elif inv_type in ('out_refund', 'in_debit_note'):
-            return 'action_invoice_tree1'
+            return 'account.action_invoice_tree1'
         elif inv_type == 'in_refund':
-            return 'action_invoice_tree2'
+            return 'account.action_invoice_tree2'
         elif inv_type in ('out_invoice','simplified_invoice', 'debit_note'):
-            return 'action_invoice_tree3'
+            return 'account.action_invoice_tree3'
         elif inv_type == 'in_invoice':
-            return 'action_invoice_tree4'
+            return 'l10n_pt_account.action_invoice_tree4'
                  

@@ -1,12 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
+    
+       <record model="ir.ui.view" id="view_company_inherit_form">
+            <field name="name">res.company.form.inherit</field>
+            <field name="inherit_id" ref="account.view_company_inherit_form"/>
+            <field name="model">res.company</field>
+            <field name="arch" type="xml">
+              <field name="accounts_code_digits" position="after">
+                     <field name="income_move_account_id" />
+                     <field name="expense_move_account_id" />
+              </field>
+            </field>
+       </record>
+    
 	   <record id="view_l10n_pt_account_config_settings" model="ir.ui.view">
             <field name="name">tko account pt settings</field>
             <field name="model">account.config.settings</field>
             <field name="inherit_id" ref="account.view_account_config_settings"/>
             <field name="arch" type="xml">
                <div name="customer_payments" position='inside'>
+               <div>
+                     <label for="income_move_account_id" />
+                     <field name="income_move_account_id" class="oe_inline"/>
+               </div>
+               <div>
+                     <label for="expense_move_account_id" />
+                     <field name="expense_move_account_id" class="oe_inline" />
+               </div>
                <div>
                     <label for="debit_seq_prefix"/>
                     <field name="debit_seq_prefix"
@@ -46,10 +67,6 @@
                     <group>
                         <label for="id" string="Configs"/>
                         <div>
-                            <div>
-                                <field name="module_tko_account_pt_stock_return" class="oe_inline"/>
-                                <label for="module_tko_account_pt_stock_return"/>
-                           </div>
                            <div>
                                 <field name="module_tko_account_pt_partner_reports" class="oe_inline"/>
                                 <label for="module_tko_account_pt_partner_reports"/>

@@ -88,9 +88,25 @@ class Guia(models.Model):
             if not address_id:
                 return
             address = self.env['res.partner'].browse(address_id)
+            self.local_entrega = address.street if address.street else ''
+            self.local_entrega += ' %s' % address.street2 if address.street2 else ''
             self.cidade_entrega = address.city if address.city else ''
             self.codigo_postal_entrega = address.zip if address.zip else ''
-
+            
+    @api.onchange('company_id')
+    @api.multi
+    def onchange_company_id(self):
+        if self.company_id:
+            company_partner = self.env['res.partner'].browse(self.company_id.id)
+            address_id = company_partner.address_get(['delivery'])['delivery']
+            if not address_id:
+                return
+            address = self.env['res.partner'].browse(address_id)
+            self.local_carga = address.street if address.street else ''
+            self.local_carga += ' %s' % address.street2 if address.street2 else ''
+            self.cidade_carga = address.city if address.city else ''
+            self.codigo_postal_carga = address.zip if address.zip else ''
+            
     @api.model
     def _get_currency_id(self):
         user = self.env['res.users'].browse(self._uid)
@@ -223,7 +239,6 @@ class Guia(models.Model):
     invoice_deadline = fields.Date(
         compute='_deadline', string='Deadline', help='Deadline to invoice the waybill')
 
-    _order = "data_carga desc, numero desc"
 
     @api.multi
     def unlink(self):

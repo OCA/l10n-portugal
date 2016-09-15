@@ -3,50 +3,35 @@ from openerp.osv import fields, osv, orm
 from openerp.tools.translate import _
 from datetime import datetime
 
-import time
-
+class res_company(osv.osv):
+    _inherit="res.company"
+    
+    _columns = {
+                'income_move_account_id': fields.many2one('account.account',"Gain Account", help="Account to register the differences of values in invoices in gain (credit)"),
+                'expense_move_account_id': fields.many2one('account.account',"Loss Account", help="Account to register the differences of values in invoices in loss (debit)",),
+                }
 
 class account_pt_config(osv.osv_memory):
     _name = 'account.config.settings'
     _inherit = 'account.config.settings'
 
-    module_tko_account_pt_account_reports = fields.Boolean(
-        'Overwrites accounting reports to add acumulated amounts.',
-        help=('Overwrites the Balance, General Ledger and adds a summary '
-              'extracts report. This installs the module '
-              'tko_account_pt_account_reports.'))
-    module_tko_account_pt_partner_reports = fields.Boolean(
-        'Allows to download partner PT reports.',
-        help=('Adds several reports. This installs the module '
-              'tko_account_pt_partner_reports.'))
-    module_tko_account_pt_stock_return = fields.Boolean(
-        "Allow manage the stock returns",
-        help=('Adds options to return products. This installs the module '
-              'tko_account_pt_stock_return.'))
-    waybill_dev_seq_prefix = fields.Char(
-        string='Waybill return sequence', related='waybill_dev_seq.prefix')
-    waybill_dev_seq = fields.Many2one('ir.sequence', 'Waybill Return Sequence')
-    waybill_trsp_seq_prefix = fields.Char(
-        string='Waybill transport sequence', related='waybill_trsp_seq.prefix')
-    waybill_trsp_seq = fields.Many2one(
-        'ir.sequence', 'Waybill Transport Sequence')
-    waybill_rem_seq_prefix = fields.Char(
-        string='Waybill remittance sequence',
-        related='waybill_rem_seq.prefix')
-    waybill_rem_seq = fields.Many2one(
-        'ir.sequence', 'Waybill Remittance Sequence')
-    debit_seq_prefix = fields.Char(
-        string='Debit note sequence',
-        related='debit_journal_id.sequence_id.prefix')
-    debit_journal_id = fields.Many2one('account.journal', 'Debit Note journal')
-    debit_sup_seq_next = fields.Integer(
-        string='Supplier debit note next number',
-        related='debit_sup_seq_id.number_next')
-    debit_sup_seq_prefix = fields.Char(
-        string='Supplier debit note sequence',
-        related='debit_sup_seq_id.prefix')
-    debit_sup_seq_id = fields.Many2one(
-        'ir.sequence', 'Supplier Debit Note Sequence')
+    _columns = {
+                 'debit_sup_seq_id': fields.many2one('ir.sequence', 'Supplier Debit Note Sequence'),
+                 'debit_sup_seq_prefix': fields.related('debit_sup_seq_id', 'prefix', type='char', string='Supplier debit note sequence'),
+                 'debit_sup_seq_next': fields.related('debit_sup_seq_id', 'number_next', type='integer', string='Supplier debit note next number'),
+                 'debit_journal_id': fields.many2one('account.journal', 'Debit Note journal'),
+                 'debit_seq_prefix': fields.related('debit_journal_id', 'sequence_id', 'prefix', type='char', string='Debit note sequence'),
+                 'waybill_rem_seq': fields.many2one('ir.sequence', 'Waybill Remittance Sequence'),
+                 'waybill_rem_seq_prefix': fields.related('waybill_rem_seq', 'prefix', type='char', string='Waybill remittance sequence'),
+                 'waybill_trsp_seq': fields.many2one('ir.sequence', 'Waybill Transport Sequence'),
+                 'waybill_trsp_seq_prefix': fields.related('waybill_trsp_seq', 'prefix', type='char', string='Waybill transport sequence'),
+                 'waybill_dev_seq': fields.many2one('ir.sequence', 'Waybill Return Sequence'),
+                 'waybill_dev_seq_prefix': fields.related('waybill_dev_seq', 'prefix', type='char', string='Waybill return sequence'),
+                 'module_tko_account_pt_partner_reports': fields.boolean('Allows to download partner PT reports.', help='Adds several reports. This installs the module tko_account_pt_partner_reports.'),
+                 'module_tko_account_pt_account_reports': fields.boolean('Overwrites accounting reports to add acumulated amounts.', help='Overwrites the Balance, General Ledger and adds a summary extracts report. This installs the module tko_account_pt_account_reports.'),
+                 'expense_move_account_id': fields.many2one('account.account', related='company_id.expense_move_account_id', string='Loss Differences Account', help="Account to register the differences of values in invoices in loss (debit)"),
+                 'income_move_account_id': fields.many2one('account.account', related='company_id.income_move_account_id', string='Gain Differences Account', help="Account to register the differences of values in invoices in gain (credit)"),
+                }
 
     def get_default_fields(self, cr, uid, fields, context=None):
         if context is None:
@@ -89,3 +74,18 @@ class account_pt_config(osv.osv_memory):
             res['waybill_dev_seq'] = seq_dev.id
             res['waybill_dev_seq_prefix'] = seq_dev.prefix
         return res
+    
+    def onchange_company_id(self, cr, uid, ids, company_id, context=None):
+        """ Update income/expense move account  """
+
+        values = super(account_pt_config, self).onchange_company_id(cr, uid, ids, company_id, context=None)
+        
+        if company_id:
+            company = self.pool.get('res.company').browse(cr, uid, company_id, context=context)
+            values.update({
+                'income_move_account_id': company.income_move_account_id and company.income_move_account_id.id or False,
+                'expense_move_account_id': company.expense_move_account_id and company.expense_move_account_id.id or False
+            })
+
+        return {'value': values}
+            

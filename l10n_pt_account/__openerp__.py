@@ -14,9 +14,6 @@ This module implements several Portuguese specific accounting documents:
         * Supplier Debit Notes;
         * All Waybill Types.
         
-    Reports:
-        * Voucher Print
-        
     * Allows you to import products, clients and invoices to saft
 NOTE: This documents to be valid, need a certification from Portuguese Treasury, for that you must install and configure the tko_ics2_pt module, provided by Thinkopen Solutions.''',
     'website': 'http://www.thinkopen.solutions/',
@@ -24,7 +21,6 @@ NOTE: This documents to be valid, need a certification from Portuguese Treasury,
     'depends': ['base',
                 'account',
                 'account_cancel',
-                'account_voucher',
                 'purchase',
                 'sale',
                 'stock',
@@ -36,9 +32,9 @@ NOTE: This documents to be valid, need a certification from Portuguese Treasury,
                    'security/ir.model.access.csv',
                    'account_invoice_view.xml',
                    'account_view.xml',
+                   'base_vat_view.xml',
                    'guia_view.xml',
                    'product_view.xml',
-                   'account_guia_report.xml',
                    'data/account_data2.xml',
                    'data/simplified_invoice_client.xml',
                    'in_debit_note_sequence.xml',
@@ -51,6 +47,8 @@ NOTE: This documents to be valid, need a certification from Portuguese Treasury,
                    'account_config_view.xml',
                    'res_config_view.xml',
                    'wizard/sale_make_invoice_advance.xml',
+                   'report/account_payment_report.xml',
+                   'report/account_invoice_report_view.xml'
                    ],
     'demo_xml': [
                  ],

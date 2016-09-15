@@ -24,22 +24,11 @@
             <field name="inherit_id" ref="account.view_tax_form" />
             <field name="arch" type="xml">
                 <field name='refund_account_id' position="after">
-                    <label colspan="2" nolabel="1" string="Keep empty to use the expense account"/>
-                    <field name="account_debit_id" domain="[('type','&lt;&gt;','view'),('type','&lt;&gt;','consolidation')]"/>
+                    <label colspan="2" nolabel="1" string="Keep empty to use the default account"/>
+                    <field name="account_debit_id"/>
                 </field>
             </field>
         </record>
 
-<!--         <record id="view_voucher_filter" model="ir.ui.view">
-            <field name="name">account.voucher.select</field>
-            <field name="model">account.voucher</field>
-            <field name="inherit_id" ref="account_voucher.view_voucher_filter"/>
-            <field name="arch" type="xml">
-                <xpath expr="//group" position="inside">
-                    <filter string="Month" icon="terp-go-month" domain="[]" context="{'group_by':'date'}"/>
-                </xpath>
-            </field>
-        </record> -->
-        
     </data>
 </openerp>

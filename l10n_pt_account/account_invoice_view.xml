@@ -5,6 +5,7 @@
             <field name="name">account.pt.form.inherit</field>
             <field name="model">account.invoice</field>
             <field name="inherit_id" ref="account.invoice_form"/>
+            <field name="priority">20</field>
             <field name="arch" type="xml">
                 <button name="%(account.action_account_invoice_refund)d" position="replace">
                     <button name="%(account.action_account_invoice_refund)d" type='action' string='Refund Invoice' states='open,proforma2,paid' groups="base.group_user"/>
@@ -13,6 +14,9 @@
                     <field name="date_invoice" required="True"/>
                 </field>
                 <button name="action_cancel_draft" position="replace"/>
+                <xpath expr="//button[@name='invoice_cancel']" position="replace">
+                    <button name="invoice_cancel" states="draft,sale,open" string="Cancel Invoice" groups="account.group_account_invoice"/>
+                </xpath>
                 <button name="invoice_proforma2" position = "replace">
                     <button name="invoice_proforma2"
                             string="PRO-FORMA" 
@@ -139,6 +143,37 @@
             <field name="act_window_id" ref="account.action_invoice_tree3"/>
         </record>
 
+
+        <!-- Replace original action to set the 'Hide Cancelled' filter as default -->
+        <record id="account.action_invoice_tree_s_refund" model="ir.actions.act_window">
+            <field name="name">Supplier Refunds</field>
+            <field name="res_model">account.invoice</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,calendar,graph</field>
+            <field eval="False" name="view_id"/>
+            <field name="domain">[('type','=','in_refund')]</field>
+            <field name="context">{'default_type':'in_refund', 'type':'in_refund', 'journal_type': 'purchase', 'search_default_hide_cancelled': 1}</field>
+            <field name="search_view_id" ref="account.view_account_invoice_filter"/>
+            <field name="help">With Customer Refunds you can manage the credit notes for your customers. A refund is a document that credits an invoice completely or partially. You can easily generate refunds and reconcile them directly from the invoice form.</field>
+        </record>
+        
+        <record id="action_invoice_in_refund_tree" model="ir.actions.act_window.view">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="account.invoice_supplier_tree"/>
+            <field name="act_window_id" ref="account.action_invoice_tree_s_refund"/>
+        </record>
+
+        <record id="action_invoice_in_refund_form" model="ir.actions.act_window.view">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="account.invoice_supplier_form"/>
+            <field name="act_window_id" ref="account.action_invoice_tree_s_refund"/>
+        </record>
+         
+          <menuitem action="account.action_invoice_tree_s_refund" id="account.menu_action_invoice_refund_inv" parent="account.menu_finance_payables" sequence="2"/>
+
+
         <!-- Replace original action to set the 'Hide Cancelled' filter as default -->
         <record id="account.action_invoice_tree1" model="ir.actions.act_window">
             <field name="name">Customer Invoices</field>
@@ -197,60 +232,9 @@
         </record>
         <menuitem action="action_debit_note_tree" sequence="9" id="menu_action_debit_note" parent="account.menu_finance_receivables"/>
         
-<!--         <record id="view_vendor_receipt_dialog_form" model="ir.ui.view">
-            <field name="name">account.voucher.receipt.dialog.form</field>
-            <field name="model">account.voucher</field>
-            <field name="inherit_id" ref="account_voucher.view_purchase_receipt_form"/>
-            <field name="arch" type="xml">
-            	<field name="journal_id" position="attributes">
-            		<attribute name="domain">[('type','in',['bank', 'cash']), ('company_id','=',company_id)]</attribute>
-            	</field>
-            </field>
-        </record> -->
-        
-    <!--   
-    ===================================================================
-                Adding view Forma de pagamento in menu configuration
-    ===================================================================
-    -->
-    
-   <!--  <record model="ir.ui.view" id="view_account_voucher_payment_tree">
-            <field name="name">account.voucher.payment.tree</field>
-            <field name="model">account.payment.mode</field>
-            <field name="arch" type="xml">
-                <tree string="Forma de Pagamento">
-                    <field name="name"/>
-                    <field name="description"/>
-                </tree>
-            </field>
-        </record>
-
-        <record model="ir.ui.view" id="view_account_voucher_payment_form">
-            <field name="name">account.voucher.payment.form</field>
-            <field name="model">account.payment.mode</field>
-            <field name="arch" type="xml">
-               <form string="Forma de Pagamento">
-                    <field name="name" select="1"/>
-                    <newline/>
-                    <field name="description"/>
-                </form>
-            </field>
-        </record>
-        
-        <record model="ir.actions.act_window" id="action_account_voucher_payment_form">
-            <field name="name">Forma de Pagamento</field>
-            <field name="res_model">account.payment.mode</field>
-            <field name="view_id" ref="view_account_voucher_payment_tree" />
-            <field name="view_mode">tree,form</field>
-        </record>
-
-        <menuitem action="action_account_voucher_payment_form" 
-                  id="menu_action_account_voucher_payment_form" 
-                  parent="account.menu_configuration_misc"/> -->
     <!--   
     ==================================================================
-              Change Tree Supplier Invoice
-    ===================================================================
+              Change Tree Supplier Invoice    ===================================================================
     -->
     
        <record id="view_supplier_account_invoice_tree" model="ir.ui.view">
@@ -279,12 +263,13 @@
             </field>
         </record>
         
-        <!-- <record id="account.action_invoice_tree2" model="ir.actions.act_window">
+        
+        <record id="account.action_invoice_tree2" model="ir.actions.act_window">
             <field name="name">Supplier Invoices</field>
             <field name="res_model">account.invoice</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form,calendar,graph</field>
-            <field name="view_id" ref="view_supplier_account_invoice_tree"/>
+            <field eval="False" name="view_id"/>
             <field name="domain">[('type','=','in_invoice')]</field>
             <field name="context">{'default_type': 'in_invoice', 'type': 'in_invoice', 'journal_type': 'purchase'}</field>
             <field name="search_view_id" ref="account.view_account_invoice_filter"/>
@@ -297,16 +282,27 @@
                 draft invoices automatically from purchase orders or receipts.
               </p>
             </field>
-        </record> -->
+        </record>
+        
+        <record id="action_invoice_tree4" model="ir.actions.act_window">
+            <field name="name">Supplier Refunds</field>
+            <field name="res_model">account.invoice</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,calendar,graph</field>
+            <field name="domain">[('type','=','in_refund')]</field>
+            <field name="context">{'default_type': 'in_refund', 'type': 'in_refund', 'journal_type': 'purchase_refund'}</field>
+            <field name="search_view_id" ref="account.view_account_invoice_filter"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to register a refund you received from a supplier.
+              </p><p>
+                Instead of creating the supplier refund manually, you can generate
+                refunds and reconcile them directly from the related supplier invoice.
+              </p>
+            </field>
+        </record>
      
-     <!-- <record id="action_supplier_invoice_tree" model="ir.actions.act_window.view">
-          <field eval="2" name="sequence"/>
-          <field name="view_mode">tree</field>
-          <field name="view_id" ref="view_supplier_account_invoice_tree"/>
-          <field name="act_window_id" ref="account.action_invoice_tree2"/>
-     </record> -->
-     
-     <!-- <record id="action_supplier_invoice_refund_tree" model="ir.actions.act_window.view">
+     <record id="action_supplier_invoice_refund_tree" model="ir.actions.act_window.view">
           <field eval="2" name="sequence"/>
           <field name="view_mode">tree</field>
           <field name="view_id" ref="view_supplier_account_invoice_tree"/>
