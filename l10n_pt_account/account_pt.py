@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 # Copyright 2010-2016 ThinkOpen Solutions
+# License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl)./
 
 from openerp import api, models, fields, _
 from openerp.exceptions import Warning
