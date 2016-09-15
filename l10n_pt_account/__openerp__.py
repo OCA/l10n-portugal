@@ -2,7 +2,7 @@
 # Copyright 2010-2016 ThinkOpen Solutions
 {
     'name': 'Contabilidade PT',
-    'version': '1.122',
+    'version': '9.0.1.0.122',
     'author': 'ThinkOpen Solutions,Odoo Community Association (OCA)',
     'category': 'Accounting & Finance',
     'sequence': 1,
