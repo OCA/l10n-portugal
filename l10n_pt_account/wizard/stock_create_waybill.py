@@ -7,7 +7,7 @@ import openerp.addons.decimal_precision as dp
 from openerp.tools.translate import _
 
 
-class stock_picking_waybill_line(osv.osv_memory):
+class StockPickingWaybillLine(osv.osv_memory):
 
     _name = "stock.picking.waybill.line"
     _rec_name = 'product_id'
@@ -29,7 +29,7 @@ class stock_picking_waybill_line(osv.osv_memory):
     }
 
 
-class stock_picking_waybill(osv.osv_memory):
+class StockPickingWaybill(osv.osv_memory):
     _name = "stock.picking.waybill"
     _description = "Creating Waybill From Picking Wizard"
 
@@ -54,7 +54,7 @@ class stock_picking_waybill(osv.osv_memory):
     def view_init(self, cr, uid, fields_list, context=None):
         if context is None:
             context = {}
-        res = super(stock_picking_waybill, self)\
+        res = super(StockPickingWaybill, self)\
             .view_init(cr, uid, fields_list, context=context)
         pick_obj = self.pool.get('stock.picking')
         count = 0
@@ -77,7 +77,7 @@ class stock_picking_waybill(osv.osv_memory):
         res = {}
         if context is None:
             context = {}
-        res = super(stock_picking_waybill, self)\
+        res = super(StockPickingWaybill, self)\
             .default_get(cr, uid, fields, context=context)
         picking_ids = context.get('active_ids', [])
         if not picking_ids or (not context.get('active_model') == 'stock.picking') \
@@ -153,8 +153,8 @@ class stock_picking_waybill(osv.osv_memory):
             action_pool = self.pool.get(action_model)
             action = action_pool.read(cr, uid, action_id, context=context)
             waybill_ids_str = ','.join(map(str, waybill_ids))
-            action['domain'] = "[('id','in', ["+waybill_ids_str+"])]"
+            action['domain'] = "[('id','in', [" + waybill_ids_str + "])]"
         return action
 
 
-stock_picking_waybill()
+StockPickingWaybill()

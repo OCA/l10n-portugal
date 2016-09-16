@@ -21,7 +21,7 @@ MAP_INVOICE_TYPE_PAYMENT_SIGN.update({
 })
 
 
-class account_payment(models.Model):
+class AccountPayment(models.Model):
     _inherit = "account.payment"
 
     @api.model

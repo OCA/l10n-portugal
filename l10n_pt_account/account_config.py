@@ -4,7 +4,7 @@
 from openerp.osv import fields, osv
 
 
-class res_company(osv.osv):
+class ResCompany(osv.osv):
     _inherit = "res.company"
 
     _columns = {
@@ -19,7 +19,7 @@ class res_company(osv.osv):
     }
 
 
-class account_pt_config(osv.osv_memory):
+class AccountPtConfig(osv.osv_memory):
     _name = 'account.config.settings'
     _inherit = 'account.config.settings'
 
@@ -118,7 +118,7 @@ class account_pt_config(osv.osv_memory):
     def onchange_company_id(self, cr, uid, ids, company_id, context=None):
         """ Update income/expense move account  """
 
-        values = super(account_pt_config, self).onchange_company_id(
+        values = super(AccountPtConfig, self).onchange_company_id(
             cr, uid, ids, company_id, context=context)
 
         if company_id:

@@ -5,7 +5,6 @@
 from openerp import api, fields, models, _
 from openerp.exceptions import Warning
 
-from openerp.osv import osv
 from openerp import tools
 import openerp.addons.decimal_precision as dp
 
@@ -44,8 +43,10 @@ def is_holiday(day):
 def _end_of_today(*a):
     return datetime.now().strftime("%Y-%m-%d 22:59:59")
 
+
 def match_state(state):
     return lambda self, cr, uid, obj, ctx=None: obj['state'] == state
+
 
 class Guia(models.Model):
     _name = "account.guia"
@@ -70,24 +71,27 @@ class Guia(models.Model):
                 return
             address = self.env['res.partner'].browse(address_id)
             self.local_entrega = address.street if address.street else ''
-            self.local_entrega += ' %s' % address.street2 if address.street2 else ''
+            if address.street2:
+                self.local_entrega += ' ' + address.street2
             self.cidade_entrega = address.city if address.city else ''
             self.codigo_postal_entrega = address.zip if address.zip else ''
-            
+
     @api.onchange('company_id')
     @api.multi
     def onchange_company_id(self):
         if self.company_id:
-            company_partner = self.env['res.partner'].browse(self.company_id.id)
+            company_partner = self.env[
+                'res.partner'].browse(self.company_id.id)
             address_id = company_partner.address_get(['delivery'])['delivery']
             if not address_id:
                 return
             address = self.env['res.partner'].browse(address_id)
             self.local_carga = address.street if address.street else ''
-            self.local_carga += ' %s' % address.street2 if address.street2 else ''
+            if address.street2:
+                self.local_carga += ' ' + address.street2
             self.cidade_carga = address.city if address.city else ''
             self.codigo_postal_carga = address.zip if address.zip else ''
-            
+
     @api.model
     def _get_currency_id(self):
         user = self.env['res.users'].browse(self._uid)
@@ -166,60 +170,93 @@ class Guia(models.Model):
         ('transporte', 'Transporte'),
         ('devolucao', 'Devolu\xc3\xa7\xc3\xa3o')],
         string='Tipo de Guia', states={
-                            'cancelada': [('readonly', True)], 'arquivada': [('readonly', True)]}, required=True, index=True, default=_get_type)
-    state = fields.Selection([('aberta', 'Aberta'), ('arquivada', 'Arquivada'), ('cancelada',
-                                                                                 'Cancelada')], string='Estado', readonly=True, required=True, index=True, default='aberta')
+            'cancelada': [('readonly', True)],
+            'arquivada': [('readonly', True)],
+        }, required=True, index=True, default=_get_type)
+    state = fields.Selection(
+        [('aberta', 'Aberta'),
+         ('arquivada', 'Arquivada'),
+         ('cancelada', 'Cancelada')],
+        string='Estado', readonly=True, required=True,
+        index=True, default='aberta')
     data_carga = fields.Datetime(
-        string='Data de Carga', states=READONLY_CANCELLED_OR_CONFIRMED, required=True, index=True, default=fields.Datetime.now)
+        string='Data de Carga', states=READONLY_CANCELLED_OR_CONFIRMED,
+        required=True, index=True, default=fields.Datetime.now)
     data_descarga = fields.Datetime(
-        string='Data da Descarga', states=READONLY_CANCELLED_OR_CONFIRMED, index=True, default=_end_of_today)
+        string='Data da Descarga', states=READONLY_CANCELLED_OR_CONFIRMED,
+        index=True, default=_end_of_today)
     partner_id = fields.Many2one(
-        'res.partner', string='Cliente', states=READONLY_CANCELLED_OR_CONFIRMED, required=True)
+        'res.partner', string='Cliente',
+        states=READONLY_CANCELLED_OR_CONFIRMED,
+        required=True)
     local_carga = fields.Char(
-        string='Local de Carga', states=READONLY_CANCELLED_OR_CONFIRMED, index=True, size=64, default=u"N/ Armazém")
+        string='Local de Carga', states=READONLY_CANCELLED_OR_CONFIRMED,
+        index=True, size=64, default=u"N/ Armazém")
     local_entrega = fields.Char(
-        string='Local de Descarga', states=READONLY_CANCELLED_OR_CONFIRMED, index=True, size=64, default=u"Morada Cliente")
+        string='Local de Descarga', states=READONLY_CANCELLED_OR_CONFIRMED,
+        index=True, size=64, default=u"Morada Cliente")
     cidade_carga = fields.Char(
-        string='Cidade de Carga', states=READONLY_CANCELLED_OR_CONFIRMED, index=True, size=64)
+        string='Cidade de Carga', states=READONLY_CANCELLED_OR_CONFIRMED,
+        index=True, size=64)
     cidade_entrega = fields.Char(
-        string='Cidade de Descarga', states=READONLY_CANCELLED_OR_CONFIRMED, index=True, size=64)
+        string='Cidade de Descarga', states=READONLY_CANCELLED_OR_CONFIRMED,
+        index=True, size=64)
     codigo_postal_carga = fields.Char(
-        string='Codigo Postal de Carga', states=READONLY_CANCELLED_OR_CONFIRMED, index=True, size=64)
+        string='Codigo Postal de Carga',
+        states=READONLY_CANCELLED_OR_CONFIRMED,
+        index=True, size=64)
     codigo_postal_entrega = fields.Char(
-        string='Codigo Postal de Descarga', states=READONLY_CANCELLED_OR_CONFIRMED, index=True, size=64)
+        string='Codigo Postal de Descarga',
+        states=READONLY_CANCELLED_OR_CONFIRMED, index=True, size=64)
     matricula = fields.Many2one(
-        'account.license_plate', string=u'Matrícula', states=READONLY_CANCELLED_OR_CONFIRMED, select=1)
+        'account.license_plate', string=u'Matrícula',
+        states=READONLY_CANCELLED_OR_CONFIRMED, index=True)
     linhas_guia = fields.One2many(
-        'account.linha.guia', 'guia_id', string='Linhas Guia', states=READONLY_CANCELLED_OR_CONFIRMED)
-    company_id = fields.Many2one('res.company', string='Company', readonly=True,
-                                 required=True, change_default=True, default=_get_default_company_id)
+        'account.linha.guia', 'guia_id', string='Linhas Guia',
+        states=READONLY_CANCELLED_OR_CONFIRMED)
+    company_id = fields.Many2one(
+        'res.company', string='Company', readonly=True,
+        required=True, change_default=True, default=_get_default_company_id)
     observacoes = fields.Text(string=u'Descrição')
     currency_id = fields.Many2one(
-        'res.currency', string='Currency', readonly=True, required=True, default=_get_currency_id)
+        'res.currency', string='Currency', readonly=True,
+        required=True, default=_get_currency_id)
     stock_picking_ids = fields.One2many(
         'stock.picking', 'waybill_id', string='Pickings')
     sale_id = fields.Many2one('sale.order', string='Ordem de Venda')
     invoice_id = fields.Many2one('account.invoice', string='Fatura')
     invoice_state = fields.Selection(
-        [('none', u'Não Faturado'), ('invoiced', 'Faturado')], string=u'Faturação', readonly=True, default='none')
-    origin = fields.Char(string='Origem', states=READONLY_CANCELLED_OR_CONFIRMED,
-                         help=u'Referência ao documento que deu origem à guia.', select=True, size=128)
+        [('none', u'Não Faturado'), ('invoiced', 'Faturado')],
+        string=u'Faturação', readonly=True, default='none')
+    origin = fields.Char(
+        string='Origem', states=READONLY_CANCELLED_OR_CONFIRMED,
+        help=u'Referência ao documento que deu origem à guia.',
+        select=True, size=128)
     user_id = fields.Many2one(
-        'res.users', string='User', states=READONLY_CANCELLED_OR_CONFIRMED, readonly=True, default=lambda self: self._uid)
+        'res.users', string='User', states=READONLY_CANCELLED_OR_CONFIRMED,
+        readonly=True, default=lambda self: self._uid)
     name = fields.Char(
-        string='Client Reference', states=READONLY_CANCELLED_OR_CONFIRMED, size=128)
-    amount_untaxed = fields.Float(compute='_amount_all', multi='all', store=True,
-                                  track_visibility='always', string='Subtotal', digits_compute=dp.get_precision('Account'))
-    amount_tax = fields.Float(compute='_amount_all', multi='all',
-                              store=True, string='Tax', digits_compute=dp.get_precision('Account'))
-    amount_total = fields.Float(compute='_amount_all', multi='all',
-                                store=True, string='Total', digits_compute=dp.get_precision('Account'))
+        string='Client Reference', states=READONLY_CANCELLED_OR_CONFIRMED,
+        size=128)
+    amount_untaxed = fields.Float(
+        compute='_amount_all', multi='all', store=True,
+        track_visibility='always', string='Subtotal',
+        digits_compute=dp.get_precision('Account'))
+    amount_tax = fields.Float(
+        compute='_amount_all', multi='all',
+        store=True, string='Tax',
+        digits_compute=dp.get_precision('Account'))
+    amount_total = fields.Float(
+        compute='_amount_all', multi='all',
+        store=True, string='Total',
+        digits_compute=dp.get_precision('Account'))
     validation_date = fields.Datetime(string='Date of validation')
     days_to_invoice = fields.Integer(
-        compute='_overdue', string='Days to invoice', help='Number of days to invoice the waybill')
+        compute='_overdue', string='Days to invoice',
+        help='Number of days to invoice the waybill')
     invoice_deadline = fields.Date(
-        compute='_deadline', string='Deadline', help='Deadline to invoice the waybill')
-
+        compute='_deadline', string='Deadline',
+        help='Deadline to invoice the waybill')
 
     @api.multi
     def unlink(self):
@@ -243,30 +280,36 @@ class Guia(models.Model):
     def _prepare_invoice_group(self, partner, invoice):
         """ Builds the dict for grouped invoices
             @param picking: picking object
-            @param partner: object of the partner to invoice (not used here, but may be usefull if this function is inherited)
+            @param partner: object of the partner to invoice
+                            (not used here, but may be usefull if
+                            this function is inherited)
             @param invoice: object of the invoice that we are updating
             @return: dict that will be used to update the invoice
         """
+        join_valid = lambda s, x: s.join(filter(None, x))
         guia = self
         invoice_vals = {
-            'name': (invoice.name or '') + (guia.name and (', ' + guia.name) or ''),
-            'origin': (invoice.origin or '') + ', ' + (guia.numero or '') + (guia.origin and (':' + guia.origin) or ''),
-            'comment': (guia.numero and (invoice.comment and invoice.comment + "\n" + guia.numero or guia.numero)) or (invoice.comment and invoice.comment or ''),
-            'date_invoice': context.get('date_inv', False),
-            'user_id': uid,
+            'name': join_valid(', ', (invoice.name, guia.name)),
+            'origin': join_valid(', ', (invoice.origin,
+                                        guia.numero,
+                                        guia.origin)),
+            'comment': join_valid('\n', (invoice.comment, guia.numero)),
+            'date_invoice': self.env.context.get('date_inv', False),
+            'user_id': self.env.uid,
             'waybill_ids': [(4, guia.id)],
-            'waybill_ref': guia.numero + (invoice.waybill_ref and (',' + invoice.waybill_ref) or '')
+            'waybill_ref': join_valid(', ', (guia.numero,
+                                             invoice.waybill_ref)),
         }
-        if guia.stock_picking_ids:
-            for pick in guia.stock_picking_ids:
-                if pick.sale_id:
-                    if pick.sale_id.client_order_ref:
-                        invoice_vals[
-                            'name'] = pick.sale_id.client_order_ref + ', ' + invoice_vals['name']
-                    if pick.sale_id.note:
-                        invoice_vals['comment'] += "\n" + pick.sale_id.note
-                    if pick.sale_id.origin:
-                        invoice_vals['origin'] += ': ' + pick.sale_id.origin
+        for pick in guia.stock_picking_ids:
+            if not pick.sale_id:
+                continue
+            if pick.sale_id.client_order_ref:
+                invoice_vals['name'] = pick.sale_id.client_order_ref\
+                    + ', ' + invoice_vals['name']
+            if pick.sale_id.note:
+                invoice_vals['comment'] += "\n" + pick.sale_id.note
+            if pick.sale_id.origin:
+                invoice_vals['origin'] += ': ' + pick.sale_id.origin
         return invoice_vals
 
     @api.multi
@@ -316,7 +359,6 @@ class Guia(models.Model):
                 uninvoiced_picks = guia.stock_picking_ids.filtered(
                     is_uninvoiced)
                 uninvoiced_picks.write({'invoice_state': 'invoiced'})
-        mod_obj = self.env['ir.model.data']
         action = {}
         data_pool = self.env['ir.model.data']
         if inv_type == 'out_invoice':
@@ -344,15 +386,18 @@ class Guia(models.Model):
         journal = self.env['account.journal'].search(
             [('type', '=', 'sale'), ('company_id', '=', guia.company_id.id)],
             limit=1)
-        fpos_obj = self.env['account.fiscal.position']
         if not journal:
-            raise Warning(_('There is no sales journal defined for this company: "%s" (id: %d)') % (
-                guia.company_id.name, guia.company_id.id))
+            msg = _('There is no sales journal defined '
+                    'for this company: "%s" (id: %d)')
+            raise Warning(msg % (guia.company_id.name, guia.company_id.id))
         inv_type = self._context.get('type', False)
         if not inv_type:
             raise Warning(_('Tipo de Fatura'))
         partner_addr = partner.address_get(['invoice'])
         account = partner.property_account_receivable_id
+        term = partner.property_payment_term_id
+        fposition = partner.property_account_position_id
+        date_invoice = self._context.get('date_inv', fields.Date.today())
         invoice_vals = {
             'name': guia.name or '',
             'origin': guia.numero or '',
@@ -363,9 +408,9 @@ class Guia(models.Model):
             'journal_id': journal.id,
             'currency_id': guia.currency_id and guia.currency_id.id or False,
             'comment': guia.numero or '',
-            'payment_term_id': partner.property_payment_term_id and partner.property_payment_term_id.id or False,
-            'fiscal_position_id': partner.property_account_position_id and partner.property_account_position_id.id or False,
-            'date_invoice': self._context.get('date_inv', fields.Date.to_string(date.today())),
+            'payment_term_id': term.id if term else False,
+            'fiscal_position_id': fposition.id if fposition else False,
+            'date_invoice': date_invoice,
             'company_id': guia.company_id.id,
             'user_id': self._uid,
             'waybill_ids': [(4, guia.id)],
@@ -385,11 +430,11 @@ class Guia(models.Model):
                 if sale.partner_invoice_id:
                     invoice_vals['partner_id'] = sale.partner_invoice_id.id
                 # fiscal position and account
-                if sale_id.fiscal_position_id:
-                    account = sale_id.fiscal_position_id.map_account(account)
+                if sale.fiscal_position_id:
+                    account = sale.fiscal_position_id.map_account(account)
                     invoice_vals.update({
                         'account_id': account.id,
-                        'fiscal_position_id': sale_id.fiscal_position_id.id,
+                        'fiscal_position_id': sale.fiscal_position_id.id,
                     })
             for pick in guia.stock_picking_ids:
                 if not pick.sale_id:
@@ -412,7 +457,6 @@ class Guia(models.Model):
 
     @api.multi
     def action_cancel(self):
-        pick_obj = self.env['stock.picking']
         for guia in self:
             if (guia.invoice_state == 'invoiced' and guia.invoice_id
                     and guia.invoice_id.state not in ('cancel', 'draft')):
@@ -439,7 +483,6 @@ class LinhaGuia(models.Model):
 
     @api.onchange('product_id')
     def _onchange_product_id(self):
-        fpos_obj = self.env['account.fiscal.position']
         if not self.guia_id.partner_id:
             raise Warning(_("You must first select a partner !"))
         if not self.product_id:
@@ -465,7 +508,7 @@ class LinhaGuia(models.Model):
         self.invoice_line_tax_id = taxes
 
         domain = {}
-        self.uom_id = self.product_id.uom_id or uom or False
+        self.uom_id = self.product_id.uom_id or False
         self.note = self.product_id.description
         if self.uom_id and self.product_id.uom_id.category_id:
             uom_category = self.product_id.uom_id.category_id
@@ -548,7 +591,7 @@ class LinhaGuia(models.Model):
                 'name': name,
                 'sequence': line.sequence or False,
                 'origin': line.guia_id.numero,
-                'invoice_id': invoice_id,
+                'invoice_id': invoice.id,
                 'state': 'text',
                 'quantity': line.quantity,
                 'waybill_reference': line.guia_id.numero,
