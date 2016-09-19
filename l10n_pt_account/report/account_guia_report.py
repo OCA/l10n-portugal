@@ -1,4 +1,4 @@
-# -*- coding:utf-8 -*-
+# -*- coding: utf-8 -*-
 # Copyright 2010-2016 ThinkOpen Solutions
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl)./
 from openerp.report import report_sxw

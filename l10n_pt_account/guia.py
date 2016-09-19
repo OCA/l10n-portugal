@@ -115,7 +115,7 @@ class Guia(models.Model):
         return self.mapped(lambda line: line.guia_id)
 
     @api.multi
-    def _amount_all(self):
+    def _compute_amount_all(self):
         for guia in self:
             res = {
                 'amount_untaxed': 0.0,
@@ -139,7 +139,7 @@ class Guia(models.Model):
         return current_date
 
     @api.multi
-    def _deadline(self):
+    def _compute_deadline(self):
         for waybill in self:
             if waybill.validation_date:
                 validation_date = fields.Datetime.from_string(
@@ -150,7 +150,7 @@ class Guia(models.Model):
             waybill.invoice_deadline = fields.Date.to_string(deadline)
 
     @api.multi
-    def _overdue(self):
+    def _compute_overdue(self):
         for waybill in self:
             deadline = fields.Date.from_string(waybill.invoice_deadline)
             waybill.days_to_invoice = (deadline - date.today()).days
@@ -239,29 +239,29 @@ class Guia(models.Model):
         string='Client Reference', states=READONLY_CANCELLED_OR_CONFIRMED,
         size=128)
     amount_untaxed = fields.Float(
-        compute='_amount_all', multi='all', store=True,
+        compute='_compute_amount_all', multi='all', store=True,
         track_visibility='always', string='Subtotal',
         digits_compute=dp.get_precision('Account'))
     amount_tax = fields.Float(
-        compute='_amount_all', multi='all',
+        compute='_compute_amount_all', multi='all',
         store=True, string='Tax',
         digits_compute=dp.get_precision('Account'))
     amount_total = fields.Float(
-        compute='_amount_all', multi='all',
+        compute='_compute_amount_all', multi='all',
         store=True, string='Total',
         digits_compute=dp.get_precision('Account'))
     validation_date = fields.Datetime(string='Date of validation')
     days_to_invoice = fields.Integer(
-        compute='_overdue', string='Days to invoice',
+        compute='_compute_overdue', string='Days to invoice',
         help='Number of days to invoice the waybill')
     invoice_deadline = fields.Date(
-        compute='_deadline', string='Deadline',
+        compute='_compute_deadline', string='Deadline',
         help='Deadline to invoice the waybill')
 
     @api.multi
     def unlink(self):
         if any(guia.state == 'aberta' for guia in self):
-            raise Warning('Não é possivel eliminar guias arquivadas!')
+            raise Warning(_('It\'s not possible to delete archived waybills!'))
         return super(Guia, self).unlink()
 
     def copy(self, cr, uid, id, default={}, context=None):
