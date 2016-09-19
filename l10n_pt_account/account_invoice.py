@@ -9,14 +9,15 @@ from openerp.exceptions import UserError, Warning
 from openerp import api
 
 from openerp.addons.account.models.account_invoice import TYPE2REFUND
+
+from datetime import datetime
+import time
+
 TYPE2REFUND.update({
     'debit_note': 'out_refund',  # Debit Note
     'simplified_invoice': 'out_refund',  # Simplified Invoice
     'in_debit_note': 'in_refund',  # Supplier Debit Note
 })
-
-from datetime import datetime
-import time
 
 EXEMPTION_REASONS = enumerate([
     u'Artigo 16.º n.º 6 alínea c) do CIVA',
@@ -305,8 +306,8 @@ class AccountPtInvoice(osv.osv):
         for invoice in self:
             if invoice.type not in ('out_invoice', 'simplified_invoice'):
                 continue
-            missing_ref = lambda line: not line.waybill_reference
-            lines_without_refs = invoice.invoice_line_ids.filtered(missing_ref)
+            lines_without_refs = invoice.invoice_line_ids.filtered(
+                lambda line: not line.waybill_reference)
             if invoice.waybill_ref and any(lines_without_refs):
                 waybill = self.env['account.guia'].search(
                     [('numero', '=', invoice.waybill_ref)])
@@ -571,9 +572,9 @@ class AccountPtInvoice(osv.osv):
     # TKO ACCOUNT PT: New method
     @api.one
     def reconcile_invoice(self):
-        same_account = lambda l: l.account_id == self.account_id
         lines = self.move_id.line_id
-        lines = (lines + self.payment_ids).filtered(same_account)
+        lines = (lines + self.payment_ids).filtered(
+            lambda l: l.account_id == self.account_id)
         lines.reconcile('manual', None, None, None)
 
     def name_get(self, cr, uid, ids, context=None):

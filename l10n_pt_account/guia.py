@@ -286,7 +286,8 @@ class Guia(models.Model):
             @param invoice: object of the invoice that we are updating
             @return: dict that will be used to update the invoice
         """
-        join_valid = lambda s, x: s.join(filter(None, x))
+        def join_valid(s, x):
+            return s.join(filter(None, x))
         guia = self
         invoice_vals = {
             'name': join_valid(', ', (invoice.name, guia.name)),
@@ -354,10 +355,8 @@ class Guia(models.Model):
             guia.invoice_id = invoice.id
             # write invoice in related pickings
             if guia.stock_picking_ids:
-                is_uninvoiced = lambda pick: pick.invoice_state not in (
-                    'invoiced', 'none')
                 uninvoiced_picks = guia.stock_picking_ids.filtered(
-                    is_uninvoiced)
+                    lambda p: p.invoice_state not in ('invoiced', 'none'))
                 uninvoiced_picks.write({'invoice_state': 'invoiced'})
         action = {}
         data_pool = self.env['ir.model.data']
@@ -463,8 +462,8 @@ class Guia(models.Model):
                 raise Warning(u'Não pode cancelar guias faturadas.')
         self.sync_guia_cancellation()
         self.write({'state': 'cancelada'})
-        is_waybilled = lambda pick: pick.waybill_state == 'waybilled'
-        waybilled_picks = guia.stock_picking_ids.filtered(is_waybilled)
+        waybilled_picks = guia.stock_picking_ids.filtered(
+            lambda p: p.waybill_state == 'waybilled')
         waybilled_picks.write({'waybill_state': 'none'})
         return True
 

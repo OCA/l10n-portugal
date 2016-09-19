@@ -32,8 +32,8 @@ class SaleOrder(models.Model):
         credit notes"""
         super(SaleOrder, self)._get_invoiced()
         for order in self:
-            same_partner = lambda inv: inv.partner_id == order.partner_id
-            filtered_invoices = order.invoice_ids.filtered(same_partner)
+            filtered_invoices = order.invoice_ids.filtered(
+                ambda inv: inv.partner_id == order.partner_id)
             order.update({
                 'invoice_count': len(set(filtered_invoices)),
                 'invoice_ids': filtered_invoices.ids,
