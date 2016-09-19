@@ -8,13 +8,13 @@ l10n_pt_account
 
 Customization of Accounting for Portugal.
 This module implements several Portuguese specific accounting documents:
-    Documents:
-        * Debit Notes;
-        * Credit Notes;
-        * Supplier Debit Notes;
-        * All Waybill Types.
+Documents:
+- Debit Notes;
+- Credit Notes;
+- Supplier Debit Notes;
+- All Waybill Types.
 
-    * Allows you to import products, clients and invoices to saft
+Allows you to import products, clients and invoices to saft
 NOTE: This documents to be valid, need a certification from
 Portuguese Treasury, for that you must install and configure the
 tko_ics2_pt module, provided by Thinkopen Solutions.
