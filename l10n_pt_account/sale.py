@@ -33,7 +33,7 @@ class SaleOrder(models.Model):
         super(SaleOrder, self)._get_invoiced()
         for order in self:
             filtered_invoices = order.invoice_ids.filtered(
-                ambda inv: inv.partner_id == order.partner_id)
+                lambda inv: inv.partner_id == order.partner_id)
             order.update({
                 'invoice_count': len(set(filtered_invoices)),
                 'invoice_ids': filtered_invoices.ids,

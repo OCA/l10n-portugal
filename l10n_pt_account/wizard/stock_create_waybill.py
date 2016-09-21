@@ -80,7 +80,7 @@ class StockPickingWaybill(osv.osv_memory):
         res = super(StockPickingWaybill, self)\
             .default_get(cr, uid, fields, context=context)
         picking_ids = context.get('active_ids', [])
-        if not picking_ids or context.get('active_model') != 'stock.picking')\
+        if not picking_ids or context.get('active_model') != 'stock.picking'\
            or len(picking_ids) != 1:
             # Partial Picking Processing may only
             # be done for one picking at a time

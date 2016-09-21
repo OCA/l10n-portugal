@@ -83,7 +83,8 @@ class AccountMove(models.Model):
                     is_refund = invoice.type in ('out_refund', 'in_refund')
                     if is_refund and journal.refund_sequence:
                         sequence = journal.refund_sequence_id
-                    new_name = sequence.with_context(ir_sequence_date=move.date)\
+                    new_name = sequence\
+                        .with_context(ir_sequence_date=move.date)\
                         .next_by_id()
                 else:
                     raise Warning(_('Please define a sequence '
