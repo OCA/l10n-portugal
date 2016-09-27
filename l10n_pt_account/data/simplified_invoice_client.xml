@@ -11,7 +11,7 @@
             <field name="city">-</field>
             <field name="country_id" ref="base.pt"/>
             <field name="property_payment_term" ref="l10n_pt_account.payment_term"/>
-			<field name="notify_email">none</field>
+    		<field name="notify_email">none</field>
         </record>
         
     </data>

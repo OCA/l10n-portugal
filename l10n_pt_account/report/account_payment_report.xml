@@ -1,129 +1,129 @@
 <?xml version="1.0" ?>
 <openerp>
-	<data>
-		<report
-			id="payment_report"
-			model="account.payment"
-			name="l10n_pt_account.account_pt_payment_report"
-			file="l10n_pt_account.account_pt_payment_report"
-			report_type="qweb-pdf"
-			string="Payment Print"
+    <data>
+    	<report
+    		id="payment_report"
+    		model="account.payment"
+    		name="l10n_pt_account.account_pt_payment_report"
+    		file="l10n_pt_account.account_pt_payment_report"
+    		report_type="qweb-pdf"
+    		string="Payment Print"
             header="True"
-		/>
-		
-		
-		<template id="account_pt_payment_report">
-	    	<t t-call="report.html_container">
-				<t t-foreach="docs" t-as="o">
-					<t t-call="report.external_layout">
-						<div class="page">
-							<div class="row">
-				                <div class="col-xs-5 col-xs-offset-7">
-				                    <address t-field="o.partner_id"
-				                        t-field-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": true}' />
-				                </div>
-				            </div>
-							<div class="row">
-								<div class="col-xs-6">
-									<div class="row">
-										<div class="col-xs-12">
-											<h2 t-esc="o.name"></h2>
-										</div>
-									</div>
-									<div class="row">
-										<div class="col-xs-12">
-											<strong>Date:</strong><span t-esc="o.payment_date"></span>
-										</div>
-									</div>
-									<div class="row">
-										<div class="col-xs-12">
-											<strong>Reference:</strong><span t-esc="o.payment_reference"></span>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="row" style="margin-top: 20px;">
-								<div class="col-xs-12">
-									<table class="table table-condensed text-center">
-										<theader>
-											<td><strong>Date</strong></td>
-											<td><strong>Description</strong></td>
-											<td><strong>Document Value</strong></td>
-											<td><strong>Regulated Value</strong></td>
-											<td><strong>Unregulated Value</strong></td>
-										</theader>
-										<tbody>
-											<t t-foreach="o.invoice_ids" t-as="i">
-												<tr>
-													<td t-esc="i.date"></td>
-													<td>
+    	/>
+    	
+    	
+    	<template id="account_pt_payment_report">
+        	<t t-call="report.html_container">
+    			<t t-foreach="docs" t-as="o">
+    				<t t-call="report.external_layout">
+    					<div class="page">
+    						<div class="row">
+    			                <div class="col-xs-5 col-xs-offset-7">
+    			                    <address t-field="o.partner_id"
+    			                        t-field-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": true}' />
+    			                </div>
+    			            </div>
+    						<div class="row">
+    							<div class="col-xs-6">
+    								<div class="row">
+    									<div class="col-xs-12">
+    										<h2 t-esc="o.name"></h2>
+    									</div>
+    								</div>
+    								<div class="row">
+    									<div class="col-xs-12">
+    										<strong>Date:</strong><span t-esc="o.payment_date"></span>
+    									</div>
+    								</div>
+    								<div class="row">
+    									<div class="col-xs-12">
+    										<strong>Reference:</strong><span t-esc="o.payment_reference"></span>
+    									</div>
+    								</div>
+    							</div>
+    						</div>
+    						<div class="row" style="margin-top: 20px;">
+    							<div class="col-xs-12">
+    								<table class="table table-condensed text-center">
+    									<theader>
+    										<td><strong>Date</strong></td>
+    										<td><strong>Description</strong></td>
+    										<td><strong>Document Value</strong></td>
+    										<td><strong>Regulated Value</strong></td>
+    										<td><strong>Unregulated Value</strong></td>
+    									</theader>
+    									<tbody>
+    										<t t-foreach="o.invoice_ids" t-as="i">
+    											<tr>
+    												<td t-esc="i.date"></td>
+    												<td>
                                                         <span t-esc="i.number"></span>
-														<t t-if="i.reference">
+    													<t t-if="i.reference">
                                                             (<span t-esc="i.reference"></span>)
                                                         </t>
                                                     </td>
-													<td>
-														<span t-field="i.amount_total"/>
-													</td>
-													<td>
-														<t t-if="i.type in ['out_invoice', 'in_refund']">
-															<span t-raw="o.get_invoice_paid_amount(i)"/>
-														</t>
-														<t t-if="i.type in ['out_refund', 'in_invoice']">
-															<span t-raw="o.get_invoice_paid_amount(i) * (-1)"/>
-															<span t-esc="i.currency_id.symbol" />
-														</t>
-													</td>
-													<td>
-														<span t-field="i.residual"/>
-													</td>
-												</tr>
-											</t>
-										</tbody>
-									</table>
-								</div>
-							</div>
-							<div class="row" style="margin-top: 20px;">
-								<div class="col-xs-12">
-									<table class="table table-condensed">
-										<tbody class="text-right">
-											<tr>
-												<td class="text-right" style="border: none"><strong>Regulated Value</strong></td>
-												<td style="border: none">
-													<span t-field="o.total_regulated"/>
-													<span t-esc="o.company_id.currency_id.symbol" />
-												</td>
-											</tr>
-											<tr>
-												<td class="text-right" style="border: none"><strong>Financial Discounts Conceded</strong></td>
-												<td style="border: none">
-													<span>0.00</span>
-													<span t-esc="o.company_id.currency_id.symbol" />
-												</td>
-											</tr>
-											<tr>
-												<td class="text-right" style="border: none">
-													<table class="text-right" style="float:right;">
-														<tr>
-															<td style="border: none"><strong>Total Received......</strong></td>
-														</tr>
-														<tr>
-															<td style="border: none" t-esc="o.text_amount()"></td>
-														</tr>
-													</table>
-												</td>
-												<td style="border: none">
-													<span t-field="o.amount" t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
-												</td>
-											</tr>
-										</tbody>
-									</table>
-								</div>
-							</div>
-						</div>
-					</t>
-				</t>
-			</t>
-		</template>
-	</data>
+    												<td>
+    													<span t-field="i.amount_total"/>
+    												</td>
+    												<td>
+    													<t t-if="i.type in ['out_invoice', 'in_refund']">
+    														<span t-raw="o.get_invoice_paid_amount(i)"/>
+    													</t>
+    													<t t-if="i.type in ['out_refund', 'in_invoice']">
+    														<span t-raw="o.get_invoice_paid_amount(i) * (-1)"/>
+    														<span t-esc="i.currency_id.symbol" />
+    													</t>
+    												</td>
+    												<td>
+    													<span t-field="i.residual"/>
+    												</td>
+    											</tr>
+    										</t>
+    									</tbody>
+    								</table>
+    							</div>
+    						</div>
+    						<div class="row" style="margin-top: 20px;">
+    							<div class="col-xs-12">
+    								<table class="table table-condensed">
+    									<tbody class="text-right">
+    										<tr>
+    											<td class="text-right" style="border: none"><strong>Regulated Value</strong></td>
+    											<td style="border: none">
+    												<span t-field="o.total_regulated"/>
+    												<span t-esc="o.company_id.currency_id.symbol" />
+    											</td>
+    										</tr>
+    										<tr>
+    											<td class="text-right" style="border: none"><strong>Financial Discounts Conceded</strong></td>
+    											<td style="border: none">
+    												<span>0.00</span>
+    												<span t-esc="o.company_id.currency_id.symbol" />
+    											</td>
+    										</tr>
+    										<tr>
+    											<td class="text-right" style="border: none">
+    												<table class="text-right" style="float:right;">
+    													<tr>
+    														<td style="border: none"><strong>Total Received......</strong></td>
+    													</tr>
+    													<tr>
+    														<td style="border: none" t-esc="o.text_amount()"></td>
+    													</tr>
+    												</table>
+    											</td>
+    											<td style="border: none">
+    												<span t-field="o.amount" t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
+    											</td>
+    										</tr>
+    									</tbody>
+    								</table>
+    							</div>
+    						</div>
+    					</div>
+    				</t>
+    			</t>
+    		</t>
+    	</template>
+    </data>
 </openerp>

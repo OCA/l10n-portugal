@@ -2,11 +2,8 @@
 # Copyright 2010-2016 ThinkOpen Solutions
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl)./
 
-from openerp.osv import fields, osv
-from openerp import fields as new_fields, SUPERUSER_ID
-from openerp.tools.translate import _
+from openerp import models, fields, api, _
 from openerp.exceptions import UserError, Warning
-from openerp import api
 
 from openerp.addons.account.models.account_invoice import TYPE2REFUND
 
@@ -52,7 +49,7 @@ def _state_func(state):
     return _
 
 
-class AccountPtInvoice(osv.osv):
+class AccountPtInvoice(models.Model):
     _name = "account.invoice"
     _description = 'Invoice'
     _inherit = 'account.invoice'
@@ -91,67 +88,63 @@ class AccountPtInvoice(osv.osv):
     def _convert_ref(self, ref):
         return (ref or '').replace('/', '')
 
-    def _check_selection_field_value(self, cr, uid, field,
-                                     value, context=None):
+    @api.model
+    def _check_selection_field_value(self, field, value):
         other_types = ('debit_note', 'in_debit_note', 'simplified_invoice')
         if field == 'type' and value in other_types:
             return
         super(AccountPtInvoice, self)._check_selection_field_value(
-            cr, uid, field, value, context=context)
+            field, value)
 
     # TKO ACCOUNT PT: Inherit method
     # To clean fields of reference documents from invoice_lines when create
     # refund
-    def _refund_cleanup_lines(self, cr, uid, lines, context=None):
-        lines = super(AccountPtInvoice, self)._refund_cleanup_lines(
-            cr, uid, lines, context=context)
+    @api.model
+    def _refund_cleanup_lines(self, lines):
+        lines = super(AccountPtInvoice, self)._refund_cleanup_lines(lines)
         for x, y, line in lines:
             if 'waybill_reference' in line:
                 line['waybill_reference'] = False
             if 'waybill_date' in line:
                 line['waybill_date'] = False
-
         return lines
 
     # TKO ACCOUNT PT: New method that changes accounts from fiscal position
-    def button_change_fiscal_position(self, cr, uid, ids, context=None):
-        if context is None:
-            context = {}
+    @api.multi
+    def button_change_fiscal_position(self):
+        fpos_obj = self.env['account.fiscal.position']
+        inv_line_obj = self.env['account.invoice.line']
 
-        fpos_obj = self.pool.get('account.fiscal.position')
-        inv_line_obj = self.pool.get('account.invoice.line')
-
-        inv = self.browse(cr, uid, ids)[0]
-        for line in inv.invoice_line_ids:
+        for line in self.invoice_line_ids:
             account_line = fpos_obj.map_account(
-                cr, uid, inv.fiscal_position_id, line.account_id.id)
+                self.fiscal_position_id, line.account_id.id)
             client_types = (
                 'out_invoice', 'debit_note',
                 'simplified_invoice', 'out_refund',
             )
             if inv.type in client_types:
                 new_taxes = fpos_obj.map_tax(
-                    cr, uid, inv.fiscal_position_id, line.product_id.taxes_id)
+                    self.fiscal_position_id, line.product_id.taxes_id)
             else:
                 new_taxes = fpos_obj.map_tax(
-                    cr, uid, inv.fiscal_position_id,
+                    self.fiscal_position_id,
                     line.product_id.supplier_taxes_id)
-            line_vals = {
+            line.write({
                 'account_id': account_line,
                 'invoice_line_tax_id': [(5,), (6, 0, new_taxes)],
-            }
-            inv_line_obj.write(cr, uid, [line.id], line_vals)
+            })
         account_inv = fpos_obj.map_account(
-            cr, uid, inv.fiscal_position_id, inv.account_id.id)
-        self.write(cr, uid, [inv.id], {
-                   'account_id': account_inv}, context=context)
+            self.fiscal_position_id, inv.account_id.id)
+        self.write({'account_id': account_inv})
         return True
 
     # TKO ACCOUNT PT: New method that gets payment term to simplified invoices
-    def _get_payment_term(self, cr, uid, context=None):
+    @api.model
+    def _get_payment_term(self):
+        context = self.env.context
         if context and context.get('type') == 'simplified':
-            return self.pool.get('account.payment.term').search(
-                cr, uid, [('name', '=', 'Pronto Pagamento')])[0]
+            return self.env['account.payment.term'].search(
+                [('name', '=', 'Pronto Pagamento')], limit=1)
         else:
             return None
 
@@ -171,127 +164,113 @@ class AccountPtInvoice(osv.osv):
         else:
             return super(AccountPtInvoice, self)._default_journal()
 
-    type = new_fields.Selection(selection_add=[
+    type = fields.Selection(selection_add=[
         ('debit_note', "Debit Note"),
         ('in_debit_note', "Supplier Debit Note"),
         ('simplified_invoice', "Simplified Invoice")])
+    journal_id = fields.Many2one(default=_default_journal)
+    fiscal_position_id = fields.Many2one(
+        'account.fiscal.position', string='Fiscal Position', readonly=True,
+        states={'draft': [('readonly', False)]})
+    waybill_ids = fields.One2many(
+        'account.guia', 'invoice_id', string='Waybills')
+    with_transport_info = fields.Boolean(
+        string='Transport Information?', readonly=True,
+        states={'draft': [('readonly', False)]})
+    load_date = fields.Datetime(
+        string='Load date', readonly=True,
+        states={'draft': [('readonly', False)]},
+        default=fields.Datetime.now)
+    unload_date = fields.Datetime(
+        string='Unload date', readonly=True,
+        states={'draft': [('readonly', False)]},
+        default=fields.Datetime.now)
+    load_place = fields.Char(
+        string='Load place', size=256, readonly=True,
+        states={'draft': [('readonly', False)]},
+        default=u"N/ Armazém")
+    unload_place = fields.Char(
+        string='Unload place', size=256, readonly=True,
+        states={'draft': [('readonly', False)]},
+        default='Morada Cliente')
+    load_city = fields.Char(
+        string='Load city', size=256, readonly=True,
+        states={'draft': [('readonly', False)]})
+    unload_city = fields.Char(
+        string='Unload city', size=256, readonly=True,
+        states={'draft': [('readonly', False)]})
+    load_postal_code = fields.Char(
+        string='Load postal_code', size=256, readonly=True,
+        states={'draft': [('readonly', False)]})
+    unload_postal_code = fields.Char(
+        string='Unload postal_code', size=256, readonly=True,
+        states={'draft': [('readonly', False)]})
+    car_registration = fields.Many2one(
+        "account.license_plate", string="License Plate", readonly=True,
+        states={'draft': [('readonly', False)]})
+    exemption_reason = fields.Selection(
+        EXEMPTION_SELECTION, string='Exemption Reason', readonly=True,
+        states={'draft': [('readonly', False)]})
+    waybill_ref = fields.Char(
+        string='Reference',
+        help="To reference invoice lines you must write waybill number.",
+        readonly=True, states={'draft': [('readonly', False)]})
+    date_invoice = fields.Date(
+        string='Invoice Date', readonly=True,
+        states={
+            'draft': [('readonly', False)],
+            'proforma': [('readonly', False)],
+            'proforma2': [('readonly', False)],
+        }, index=True, help="Keep empty to use the current date",
+        copy=False)
+    payment_term = fields.Many2one(default='_get_payment_term')
+    partner_id = fields.Many2one(default='_get_client_if_simplified')
+    account_id = fields.Many2one(default='_get_account_if_simplified')
 
-    journal_id = new_fields.Many2one(default=_default_journal)
-
-    _columns = {
-        'fiscal_position_id': fields.many2one(
-            'account.fiscal.position', 'Fiscal Position', readonly=True,
-            states={'draft': [('readonly', False)]}),
-        'waybill_ids': fields.one2many(
-            'account.guia', 'invoice_id', 'Waybills'),
-        'with_transport_info': fields.boolean(
-            'Transport Information?', readonly=True,
-            states={'draft': [('readonly', False)]}),
-        'load_date': fields.datetime(
-            'Load date', readonly=True,
-            states={'draft': [('readonly', False)]}),
-        'unload_date': fields.datetime(
-            'Unload date', readonly=True,
-            states={'draft': [('readonly', False)]}),
-        'load_place': fields.char(
-            'Load place', size=256, readonly=True,
-            states={'draft': [('readonly', False)]}),
-        'unload_place': fields.char(
-            'Unload place', size=256, readonly=True,
-            states={'draft': [('readonly', False)]}),
-        'load_city': fields.char(
-            'Load city', size=256, readonly=True,
-            states={'draft': [('readonly', False)]}),
-        'unload_city': fields.char(
-            'Unload city', size=256, readonly=True,
-            states={'draft': [('readonly', False)]}),
-        'load_postal_code': fields.char(
-            'Load postal_code', size=256, readonly=True,
-            states={'draft': [('readonly', False)]}),
-        'unload_postal_code': fields.char(
-            'Unload postal_code', size=256, readonly=True,
-            states={'draft': [('readonly', False)]}),
-        'car_registration': fields.many2one(
-            "account.license_plate", string="License Plate", readonly=True,
-            states={'draft': [('readonly', False)]}),
-        'exemption_reason': fields.selection(
-            EXEMPTION_SELECTION, 'Exemption Reason', readonly=True,
-            states={'draft': [('readonly', False)]}),
-        'waybill_ref': fields.char(
-            string='Reference',
-            help="To reference invoice lines you must write waybill number.",
-            readonly=True, states={'draft': [('readonly', False)]}),
-        'date_invoice': fields.date(
-            string='Invoice Date', readonly=True,
-            states={
-                'draft': [('readonly', False)],
-                'proforma': [('readonly', False)],
-                'proforma2': [('readonly', False)],
-            }, index=True, help="Keep empty to use the current date",
-            copy=False),
-    }
-
-    def copy(self, cr, uid, id, default=None, context=None):
-        default = default or {}
+    @api.multi
+    def copy(self, default=None):
+        default = dict(default) if default else {}
         default.update({
             'with_transport_info': False,
             'waybill_ref': False,
             'waybill_ids': False,
         })
-        return super(AccountPtInvoice, self).copy(
-            cr, uid, id, default, context)
+        return super(AccountPtInvoice, self).copy(default)
 
     # TKO ACCOUNT PT: New method
-    def _get_client_if_simplified(self, cr, uid, context=None):
+    @api.model
+    def _get_client_if_simplified(self):
+        context = self.env.context
         if context and context.get('type') == 'simplified_invoice':
             # to get a database ID from an XML ID
-            pool = self.pool.get('ir.model.data')
-            client_id = pool.get_object(
-                cr, uid, 'l10n_pt_account', 'simplified_invoice_client')
-            return client_id.id
+            client = self.env.ref('l10n_pt_account.simplified_invoice_client')
+            return client
 
     # TKO ACCOUNT PT: New method
-    def _get_address_if_simplified(self, cr, uid, context=None):
+    @api.model
+    def _get_address_if_simplified(self):
+        context = self.env.context
         if context and context.get('type') == 'simplified_invoice':
             # to get a database ID from an XML ID
-            pool = self.pool.get('ir.model.data')
-            address_id = pool.get_object(
-                cr, uid, 'l10n_pt_account',
-                'simplified_invoice_client_address')
-            return address_id.id
+            address = self.env.ref('l10n_pt_account.simplified_invoice_client_address')
+            return address
 
     # TKO ACCOUNT PT: New method
-    def _get_account_if_simplified(self, cr, uid, context=None):
-        client_id = self._get_client_if_simplified(cr, uid, context)
-        if client_id:
-            [client] = self.pool.get(
-                'res.partner').browse(cr, uid, [client_id])
-            return client.property_account_receivable_id.id
+    @api.model
+    def _get_account_if_simplified(self):
+        client = self._get_client_if_simplified()
+        if client:
+            return client.property_account_receivable_id
 
     # TKO ACCOUNT PT: New method
-    def _max_amount_simplified_invoices(self, cr, uid, ids):
-        for invoice in self.browse(cr, uid, ids):
+    @api.multi
+    @api.constrains('amount_total', 'state')
+    def _max_amount_simplified_invoices(self):
+        msg = _("The Simplified Invoices can only have a total up to 1000€")
+        for invoice in self:
             if invoice.type == 'simplified_invoice'\
                and invoice.amount_untaxed > 1000:
-                return False
-        return True
-
-    _defaults = {
-        'payment_term': _get_payment_term,
-        'partner_id': _get_client_if_simplified,
-        #        'address_invoice_id': _get_address_if_simplified,
-        'account_id': _get_account_if_simplified,
-        'load_place': "N/ Armazém",
-        'unload_place': "Morada Cliente",
-        'load_date': lambda *a: datetime.now().strftime("%Y-%m-%d %H:%M:00"),
-        'unload_date': lambda *a: datetime.now().strftime("%Y-%m-%d 22:59:59"),
-    }
-
-    _constraints = [
-        (_max_amount_simplified_invoices,
-         "The Simplified Invoices can only have a total up to 1000€",
-         ['amount_total', 'state']),
-    ]
+                raise Warning(msg)
 
     @api.multi
     def check_simplified_invoice_constraints(self):
@@ -344,126 +323,6 @@ class AccountPtInvoice(osv.osv):
             transport_fields = self.get_transport_fields(self.partner_id)
             for field, value in transport_fields.items():
                 setattr(self, field, value)
-
-    # TKO ACCOUNT PT:Inherit method
-    def onchange_company_id(self, cr, uid, ids, company_id, part_id, type,
-                            invoice_line_ids, currency_id, context=None):
-        val = {}
-        dom = {}
-        obj_journal = self.pool.get('account.journal')
-        account_obj = self.pool.get('account.account')
-        inv_line_obj = self.pool.get('account.invoice.line')
-        property_obj = self.pool.get('ir.property')
-        if company_id and part_id and type:
-            acc_id = False
-            partner_obj = self.pool.get('res.partner').browse(cr, uid, part_id)
-            partner_payable = partner_obj.property_account_payable_id
-            partner_receiv = partner_obj.property_account_receivable_id
-            different_company = (
-                partner_payable and partner_receiv.company_id.id != company_id
-                and
-                partner_receiv and partner_receiv.company_id.id != company_id
-            )
-            if different_company:
-                rec = property_obj.get(
-                    cr, uid, 'property_account_receivable_id', 'res.partner',
-                    res_id=part_id, context=context)
-                if not rec:
-                    rec = property_obj.get(
-                        cr, uid, 'property_account_receivable_id',
-                        'res.partner', context=context)
-                pay = property_obj.get(
-                    cr, uid, 'property_account_payable_id', 'res.partner',
-                    res_id=part_id, context=context)
-                if not pay:
-                    rec = property_obj.get(
-                        cr, uid, 'property_account_payable_id',
-                        'res.partner', context=context)
-
-                if not (rec and pay):
-                    raise osv.except_osv(
-                        _('Configuration Error!'),
-                        _('Cannot find a chart of account, you should '
-                          'create one from Settings/Configuration'
-                          '/Accounting menu.'))
-                out_types = (
-                    'out_invoice', 'debit_note',
-                    'simplified_invoice', 'out_refund',
-                )
-                if type in out_types:
-                    acc_id = rec.id
-                else:
-                    acc_id = pay.id
-                val = {'account_id': acc_id}
-            if ids:
-                if company_id:
-                    inv_obj = self.browse(cr, uid, ids)
-                    for line in inv_obj[0].invoice_line_ids:
-                        acc = line.account_id
-                        if acc and acc.company_id.id != company_id:
-                            query = [
-                                ('name', '=', acc.name),
-                                ('company_id', '=', company_id),
-                            ]
-                            result_id = account_obj.search(cr, uid, query)
-                            if not result_id:
-                                raise osv.except_osv(
-                                    _('Configuration Error!'),
-                                    _('Cannot find a chart of account, you '
-                                      'should create one from Settings'
-                                      '/Configuration/Accounting menu.'))
-                            inv_line_obj.write(cr, uid, [line.id], {
-                                'account_id': result_id[-1]
-                            })
-            elif invoice_line_ids:
-                for inv_line in invoice_line_ids:
-                    if inv_line[0] == 6:
-                        continue
-                    obj_l = account_obj.browse(
-                        cr, uid, inv_line[2]['account_id'])
-                    if obj_l.company_id.id != company_id:
-                        raise osv.except_osv(
-                            _('Configuration Error!'),
-                            _('Invoice line account\'s company and '
-                              'invoice\'s company does not match.'))
-                    else:
-                        continue
-        if company_id and type:
-            if type in ('out_invoice', 'simplified_invoice'):
-                journal_type = 'sale'
-            elif type in ('out_refund'):
-                journal_type = 'sale_refund'
-            elif type in ('in_refund'):
-                journal_type = 'purchase_refund'
-            elif type in ('debit_note', 'in_debit_note'):
-                journal_type = 'general'
-            else:
-                journal_type = 'purchase'
-            journal_query = [
-                ('company_id', '=', company_id),
-                ('type', '=', journal_type),
-            ]
-            journal_ids = obj_journal.search(cr, uid, journal_query)
-            if journal_ids:
-                val['journal_id'] = journal_ids[0]
-            ir_values_obj = self.pool.get('ir.values')
-            res_journal_default = ir_values_obj.get(
-                cr, uid, 'default', 'type=%s' % (type), ['account.invoice'])
-            for r in res_journal_default:
-                if r[1] == 'journal_id' and r[2] in journal_ids:
-                    val['journal_id'] = r[2]
-            if not val.get('journal_id', False):
-                msg = _('Cannot find any account journal of %s type '
-                        'for this company.\n\nYou can create one in '
-                        'the menu: \nConfiguration\Journals\Journals.')
-                raise osv.except_osv(
-                    _('Configuration Error!'),
-                    msg % journal_type)
-            dom = {'journal_id':  [('id', 'in', journal_ids)]}
-        else:
-            journal_ids = obj_journal.search(cr, uid, [])
-
-        return {'value': val, 'domain': dom}
 
     @api.multi
     def _get_analytic_lines(self):
@@ -659,137 +518,54 @@ class AccountPtInvoice(osv.osv):
 
     # Map configurations to extra document types: simplified invoice and debit
     # notes
-    def pay_and_reconcile(self, cr, uid, ids, pay_amount, pay_account_id,
-                          period_id, pay_journal_id, writeoff_acc_id,
-                          writeoff_period_id, writeoff_journal_id,
-                          context=None, name=''):
-        if context is None:
-            context = {}
-        # TODO check if we can use different period for payment and the
-        # writeoff line
-        assert len(ids) == 1, "Can only pay one invoice at a time."
-        invoice = self.browse(cr, uid, ids[0], context=context)
-        src_account_id = invoice.account_id.id
-        # Take the seq as name for move
-        # TKO ACCOUNT PT: Change: map simplified invoice and debit notes
-        types = {
-            'out_invoice': -1, 'simplified_invoice': -1, 'debit_note': -1,
-            'in_debit_note': -1, 'in_invoice': 1, 'out_refund': 1,
-            'in_refund': -1,
-        }
-        direction = types[invoice.type]
-        # take the choosen date
-        if 'date_p' in context and context['date_p']:
-            date = context['date_p']
+    @api.v8
+    def pay_and_reconcile(self, pay_journal, pay_amount=None, date=None,
+                          writeoff_acc=None):
+        """ Create and post an account.payment for the invoice self, which
+            creates a journal entry that reconciles the invoice.
+
+            :param pay_journal: journal in which the payment entry 
+                                will be created
+            :param pay_amount: amount of the payment to register,
+                               defaults to the residual of the invoice
+            :param date: payment date, defaults to
+                         fields.Date.context_today(self)
+            :param writeoff_acc: account in which to create a writeoff if
+                                 pay_amount < self.residual, so that the
+                                 invoice is fully paid
+        """
+        assert len(self) == 1, "Can only pay one invoice at a time."
+        inbound_types = ('out_invoice', 'in_refund', 'simplified_invoice')
+        if self.type in inbound_types:
+            payment_method = self.env.ref(
+                'account.account_payment_method_manual_in')
+            journal_payment_methods = pay_journal.inbound_payment_method_ids
         else:
-            date = time.strftime('%Y-%m-%d')
+            payment_method = self.env.ref(
+                'account.account_payment_method_manual_out')
+            journal_payment_methods = pay_journal.outbound_payment_method_ids
+        if payment_method not in journal_payment_methods:
+            msg = _('No appropriate payment method enabled on journal %s')
+            raise UserError(msg % pay_journal.name)
 
-        # Take the amount in currency and the currency of the payment
-        if context.get('amount_currency') and context.get('currency_id'):
-            amount_currency = context['amount_currency']
-            currency_id = context['currency_id']
-        else:
-            amount_currency = False
-            currency_id = False
-
-        pay_journal = self.pool.get('account.journal').read(
-            cr, uid, pay_journal_id, ['type'], context=context)
-        paid_types = (
-            'in_invoice', 'out_invoice', 'debit_note',
-            'simplified_invoice', 'in_debit_note',
-        )
-        if invoice.type in paid_types:
-            if pay_journal['type'] == 'bank':
-                entry_type = 'bank_pay_voucher'  # Bank payment
-            else:
-                entry_type = 'pay_voucher'  # Cash payment
-        else:
-            entry_type = 'cont_voucher'
-        if invoice.type in ('in_invoice', 'in_refund', 'in_debit_note'):
-            ref = invoice.reference
-        else:
-            ref = self._convert_ref(invoice.number)
-        partner = invoice.partner_id
-        if partner.parent_id and not partner.is_company:
-            partner = partner.parent_id
-        # Pay attention to the sign for both debit/credit AND amount_currency
-        l1 = {
-            'debit': direction * pay_amount > 0 and direction * pay_amount,
-            'credit': direction * pay_amount < 0 and -direction * pay_amount,
-            'account_id': src_account_id,
-            'partner_id': partner.id,
-            'ref': ref,
-            'date': date,
-            'currency_id': currency_id,
-            'amount_currency': (amount_currency or 0.0) * direction,
-            'company_id': invoice.company_id.id,
-        }
-        l2 = {
-            'debit': direction * pay_amount < 0 and -direction * pay_amount,
-            'credit': direction * pay_amount > 0 and direction * pay_amount,
-            'account_id': pay_account_id,
-            'partner_id': partner.id,
-            'ref': ref,
-            'date': date,
-            'currency_id': currency_id,
-            'amount_currency': (amount_currency or 0.0) * -direction,
-            'company_id': invoice.company_id.id,
-        }
-
-        if not name:
-            name = invoice.invoice_line_ids and invoice.invoice_line_ids[
-                0].name or invoice.number
-        l1['name'] = name
-        l2['name'] = name
-
-        lines = [(0, 0, l1), (0, 0, l2)]
-        move = {'ref': ref, 'line_id': lines, 'journal_id': pay_journal_id,
-                'period_id': period_id, 'date': date, 'type': entry_type}
-        move_id = self.pool.get('account.move').create(
-            cr, uid, move, context=context)
-
-        line_ids = []
-        total = 0.0
-        line = self.pool.get('account.move.line')
-        move_ids = [move_id, ]
-        if invoice.move_id:
-            move_ids.append(invoice.move_id.id)
-        cr.execute('SELECT id FROM account_move_line '
-                   'WHERE move_id IN %s',
-                   ((move_id, invoice.move_id.id),))
-        lines = line.browse(cr, uid, map(lambda x: x[0], cr.fetchall()))
-        for l in lines + invoice.payment_ids:
-            if l.account_id.id == src_account_id:
-                line_ids.append(l.id)
-                total += (l.debit or 0.0) - (l.credit or 0.0)
-
-        inv_id, name = self.name_get(cr, uid, [invoice.id], context=context)[0]
-        account_precision = self.pool.get('decimal.precision').precision_get(
-            cr, uid, 'Account')
-        if (not round(total, account_precision)) or writeoff_acc_id:
-            self.pool.get('account.move.line').reconcile(
-                cr, uid, line_ids, 'manual', writeoff_acc_id,
-                writeoff_period_id, writeoff_journal_id, context)
-        else:
-            code = invoice.currency_id.symbol
-            # TODO: use currency's formatting function
-            if invoice.type in ('debit_note', 'in_debit_note'):
-                msg = _("Debit Note '%s' is paid partially: "
-                        "%s%s of %s%s (%s%s remaining)")
-            else:
-                msg = _("Invoice '%s' is paid partially: "
-                        "%s%s of %s%s (%s%s remaining)")
-            msg = msg % (name, pay_amount, code, invoice.amount_total,
-                         code, total, code)
-            self.message_post(cr, uid, [inv_id], body=msg, context=context)
-            self.pool.get('account.move.line').reconcile_partial(
-                cr, uid, line_ids, 'manual', context)
-
-        # Update the stored value (fields.function), so we write to trigger
-        # recompute
-        self.pool.get('account.invoice').write(
-            cr, uid, ids, {}, context=context)
-        return True
+        supplier_type = self.type in ('in_invoice', 'in_refund')
+        client_type = self.type in ('out_invoice', 'out_refund',
+                                    'simplified_invoice')
+        payment = self.env['account.payment'].create({
+            'invoice_ids': [(6, 0, self.ids)],
+            'amount': pay_amount or self.residual,
+            'payment_date': date or fields.Date.context_today(self),
+            'communication': self.reference if supplier_type else self.number,
+            'partner_id': self.partner_id.id,
+            'partner_type': 'customer' if client_type else 'supplier',
+            'journal_id': pay_journal.id,
+            'payment_type': payment_type,
+            'payment_method_id': payment_method.id,
+            'payment_difference_handling': (writeoff_acc and 'reconcile'
+                                            or 'open'),
+            'writeoff_account_id': writeoff_acc and writeoff_acc.id or False,
+        })
+        payment.post()
 
     @api.multi
     def action_date_assign(self):
@@ -799,22 +575,18 @@ class AccountPtInvoice(osv.osv):
                 inv._onchange_payment_term_date_invoice()
         return True
 
-    def unlink(self, cr, uid, ids, context=None):
-        if context is None:
-            context = {}
-        invoices = self.read(
-            cr, uid, ids, ['state', 'internal_number'], context=context)
-
-        for t in invoices:
-            if t['state'] not in ('draft', 'cancel', 'proforma', 'proforma2'):
+    @api.multi
+    def unlink(self):
+        allowed_states = ('draft', 'cancel', 'proforma', 'proforma2')
+        for invoice in self:
+            if invoice.state not in allowed_states:
                 raise Warning(
                     _('You cannot delete an invoice which is not draft '
                       'or cancelled. You should refund it instead.'))
-        return super(AccountPtInvoice, self).unlink(
-            cr, uid, ids, context=context)
+        return super(AccountPtInvoice, self).unlink()
 
 
-class AccountPtInvoiceLine(osv.osv):
+class AccountPtInvoiceLine(models.Model):
     _name = "account.invoice.line"
     _description = "Invoice Line"
     _inherit = 'account.invoice.line'
@@ -834,77 +606,24 @@ class AccountPtInvoiceLine(osv.osv):
             self.name += '\n' + self.product_id.description
         return res
 
-    def move_line_get(self, cr, uid, invoice_id, context=None):
-        res = []
-        tax_obj = self.pool.get('account.tax')
-        cur_obj = self.pool.get('res.currency')
-        if context is None:
-            context = {}
-        inv = self.pool.get('account.invoice').browse(
-            cr, uid, invoice_id, context=context)
-        company_currency = inv.company_id.currency_id.id
+    credit_reference = fields.Char(string='Invoice Reference', size=256)
+    credit_reason = fields.Text(string='Invoice Reason')
+    waybill_reference = fields.Char(string='Waybill Reference', size=256)
+    waybill_date = fields.Date('Waybill Date')
 
-        for line in inv.invoice_line_ids:
-            mres = self.move_line_get_item(cr, uid, line, context)
-            if not mres:
-                continue
-            res.append(mres)
-            tax_code_found = False
-            computed_taxes = tax_obj.compute_all(
-                cr, uid, line.invoice_line_tax_id,
-                (line.price_unit * (1.0 - (line['discount'] or 0.0) / 100.0)),
-                line.quantity, line.product_id,
-                inv.partner_id)['taxes']
-            for tax in computed_taxes:
-
-                if inv.type in ('out_invoice', 'debit_note',
-                                'simplified_invoice', 'in_invoice'):
-                    tax_code_id = tax['base_code_id']
-                    tax_amount = line.price_subtotal * tax['base_sign']
-                else:
-                    tax_code_id = tax['ref_base_code_id']
-                    tax_amount = line.price_subtotal * tax['ref_base_sign']
-
-                if tax_code_found:
-                    if not tax_code_id:
-                        continue
-                    res.append(self.move_line_get_item(cr, uid, line, context))
-                    res[-1]['price'] = 0.0
-                    res[-1]['account_analytic_id'] = False
-                elif not tax_code_id:
-                    continue
-                tax_code_found = True
-
-                res[-1]['tax_code_id'] = tax_code_id
-                res[-1]['tax_amount'] = cur_obj.compute(
-                    cr, uid, inv.currency_id.id, company_currency, tax_amount,
-                    context={'date': inv.date_invoice})
-        return res
-
-    _columns = {
-        'credit_reference': fields.char('Invoice Reference', size=256),
-        'credit_reason': fields.text('Invoice Reason'),
-        'waybill_reference': fields.char('Waybill Reference', size=256),
-        'waybill_date': fields.date('Waybill Date'),
-        'type': fields.related(
-            'invoice_id', 'type', type='char',
-            string="Invoice type", size=256),
-    }
-    _defaults = {
-        'sequence': 0,
-    }
-
-    def create(self, cr, user, vals, context=None):
+    @api.model
+    def create(self, vals):
+        context = self.env.context
         not_product = ('product_id' in vals and not vals['product_id'])
         different_type = (context and 'type' in context
                           and context['type'] != 'in_invoice')
         if not_product and different_type:
             vals['quantity'] = 0
-            vals['account_id'] = self._default_account(cr, user, None)
-        return super(AccountPtInvoiceLine, self).create(
-            cr, user, vals, context)
+            vals['account_id'] = self._default_account(None)
+        return super(AccountPtInvoiceLine, self).create(vals)
 
-    def copy_data(self, cr, uid, id, default=None, context=None):
+    @api.multi
+    def copy_data(self, default=None):
         if not default:
             default = {}
         default.update({
@@ -913,87 +632,4 @@ class AccountPtInvoiceLine(osv.osv):
             'waybill_reference': False,
             'waybill_date': False
         })
-        return super(AccountPtInvoiceLine, self).copy_data(
-            cr, uid, id, default, context=context)
-
-
-class AccountPtInvoiceTax(osv.osv):
-    _name = "account.invoice.tax"
-    _description = "Invoice Tax"
-    _inherit = 'account.invoice.tax'
-
-    def compute(self, cr, uid, invoice, context=None):
-        tax_grouped = {}
-        tax_obj = self.pool.get('account.tax')
-        cur_obj = self.pool.get('res.currency')
-        cur = invoice.currency_id
-        company_currency = invoice.company_id.currency_id.id
-
-        for line in invoice.invoice_line_ids:
-            computed_taxes = tax_obj.compute_all(
-                cr, uid, line.invoice_line_tax_id,
-                (line.price_unit * (1 - (line.discount or 0.0) / 100.0)),
-                line.quantity, line.product_id, invoice.partner_id)['taxes']
-            for tax in computed_taxes:
-                tax['price_unit'] = cur_obj.round(
-                    cr, uid, cur, tax['price_unit'])
-                val = {}
-                val['invoice_id'] = invoice.id
-                val['name'] = tax['name']
-                val['amount'] = tax['amount']
-                val['manual'] = False
-                val['sequence'] = tax['sequence']
-                val['base'] = tax['price_unit'] * line['quantity']
-                today = time.strftime('%Y-%m-%d')
-                if invoice.type in ('out_invoice', 'debit_note',
-                                    'simplified_invoice', 'in_invoice'):
-                    val['base_code_id'] = tax['base_code_id']
-                    val['tax_code_id'] = tax['tax_code_id']
-                    val['base_amount'] = cur_obj.compute(
-                        cr, uid, invoice.currency_id.id, company_currency,
-                        val['base'] * tax['base_sign'],
-                        context={'date': invoice.date_invoice or today},
-                        round=False)
-                    val['tax_amount'] = cur_obj.compute(
-                        cr, uid, invoice.currency_id.id, company_currency,
-                        val['amount'] * tax['tax_sign'],
-                        context={'date': invoice.date_invoice or today},
-                        round=False)
-                    val['account_id'] = tax[
-                        'account_collected_id'] or line.account_id.id
-                    val['account_analytic_id'] = tax[
-                        'account_analytic_collected_id']
-                else:
-                    val['base_code_id'] = tax['ref_base_code_id']
-                    val['tax_code_id'] = tax['ref_tax_code_id']
-                    val['base_amount'] = cur_obj.compute(
-                        cr, uid, invoice.currency_id.id, company_currency,
-                        val['base'] * tax['ref_base_sign'],
-                        context={'date': invoice.date_invoice or today},
-                        round=False)
-                    val['tax_amount'] = cur_obj.compute(
-                        cr, uid, invoice.currency_id.id, company_currency,
-                        val['amount'] * tax['ref_tax_sign'],
-                        context={'date': invoice.date_invoice or today},
-                        round=False)
-                    val['account_id'] = tax[
-                        'account_paid_id'] or line.account_id.id
-                    val['account_analytic_id'] = tax[
-                        'account_analytic_paid_id']
-                key = (val['tax_code_id'],
-                       val['base_code_id'],
-                       val['account_id'])
-                if key not in tax_grouped:
-                    tax_grouped[key] = val
-                else:
-                    tax_grouped[key]['amount'] += val['amount']
-                    tax_grouped[key]['base'] += val['base']
-                    tax_grouped[key]['base_amount'] += val['base_amount']
-                    tax_grouped[key]['tax_amount'] += val['tax_amount']
-
-        for t in tax_grouped.values():
-            t['base'] = cur_obj.round(cr, uid, cur, t['base'])
-            t['amount'] = cur_obj.round(cr, uid, cur, t['amount'])
-            t['base_amount'] = cur_obj.round(cr, uid, cur, t['base_amount'])
-            t['tax_amount'] = cur_obj.round(cr, uid, cur, t['tax_amount'])
-        return tax_grouped
+        return super(AccountPtInvoiceLine, self).copy_data(default)

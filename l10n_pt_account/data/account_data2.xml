@@ -7,7 +7,7 @@
             <field name="name">Guia Remessa Sequence</field>
             <field name="code">account.guia.remessa.sequence</field>
             <field name="prefix">%(year)s/</field> 
-			<field eval="1" name="number_next"/>
+    		<field eval="1" name="number_next"/>
             <field eval="1" name="number_increment"/>
         </record>
         
@@ -15,7 +15,7 @@
             <field name="name">Guia Transporte Sequence</field>
             <field name="code">account.guia.transporte.sequence</field>
             <field name="prefix">%(year)s/</field> 
-			<field eval="1" name="number_next"/>
+    		<field eval="1" name="number_next"/>
             <field eval="1" name="number_increment"/>
         </record>
         
@@ -23,7 +23,7 @@
             <field name="name">Guia Devolucao Sequence</field>
             <field name="code">account.guia.devolucao.sequence</field>
             <field name="prefix">%(year)s/</field> 
-			<field eval="1" name="number_next"/>
+    		<field eval="1" name="number_next"/>
             <field eval="1" name="number_increment"/>
         </record>
         

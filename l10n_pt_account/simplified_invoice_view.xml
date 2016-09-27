@@ -5,6 +5,7 @@
             <field name="name">simplified_invoice.form.inherit</field>
             <field name="model">account.invoice</field>
             <field name="inherit_id" ref="account_pt_form"/>
+            <field name="priority">100</field>
             <field name="arch" type="xml">
                 <field name="number" position="before">
                     <label string="Draft Simplified Invoice " attrs="{'invisible': ['|',('state','not in',('draft',)), ('type','&lt;&gt;','simplified_invoice')]}"/>

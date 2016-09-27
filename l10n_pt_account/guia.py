@@ -264,7 +264,9 @@ class Guia(models.Model):
             raise Warning(_('It\'s not possible to delete archived waybills!'))
         return super(Guia, self).unlink()
 
-    def copy(self, cr, uid, id, default={}, context=None):
+    def copy(self, cr, uid, id, default=None, context=None):
+        if default is None:
+            default = {}
         if context is None:
             context = {}
         default.update({

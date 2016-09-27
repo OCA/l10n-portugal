@@ -5,7 +5,7 @@
             <field name="name">account.pt.form.inherit</field>
             <field name="model">account.invoice</field>
             <field name="inherit_id" ref="account.invoice_form"/>
-            <field name="priority">20</field>
+            <field name="priority">100</field>
             <field name="arch" type="xml">
                 <button name="%(account.action_account_invoice_refund)d" position="replace">
                     <button name="%(account.action_account_invoice_refund)d" type='action' string='Refund Invoice' states='open,proforma2,paid' groups="base.group_user"/>

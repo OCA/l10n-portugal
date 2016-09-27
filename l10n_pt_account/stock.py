@@ -51,7 +51,9 @@ class StockPicking(osv.osv):
             move_line.sale_line_id.write(line_vals)
         return
 
-    def copy(self, cr, uid, id, default={}, context=None):
+    def copy(self, cr, uid, id, default=None, context=None):
+        if default is None:
+            default = {}
         if context is None:
             context = {}
         default.update({
