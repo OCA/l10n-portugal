@@ -7,8 +7,6 @@ from openerp.exceptions import UserError, Warning
 
 from openerp.addons.account.models.account_invoice import TYPE2REFUND
 
-from datetime import datetime
-import time
 
 TYPE2REFUND.update({
     'debit_note': 'out_refund',  # Debit Note
@@ -113,7 +111,6 @@ class AccountPtInvoice(models.Model):
     @api.multi
     def button_change_fiscal_position(self):
         fpos_obj = self.env['account.fiscal.position']
-        inv_line_obj = self.env['account.invoice.line']
 
         for line in self.invoice_line_ids:
             account_line = fpos_obj.map_account(
@@ -122,7 +119,7 @@ class AccountPtInvoice(models.Model):
                 'out_invoice', 'debit_note',
                 'simplified_invoice', 'out_refund',
             )
-            if inv.type in client_types:
+            if self.type in client_types:
                 new_taxes = fpos_obj.map_tax(
                     self.fiscal_position_id, line.product_id.taxes_id)
             else:
@@ -134,7 +131,7 @@ class AccountPtInvoice(models.Model):
                 'invoice_line_tax_id': [(5,), (6, 0, new_taxes)],
             })
         account_inv = fpos_obj.map_account(
-            self.fiscal_position_id, inv.account_id.id)
+            self.fiscal_position_id, self.account_id.id)
         self.write({'account_id': account_inv})
         return True
 
@@ -252,7 +249,8 @@ class AccountPtInvoice(models.Model):
         context = self.env.context
         if context and context.get('type') == 'simplified_invoice':
             # to get a database ID from an XML ID
-            address = self.env.ref('l10n_pt_account.simplified_invoice_client_address')
+            address = self.env.ref(
+                'l10n_pt_account.simplified_invoice_client_address')
             return address
 
     # TKO ACCOUNT PT: New method
@@ -361,7 +359,7 @@ class AccountPtInvoice(models.Model):
     def set_waybills_as_invoiced(self, obj_inv):
         # here we need to gain permissions, since the user might not be the in
         # waybill group
-        obj_inv = obj_inv.with_env(self.env(user=SUPERUSER_ID))
+        obj_inv = obj_inv.sudo()
         if obj_inv.waybill_ids:
             obj_inv.waybill_ids.write({'invoice_state': 'invoiced'})
 
@@ -497,7 +495,7 @@ class AccountPtInvoice(models.Model):
         values['journal_id'] = journal.id
 
         values['type'] = TYPE2REFUND[invoice['type']]
-        values['date_invoice'] = date_invoice or new_fields.Date.context_today(
+        values['date_invoice'] = date_invoice or fields.Date.context_today(
             invoice)
         values['state'] = 'draft'
         values['number'] = False
@@ -524,7 +522,7 @@ class AccountPtInvoice(models.Model):
         """ Create and post an account.payment for the invoice self, which
             creates a journal entry that reconciles the invoice.
 
-            :param pay_journal: journal in which the payment entry 
+            :param pay_journal: journal in which the payment entry
                                 will be created
             :param pay_amount: amount of the payment to register,
                                defaults to the residual of the invoice
@@ -548,6 +546,7 @@ class AccountPtInvoice(models.Model):
             msg = _('No appropriate payment method enabled on journal %s')
             raise UserError(msg % pay_journal.name)
 
+        payment_type = 'inbound' if self.type in inbound_types else 'outbound'
         supplier_type = self.type in ('in_invoice', 'in_refund')
         client_type = self.type in ('out_invoice', 'out_refund',
                                     'simplified_invoice')
@@ -561,8 +560,8 @@ class AccountPtInvoice(models.Model):
             'journal_id': pay_journal.id,
             'payment_type': payment_type,
             'payment_method_id': payment_method.id,
-            'payment_difference_handling': (writeoff_acc and 'reconcile'
-                                            or 'open'),
+            'payment_difference_handling': (writeoff_acc and 'reconcile' or
+                                            'open'),
             'writeoff_account_id': writeoff_acc and writeoff_acc.id or False,
         })
         payment.post()
@@ -615,8 +614,8 @@ class AccountPtInvoiceLine(models.Model):
     def create(self, vals):
         context = self.env.context
         not_product = ('product_id' in vals and not vals['product_id'])
-        different_type = (context and 'type' in context
-                          and context['type'] != 'in_invoice')
+        different_type = (context and 'type' in context and
+                          context['type'] != 'in_invoice')
         if not_product and different_type:
             vals['quantity'] = 0
             vals['account_id'] = self._default_account(None)
