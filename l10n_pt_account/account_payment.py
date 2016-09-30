@@ -3,7 +3,7 @@
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl)./
 
 from openerp import models, fields, api
-from l10n_pt_acount.report.amount_to_text_pt import amount_to_text
+from openerp.addons.l10n_pt_acount.report.amount_to_text_pt import amount_to_text
 import json
 
 from openerp.addons.account.models.account_payment \
