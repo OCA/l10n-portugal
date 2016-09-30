@@ -295,9 +295,11 @@ class StockPicking(osv.osv):
 class StockPickingOut(osv.osv):
     _inherit = 'stock.picking'
 
-    def copy(self, cr, uid, id, default={}, context=None):
+    def copy(self, cr, uid, id, default=None, context=None):
         if context is None:
             context = {}
+        if default is None:
+            default = {}
         default.update({
             'waybill_state': 'none',
             'waybill_id': False,
