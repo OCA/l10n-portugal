@@ -24,30 +24,24 @@ class AccountPtConfig(models.Model):
     debit_sup_seq_id = fields.Many2one(
         'ir.sequence', 'Supplier Debit Note Sequence')
     debit_sup_seq_prefix = fields.Char(
-        'debit_sup_seq_id', 'prefix',
         string='Supplier debit note sequence')
     debit_sup_seq_next = fields.Integer(
-        'debit_sup_seq_id', 'number_next',
         string='Supplier debit note next number')
     debit_journal_id = fields.Many2one(
         'account.journal', 'Debit Note journal')
     debit_seq_prefix = fields.Char(
-        'debit_journal_id', 'sequence_id', 'prefix',
         string='Debit note sequence')
     waybill_rem_seq = fields.Many2one(
         'ir.sequence', 'Waybill Remittance Sequence')
     waybill_rem_seq_prefix = fields.Char(
-        'waybill_rem_seq', 'prefix',
         string='Waybill remittance sequence')
     waybill_trsp_seq = fields.Many2one(
         'ir.sequence', 'Waybill Transport Sequence')
     waybill_trsp_seq_prefix = fields.Char(
-        'waybill_trsp_seq', 'prefix',
         string='Waybill transport sequence')
     waybill_dev_seq = fields.Many2one(
         'ir.sequence', 'Waybill Return Sequence')
     waybill_dev_seq_prefix = fields.Char(
-        'waybill_dev_seq', 'prefix',
         string='Waybill return sequence')
     module_tko_account_pt_partner_reports = fields.Boolean(
         'Allows to download partner PT reports.',
