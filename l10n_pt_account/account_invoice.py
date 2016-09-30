@@ -161,6 +161,32 @@ class AccountPtInvoice(models.Model):
         else:
             return super(AccountPtInvoice, self)._default_journal()
 
+    # TKO ACCOUNT PT: New method
+    @api.model
+    def _get_client_if_simplified(self):
+        context = self.env.context
+        if context and context.get('type') == 'simplified_invoice':
+            # to get a database ID from an XML ID
+            client = self.env.ref('l10n_pt_account.simplified_invoice_client')
+            return client
+
+    # TKO ACCOUNT PT: New method
+    @api.model
+    def _get_address_if_simplified(self):
+        context = self.env.context
+        if context and context.get('type') == 'simplified_invoice':
+            # to get a database ID from an XML ID
+            address = self.env.ref(
+                'l10n_pt_account.simplified_invoice_client_address')
+            return address
+
+    # TKO ACCOUNT PT: New method
+    @api.model
+    def _get_account_if_simplified(self):
+        client = self._get_client_if_simplified()
+        if client:
+            return client.property_account_receivable_id
+
     type = fields.Selection(selection_add=[
         ('debit_note', "Debit Note"),
         ('in_debit_note', "Supplier Debit Note"),
@@ -233,32 +259,6 @@ class AccountPtInvoice(models.Model):
             'waybill_ids': False,
         })
         return super(AccountPtInvoice, self).copy(default)
-
-    # TKO ACCOUNT PT: New method
-    @api.model
-    def _get_client_if_simplified(self):
-        context = self.env.context
-        if context and context.get('type') == 'simplified_invoice':
-            # to get a database ID from an XML ID
-            client = self.env.ref('l10n_pt_account.simplified_invoice_client')
-            return client
-
-    # TKO ACCOUNT PT: New method
-    @api.model
-    def _get_address_if_simplified(self):
-        context = self.env.context
-        if context and context.get('type') == 'simplified_invoice':
-            # to get a database ID from an XML ID
-            address = self.env.ref(
-                'l10n_pt_account.simplified_invoice_client_address')
-            return address
-
-    # TKO ACCOUNT PT: New method
-    @api.model
-    def _get_account_if_simplified(self):
-        client = self._get_client_if_simplified()
-        if client:
-            return client.property_account_receivable_id
 
     # TKO ACCOUNT PT: New method
     @api.multi
