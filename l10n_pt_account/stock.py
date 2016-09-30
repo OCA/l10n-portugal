@@ -241,9 +241,9 @@ class StockPicking(osv.osv):
                     'stock_picking_ids': [(4, picking.id)],
                     'company_id': picking.company_id.id,
                     'origin': picking.name or '',
-                    'observacoes': (picking.name
-                                    and ("Ref Ordens Entrega: " + picking.name)
-                                    or '')
+                    'observacoes': (picking.name and
+                                    ("Ref Ordens Entrega: " + picking.name) or
+                                    '')
                 }
                 if picking.origin:
                     waybill_vals['origin'] += ': ' + picking.origin

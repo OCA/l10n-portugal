@@ -459,8 +459,8 @@ class Guia(models.Model):
     @api.multi
     def action_cancel(self):
         for guia in self:
-            if (guia.invoice_state == 'invoiced' and guia.invoice_id
-                    and guia.invoice_id.state not in ('cancel', 'draft')):
+            if (guia.invoice_state == 'invoiced' and guia.invoice_id and
+                    guia.invoice_id.state not in ('cancel', 'draft')):
                 raise Warning(u'Não pode cancelar guias faturadas.')
         self.sync_guia_cancellation()
         self.write({'state': 'cancelada'})
