@@ -220,9 +220,9 @@ class AccountPtInvoice(models.Model):
             'proforma2': [('readonly', False)],
         }, index=True, help="Keep empty to use the current date",
         copy=False)
-    payment_term = fields.Many2one(default='_get_payment_term')
-    partner_id = fields.Many2one(default='_get_client_if_simplified')
-    account_id = fields.Many2one(default='_get_account_if_simplified')
+    payment_term = fields.Many2one(default=_get_payment_term)
+    partner_id = fields.Many2one(default=_get_client_if_simplified)
+    account_id = fields.Many2one(default=_get_account_if_simplified)
 
     @api.multi
     def copy(self, default=None):
