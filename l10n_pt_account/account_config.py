@@ -18,7 +18,6 @@ class ResCompany(models.Model):
 
 
 class AccountPtConfig(models.Model):
-    _name = 'account.config.settings'
     _inherit = 'account.config.settings'
 
     debit_sup_seq_id = fields.Many2one(
