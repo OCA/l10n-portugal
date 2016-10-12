@@ -17,7 +17,7 @@ class ResCompany(models.Model):
              "of values in invoices in loss (debit)")
 
 
-class AccountPtConfig(models.Model):
+class AccountPtConfig(models.TransientModel):
     _inherit = 'account.config.settings'
 
     debit_sup_seq_id = fields.Many2one(
