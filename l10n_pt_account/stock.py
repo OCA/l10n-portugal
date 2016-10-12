@@ -54,8 +54,6 @@ class StockPicking(osv.osv):
     def copy(self, cr, uid, id, default=None, context=None):
         if default is None:
             default = {}
-        if context is None:
-            context = {}
         default.update({
             'waybill_state': 'none',
             'waybill_id': False,
@@ -183,8 +181,6 @@ class StockPicking(osv.osv):
         """
         Creates waybill based on picking
         """
-        if context is None:
-            context = {}
         if type_waybill is None:
             type_waybill = context.get('type_waybill', False)
         if with_cost is None:

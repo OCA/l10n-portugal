@@ -10,8 +10,6 @@ class WaybillInvoice(osv.osv_memory):
     _description = "Account PT Invoice Waybill"
 
     def _get_journal_id(self, cr, uid, context=None):
-        if context is None:
-            context = {}
         vals = []
         journal_obj = self.pool.get('account.journal')
         value = journal_obj.search(cr, uid, [('type', '=', 'sale')])
@@ -29,8 +27,6 @@ class WaybillInvoice(osv.osv_memory):
     }
 
     def view_init(self, cr, uid, fields_list, context=None):
-        if context is None:
-            context = {}
         res = super(WaybillInvoice, self).view_init(
             cr, uid, fields_list, context=context)
         guia_obj = self.pool.get('account.guia')
@@ -54,8 +50,6 @@ class WaybillInvoice(osv.osv_memory):
         return res
 
     def open_invoice(self, cr, uid, ids, context=None):
-        if context is None:
-            context = {}
         guia_pool = self.pool.get('account.guia')
         waybilldata_obj = self.read(
             cr, uid, ids,
@@ -74,8 +68,6 @@ class WaybillSimplifiedInvoice(osv.osv_memory):
     _description = "Account PT Simplified Invoice Waybill"
 
     def open_simplified_invoice(self, cr, uid, ids, context=None):
-        if context is None:
-            context = {}
         guia_pool = self.pool.get('account.guia')
         waybilldata_obj = self.read(
             cr, uid, ids,

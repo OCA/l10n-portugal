@@ -52,8 +52,6 @@ class StockPickingWaybill(osv.osv_memory):
     }
 
     def view_init(self, cr, uid, fields_list, context=None):
-        if context is None:
-            context = {}
         res = super(StockPickingWaybill, self)\
             .view_init(cr, uid, fields_list, context=context)
         pick_obj = self.pool.get('stock.picking')
@@ -75,8 +73,6 @@ class StockPickingWaybill(osv.osv_memory):
 
     def default_get(self, cr, uid, fields, context=None):
         res = {}
-        if context is None:
-            context = {}
         res = super(StockPickingWaybill, self)\
             .default_get(cr, uid, fields, context=context)
         picking_ids = context.get('active_ids', [])
@@ -113,8 +109,6 @@ class StockPickingWaybill(osv.osv_memory):
         return context
 
     def create_waybill(self, cr, uid, ids, context=None):
-        if context is None:
-            context = {}
         waybill_ids = []
         action_model = False
         action = {}

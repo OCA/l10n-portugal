@@ -16,8 +16,6 @@ class StockSimplifiedOnshipping(osv.osv_memory):
         return False
 
     def _get_journal_id(self, cr, uid, context=None):
-        if context is None:
-            context = {}
 
         model = context.get('active_model')
         if not model or 'stock.picking' not in model:
@@ -71,8 +69,6 @@ class StockSimplifiedOnshipping(osv.osv_memory):
     }
 
     def view_init(self, cr, uid, fields_list, context=None):
-        if context is None:
-            context = {}
         res = super(StockSimplifiedOnshipping, self).view_init(
             cr, uid, fields_list, context=context)
         pick_obj = self.pool.get('stock.picking')
@@ -95,8 +91,6 @@ class StockSimplifiedOnshipping(osv.osv_memory):
         return res
 
     def open_simplified(self, cr, uid, ids, context=None):
-        if context is None:
-            context = {}
         invoice_ids = []
         data_pool = self.pool.get('ir.model.data')
         res = self.create_simplified_invoice(cr, uid, ids, context=context)
@@ -115,8 +109,6 @@ class StockSimplifiedOnshipping(osv.osv_memory):
         return action
 
     def create_simplified_invoice(self, cr, uid, ids, context=None):
-        if context is None:
-            context = {}
         picking_pool = self.pool.get('stock.picking')
         onshipdata_obj = self.read(
             cr, uid, ids, ['journal_id', 'group', 'invoice_date', 'origin'])

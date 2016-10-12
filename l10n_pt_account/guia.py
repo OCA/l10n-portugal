@@ -267,8 +267,6 @@ class Guia(models.Model):
     def copy(self, cr, uid, id, default=None, context=None):
         if default is None:
             default = {}
-        if context is None:
-            context = {}
         default.update({
             'numero': False,
             'invoice_state': 'none',

@@ -11,8 +11,6 @@ class StockInvoiceOnshipping(osv.osv_memory):
     _inherit = "stock.invoice.onshipping"
 
     def view_init(self, cr, uid, fields_list, context=None):
-        if context is None:
-            context = {}
         res = super(StockInvoiceOnshipping, self).view_init(
             cr, uid, fields_list, context=context)
         pick_obj = self.pool.get('stock.picking')
