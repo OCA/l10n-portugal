@@ -394,38 +394,38 @@
         <menuitem name="Guias"
         parent="account.menu_finance"
         id="menu_action_account_guias"
-        groups="tko_group_account_guias"
+        groups="group_account_guias"
         sequence="3"/>
         
         <menuitem name="Remessa"
         parent="menu_action_account_guias"
         id="menu_action_account_guias_remessa"
         action="action_account_guia_remessa_form"
-        groups="tko_group_account_guias"/>
+        groups="group_account_guias"/>
         
         <menuitem name="Transporte"
         parent="menu_action_account_guias"
         id="menu_action_account_guias_transporte"
         action="action_account_guia_transporte_form"
-        groups="tko_group_account_guias"/>
+        groups="group_account_guias"/>
         
         <menuitem name="Devolução"
         parent="menu_action_account_guias"
         id="menu_action_account_guias_devolucao"
         action="action_account_guia_devolucao_form"
-        groups="tko_group_account_guias"/>
+        groups="group_account_guias"/>
         
         <menuitem name="Controlo de Guias"
         parent="account.menu_finance"
         id="menu_action_account_control_waybill"
-        groups="tko_group_account_guias"
+        groups="group_account_guias"
         sequence="3"/>
         
         <menuitem name="Guias por Faturar"
         parent="menu_action_account_control_waybill"
         id="menu_action_account_waybill_invoice"
         action="action_waybill_to_invoice"
-        groups="tko_group_account_guias"/>
+        groups="group_account_guias"/>
 
     </data>
 </openerp>

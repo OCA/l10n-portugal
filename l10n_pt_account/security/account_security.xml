@@ -2,8 +2,8 @@
 <openerp>
     <data>
 
-       <record id="tko_group_account_guias" model="res.groups" context="{'noadmin':True}">
-           <field name="name">Accounting / TKO Guias</field>
+       <record id="group_account_guias" model="res.groups" context="{'noadmin':True}">
+           <field name="name">Accounting / Guias</field>
        </record>
 
     </data>

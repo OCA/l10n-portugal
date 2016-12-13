@@ -121,7 +121,7 @@ msgid ""
 msgstr "Conta para registar as diferenças de valores em faturas de débito"
 
 #. module: l10n_pt_account
-#: model:res.groups,name:l10n_pt_account.tko_group_account_guias
+#: model:res.groups,name:l10n_pt_account.group_account_guias
 msgid "Accounting / TKO Guias"
 msgstr "Contabilidade PT/ Guias"
 
