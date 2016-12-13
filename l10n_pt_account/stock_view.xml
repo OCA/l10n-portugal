@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+    
+        <record id="view_picking_out_waybill_form" model="ir.ui.view">
+            <field name="name">stock.picking.waybill.form</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='move_type']" position="after">
+                    <field name="waybill_state"/>
+                    <field name="type_picking" invisible="1"/>
+                    <field name="waybill_id"/>
+                </xpath>
+            </field>
+        </record>
+
+           <record id="view_picking_waybill_search" model="ir.ui.view">
+                <field name="name">stock.picking.waybill.search</field>
+                <field name="model">stock.picking</field>
+                <field name="inherit_id" ref="stock.view_picking_internal_search"/>
+                <field name="arch" type="xml">
+                    <filter name="confirmed" position="after">
+                        <filter icon="terp-dolar" name="to_waybill" attrs="{'invisible': [('type','!=','out')]}" string="To Waybill" domain="[('waybill_state','=','none')]" help="Pickings to waybill"/>
+                    </filter>
+                </field>
+           </record>
+        
+    </data>
+</openerp>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="stock_picking_waybill_form" model="ir.ui.view">
+            <field name="name">stock.picking.waybill.form</field>
+            <field name="model">stock.picking.waybill</field>
+            <field name="arch" type="xml">
+                <form string="Create Waybill" version="7.0">
+                    <group string="Options">
+                        <field name="type_waybill"/>
+                        <field name="with_cost" />
+                        <field name="group" />
+                    </group>
+                    <footer>
+                        <button name="create_waybill" string="Create Waybill" type="object" class="oe_highlight"/>
+                        or
+                        <button special="cancel" string="Cancel" class="oe_link" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+        
+       <record id="action_picking_waybill" model="ir.actions.act_window">
+            <field name="name">Creating Waybill</field>
+            <field name="res_model">stock.picking.waybill</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="context">{'origin': 'button'}</field>
+        </record>
+
+        <act_window name="Create Waybill"
+            res_model="stock.picking.waybill"
+            src_model="stock.picking"
+            key2="client_action_multi"
+            multi="True"
+            view_mode="form"
+            view_type="form"
+            target="new"
+            context="{'origin': 'action'}"
+            id="action_stock_create_waybill"/>
+        
+    </data>
+</openerp>

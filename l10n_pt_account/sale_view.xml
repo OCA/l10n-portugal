@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="tko_account_sale_order_inherit_form_view">
+            <field name="name">sale.order.inherit.form</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="model">sale.order</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <field name="amount_untaxed" position="before">
+                    <field name="hide_discounts"/>
+                </field>
+                <field name="company_id" position="replace">
+                    <field name="company_id" widget="selection" groups="base.group_multi_company" required="1"/>
+                </field>
+            </field>
+        </record>
+        
+       <!--  <record id="tko_account_view_order_form_inherit" model="ir.ui.view">
+            <field name="name">sale.order.form.sale.stock</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale_stock.view_order_form_inherit"/>
+            <field name="arch" type="xml">
+                <field name="company_id" position="replace">
+                    <field name="company_id" widget="selection" groups="base.group_multi_company" required="1" on_change="onchange_company_id(partner_id, company_id)"/>
+                </field>
+            </field>
+        </record> -->
+    </data>
+</openerp>

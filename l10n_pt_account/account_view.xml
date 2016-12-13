@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="view_account_journal_form_inherit" model="ir.ui.view">
+            <field name="name">account.journal.form.inherit</field>
+            <field name="model">account.journal</field>
+            <field name="inherit_id" ref="account.view_account_journal_form" />
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+            	<field name="group_invoice_lines" position="after">
+                   <group colspan="2" col="2">
+                       <separator string="Stock" colspan="4"/>
+                       <field name="stock_journal"/>
+                   </group>
+                </field>
+            </field>
+        </record>
+        
+        <record id="ics_form" model="ir.ui.view">
+            <field name="name">tko_account_tax.form.inherit</field>
+            <field name="model">account.tax</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="account.view_tax_form" />
+            <field name="arch" type="xml">
+                <field name='refund_account_id' position="after">
+                    <label colspan="2" nolabel="1" string="Keep empty to use the default account"/>
+                    <field name="account_debit_id"/>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</openerp>
