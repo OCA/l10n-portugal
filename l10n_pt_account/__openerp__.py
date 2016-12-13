@@ -35,7 +35,6 @@
              'simplified_invoice_view.xml',
              'sale_view.xml',
              'account_config_view.xml',
-             'res_config_view.xml',
              'wizard/sale_make_invoice_advance.xml',
              'report/account_payment_report.xml',
              'report/account_invoice_report_view.xml'
