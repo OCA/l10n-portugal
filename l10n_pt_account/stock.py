@@ -1,31 +1,31 @@
 # -*- coding: utf-8 -*-
 # Copyright 2010-2016 ThinkOpen Solutions
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl)./
-from openerp.osv import fields, osv
-from openerp.tools.translate import _
+from openerp import models, fields, api, _
+from openerp.exceptions import Warning
 
 
-class SaleOrder(osv.osv):
+class SaleOrder(models.Model):
     _inherit = "sale.order"
 
-    def _prepare_order_picking(self, cr, uid, order, context=None):
-        dict = super(SaleOrder, self)\
-            ._prepare_order_picking(cr, uid, order, context)
+    @api.model
+    def _prepare_order_picking(self, order):
+        dict = super(SaleOrder, self)._prepare_order_picking(order)
         dict.update({'waybill_state': 'none'})
         return dict
 
 
-class StockPicking(osv.osv):
+class StockPicking(models.Model):
     _description = "Delivery Orders"
     _inherit = 'stock.picking'
 
-    def _invoice_hook(self, cursor, user, picking, invoice_id):
-        sale_obj = self.pool.get('sale.order')
-        order_line_obj = self.pool.get('sale.order.line')
-        invoice_obj = self.pool.get('account.invoice')
-        invoice_line_obj = self.pool.get('account.invoice.line')
+    @api.model
+    def _invoice_hook(self, picking, invoice_id):
+        order_line_obj = self.env['sale.order.line']
+        invoice_line_obj = self.env['account.invoice.line']
+        invoice = self.env['account.invoice'].browse(invoice_id)
         if picking.sale_id:
-            sale_obj.write(cursor, user, [picking.sale_id.id], {
+            picking.sale_id.write({
                 'invoice_ids': [(4, invoice_id)],
             })
             for sale_line in picking.sale_id.order_line:
@@ -33,98 +33,71 @@ class StockPicking(osv.osv):
                    and not sale_line.invoiced:
                     vals = order_line_obj\
                         ._prepare_order_line_invoice_line(
-                            cursor, user, sale_line, False)
+                            sale_line, False)
                     vals['invoice_id'] = invoice_id
                     invoice_line_id = invoice_line_obj\
-                        .create(cursor, user, vals)
-                    order_line_obj.write(
-                        cursor, user, [sale_line.id], {
-                            'invoice_lines': [(6, 0, [invoice_line_id])],
-                        }
-                    )
-                    invoice_obj.button_compute(cursor, user, [invoice_id])
-        return
+                        .create(vals)
+                    sale_line.write({
+                        'invoice_lines': [(6, 0, [invoice_line_id])],
+                    })
+                    invoice.button_compute()
 
-    def _invoice_line_hook(self, cursor, user, move_line, invoice_line_id):
+    @api.model
+    def _invoice_line_hook(self, move_line, invoice_line_id):
         if move_line.sale_line_id:
             line_vals = {'invoice_lines': [(4, invoice_line_id)]}
             move_line.sale_line_id.write(line_vals)
-        return
 
-    def copy(self, cr, uid, id, default=None, context=None):
-        if default is None:
-            default = {}
-        default.update({
-            'waybill_state': 'none',
-            'waybill_id': False,
-        })
-        return super(StockPicking, self).copy(cr, uid, id, default, context)
-
-    def _type_picking(self, cr, uid, ids, prop, unknow_none, context):
-        res = {}
-        for picking in self.browse(cr, uid, ids, context):
+    @api.depends('name')
+    def _type_picking(self):
+        for picking in self:
             if picking.name.find('-return') > 0:
-                res[picking.id] = 'return'
+                picking.type_picking = 'return'
             else:
-                res[picking.id] = 'none'
-        return res
+                picking.type_picking = 'none'
 
-    def _get_sale_orders(self, cr, uid, ids, field_name, arg, context=None):
-        res = {}
-        order_pool = self.pool['sale.order']
-        for picking in self.browse(cr, uid, ids, context=context):
+    @api.depends('group_id')
+    def _get_sale_orders(self):
+        order_pool = self.env['sale.order']
+        for picking in self:
             query = [('procurement_group_id', '=', picking.group_id.id)]
-            res[picking.id] = order_pool.search(cr, uid, query)
-        return res
+            self.sale_order_ids = order_pool.search(query)
 
-    def _sale_order_invoiced(self, cr, uid, ids,
-                             field_name, arg, context=None):
-        res = {}
-        for picking in self.browse(cr, uid, ids, context=context):
-            res[picking.id] = all(order.invoice_status == 'invoiced'
-                                  for order in picking.sale_order_ids)
-        return res
+    @api.depends('sale_order_ids')
+    def _sale_order_invoiced(self):
+        for picking in self:
+            self.invoice_state = all(order.invoice_status == 'invoiced'
+                                     for order in picking.sale_order_ids)
 
-    _columns = {
-        'waybill_state': fields.selection(
-            [
-                ('waybilled', 'Waybilled'),
-                ("none", "Not Applicable"),
-            ], "Waybill Control", readonly=True),
-        'waybill_id': fields.many2one('account.guia', "Waybill"),
-        'type_picking': fields.function(
-            _type_picking, method=True, string="Type Picking", type="char"),
-        'sale_order_ids': fields.function(
-            _get_sale_orders, type='many2many', relation='sale.order'),
-        'invoice_state': fields.function(
-            _sale_order_invoiced, type='char', string='Invoice State'),
-    }
+    waybill_state = fields.Selection([
+        ('waybilled', 'Waybilled'),
+        ("none", "Not Applicable"),
+    ], string="Waybill Control", readonly=True, default='none', copy=False)
+    waybill_id = fields.Many2one('account.guia', string="Waybill", copy=False)
+    type_picking = fields.Char(compute='_type_picking', string="Type Picking")
+    sale_order_ids = fields.Many2many(compute='_get_sale_orders', relation='sale.order')
+    invoice_state = fields.Char(compute='_sale_order_invoiced', string='Invoice State')
 
-    _defaults = {
-        'waybill_state': 'none'
-    }
-
-    def _prepare_invoice_line(self, cr, uid, group, picking,
+    @api.model
+    def _prepare_invoice_line(self, group, picking,
                               move_line, invoice_id,
-                              invoice_vals, context=None):
+                              invoice_vals):
         """ Inherit the original function of the 'stock' module
             in order to correct the account in simplified invoice
         """
         invoice_line_vals = super(StockPicking, self)._prepare_invoice_line(
-            cr, uid, group, picking, move_line, invoice_id, invoice_vals,
-            context=context)
-        if invoice_vals['type'] in ('simplified_invoice'):
+            group, picking, move_line, invoice_id, invoice_vals)
+        fp_obj = self.env['account.fiscal.position']
+        if invoice_vals['type'] ==  'simplified_invoice':
             account_id = move_line.product_id.property_account_income_id.id
             if not account_id:
                 account_id = move_line.product_id.categ_id\
                     .property_account_income_categ_id.id
             if invoice_vals['fiscal_position_id']:
-                fp_obj = self.pool.get('account.fiscal.position')
                 fiscal_position = fp_obj.browse(
-                    cr, uid, invoice_vals['fiscal_position_id'],
-                    context=context)
+                    invoice_vals['fiscal_position_id'])
                 account_id = fp_obj.map_account(
-                    cr, uid, fiscal_position, account_id)
+                    fiscal_position, account_id)
             if move_line.product_uos:
                 uom_id = move_line.product_uos.id
             else:
@@ -137,15 +110,16 @@ class StockPicking(osv.osv):
             })
         return invoice_line_vals
 
-    def _prepare_invoice(self, cr, uid, picking, partner,
-                         inv_type, journal_id, context=None):
+    @api.model
+    def _prepare_invoice(self, picking, partner,
+                         inv_type, journal_id):
         """ Inherit the original function of the 'stock' module
             in order to correct some values if the picking has been
             generated by a sales order. account_id from order partner_id,
             fiscal_position from order or property of order partner_id
         """
         invoice_vals = super(StockPicking, self)._prepare_invoice(
-            cr, uid, picking, partner, inv_type, journal_id, context=context)
+            picking, partner, inv_type, journal_id)
         sale = picking.sale_id
         if sale:
             if sale.fiscal_position_id:
@@ -157,17 +131,18 @@ class StockPicking(osv.osv):
                 .property_account_receivable.id
         return invoice_vals
 
-    def _get_partner_to_invoice(self, cr, uid, picking, context=None):
+    @api.model
+    def _get_partner_to_invoice(self, picking):
         """ Inherit the original function of the 'stock' module
             We select the partner_invoice_id of the sales order
             as the partner of the customer invoice
         """
         if picking.sale_id:
             return picking.sale_id.partner_invoice_id
-        return super(StockPicking, self)._get_partner_to_invoice(
-            cr, uid, picking, context=context)
+        return super(StockPicking, self)._get_partner_to_invoice(picking)
 
-    def _get_partner_to_waybill(self, cr, uid, picking, context=None):
+    @api.model
+    def _get_partner_to_waybill(self, picking):
         """ We select the partner_invoice_id of the sales order
             as the partner of the customer invoice
         """
@@ -175,22 +150,23 @@ class StockPicking(osv.osv):
             return picking.sale_id.partner_shipping_id
         return picking.partner_id
 
-    def action_waybill_create(self, cr, uid, ids, group=False,
-                              type_waybill=None, with_cost=None,
-                              context=None):
+    @api.multi
+    def action_waybill_create(self, group=False,
+                              type_waybill=None, with_cost=None):
         """
         Creates waybill based on picking
         """
+        context = self._context
         if type_waybill is None:
             type_waybill = context.get('type_waybill', False)
         if with_cost is None:
             with_cost = context.get('with_cost', False)
         waybill_group = {}
         res = {}
-        guia_obj = self.pool.get('account.guia')
-        guia_line_obj = self.pool.get('account.linha.guia')
-        stock_move_obj = self.pool.get('stock.move')
-        for picking in self.browse(cr, uid, ids, context=context):
+        guia_obj = self.env['account.guia']
+        guia_line_obj = self.env['account.linha.guia']
+        stock_move_obj = self.env['stock.move']
+        for picking in self:
             # Confirm if picking is done
             if picking.state != 'done'\
                or picking.invoice_state == 'invoiced'\
@@ -206,14 +182,13 @@ class StockPicking(osv.osv):
                 continue
             partner = picking.partner_id
             if not partner:
-                raise osv.except_osv(
-                    _('Error, no partner !'),
+                raise Warning(
                     _('Please put a partner on the picking list '
                       'if you want to generate waybill.'))
             # Group pickings when same partner and same address
             if group and partner.id in waybill_group:
                 guia_id = waybill_group[partner.id]['guia_id']
-                waybill = guia_obj.browse(cr, uid, guia_id)
+                waybill = guia_obj.browse(guia_id)
                 waybill_vals = {
                     'origin': (waybill.origin or '') + ', ' +
                               (picking.name or '') +
@@ -228,8 +203,7 @@ class StockPicking(osv.osv):
                             .client_order_ref
                     if waybill.sale_id.id == picking.sale_id.id:
                         waybill_vals['sale_id'] = picking.sale_id.id
-                guia_obj.write(
-                    cr, uid, [guia_id], waybill_vals, context=context)
+                waybill.write(waybill_vals)
             else:
                 waybill_vals = {
                     'tipo': type_waybill,
@@ -248,8 +222,7 @@ class StockPicking(osv.osv):
                         (order.client_order_ref or '')
                         for order in picking.sale_order_ids)
                 # Create Waybill
-                guia_id = guia_obj.create(
-                    cr, uid, waybill_vals, context=context)
+                guia_id = guia_obj.create(waybill_vals)
                 waybill_group[partner.id] = {'guia_id': guia_id}
 
             # get move lines selected or if is a group creation get stock moves
@@ -258,7 +231,7 @@ class StockPicking(osv.osv):
                 if line.state == 'cancel':
                     continue
                 invoice_vals = stock_move_obj._get_invoice_line_vals(
-                    cr, uid, line, partner, 'out_invoice', context=context)
+                    line, partner, 'out_invoice')
                 waybill_lines = {
                     'guia_id': guia_id,
                     'product_id': line.product_id.id,
@@ -281,53 +254,21 @@ class StockPicking(osv.osv):
                         waybill_lines['discount'] = invoice_vals.get(
                             'discount', False)
                 # create waybill lines
-                guia_line_obj.create(cr, uid, waybill_lines, context=context)
+                guia_line_obj.create(waybill_lines)
             res[picking.id] = guia_id
-            self.write(cr, uid, [picking.id], {
-                       'waybill_id': guia_id, 'waybill_state': 'waybilled'})
+            picking.write({
+                'waybill_id': guia_id,
+                'waybill_state': 'waybilled',
+            })
         return res
 
 
-class StockPickingOut(osv.osv):
-    _inherit = 'stock.picking'
-
-    def copy(self, cr, uid, id, default=None, context=None):
-        if context is None:
-            context = {}
-        if default is None:
-            default = {}
-        default.update({
-            'waybill_state': 'none',
-            'waybill_id': False,
-        })
-        return super(StockPickingOut, self).copy(cr, uid, id, default, context)
-
-    def _type_picking(self, cr, uid, ids, prop, unknow_none, context):
-        res = {}
-        for picking in self.browse(cr, uid, ids, context):
-            if picking.name.find('-return') > 0:
-                res[picking.id] = 'return'
-            else:
-                res[picking.id] = 'none'
-        return res
-    _columns = {
-        'waybill_state': fields.selection([
-            ('waybilled', 'Waybilled'),
-            ("none", "Not Applicable"),
-        ], "Waybill Control", readonly=True),
-        'waybill_id': fields.many2one('account.guia', "Waybill"),
-        'type_picking': fields.function(
-            _type_picking, method=True, string="Type Picking", type="char"),
-    }
-    _defaults = {'waybill_state': 'none'}
-
-
-class StockMove(osv.osv):
+class StockMove(models.Model):
     _inherit = 'stock.move'
 
-    def _get_invoice_line_vals(self, cr, uid, move, partner,
-                               inv_type, context=None):
-        fp_obj = self.pool.get('account.fiscal.position')
+    @api.model
+    def _get_invoice_line_vals(self, move, partner, inv_type):
+        fp_obj = self.env['account.fiscal.position']
         product = move.product_id
         categ = product.categ_id
         # Get account_id
@@ -340,7 +281,7 @@ class StockMove(osv.osv):
             if not account_id:
                 account_id = categ.property_account_expense_categ_id.id
         fiscal_position = partner.property_account_position_id
-        account_id = fp_obj.map_account(cr, uid, fiscal_position, account_id)
+        account_id = fp_obj.map_account(fiscal_position, account_id)
 
         # set UoS if it's a sale and the picking doesn't have one
         uos_id = move.product_uom.id
