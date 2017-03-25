@@ -6,6 +6,7 @@
 WRITE ME !
 
 [//]: # (addons)
+
 Available addons
 ----------------
 addon | version | summary
