@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+    
+       <record id="tko_group_account_guias" model="res.groups" context="{'noadmin':True}">
+	       <field name="name">Accounting / TKO Guias</field>
+	   </record>
+	   
+    </data>
+</openerp>
