@@ -1,0 +1,9 @@
+"id","code","name","prefix","suffix","padding"
+"diar_compras","compra","Compras","C",,4
+"diar_vendas","venda","Vendas","V",,3
+"diar_geral","geral","Geral","G",,4
+"diar_recibo","caixa","Recibo","R",,3
+"diar_caixa","caixa","Caixa","T",,4
+"diar_pessoal","geral","Pessoal","P",,3
+"seq_factura","factura","Facturas","F",,3
+"cgd","caixa","CGD","CGD",,3
