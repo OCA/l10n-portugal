@@ -1,0 +1,233 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<openerp>
+    <data>
+        <record id="res_bank_pt_novo" model="res.bank">
+            <field name="name">NOVO BANCO</field>
+            <field name="lname">NOVO BANCO, SA</field>
+            <field name="code">0007</field>
+            <field name="bic">BESCPTPLXXX</field>
+            <field name="street">Av. da Liberdade, 195</field>
+            <field name="city">Lisboa</field>
+            <field name="zip">1250-142</field>
+            <field name="website">www.novobanco.pt</field>
+            <field name="active" eval="1" />
+            <field name="country" ref="base.pt"/>
+        </record>
+        <record id="res_bank_pt_bai" model="res.bank">
+            <field name="name">BAI EUROPA</field>
+            <field name="lname">BANCO BAI EUROPA, SA</field>
+            <field name="code">0008</field>
+            <field name="bic">BAIPPTPLXXX</field>
+            <field name="street">Av. António Augusto de Aguiar, 130 8º andar</field>
+            <field name="city">Lisboa</field>
+            <field name="zip">1050-020</field>
+            <field name="website">http://www.bancobaieuropa.pt</field>
+            <field name="active" eval="1" />
+            <field name="country" ref="base.pt"/>
+        </record>
+        <record id="res_bank_pt_bpi" model="res.bank">
+            <field name="name">BPI</field>
+            <field name="lname">BANCO BPI, SA</field>
+            <field name="code">0010</field>
+            <field name="bic">BBPIPTPLXXX</field>
+            <field name="street">Rua Tenente Valadim, 284</field>
+            <field name="city">Porto</field>
+            <field name="zip">4100-476</field>
+            <field name="website">www.bpi.pt</field>
+            <field name="active" eval="1" />
+            <field name="country" ref="base.pt"/>
+        </record>
+        <record id="res_bank_pt_invest" model="res.bank">
+            <field name="name">INVEST</field>
+            <field name="lname">BANCO INVEST, SA</field>
+            <field name="code">0014</field>
+            <field name="bic">IVVSPTPLXXX</field>
+            <field name="street"></field>
+            <field name="city"></field>
+            <field name="zip"></field>
+            <field name="website"></field>
+            <field name="active" eval="1" />
+            <field name="country" ref="base.pt"/>
+        </record>
+        <record id="res_bank_pt_santander" model="res.bank">
+            <field name="name">SANTANDER</field>
+            <field name="lname">BANCO SANTANDER TOTTA, SA</field>
+            <field name="code">0018</field>
+            <field name="bic">TOTAPTPLXXX</field>
+            <field name="street">Rua do Ouro, 88</field>
+            <field name="city">Lisboa</field>
+            <field name="zip">1100-063</field>
+            <field name="website">www.santandertotta.pt</field>
+            <field name="active" eval="1" />
+            <field name="country" ref="base.pt"/>
+        </record>
+        <record id="res_bank_pt_bbva" model="res.bank">
+            <field name="name">BBVA</field>
+            <field name="lname">BANCO BILBAO VIZCAYA  ARGENTARIA (PORTUGAL), SA</field>
+            <field name="code">0019</field>
+            <field name="bic">BBVAPTPLXXX</field>
+            <field name="street">Av. da Liberdade, 222</field>
+            <field name="city">Lisboa</field>
+            <field name="zip">1250-148</field>
+            <field name="website">www.bbva.pt</field>
+            <field name="active" eval="1" />
+            <field name="country" ref="base.pt"/>
+        </record>
+        <record id="res_bank_pt_activobank" model="res.bank">
+            <field name="name">ACTIVOBANK</field>
+            <field name="lname">BANCO ACTIVOBANK, SA</field>
+            <field name="code">0023</field>
+            <field name="bic">ACTVPTP1XXX</field>
+            <field name="street">Rua Augusta, 84</field>
+            <field name="city">Lisboa</field>
+            <field name="zip">1100-053</field>
+            <field name="website">www.activobank.pt</field>
+            <field name="active" eval="1" />
+            <field name="country" ref="base.pt"/>
+        </record>
+        <record id="res_bank_pt_caixinvest" model="res.bank">
+            <field name="name">CAIXA BI</field>
+            <field name="lname">CAIXA - BANCO DE INVESTIMENTO, SA</field>
+            <field name="code">0025</field>
+            <field name="bic">CXBIPTPLXXX</field>
+            <field name="street">Rua Barata Salgueiro, 33</field>
+            <field name="city">Lisboa</field>
+            <field name="zip">1269-057</field>
+            <field name="website">www.caixabi.pt</field>
+            <field name="active" eval="1" />
+            <field name="country" ref="base.pt"/>
+        </record>
+		<record id="res_bank_pt_bpi" model="res.bank">
+            <field name="name">BPI</field>
+            <field name="lname">BANCO PORTUGUES DE INVESTIMENTO, SA</field>
+            <field name="code">0027</field>
+            <field name="bic">BPIPPTPLXXX</field>
+            <field name="street">Rua Tenente Valadim, 284</field>
+            <field name="city">Porto</field>
+            <field name="zip">4100-476</field>
+            <field name="website">www.bpi.pt</field>
+            <field name="active" eval="1" />
+            <field name="country" ref="base.pt"/>
+        </record>
+        <record id="res_bank_pt_bcp" model="res.bank">
+            <field name="name">MILENNIUM</field>
+            <field name="lname">BANCO COMERCIAL PORTUGUES, SA</field>
+            <field name="code">0033</field>
+            <field name="bic">BCOMPTPLXXX</field>
+            <field name="street">Praça D. João I, 12</field>
+            <field name="city">Porto</field>
+            <field name="zip">4000-295</field>
+            <field name="website">www.millenniumbcp.pt/</field>
+            <field name="active" eval="1" />
+            <field name="country" ref="base.pt"/>
+        </record>
+        <record id="res_bank_pt_cgd" model="res.bank">
+            <field name="name">CGD</field>
+            <field name="lname">CAIXA GERAL DE DEPOSITOS, SA</field>
+            <field name="code">0035</field>
+            <field name="bic">CGDIPTPLXXX</field>
+            <field name="street">Av. João XXI, 63</field>
+            <field name="city">Lisboa</field>
+            <field name="zip">1000-300</field>
+            <field name="website">www.cgd.pt</field>
+            <field name="active" eval="1" />
+            <field name="country" ref="base.pt"/>
+        </record>
+        <record id="res_bank_pt_banif" model="res.bank">
+            <field name="name">BANIF</field>
+            <field name="lname">BANIF - BANCO INTERNACIONAL DO FUNCHAL, SA</field>
+            <field name="code">0038</field>
+            <field name="bic">BNIFPTPLXXX</field>
+            <field name="street">Rua de João Tavira, 30</field>
+            <field name="city">Funchal</field>
+            <field name="zip">9004-509</field>
+            <field name="website">www.banif.pt</field>
+            <field name="active" eval="1" />
+            <field name="country" ref="base.pt"/>
+        </record>
+        <record id="res_bank_pt_popular" model="res.bank">
+            <field name="name">POPULAR</field>
+            <field name="lname">BANCO POPULAR PORTUGAL, SA</field>
+            <field name="code">0046</field>
+            <field name="bic">CRBNPTPLXXX</field>
+            <field name="street">Rua Ramalho Ortigão, 51</field>
+            <field name="city">Lisboa</field>
+            <field name="zip">1099-090</field>
+            <field name="website">www.bancopopular.pt</field>
+            <field name="active" eval="1" />
+            <field name="country" ref="base.pt"/>
+        </record>
+        <record id="res_bank_pt_finantia" model="res.bank">
+            <field name="name">FINANTIA</field>
+            <field name="lname">BANCO FINANTIA, SA</field>
+            <field name="code">0048</field>
+            <field name="bic">BFIAPTPLXXX</field>
+            <field name="street">Rua General Firmino Miguel, 5 - 1º</field>
+            <field name="city">Lisboa</field>
+            <field name="zip">1600-100</field>
+            <field name="website">www.finantia.pt</field>
+            <field name="active" eval="1" />
+            <field name="country" ref="base.pt"/>
+        </record>
+        <record id="res_bank_pt_big" model="res.bank">
+            <field name="name">BIG</field>
+            <field name="lname">BANCO DE INVESTIMENTO GLOBAL, SA</field>
+            <field name="code">0061</field>
+            <field name="bic">BDIGPTPLXXX</field>
+            <field name="street">Av. 24 de Julho, 74-76</field>
+            <field name="city">Lisboa</field>
+            <field name="zip">1200-869</field>
+            <field name="website">www.big.pt</field>
+            <field name="active" eval="1" />
+            <field name="country" ref="base.pt"/>
+        </record>
+        <record id="res_bank_pt_best" model="res.bank">
+            <field name="name">BEST</field>
+            <field name="lname">BEST - BANCO ELECTRONICO DE SERVICO TOTAL, SA</field>
+            <field name="code">0065</field>
+            <field name="bic">BESZPTPLXXX</field>
+            <field name="street">Praça Marquês de Pombal, 3 - 3º piso</field>
+            <field name="city">Lisboa</field>
+            <field name="zip">1250-161</field>
+            <field name="website">www.bancobest.pt</field>
+            <field name="active" eval="1" />
+            <field name="country" ref="base.pt"/>
+        </record>
+        <record id="res_bank_pt_bic" model="res.bank">
+            <field name="name">BIC</field>
+            <field name="lname">BANCO BIC PORTUGUES, SA</field>
+            <field name="code">0079</field>
+            <field name="bic">BPNPPTPLXXX</field>
+            <field name="street">Av. António Augusto de Aguiar, 132</field>
+            <field name="city">Lisboa</field>
+            <field name="zip">1050-020</field>
+            <field name="website">http://www.bancobic.pt</field>
+            <field name="active" eval="1" />
+            <field name="country" ref="base.pt"/>
+        </record>
+        <record id="res_bank_pt_efisa" model="res.bank">
+            <field name="name">EFISA</field>
+            <field name="lname">BANCO EFISA, SA</field>
+            <field name="code">0086</field>
+            <field name="bic">EFISPTPLXXX</field>
+            <field name="street">Av. António Augusto de Aguiar, 134 - 4º</field>
+            <field name="city">Lisboa</field>
+            <field name="zip">1050-020</field>
+            <field name="website">www.bancoefisa.pt</field>
+            <field name="active" eval="1" />
+            <field name="country" ref="base.pt"/>
+        </record>
+        <record id="res_bank_pt_carregosa" model="res.bank">
+            <field name="name">CARREGOSA</field>
+            <field name="lname">BANCO L.J. CARREGOSA, SA</field>
+            <field name="code">0235</field>
+            <field name="bic">CAOEPTP1XXX</field>
+            <field name="street">Av. da Boavista, 1083</field>
+            <field name="city">Porto</field>
+            <field name="zip">4100-129</field>
+            <field name="website">http://www.bancocarregosa.com</field>
+            <field name="active" eval="1" />
+            <field name="country" ref="base.pt"/>
+        </record>
+    </data>
+</openerp>
