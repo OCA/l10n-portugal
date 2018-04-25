@@ -1,0 +1,454 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!--
+        ===========================================================================
+            Employee View History
+       ============================================================================
+        -->
+        
+        <record id="tko_view_employee_form_inherit" model="ir.ui.view">
+            <field name="name">tko.view.employee.history.form.inherit</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+                <data>
+                <field name="identification_id" position="after">
+                    <field name="nif"/>
+                    <field name="ssnid"/>
+                </field>
+                <page string="HR Settings" position="after">
+                    <page string="History" groups="base.group_hr_user">
+                        <field name="history_lines" nolabel="1">
+                            <tree>
+                                <field name="message"/>
+                            </tree>
+                            <form>
+                                <field name="user_id"/>
+                                <field name="date"/>
+                                <field name="table"/>
+                                <field name="field"/>
+                                <field name="from"/>
+                                <field name="to"/>
+                                <field name="employee_id"/>
+                                 <field name="message"/>
+                            </form>
+                        </field>
+                    </page>
+                </page>
+                </data>
+            </field>
+        </record>
+
+        <record id="hr_employee_view_inherit_form" model="ir.ui.view">
+            <field name="name">hr.employee.view.inherit.form</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr_contract.hr_hr_employee_view_form2"/>
+            <field name="arch" type="xml">
+                <data>
+                	<field name ="children" position="after">
+                        <field name="income_type"/>
+                        <field name="handicap"/>
+                        <field name="handicap_degree" attrs="{'required': [('handicap','=',True)]}"/>
+                        <field name="military"/> 
+                    </field>
+                    <field name ="medic_exam" position="after">
+                    	<field name="ownership" on_change="onchange_ownership(marital, ownership)" required="1"/>
+                    </field>
+                    <field name ="marital" position="replace">
+                    	<field name = "marital" required="1" on_change="onchange_marital(marital)"/>
+                    </field>
+                   
+                </data>
+            </field>
+        </record>
+        
+        <!--
+        ===========================================================================
+            inherit Contract View
+       ============================================================================
+        -->
+        <record id="hr_contract_inherit_form" model="ir.ui.view">
+            <field name="name">hr.contract.view.inherit.form</field>
+            <field name="model">hr.contract</field>
+            <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
+            <field name="arch" type="xml">
+            <data>
+               <group name="duration_group" position="after">
+                	 <group string="Insurance">
+                	   <field name="insurance_name"/>
+                	   <field name="insurance_no"/>
+                     </group>
+                </group>
+                <page string="Information" position="after">
+                	<page string="Miscellaneous">
+                        <group>
+                                <field name="no_company_ss" />
+                                <field name="ss_type" required="1" />
+                                <field name="meal_option" required="1" />
+                        	<group ></group>
+                        </group>
+                    </page>
+                </page>
+            </data>
+            </field>
+        </record>
+        
+         <!--
+         ==============================================================
+            Hr Holidays Status: hr_holidays.edit_holiday_status_form
+         ==============================================================
+        -->
+        
+         <record id="hr_holidays_status_form_inherit" model="ir.ui.view">
+            <field name="name">hr.holidays.status.form.inherit</field>
+            <field name="model">hr.holidays.status</field>
+            <field name="inherit_id" ref="hr_holidays.edit_holiday_status_form"/>
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <field name="code" required="1"/>
+                </field>
+            </field>
+         </record>
+         
+          <!--
+         ==============================================================
+            inherit hr_contribuition_register
+         ==============================================================
+        -->
+         
+        <record id="hr_contribution_register_form_inherit" model="ir.ui.view">
+            <field name="name">hr.contribuition.register.form.inherit</field>
+            <field name="model">hr.contribution.register</field>
+            <field name="inherit_id" ref="hr_payroll.hr_contribution_register_form"/>
+            <field name="arch" type="xml">
+                <separator string="Description" position="replace"/>
+                <field name="note" position="replace"/>
+                <field name="company_id" position="after">
+                    <field name="rule_id"/>
+                    <field name="active" select="1"/>
+                    <newline/>
+                    <notebook>
+                	<page string="Contribution Lines">
+                        <field name="line_ids" nolabel="1" select="1">
+                            <tree string="Register Lines" editable="top">
+                                <field name="code" required="1"/>
+                                <field name="name"/>
+                                <field name="employee_id"/>
+                                <field name="emp_deduction"/>
+                                <field name="comp_deduction"/>
+                                <field name="total"/>
+                            </tree>
+                         </field>
+                         <group string="Month">
+                    		<field name="monthly_total_by_emp"/>
+                    		<field name="monthly_total_by_comp"/>
+                		</group>
+                     </page>
+                     <page string="Description" >
+                        <field name="note" nolabel="1" />
+                     </page>
+                 </notebook>
+                 </field>
+            </field>
+         </record>
+         
+          <!--
+         ==============================================================
+            hr_contribuition_register_line
+         ==============================================================
+        -->
+        <record id="hr_contibution_register_line_form" model="ir.ui.view">
+            <field name="name">hr.contribution.register.line.form</field>
+            <field name="model">hr.contribution.register.line</field>
+            <field name="arch" type="xml">
+                <form string="Contribution">
+                      <field name="name"/>
+                      <field name="code"/>
+                      <field name="employee_id"/>
+                      <field name="emp_deduction"/>
+                      <field name="comp_deduction"/>
+                      <field name="total"/>
+                </form>
+            </field>
+        </record>
+        
+        <!--
+        ===========================================================================
+            inherit HR Salary Rule View
+       ============================================================================
+        -->
+        
+       <record id="tko_hr_salary_rule_list_inherit" model="ir.ui.view">
+            <field name="name">tko.hr.salary.rule.list.inherit</field>
+            <field name="model">hr.salary.rule</field>
+            <field name="inherit_id" ref="hr_payroll.hr_salary_rule_list"/>
+            <field name="arch" type="xml">
+                    <field name="code" position="after">
+                    	<field name="ss_code"/>
+                    </field>
+                    <field name="register_id" position="after">
+                        <field name="sequence"/>
+                    </field>
+            </field>
+        </record>
+       
+       <record id="tko_hr_salary_rule_form_inherit" model="ir.ui.view">
+            <field name="name">tko.hr.salary.rule.form.inherit</field>
+            <field name="model">hr.salary.rule</field>
+            <field name="inherit_id" ref="hr_payroll.hr_salary_rule_form"/>
+            <field name="arch" type="xml">
+ 				<field name="company_id" position="after">
+					<field name="ss_code" col="1"/>
+				</field>  
+                <page string="Description" position="replace">
+                <page string="Description">
+                <group col="2">
+                    <field name="protect_lock"/>
+                    <field name="note"/>
+                </group>
+                </page>
+				</page>
+            </field>
+        </record>
+        
+         <!--
+        ===========================================================================
+            inherit HR Payslip View
+       ============================================================================
+        -->
+        
+        <record id="tko_payroll_ss_form_inherit" model="ir.ui.view">
+            <field name="name">tko.payroll.ss.form.inherit</field>
+            <field name="model">hr.payslip</field>
+            <field name="inherit_id" ref="hr_payroll.view_hr_payslip_form"/>
+            <field name="arch" type="xml">
+                <button name="cancel_sheet" position="replace">
+                    <button string="Cancel Payslip" name="cancel_sheet" type='workflow' states="hr_check,confirm,verify,done"/>
+                 </button>
+                <button name="draft" position="replace">
+                    <button string="Set to Draft" type='workflow' name="draft" states="cancel"/>
+                 </button>
+                 <field name="input_line_ids" position="after">
+                    <separator string="Ad-Hoc Rules" groups="tko_hr_pt.group_adhoc_rules"/>
+                    <field name="adhoc_rules" domain="[('parent_rule_id','=',False)]" groups="tko_hr_pt.group_adhoc_rules" nolabel="1" on_change="onchange_adhoc_rules(contract_id, adhoc_rules, input_line_ids)">
+                        <tree string="Ad-Hoc Rules">
+                            <field name="name"/>
+                            <field name="code"/>
+                        </tree>
+                    </field>
+                </field>
+                <page string="Salary Computation" position="replace">
+                        <page string="Salary Computation" >
+                            <field name="line_ids" nolabel="1">
+                                <tree string="Salary Structure" editable="bottom" colors="blue:total == 0">
+                                    <field name="lock"/>
+                                    <field name="name"/>
+                                    <field name="code"/>
+                                    <field name="category_id"/>
+                                    <field name="sequence" invisible="1"/>
+                                    <field name="quantity"/>
+                                    <field name="rate"/>
+                                    <field name="amount"/>
+                                    <field name="total"/>
+                                </tree>
+                                <form string="Payslip Line">
+                                    <group col="4">
+                                        <field name="name"/>
+                                        <field name="code"/>
+                                        <field name="category_id"/>
+                                        <field name="sequence"/>
+                                        <field name="quantity"/>
+                                        <field name="rate"/>
+                                        <field name="amount"/>
+                                        <field name="total"/>
+                                        <field name="salary_rule_id"/>
+                                    </group>
+                                </form>
+                            </field>
+                        </page>
+                </page>
+            </field>
+        </record>
+        
+         <!--
+        ===========================================================================
+            inherit HR Payslip Filter
+       ============================================================================
+        -->
+       
+        <record id="view_hr_payslip_filter_inh" model="ir.ui.view">
+            <field name="name">hr.payslip.select.inherit</field>
+            <field name="model">hr.payslip</field>
+            <field name="inherit_id" ref="hr_payroll.view_hr_payslip_filter"/>
+            <field name="arch" type="xml">
+            <search position="replace">
+                <search string="Search Payslips">
+                    <field name="name" string="Payslips" filter_domain="['|',('name','ilike',self),('number','ilike',self)]"/>
+                    <field name="date_from"/>
+                    <filter string="Draft" domain="[('state','=','draft')]" help="Draft Slip"/>
+                    <filter string="Done" domain="[('state','=','done')]" help="Done Slip"/>
+                    <filter string="Cancel" domain="[('state','=','cancel')]" help="Cancel Slip"/>
+                    <field name="employee_id"/>
+                    <field name="payslip_run_id"/>
+                    <group expand="0" string="Group By...">
+                        <filter string="Employees" icon="terp-personal" name="employee_id" context="{'group_by':'employee_id'}"/>
+                        <filter string="PaySlip Batch" name="payslip_run_id" icon="terp-folder-orange" context="{'group_by':'payslip_run_id'}"/>
+                        <filter string="Companies" name="company_id" groups="base.group_multi_company" icon="terp-go-home" context="{'group_by':'company_id'}"/>
+                        <filter string="States" name="state" icon="terp-stock_effects-object-colorize" context="{'group_by':'state'}"/>
+                        <filter string="Date" icon="terp-go-month" domain="[]"  context="{'group_by':'date_from'}"/>
+                    </group>
+                </search>
+            </search>
+            </field>
+        </record>
+        
+        <!--
+        ===========================================================================
+            HR Payroll Advice
+       ============================================================================
+        -->
+        <record id="view_hr_bank_advice_tree" model="ir.ui.view">
+            <field name="name">hr.payroll.advice.tree</field>
+            <field name="model">hr.payroll.advice</field>
+            <field name="arch" type="xml">
+                <tree string="Bank Advice">
+                    <field name="number" select="1"/>
+                    <field name="name" select="1"/>
+                    <field name="date" select="1"/>
+                    <field name="compute_date" select="1"/>
+                    <field name="company_id" groups="base.group_multi_company" widget="selection"/>
+                    <field name="state" select="1"/>
+                </tree>        
+            </field>
+        </record>
+
+        <record id="view_hr_bank_advice_form" model="ir.ui.view">
+            <field name="name">hr.payroll.advice.form</field>
+            <field name="model">hr.payroll.advice</field>
+            <field name="arch" type="xml">
+                <form string="Bank Advice" version="7.0">
+                    <header>
+                        <button string="Compute" name="compute_sheet" class="oe_highlight" states="draft" type="object"/>
+                        <button name="confirm_sheet"  string="Confirm Sheet" states="draft" class="oe_highlight" type="object"/>
+                        <button name="set_to_draft" string="Set to Draft"  states="cancel,confirm" type="object"/>
+                        <button name="cancel_sheet" string="Cancel Sheet" states="draft"  type="object"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,confirm"/>
+                    </header>
+                    <sheet>
+                        <h1>
+                            <label string="Draft Payment Advice" attrs="{'invisible': [('state','!=','draft')]}"/>
+                            <label string="Payment Advice" attrs="{'invisible': [('state','!=','confirm')]}"/>
+                            <field name="number" readonly="1" class="oe_inline"/>
+                        </h1>
+                    <group>
+                    <group>
+                        <field name="name"  select="1"/>
+                         <field name="register_id"/>
+                    </group>
+                    <group>
+                        <field name="compute_date"/>
+                        <field name="bank_id"/>
+                    </group>
+                    </group>
+                    <notebook>
+                        <page string="Paymeny Lines">
+                            <field name="line_ids" nolabel="1">
+                                <tree string="Payment Lines" editable="bottom">
+                                    <field name="employee_id" on_change="onchange_employee_id(parent.date, employee_id)"/>
+                                    <field name="name"/>
+                                    <field name="amount"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Letter Content">
+                            <group col="6">
+                              <field name="company_id" on_change="onchange_company_id(company_id)" groups="base.group_multi_company" widget="selection"/>
+                              <field name="chaque_nos"/>
+                              <field name="date" select="1"/>
+                            </group>
+                            <separator string="Letter Details"/>
+                            <field name="note" placeholder="Details..." nolabel="1"/>
+                        </page>
+                    </notebook>
+                   </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <record id="action_view_hr_bank_advice_tree" model="ir.actions.act_window">
+            <field name="name">Payment Advice</field>
+            <field name="res_model">hr.payroll.advice</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_hr_bank_advice_tree"/>
+            <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Click to add payment advices.
+            </p>
+            </field>
+        </record>
+        
+        <menuitem
+            action="action_view_hr_bank_advice_tree"
+            id="hr_menu_payment_advice"
+            parent="hr_payroll.menu_hr_root_payroll"
+        />
+        
+        <!--
+        ===========================================================================
+            HR Payslip Employees (employee_ids colspan correction)
+       ============================================================================
+        -->
+        <record id="view_hr_payslip_by_employees_inherit" model="ir.ui.view">
+            <field name="name">hr_payroll_payslip_employees.inherit</field>
+            <field name="model">hr.payslip.employees</field>
+            <field name="inherit_id" ref="hr_payroll.view_hr_payslip_by_employees"/>
+            <field name="arch" type="xml">
+                   <field name="employee_ids" position="replace">
+                          <field name="employee_ids" nolabel="1" colspan="4"/> 
+                   </field>
+            </field>
+        </record>
+
+        <record id="hr_ssperc_tree" model="ir.ui.view">
+            <field name="name">hr.social.security.pt.tree</field>
+            <field name="model">hr.social.security.pt</field>
+            <field name="arch" type="xml">
+                <tree string="Social Security " version="7.0">
+                    <field name="name" />
+                    <field name="emp_tax_value" />
+                    <field name="com_tax_value" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="hr_ssperc_form" model="ir.ui.view">
+            <field name="name">hr.social.security.pt.form</field>
+            <field name="model">hr.social.security.pt</field>
+            <field name="arch" type="xml">
+                <form string="Social Security " version="7.0">
+                    <sheet>
+                        <h1>
+                            <field name="name" readonly="1" class="oe_inline"
+                                attrs="{'invisible': [('name', '=', False)]}" />
+                        </h1>
+                        <group col="4">
+                            <field name="emp_tax_value" />
+                            <field name="com_tax_value" />
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_hr_ssperc" model="ir.actions.act_window">
+            <field name="name">Social Security</field>
+            <field name="res_model">hr.social.security.pt</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="target">current</field>
+        </record>
+
+    </data>
+</openerp>

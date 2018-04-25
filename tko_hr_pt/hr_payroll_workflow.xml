@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+    
+        <record id="hr_payroll.act_done" model="workflow.activity">
+            <field name="flow_stop"></field>
+        </record>
+         <record id="t6" model="workflow.transition">
+            <field name="act_from" ref="hr_payroll.act_done"/>
+            <field name="act_to" ref="hr_payroll.act_cancel"/>
+            <field name="signal">cancel_sheet</field>
+        </record>
+
+    </data>
+</openerp>

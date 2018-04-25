@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_hr_employee_hr_history,hr.employee.hr.history,model_hr_employee_history,base.group_hr_user,1,1,1,1
+access_user_hr_history,user.hr.history,model_hr_employee_history,base.group_user,1,0,0,0
+access_hr_payroll_advice,hr.payroll.advice,model_hr_payroll_advice,base.group_hr_user,1,1,1,1
+access_hr_payroll_advice_line,hr.payroll.advice.line,model_hr_payroll_advice_line,base.group_hr_user,1,1,1,1
+access_hr_social_security_pt,hr.social.security.pt,model_hr_social_security_pt,base.group_hr_user,1,1,1,1
+access_hr_contribution_register_line_user,access_hr_contribution_register_line,model_hr_contribution_register_line,base.group_hr_user,1,1,1,1
