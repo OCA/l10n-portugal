@@ -1,0 +1,6 @@
+"id","name","active","street","type","phone","fax","partner_id:id","zip","city","country_id:id","email"
+"F001_def_add","Montepio Geral",1,"Rua Aurea 219-241","default",,,"F001","1122-806","Lisboa","base.pt",
+"F002_def_add","Lusitânia, Comp Seguros S.A.",1,"Rua S Domingos a Lapa, 35","default",213923900,213973090,"F002","1249-130","Lisboa","base.pt","lusitania@lusitania.pt"
+"F003_def_add","Municipio do Funchal",1,"Praça do Município","default",,,"F003","9004-512","Funchal","base.pt","geral@cm-funchal.pt"
+"F006_def_add","Electricidade da Madeira S.A.",1,"Av. do Mar, 32","default",291211300,291233324,"F006","9064-501","Funchal","base.pt",
+"F010_def_add","PT Comunicações",1,"Rua Andrade Corvo, 6","default",,,"F010","1050-009","Lisboa","base.pt","16200@telecom.pt"

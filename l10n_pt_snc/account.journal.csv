@@ -1,0 +1,6 @@
+"id","code","name","type","view_id:id","sequence_id:id","invoice_sequence_id:id","default_debit_account_id:id","default_credit_account_id:id","active","update_posted"
+"Compras","C","Compras","purchase","account_journal_view","diar_compras",,622122,622122,1,1
+"Vendas","V","Vendas","sale","account_journal_view","diar_vendas","seq_factura",72111,72111,1,1
+"Diversos","D","Diversos","general","account_journal_view","diar_geral",,,,1,1
+"Recibo","R","Recibos","cash","account_journal_bank_view","diar_recibo",,111,111,1,1
+"CGD","cgd","CGD","cash","account_journal_bank_view","cgd",,12351,12351,1,1
