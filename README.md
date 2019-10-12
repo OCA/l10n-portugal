@@ -4,5 +4,3 @@
 # Portuguese Localization for Odoo
 
 WRITE ME !
-
-
