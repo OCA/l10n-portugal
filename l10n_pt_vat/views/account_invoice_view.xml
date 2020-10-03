@@ -1,0 +1,41 @@
+<odoo>
+
+    <!-- Sales invoice form !-->
+    <record id="account_invoice_form" model="ir.ui.view">
+        <field name="name">Account Invoice</field>
+        <field name="model">account.invoice</field>
+        <field name="inherit_id" ref="account.invoice_form"/>
+        <field name="arch" type="xml">
+
+            <data>
+                <!-- Add the VAT Adjustment Norm (Fields 40/41 of the VAT Statement) !-->
+                <field name="move_id" position="after">
+                    <field name="vat_adjustment_norm_id"
+                           attrs="{'invisible': ['|',('type', '=', 'out_invoice'), ('type','=','in_invoice')]}"
+                           domain="[('out_refunds', '=', True)]"/>
+                </field>
+            </data>
+
+        </field>
+    </record>
+
+    <!-- Purchase invoice form !-->
+    <record id="account_invoice_supplier_form" model="ir.ui.view">
+        <field name="name">Account Invoice</field>
+        <field name="model">account.invoice</field>
+        <field name="inherit_id" ref="account.invoice_supplier_form"/>
+        <field name="arch" type="xml">
+
+            <data>
+                <!-- Add the VAT Adjustment Norm (Fields 40/41 of the VAT Statement) !-->
+                <field name="move_id" position="after">
+                    <field name="vat_adjustment_norm_id"
+                           attrs="{'invisible': ['|',('type', '=', 'out_invoice'), ('type','=','in_invoice')]}"
+                           domain="[('in_refunds', '=', True)]"/>
+                    </field>
+                </data>
+
+        </field>
+    </record>
+
+</odoo>
