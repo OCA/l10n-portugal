@@ -12,6 +12,7 @@
     "data": [
         "security/ir.model.access.csv",
         "data/vat_adjustment_norm.xml",
+        "data/account_tax.xml",
         "views/vat_adjustment_norm_view.xml",
         "views/account_invoice_view.xml",
     ],
