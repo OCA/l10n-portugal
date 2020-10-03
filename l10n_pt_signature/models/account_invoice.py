@@ -1,29 +1,9 @@
-#! -*- encoding: utf-8 -*-
-##############################################################################
-#
-#    This file is a part of l10n_pt_digital_signature
-#    Copyright (C) 2010 Paulino Ascenção <paulino1@sapo.pt>
-#    Modificações (C) Jorge A. Ferreira sysop.x0@gmail.com 9/2013
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU General Public License as published by
-#    the Free Software Foundation, either version 3 of the License, or
-#    (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU General Public License for more details.
-#
-#    You should have received a copy of the GNU General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-##############################################################################
+# Copyright (C) 2010 Paulino Ascenção <paulino1@sapo.pt>
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 import datetime
 import os
-
-from openerp import models, _, exceptions
+from odoo import _, exceptions, models
 
 
 key = """-----BEGIN RSA PRIVATE KEY-----
@@ -55,7 +35,7 @@ except IOError:
 hash_control = 1
 
 
-class account_invoice(models.Model):
+class Invoice(models.Model):
     _inherit = 'account.invoice'
 
     def get_hash(self, inv_id):

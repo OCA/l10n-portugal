@@ -1,6 +1,3 @@
-# -*- encoding: utf-8 -*-
-##############################################################################
-#
 #    Copyright (C) 2010 Paulino Ascenção <paulino1@sapo.pt>
 #    Modificações (C) Jorge A. Ferreira sysop.x0@gmail.com 9/2013
 #
@@ -16,17 +13,13 @@
 #
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-##############################################################################
 
 {
     "name": "Portugal - Digital signature",
-    "version": "1.00122",
-    "category": "Localisation/Account",
-    "author": "Paulino / Sysop",
-    "depends": ["l10n_pt_saft"],
-    "data": [
-        'account_invoice_workflow.xml',
-    ],
+    "version": "12.0.0.1.122",
+    "category": "Localisation/Portugal",
+    "author": "Paulino Ascenção, Sysop, Odoo Community Association (OCA)",
+    "depends": ["l10n_pt_vat"],
+    "data": [],
     "installable": True,
 }
