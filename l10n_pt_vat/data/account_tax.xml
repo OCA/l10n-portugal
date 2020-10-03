@@ -1,0 +1,150 @@
+<odoo>
+
+    <!-- Generic Taxes, to map with Fiscal Positions -->
+    <record id="vat_regular" model="account.tax">
+        <field name="name">VAT Regular</field>
+        <field name="type_tax_use">sale</field>
+        <field name="amount">23</field>
+    </record>
+    <record id="vat_intermediate" model="account.tax">
+        <field name="name">VAT Intermediate</field>
+        <field name="type_tax_use">sale</field>
+        <field name="amount">13</field>
+    </record>
+    <record id="vat_reduced" model="account.tax">
+        <field name="name">VAT Reduced</field>
+        <field name="type_tax_use">sale</field>
+        <field name="amount">6</field>
+    </record>
+    <record id="vat_exempt" model="account.tax">
+        <field name="name">VAT </field>
+        <field name="type_tax_use">sale</field>
+        <field name="amount">0</field>
+    </record>
+
+    <!-- Effective Taxes -->
+    <record id="vat_regular_23" model="account.tax">
+        <field name="name">23% VAT Regular Mainland</field>
+        <field name="type_tax_use">sale</field>
+        <field name="amount">23</field>
+    </record>
+    <record id="vat_regular_22" model="account.tax">
+        <field name="name">22% VAT Regular Madeira</field>
+        <field name="type_tax_use">sale</field>
+        <field name="amount">22</field>
+    </record>
+    <record id="vat_regular_18" model="account.tax">
+        <field name="name">18% VAT Regular Azores</field>
+        <field name="type_tax_use">sale</field>
+        <field name="amount">18</field>
+    </record>
+    <record id="vat_intermediate_13" model="account.tax">
+        <field name="name">13% VAT Regular Mainland</field>
+        <field name="type_tax_use">sale</field>
+        <field name="amount">13</field>
+    </record>
+    <record id="vat_intermediate_12" model="account.tax">
+        <field name="name">12% VAT Regular Mainland</field>
+        <field name="type_tax_use">sale</field>
+        <field name="amount">12</field>
+    </record>
+    <record id="vat_intermediate_09" model="account.tax">
+        <field name="name">9% VAT Regular Mainland</field>
+        <field name="type_tax_use">sale</field>
+        <field name="amount">9</field>
+    </record>
+    <record id="vat_reduced_06" model="account.tax">
+        <field name="name">6% VAT Regular Mainland</field>
+        <field name="type_tax_use">sale</field>
+        <field name="amount">6</field>
+    </record>
+    <record id="vat_reduced_05" model="account.tax">
+        <field name="name">5% VAT Regular Mainland</field>
+        <field name="type_tax_use">sale</field>
+        <field name="amount">5</field>
+    </record>
+    <record id="vat_reduced_04" model="account.tax">
+        <field name="name">4% VAT Regular Mainland</field>
+        <field name="type_tax_use">sale</field>
+        <field name="amount">4</field>
+    </record>
+
+    <!-- Fiscal positions -->
+    <record id="fp_mainland" model="account.fiscal.position">
+        <field name="name">PT Mainland</field>
+        <field name="auto_apply">True</field>
+        <field name="vat_required">True</field>
+        <field name="country_id" ref="base.pt" />
+        <field name="vat_required">True</field>
+        <field name="zip_from">1000</field>
+        <field name="zip_to">8999</field>
+    </record>
+    <record id="fp_madeira" model="account.fiscal.position">
+        <field name="name">PT Madeira</field>
+        <field name="auto_apply">True</field>
+        <field name="vat_required">True</field>
+        <field name="country_id" ref="base.pt" />
+        <field name="vat_required">True</field>
+        <field name="zip_from">9000</field>
+        <field name="zip_to">9499</field>
+    </record>
+    <record id="fp_azores" model="account.fiscal.position">
+        <field name="name">PT Azores</field>
+        <field name="auto_apply">True</field>
+        <field name="vat_required">True</field>
+        <field name="country_id" ref="base.pt" />
+        <field name="vat_required">True</field>
+        <field name="zip_from">9500</field>
+        <field name="zip_to">9999</field>
+    </record>
+
+    <!-- Fiscal position tax mapping -->
+    <record id="fp_mainland_vat_regular" model="account.fiscal.position.tax">
+        <field name="position_id" ref="fp_mainland" />
+        <field name="tax_src_id" ref="vat_regular" />
+        <field name="tax_dest_id" ref="vat_regular_23" />
+    </record>
+    <record id="fp_mainland_vat_intermediate" model="account.fiscal.position.tax">
+        <field name="position_id" ref="fp_mainland" />
+        <field name="tax_src_id" ref="vat_intermediate" />
+        <field name="tax_dest_id" ref="vat_intermediate_13" />
+    </record>
+    <record id="fp_mainland_vat_reduced" model="account.fiscal.position.tax">
+        <field name="position_id" ref="fp_mainland" />
+        <field name="tax_src_id" ref="vat_reduced" />
+        <field name="tax_dest_id" ref="vat_reduced_06" />
+    </record>
+
+    <record id="fp_mainland_vat_regular" model="account.fiscal.position.tax">
+        <field name="position_id" ref="fp_madeira" />
+        <field name="tax_src_id" ref="vat_regular" />
+        <field name="tax_dest_id" ref="vat_regular_22" />
+    </record>
+    <record id="fp_mainland_vat_intermediate" model="account.fiscal.position.tax">
+        <field name="position_id" ref="fp_madeira" />
+        <field name="tax_src_id" ref="vat_intermediate" />
+        <field name="tax_dest_id" ref="vat_intermediate_12" />
+    </record>
+    <record id="fp_mainland_vat_reduced" model="account.fiscal.position.tax">
+        <field name="position_id" ref="fp_madeira" />
+        <field name="tax_src_id" ref="vat_reduced" />
+        <field name="tax_dest_id" ref="vat_reduced_05" />
+    </record>
+
+    <record id="fp_mainland_vat_regular" model="account.fiscal.position.tax">
+        <field name="position_id" ref="fp_azores" />
+        <field name="tax_src_id" ref="vat_regular" />
+        <field name="tax_dest_id" ref="vat_regular_18" />
+    </record>
+    <record id="fp_mainland_vat_intermediate" model="account.fiscal.position.tax">
+        <field name="position_id" ref="fp_mainland" />
+        <field name="tax_src_id" ref="vat_intermediate" />
+        <field name="tax_dest_id" ref="vat_intermediate_09" />
+    </record>
+    <record id="fp_mainland_vat_reduced" model="account.fiscal.position.tax">
+        <field name="position_id" ref="fp_mainland" />
+        <field name="tax_src_id" ref="vat_reduced" />
+        <field name="tax_dest_id" ref="vat_reduced_04" />
+    </record>
+
+</odoo>
