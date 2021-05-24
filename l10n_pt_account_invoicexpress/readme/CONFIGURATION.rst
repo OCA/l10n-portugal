@@ -1,0 +1,3 @@
+- Enable the Developer Mode
+- Configure the InvoiceXpress Account name and API under Settings/General Setting.
+- Configure the email recipients in the Settings/Technical/System Parameters
