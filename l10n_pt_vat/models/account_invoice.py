@@ -1,7 +1,7 @@
 # Copyright (C) 2014- Sossia, Lda. (<http://www.sossia.pt>)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-from odoo import models, fields
+from odoo import fields, models
 
 
 class AccountInvoice(models.Model):
