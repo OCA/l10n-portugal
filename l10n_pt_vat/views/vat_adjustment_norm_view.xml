@@ -8,8 +8,8 @@
         <field name="arch" type="xml">
 
             <search string="VAT Adjustment Norm">
-                <field name="name"/>
-                <field name="note"/>
+                <field name="name" />
+                <field name="note" />
             </search>
 
         </field>
@@ -23,8 +23,8 @@
         <field name="arch" type="xml">
 
             <tree string="VAT Adjustment Norm">
-                <field name="name"/>
-                <field name="note"/>
+                <field name="name" />
+                <field name="note" />
             </tree>
 
         </field>
@@ -38,13 +38,16 @@
             <form string="VAT Adjustment Norm">
                 <group>
                     <group>
-                        <field name="name" placeholder="Legal Norm (ex: Art. 78º, nº 8, alínea b)) ..."/>
-                        <field name="note"/>
-                        <field name="out_refunds"/>
-                        <field name="in_refunds"/>
+                        <field
+                            name="name"
+                            placeholder="Legal Norm (ex: Art. 78º, nº 8, alínea b)) ..."
+                        />
+                        <field name="note" />
+                        <field name="out_refunds" />
+                        <field name="in_refunds" />
                     </group>
                     <group>
-                        <field name="active"/>
+                        <field name="active" />
                     </group>
                 </group>
             </form>
