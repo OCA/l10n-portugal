@@ -1,7 +1,7 @@
 # Copyright (C) 2014- Sossia, Lda. (<http://www.sossia.pt>)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-from openerp import models, fields
+from openerp import fields, models
 
 
 class AccountVATAdjustmentNorm(models.Model):
