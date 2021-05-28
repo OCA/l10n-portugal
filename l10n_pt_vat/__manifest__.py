@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 {
     "name": "Portugal - IVA",
-    "version": "12.0.0.1.0",
+    "version": "14.0.0.1.0",
     "license": "AGPL-3",
     "depends": ["account", "l10n_pt"],
     "author": "Sossia, Odoo Community Association (OCA)",
@@ -14,7 +14,7 @@
         "data/vat_adjustment_norm.xml",
         "data/account_tax.xml",
         "views/vat_adjustment_norm_view.xml",
-        "views/account_invoice_view.xml",
+        "views/account_move_view.xml",
     ],
     "installable": True,
     "auto_install": True,
