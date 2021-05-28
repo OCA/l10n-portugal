@@ -1,5 +1,6 @@
 <odoo>
 
+    <!-- TODO: also add to the Credit Note wizard -->
     <record id="account_invoice_form" model="ir.ui.view">
         <field name="name">Invoice: add l10_pt</field>
         <field name="model">account.move</field>
