@@ -15,7 +15,11 @@ TODO: add repo description.
 
 [//]: # (addons)
 
-This part will be replaced when running the oca-gen-addons-table script from OCA/maintainer-tools.
+Available addons
+----------------
+addon | version | summary
+--- | --- | ---
+[l10n_pt_vat](l10n_pt_vat/) | 14.0.0.1.0 | Portuguese VAT requirements extensions
 
 [//]: # (end addons)
 
