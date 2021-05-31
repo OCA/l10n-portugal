@@ -1,0 +1,216 @@
+<odoo>
+
+    <!-- Generic Taxes, to map with Fiscal Positions -->
+    <record id="vat_regular" model="account.tax">
+        <field name="name">VAT Regular</field>
+        <field name="type_tax_use">sale</field>
+        <field name="amount">23</field>
+    </record>
+    <record id="vat_intermediate" model="account.tax">
+        <field name="name">VAT Intermediate</field>
+        <field name="type_tax_use">sale</field>
+        <field name="amount">13</field>
+    </record>
+    <record id="vat_reduced" model="account.tax">
+        <field name="name">VAT Reduced</field>
+        <field name="type_tax_use">sale</field>
+        <field name="amount">6</field>
+    </record>
+    <record id="vat_exempt" model="account.tax">
+        <field name="name">VAT Exempt</field>
+        <field name="type_tax_use">sale</field>
+        <field name="amount">0</field>
+    </record>
+    <record id="vat_exempt_eu" model="account.tax">
+        <field name="name">VAT Exempt EU</field>
+        <field name="type_tax_use">sale</field>
+        <field name="amount">0</field>
+    </record>
+    <record id="vat_exempt_other" model="account.tax">
+        <field name="name">VAT Exempt Others</field>
+        <field name="type_tax_use">sale</field>
+        <field name="amount">0</field>
+    </record>
+
+    <!-- Effective Taxes -->
+    <!-- Regular Mainland 23%: l10n_pt.1_iva23 -->
+    <record id="iva22" model="account.tax">
+        <field name="name">IVA22</field>
+        <field name="type_tax_use">sale</field>
+        <field name="amount">22</field>
+    </record>
+    <record id="iva18" model="account.tax">
+        <field name="name">IVA18</field>
+        <field name="type_tax_use">sale</field>
+        <field name="amount">18</field>
+    </record>
+    <!-- Intermediate Mainland 13%: l10n_pt.1_iva13 -->
+    <record id="iva12" model="account.tax">
+        <field name="name">IVA12</field>
+        <field name="type_tax_use">sale</field>
+        <field name="amount">12</field>
+    </record>
+    <record id="iva9" model="account.tax">
+        <field name="name">IVA9</field>
+        <field name="type_tax_use">sale</field>
+        <field name="amount">9</field>
+    </record>
+    <!-- reduced Mainland 6%: l10n_pt.1_iva6 -->
+    <record id="iva5" model="account.tax">
+        <field name="name">IVA5</field>
+        <field name="type_tax_use">sale</field>
+        <field name="amount">5</field>
+    </record>
+    <record id="iva4" model="account.tax">
+        <field name="name">IVA4</field>
+        <field name="type_tax_use">sale</field>
+        <field name="amount">4</field>
+    </record>
+
+    <!-- Fiscal positions -->
+    <!-- Portugal mainland: l10n_pt.1_fiscal_position_national_customers -->
+    <record
+        id="l10n_pt.1_fiscal_position_national_customers"
+        model="account.fiscal.position"
+    >
+        <field name="name">PT Mainland</field>
+        <field name="auto_apply">True</field>
+        <field name="vat_required">True</field>
+        <field name="country_id" ref="base.pt" />
+        <field name="zip_from">1000</field>
+        <field name="zip_to">8999</field>
+    </record>
+    <record id="fp_madeira" model="account.fiscal.position">
+        <field name="name">PT Madeira</field>
+        <field name="sequence">1</field>
+        <field name="auto_apply">True</field>
+        <field name="vat_required">True</field>
+        <field name="country_id" ref="base.pt" />
+        <field name="zip_from">9000</field>
+        <field name="zip_to">9499</field>
+    </record>
+    <record id="fp_azores" model="account.fiscal.position">
+        <field name="name">PT Azores</field>
+        <field name="sequence">1</field>
+        <field name="auto_apply">True</field>
+        <field name="vat_required">True</field>
+        <field name="country_id" ref="base.pt" />
+        <field name="zip_from">9500</field>
+        <field name="zip_to">9999</field>
+    </record>
+
+    <!-- Fiscal position tax mapping -->
+    <record id="fp_mainland_vat_regular" model="account.fiscal.position.tax">
+        <field name="position_id" ref="l10n_pt.1_fiscal_position_national_customers" />
+        <field name="tax_src_id" ref="vat_regular" />
+        <field name="tax_dest_id" ref="l10n_pt.1_iva23" />
+    </record>
+    <record id="fp_mainland_vat_intermediate" model="account.fiscal.position.tax">
+        <field name="position_id" ref="l10n_pt.1_fiscal_position_national_customers" />
+        <field name="tax_src_id" ref="vat_intermediate" />
+        <field name="tax_dest_id" ref="l10n_pt.1_iva13" />
+    </record>
+    <record id="fp_mainland_vat_reduced" model="account.fiscal.position.tax">
+        <field name="position_id" ref="l10n_pt.1_fiscal_position_national_customers" />
+        <field name="tax_src_id" ref="vat_reduced" />
+        <field name="tax_dest_id" ref="l10n_pt.1_iva6" />
+    </record>
+
+    <record id="fp_madeira_vat_regular" model="account.fiscal.position.tax">
+        <field name="position_id" ref="fp_madeira" />
+        <field name="tax_src_id" ref="vat_regular" />
+        <field name="tax_dest_id" ref="iva22" />
+    </record>
+    <record id="fp_madeira_vat_intermediate" model="account.fiscal.position.tax">
+        <field name="position_id" ref="fp_madeira" />
+        <field name="tax_src_id" ref="vat_intermediate" />
+        <field name="tax_dest_id" ref="iva12" />
+    </record>
+    <record id="fp_madeira_vat_reduced" model="account.fiscal.position.tax">
+        <field name="position_id" ref="fp_madeira" />
+        <field name="tax_src_id" ref="vat_reduced" />
+        <field name="tax_dest_id" ref="iva5" />
+    </record>
+
+    <record id="fp_azores_vat_regular" model="account.fiscal.position.tax">
+        <field name="position_id" ref="fp_azores" />
+        <field name="tax_src_id" ref="vat_regular" />
+        <field name="tax_dest_id" ref="iva18" />
+    </record>
+    <record id="fp_azores_vat_intermediate" model="account.fiscal.position.tax">
+        <field name="position_id" ref="fp_azores" />
+        <field name="tax_src_id" ref="vat_intermediate" />
+        <field name="tax_dest_id" ref="iva9" />
+    </record>
+    <record id="fp_azores_vat_reduced" model="account.fiscal.position.tax">
+        <field name="position_id" ref="fp_azores" />
+        <field name="tax_src_id" ref="vat_reduced" />
+        <field name="tax_dest_id" ref="iva4" />
+    </record>
+
+    <!-- EU Final Consumer -->
+    <record id="fp_foreign_eu_private_regular" model="account.fiscal.position.tax">
+        <field name="position_id" ref="l10n_pt.1_fiscal_position_foreign_eu_private" />
+        <field name="tax_src_id" ref="vat_regular" />
+        <field name="tax_dest_id" ref="vat_exempt_eu" />
+    </record>
+    <record id="fp_foreign_eu_private_intermediate" model="account.fiscal.position.tax">
+        <field name="position_id" ref="l10n_pt.1_fiscal_position_foreign_eu_private" />
+        <field name="tax_src_id" ref="vat_intermediate" />
+        <field name="tax_dest_id" ref="vat_exempt_eu" />
+    </record>
+    <record id="fp_foreign_eu_private_reduced" model="account.fiscal.position.tax">
+        <field name="position_id" ref="l10n_pt.1_fiscal_position_foreign_eu_private" />
+        <field name="tax_src_id" ref="vat_reduced" />
+        <field name="tax_dest_id" ref="vat_exempt_eu" />
+    </record>
+    <record id="fp_foreign_eu_private_exempt" model="account.fiscal.position.tax">
+        <field name="position_id" ref="l10n_pt.1_fiscal_position_foreign_eu_private" />
+        <field name="tax_src_id" ref="vat_exempt" />
+        <field name="tax_dest_id" ref="vat_exempt_eu" />
+    </record>
+
+    <!-- EU Companies -->
+    <record id="fp_foreign_eu_regular" model="account.fiscal.position.tax">
+        <field name="position_id" ref="l10n_pt.1_fiscal_position_foreign_eu" />
+        <field name="tax_src_id" ref="vat_regular" />
+        <field name="tax_dest_id" ref="vat_exempt_eu" />
+    </record>
+    <record id="fp_foreign_eu_intermediate" model="account.fiscal.position.tax">
+        <field name="position_id" ref="l10n_pt.1_fiscal_position_foreign_eu" />
+        <field name="tax_src_id" ref="vat_intermediate" />
+        <field name="tax_dest_id" ref="vat_exempt_eu" />
+    </record>
+    <record id="fp_foreign_eu_reduced" model="account.fiscal.position.tax">
+        <field name="position_id" ref="l10n_pt.1_fiscal_position_foreign_eu" />
+        <field name="tax_src_id" ref="vat_reduced" />
+        <field name="tax_dest_id" ref="vat_exempt_eu" />
+    </record>
+    <record id="fp_foreign_eu_exempt" model="account.fiscal.position.tax">
+        <field name="position_id" ref="l10n_pt.1_fiscal_position_foreign_eu" />
+        <field name="tax_src_id" ref="vat_exempt" />
+        <field name="tax_dest_id" ref="vat_exempt_eu" />
+    </record>
+
+    <!-- Other Countries -->
+    <record id="fp_foreign_other_regular" model="account.fiscal.position.tax">
+        <field name="position_id" ref="l10n_pt.1_fiscal_position_foreign_other" />
+        <field name="tax_src_id" ref="vat_regular" />
+        <field name="tax_dest_id" ref="vat_exempt_other" />
+    </record>
+    <record id="fp_foreign_other_intermediate" model="account.fiscal.position.tax">
+        <field name="position_id" ref="l10n_pt.1_fiscal_position_foreign_other" />
+        <field name="tax_src_id" ref="vat_intermediate" />
+        <field name="tax_dest_id" ref="vat_exempt_other" />
+    </record>
+    <record id="fp_foreign_other_reduced" model="account.fiscal.position.tax">
+        <field name="position_id" ref="l10n_pt.1_fiscal_position_foreign_other" />
+        <field name="tax_src_id" ref="vat_reduced" />
+        <field name="tax_dest_id" ref="vat_exempt_other" />
+    </record>
+    <record id="fp_foreign_other_exempt" model="account.fiscal.position.tax">
+        <field name="position_id" ref="l10n_pt.1_fiscal_position_foreign_other" />
+        <field name="tax_src_id" ref="vat_exempt" />
+        <field name="tax_dest_id" ref="vat_exempt_other" />
+    </record>
+</odoo>
