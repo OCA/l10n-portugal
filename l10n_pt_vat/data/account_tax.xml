@@ -33,38 +33,49 @@
     </record>
 
     <!-- Effective Taxes -->
+    <function
+        model="account.tax"
+        name="write"
+        eval="[[ref('l10n_pt.1_iva23'),ref('l10n_pt.1_iva13'),ref('l10n_pt.1_iva6')], {'l10n_pt_fiscal_zone': 'PT'}]"
+    />
     <!-- Regular Mainland 23%: l10n_pt.1_iva23 -->
     <record id="iva22" model="account.tax">
         <field name="name">IVA22</field>
         <field name="type_tax_use">sale</field>
         <field name="amount">22</field>
+        <field name="l10n_pt_fiscal_zone">PT-MA</field>
     </record>
     <record id="iva18" model="account.tax">
         <field name="name">IVA18</field>
         <field name="type_tax_use">sale</field>
         <field name="amount">18</field>
+        <field name="l10n_pt_fiscal_zone">PT-AC</field>
     </record>
     <!-- Intermediate Mainland 13%: l10n_pt.1_iva13 -->
     <record id="iva12" model="account.tax">
         <field name="name">IVA12</field>
         <field name="type_tax_use">sale</field>
         <field name="amount">12</field>
+        <field name="l10n_pt_fiscal_zone">PT-MA</field>
     </record>
     <record id="iva9" model="account.tax">
         <field name="name">IVA9</field>
         <field name="type_tax_use">sale</field>
         <field name="amount">9</field>
+        <field name="l10n_pt_fiscal_zone">PT-AC</field>
     </record>
     <!-- reduced Mainland 6%: l10n_pt.1_iva6 -->
     <record id="iva5" model="account.tax">
         <field name="name">IVA5</field>
         <field name="type_tax_use">sale</field>
         <field name="amount">5</field>
+        <field name="l10n_pt_fiscal_zone">PT-MA</field>
     </record>
     <record id="iva4" model="account.tax">
         <field name="name">IVA4</field>
         <field name="type_tax_use">sale</field>
         <field name="amount">4</field>
+        <field name="l10n_pt_fiscal_zone">PT-AC</field>
     </record>
 
     <!-- Fiscal positions -->
