@@ -1,0 +1,15 @@
+<odoo>
+
+    <record id="vat_exempt_reason_tree" model="ir.ui.view">
+        <field name="name">VAT Exempt Reason List</field>
+        <field name="model">account.l10n_pt.vat.exempt.reason</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="code" />
+                <field name="name" />
+                <field name="note" />
+            </tree>
+        </field>
+    </record>
+
+</odoo>

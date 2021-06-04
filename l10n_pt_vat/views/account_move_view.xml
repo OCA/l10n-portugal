@@ -9,14 +9,18 @@
 
             <data>
                 <!-- Add the VAT Adjustment Norm (Fields 40/41 of the VAT Statement) !-->
-                <field name="move_type" invisible="1" />
-                <field name="fiscal_position_id" position="after">
+                <div name="journal_div" position="after">
+                    <field
+                        name="l10npt_vat_exempt_reason"
+                        attrs="{'invisible': [('country_code', '!=', 'PT')]}"
+                    />
+                    <field name="move_type" invisible="1" />
                     <field
                         name="vat_adjustment_norm_id"
-                        attrs="{'invisible': [('move_type', 'in', ['out_refund', 'in_refund'])]}"
+                        attrs="{'invisible': ['|',('country_code', '!=', 'PT'),('move_type', 'not in', ['out_refund', 'in_refund'])]}"
                         domain="[('move_type', '=', move_type)]"
                     />
-                </field>
+                </div>
             </data>
 
         </field>
