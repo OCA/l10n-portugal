@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!-- Stock Picking form view extended -->
+    <record model="ir.ui.view" id="view_stock_picking_form">
+        <field name="name">stock.picking.form</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form" />
+        <field name="arch" type="xml">
+            <field name="origin" position="before">
+                <field name="license_plate" />
+            </field>
+            <xpath expr="//notebook//page[@name='note']" position="after">
+                <page
+                    name="invoicexpress"
+                    string="InvoiceXpress"
+                    attrs="{'invisible': [('invoicexpress_id', '=', False)]}"
+                    groups="base.group_no_one"
+                >
+                    <group>
+                        <field name="invoicexpress_id" />
+                        <field name="invoicexpress_permalink" widget="url" />
+                    </group>
+                </page>
+            </xpath>
+            <xpath expr="//button[@name='action_cancel']" position="after">
+                <button
+                    name="action_create_invoicexpress_delivery"
+                    string="Create InvoiceXpress"
+                    type="object"
+                    groups="base.group_no_one"
+                    attrs="{'invisible': ['|',('state', 'not in', ('assigned','done')),('picking_type_code', '!=', 'outgoing')]}"
+                />
+                <button
+                    name="action_send_invoicexpress_delivery"
+                    string="Email InvoiceXpress."
+                    type="object"
+                    groups="base.group_no_one"
+                    attrs="{'invisible': ['|','|',('invoicexpress_id', '=', False),
+                    ('state', 'not in', ('assigned','done')),('picking_type_code', '=', 'incoming')]}"
+                />
+            </xpath>
+        </field>
+    </record>
+</odoo>
