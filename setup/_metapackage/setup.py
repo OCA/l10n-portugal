@@ -8,6 +8,8 @@ setuptools.setup(
     description="Meta package for oca-l10n-portugal Odoo addons",
     version=version,
     install_requires=[
+        'odoo14-addon-l10n_pt_account_invoicexpress',
+        'odoo14-addon-l10n_pt_stock_invoicexpress',
         'odoo14-addon-l10n_pt_vat',
     ],
     classifiers=[
