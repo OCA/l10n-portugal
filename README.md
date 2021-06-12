@@ -19,6 +19,8 @@ Available addons
 ----------------
 addon | version | summary
 --- | --- | ---
+[l10n_pt_account_invoicexpress](l10n_pt_account_invoicexpress/) | 14.0.1.0.0 | Legal invoices with InvoiceXpress
+[l10n_pt_stock_invoicexpress](l10n_pt_stock_invoicexpress/) | 14.0.1.0.0 | Legal trsanport documents generated with InvoiceXpress
 [l10n_pt_vat](l10n_pt_vat/) | 14.0.0.1.0 | Portuguese VAT requirements extensions
 
 [//]: # (end addons)
