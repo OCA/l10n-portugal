@@ -1,0 +1,203 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_pt_account_invoicexpress
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_pt_account_invoicexpress
+#: code:addons/l10n_pt_account_invoicexpress/models/account_move.py:0
+#, python-format
+msgid " <a class='btn btn-info mr-2' href={}>View Document</a>"
+msgstr ""
+
+#. module: l10n_pt_account_invoicexpress
+#: model_terms:ir.ui.view,arch_db:l10n_pt_account_invoicexpress.res_config_settings_view_form
+msgid "<i class=\"fa fa-arrow-right\"/> Generate an API key"
+msgstr ""
+
+#. module: l10n_pt_account_invoicexpress
+#: model_terms:ir.ui.view,arch_db:l10n_pt_account_invoicexpress.res_config_settings_view_form
+msgid "Account InvoiceXpress"
+msgstr ""
+
+#. module: l10n_pt_account_invoicexpress
+#: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_account_invoicexpress__account_name
+msgid "Account Name"
+msgstr ""
+
+#. module: l10n_pt_account_invoicexpress
+#: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_account_invoicexpress__api_key
+msgid "Api Key"
+msgstr ""
+
+#. module: l10n_pt_account_invoicexpress
+#: model:ir.model,name:l10n_pt_account_invoicexpress.model_res_config_settings
+msgid "Config Settings"
+msgstr ""
+
+#. module: l10n_pt_account_invoicexpress
+#: model:ir.model,name:l10n_pt_account_invoicexpress.model_res_partner
+msgid "Contact"
+msgstr ""
+
+#. module: l10n_pt_account_invoicexpress
+#: model_terms:ir.ui.view,arch_db:l10n_pt_account_invoicexpress.view_account_move_form
+msgid "Create InvoiceXpress"
+msgstr ""
+
+#. module: l10n_pt_account_invoicexpress
+#: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_account_invoicexpress__display_name
+#: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_account_move__display_name
+#: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_account_tax__display_name
+#: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_res_config_settings__display_name
+#: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_res_partner__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_pt_account_invoicexpress
+#: model_terms:ir.ui.view,arch_db:l10n_pt_account_invoicexpress.view_account_move_form
+msgid "Email InvoiceXpress"
+msgstr ""
+
+#. module: l10n_pt_account_invoicexpress
+#: code:addons/l10n_pt_account_invoicexpress/models/account_invoicexpress.py:0
+#, python-format
+msgid "Error running API request ({} {}): {}"
+msgstr ""
+
+#. module: l10n_pt_account_invoicexpress
+#: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_account_invoicexpress__id
+#: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_account_move__id
+#: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_account_tax__id
+#: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_res_config_settings__id
+#: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_res_partner__id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_pt_account_invoicexpress
+#: code:addons/l10n_pt_account_invoicexpress/models/account_move.py:0
+#, python-format
+msgid "Invoice from InvoiceXpress"
+msgstr ""
+
+#. module: l10n_pt_account_invoicexpress
+#: model_terms:ir.ui.view,arch_db:l10n_pt_account_invoicexpress.view_account_move_form
+msgid "InvoiceXpress"
+msgstr ""
+
+#. module: l10n_pt_account_invoicexpress
+#: model_terms:ir.ui.view,arch_db:l10n_pt_account_invoicexpress.res_config_settings_view_form
+msgid "InvoiceXpress API key"
+msgstr ""
+
+#. module: l10n_pt_account_invoicexpress
+#: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_res_config_settings__invoicexpress_account_name
+#: model_terms:ir.ui.view,arch_db:l10n_pt_account_invoicexpress.res_config_settings_view_form
+msgid "InvoiceXpress Account Name"
+msgstr ""
+
+#. module: l10n_pt_account_invoicexpress
+#: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_res_config_settings__invoicexpress_api_key
+msgid "InvoiceXpress Api Key"
+msgstr ""
+
+#. module: l10n_pt_account_invoicexpress
+#: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_account_bank_statement_line__invoicexpress_permalink
+#: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_account_move__invoicexpress_permalink
+#: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_account_payment__invoicexpress_permalink
+msgid "InvoiceXpress Doc Link"
+msgstr ""
+
+#. module: l10n_pt_account_invoicexpress
+#: code:addons/l10n_pt_account_invoicexpress/models/account_move.py:0
+#, python-format
+msgid "InvoiceXpress Documents"
+msgstr ""
+
+#. module: l10n_pt_account_invoicexpress
+#: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_account_bank_statement_line__invoicexpress_id
+#: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_account_move__invoicexpress_id
+#: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_account_payment__invoicexpress_id
+#: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_account_tax__invoicexpress_id
+msgid "InvoiceXpress ID"
+msgstr ""
+
+#. module: l10n_pt_account_invoicexpress
+#: model:ir.model,name:l10n_pt_account_invoicexpress.model_account_invoicexpress
+msgid "InvoiceXpress connector"
+msgstr ""
+
+#. module: l10n_pt_account_invoicexpress
+#: code:addons/l10n_pt_account_invoicexpress/models/account_move.py:0
+#, python-format
+msgid ""
+"InvoiceXpress record has been created for this invoice:<ul><li>InvoiceXpress"
+" Id: {inv_xpress_id}</li><li>{inv_xpress_link}</li></ul>"
+msgstr ""
+
+#. module: l10n_pt_account_invoicexpress
+#: model:ir.model,name:l10n_pt_account_invoicexpress.model_account_move
+msgid "Journal Entry"
+msgstr ""
+
+#. module: l10n_pt_account_invoicexpress
+#: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_account_bank_statement_line__journal_type
+#: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_account_move__journal_type
+#: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_account_payment__journal_type
+msgid "Journal Type"
+msgstr ""
+
+#. module: l10n_pt_account_invoicexpress
+#: code:addons/l10n_pt_account_invoicexpress/models/account_move.py:0
+#, python-format
+msgid "Kindly Configure the customer email address."
+msgstr ""
+
+#. module: l10n_pt_account_invoicexpress
+#: code:addons/l10n_pt_account_invoicexpress/models/account_move.py:0
+#, python-format
+msgid "Kindly add the invoice date and invoice due date."
+msgstr ""
+
+#. module: l10n_pt_account_invoicexpress
+#: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_account_invoicexpress____last_update
+#: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_account_move____last_update
+#: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_account_tax____last_update
+#: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_res_config_settings____last_update
+#: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_res_partner____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: l10n_pt_account_invoicexpress
+#: model:ir.model.fields,help:l10n_pt_account_invoicexpress.field_account_bank_statement_line__journal_type
+#: model:ir.model.fields,help:l10n_pt_account_invoicexpress.field_account_move__journal_type
+#: model:ir.model.fields,help:l10n_pt_account_invoicexpress.field_account_payment__journal_type
+msgid ""
+"Select 'Sale' for customer invoices journals.\n"
+"Select 'Purchase' for vendor bills journals.\n"
+"Select 'Cash' or 'Bank' for journals that are used in customer or vendor payments.\n"
+"Select 'General' for miscellaneous operations journals."
+msgstr ""
+
+#. module: l10n_pt_account_invoicexpress
+#: code:addons/l10n_pt_account_invoicexpress/models/account_invoicexpress.py:0
+#, python-format
+msgid ""
+"Something went wrong on API key. You should check the field\n"
+"                %(field:res.config.settings.invoicexpress_account_name)s in\n"
+"                %(menu:base_setup.menu_config)s."
+msgstr ""
+
+#. module: l10n_pt_account_invoicexpress
+#: model:ir.model,name:l10n_pt_account_invoicexpress.model_account_tax
+msgid "Tax"
+msgstr ""
