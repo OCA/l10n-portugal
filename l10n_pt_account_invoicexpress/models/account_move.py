@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 from odoo import _, exceptions, fields, models
-from odoo.tools import safe_eval
+from odoo.tools.safe_eval import safe_eval
 
 
 class AccountMove(models.Model):
@@ -119,16 +119,13 @@ class AccountMove(models.Model):
     def _prepare_invoicexpress_email_vals(self):
         self.ensure_one()
         ICPSudo = self.env["ir.config_parameter"].sudo()
+        eval_email_to = ICPSudo.get_param(
+            "invoicexpress.invoice_email_to", "self.partner_id.email"
+        )
+        eval_email_cc = ICPSudo.get_param("invoicexpress.invoice_email_cc")
         eval_context = {"self": self}
-        email_to = safe_eval(
-            ICPSudo.get_param(
-                "invoicexpress.invoice_email_to", "self.partner_id.email"
-            ),
-            eval_context,
-        )
-        email_cc = safe_eval(
-            ICPSudo.get_param("invoicexpress.invoice_email_cc", ""), eval_context
-        )
+        email_to = safe_eval(eval_email_to, eval_context)
+        email_cc = eval_email_cc and safe_eval(eval_email_cc, eval_context)
         if not email_to:
             raise exceptions.UserError(
                 _("Kindly Configure the customer email address.")
@@ -145,11 +142,20 @@ class AccountMove(models.Model):
 
     def action_send_invoicexpress_email(self):
         InvoiceXpress = self.env["account.invoicexpress"]
-        for invoice in self.filtered(lambda x: not x.invoicexpress_id):
+        for invoice in self:
+            if not invoice.invoicexpress_id:
+                raise exceptions.UserError(
+                    _("Invoice %s is not registerd in InvoiceXpress yet."), invoice.name
+                )
             endpoint = "invoices/{}/email-document.json".format(
                 invoice.invoicexpress_id
             )
             payload = invoice._prepare_invoicexpress_email_vals()
             InvoiceXpress.call(endpoint, "PUT", payload=payload)
-            msg = "InvoiceXpress document has been sent successfully"
+            msg = _(
+                "Email sent by InvoiceXpress:<ul><li>To: {}</li><li>Cc: {}</li></ul>"
+            ).format(
+                payload["message"]["client"]["email"],
+                payload["message"]["cc"] or _("None"),
+            )
             invoice.message_post(body=msg)
