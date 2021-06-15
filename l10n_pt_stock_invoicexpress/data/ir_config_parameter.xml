@@ -1,0 +1,10 @@
+<odoo noupdate="1">
+    <record id="invoicexpress_stock_email_to" model="ir.config_parameter">
+        <field name="key">invoicexpress.stock_email_to</field>
+        <field name="value">self.env.user.email</field>
+    </record>
+    <record id="invoicexpress_stock_email_cc" model="ir.config_parameter">
+        <field name="key">invoicexpress.stock_email_cc</field>
+        <field name="value" />
+    </record>
+</odoo>

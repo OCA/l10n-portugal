@@ -4,7 +4,8 @@
 import logging
 
 from odoo import _, api, exceptions, fields, models
-from odoo.tools import format_datetime, safe_eval
+from odoo.tools import format_datetime
+from odoo.tools.safe_eval import safe_eval
 
 _logger = logging.getLogger(__name__)
 
@@ -130,14 +131,13 @@ class StockPicking(models.Model):
     def _prepare_invoicexpress_email_vals(self):
         self.ensure_one()
         ICPSudo = self.env["ir.config_parameter"].sudo()
+        eval_email_to = ICPSudo.get_param(
+            "invoicexpress.stock_email_to", "self.env.user.email"
+        )
+        eval_email_cc = ICPSudo.get_param("invoicexpress.stock_email_cc")
         eval_context = {"self": self}
-        email_to = safe_eval(
-            ICPSudo.get_param("invoicexpress.stock_email_to", "self.env.user.email"),
-            eval_context,
-        )
-        email_cc = safe_eval(
-            ICPSudo.get_param("invoicexpress.stock_email_cc", ""), eval_context
-        )
+        email_to = safe_eval(eval_email_to, eval_context)
+        email_cc = eval_email_cc and safe_eval(eval_email_cc, eval_context)
         if not email_to:
             raise exceptions.UserError(_("Kindly Configure the email address."))
         email_data = {
@@ -152,12 +152,22 @@ class StockPicking(models.Model):
 
     def action_send_invoicexpress_delivery(self):
         InvoiceXpress = self.env["account.invoicexpress"]
-        for delivery in self.filtered(lambda x: not x.invoicexpress_id):
+        for delivery in self:
+            if not delivery.invoicexpress_id:
+                raise exceptions.UserError(
+                    _("Delivery %s is not registerd in InvoiceXpress yet."),
+                    delivery.name,
+                )
             doctype = delivery._get_invoicexpress_doctype()
             endpoint = "{}/{}/email-document.json".format(
                 doctype, delivery.invoicexpress_id
             )
             payload = delivery._prepare_invoicexpress_email_vals()
             InvoiceXpress.call(endpoint, "PUT", payload=payload)
-            msg = _("InvoiceXpress document has been sent successfully")
+            msg = _(
+                "Email sent by InvoiceXpress:<ul><li>To: {}</li><li>Cc: {}</li></ul>"
+            ).format(
+                payload["message"]["client"]["email"],
+                payload["message"]["cc"] or _("None"),
+            )
             delivery.message_post(body=msg)
