@@ -1,4 +1,4 @@
-<odoo>
+<odoo noupdate="1">
 
     <!-- Generic Taxes, to map with Fiscal Positions -->
     <record id="vat_regular" model="account.tax">
