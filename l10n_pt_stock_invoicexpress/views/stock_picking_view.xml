@@ -27,16 +27,15 @@
                     name="action_create_invoicexpress_delivery"
                     string="Create InvoiceXpress"
                     type="object"
-                    groups="base.group_no_one"
-                    attrs="{'invisible': ['|',('state', 'not in', ('assigned','done')),('picking_type_code', '!=', 'outgoing')]}"
+                    attrs="{'invisible': ['|',
+                    ('state', 'not in', ('assigned','done')),('picking_type_code', '!=', 'outgoing')]}"
                 />
                 <button
                     name="action_send_invoicexpress_delivery"
-                    string="Email InvoiceXpress."
+                    string="Email InvoiceXpress"
                     type="object"
-                    groups="base.group_no_one"
                     attrs="{'invisible': ['|','|',('invoicexpress_id', '=', False),
-                    ('state', 'not in', ('assigned','done')),('picking_type_code', '=', 'incoming')]}"
+                    ('state', 'not in', ('assigned','done')),('picking_type_code', '!=', 'outgoing')]}"
                 />
             </xpath>
         </field>

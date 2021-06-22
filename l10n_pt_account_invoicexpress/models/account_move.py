@@ -1,8 +1,7 @@
 # Copyright (C) 2021 Open Source Integrators
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-from odoo import _, exceptions, fields, models
-from odoo.tools.safe_eval import safe_eval
+from odoo import _, api, exceptions, fields, models
 
 
 class AccountMove(models.Model):
@@ -15,6 +14,14 @@ class AccountMove(models.Model):
     invoicexpress_permalink = fields.Char(
         "InvoiceXpress Doc Link", copy=False, readonly=True
     )
+    can_invoicexpress = fields.Boolean(compute="_compute_can_invoicexpress")
+
+    @api.depends("move_type", "journal_id", "company_id.invoicexpress_api_key")
+    def _compute_can_invoicexpress(self):
+        for invoice in self:
+            invoice.can_invoicexpress = (
+                invoice.is_sale_document() and invoice.company_id.invoicexpress_api_key
+            )
 
     def _get_invoicexpress_doctype(self):
         """
@@ -67,10 +74,12 @@ class AccountMove(models.Model):
                 "reference": self.ref or "",
                 "client": customer,
                 "items": items,
-                "tax_exemption_reason": self.l10npt_vat_exempt_reason.code or "M00",
             },
             "proprietary_uid": self.name,
         }
+        exempt_code = self.l10npt_vat_exempt_reason.code
+        if exempt_code:
+            invoice_data["invoice"]["tax_exemption"] = exempt_code
         if self.company_id.currency_id != self.currency_id:
             currency_rate = self.env["res.currency"]._get_conversion_rate(
                 self.company_id.currency_id,
@@ -105,12 +114,13 @@ class AccountMove(models.Model):
             doctype = invoice._get_invoicexpress_doctype()
             payload = invoice._prepare_invoicexpress_vals()
             response = InvoiceXpress.call(
-                "{}.json".format(doctype), "POST", payload=payload
+                invoice.company_id, "{}.json".format(doctype), "POST", payload=payload
             )
             values = response.json().get("invoice")
             if values:
                 invoice._update_invoicexpress_status(values)
                 InvoiceXpress.call(
+                    invoice.company_id,
                     "{}/{}/change-state.json".format(doctype, values["id"]),
                     "PUT",
                     payload={"invoice": {"state": "finalized"}},
@@ -118,24 +128,23 @@ class AccountMove(models.Model):
 
     def _prepare_invoicexpress_email_vals(self):
         self.ensure_one()
-        ICPSudo = self.env["ir.config_parameter"].sudo()
-        eval_email_to = ICPSudo.get_param(
-            "invoicexpress.invoice_email_to", "self.partner_id.email"
+        template_id = self.company_id.invoicexpress_template_id
+        values = template_id.generate_email(
+            self.id, ["subject", "body_html", "email_to", "email_cc"]
         )
-        eval_email_cc = ICPSudo.get_param("invoicexpress.invoice_email_cc")
-        eval_context = {"self": self}
-        email_to = safe_eval(eval_email_to, eval_context)
-        email_cc = eval_email_cc and safe_eval(eval_email_cc, eval_context)
-        if not email_to:
+        if not template_id:
             raise exceptions.UserError(
-                _("Kindly Configure the customer email address.")
+                _(
+                    "Please configure the InvoiceXpress email template"
+                    " at Settings > General Setting, InvoiceXpress section"
+                )
             )
         email_data = {
             "message": {
-                "client": {"email": email_to, "save": "0"},
-                "cc": email_cc,
-                "subject": _("Invoice from InvoiceXpress"),
-                "body": _("InvoiceXpress Documents"),
+                "client": {"email": values["email_to"], "save": "0"},
+                "cc": values["email_cc"],
+                "subject": values["subject"],
+                "body": values["body_html"],
             }
         }
         return email_data
@@ -151,7 +160,7 @@ class AccountMove(models.Model):
                 invoice.invoicexpress_id
             )
             payload = invoice._prepare_invoicexpress_email_vals()
-            InvoiceXpress.call(endpoint, "PUT", payload=payload)
+            InvoiceXpress.call(invoice.company_id, endpoint, "PUT", payload=payload)
             msg = _(
                 "Email sent by InvoiceXpress:<ul><li>To: {}</li><li>Cc: {}</li></ul>"
             ).format(
@@ -159,3 +168,11 @@ class AccountMove(models.Model):
                 payload["message"]["cc"] or _("None"),
             )
             invoice.message_post(body=msg)
+
+    def action_post(self):
+        res = super().action_post()
+        for invoice in self.filtered("can_invoicexpress"):
+            if not invoice.invoicexpress_id:
+                invoice.action_create_invoicexpress_invoice()
+                invoice.action_send_invoicexpress_email()
+        return res

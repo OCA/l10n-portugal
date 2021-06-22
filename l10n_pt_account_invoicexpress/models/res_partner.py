@@ -16,7 +16,7 @@ class ResPartner(models.Model):
             "address": ", ".join(filter(None, [self.street, self.street2])),
             "city": self.city,
             "postal_code": self.zip,
-            "country": self.country_id.name,
+            # "country": self.country_id.name,
             "language": self.lang[:2],
             "fiscal_id": self.vat,
             "website": self.website,
