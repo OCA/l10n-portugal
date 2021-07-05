@@ -18,9 +18,14 @@ def mock_response(json, status_code=200):
 class TestInvoiceXpress(common.TransactionCase):
     def setUp(self):
         super().setUp()
-        self.ConfigParameter = self.env["ir.config_parameter"]
-        self.ConfigParameter.set_param("invoicexpress.account_name", "ACCOUNT")
-        self.ConfigParameter.set_param("invoicexpress.api_key", "APIKEY")
+
+        self.company = self.env.company
+        self.company.write(
+            {
+                "invoicexpress_account_name": "ACCOUNT",
+                "invoicexpress_api_key": "APIKEY",
+            }
+        )
 
         self.AccountMove = self.env["account.move"]
         self.ProductProduct = self.env["product.product"]
@@ -46,7 +51,7 @@ class TestInvoiceXpress(common.TransactionCase):
 
     def test_010_get_config_and_base_url(self):
         API = self.env["account.invoicexpress"]
-        url = API._build_url(API._get_config(), "dummy.json")
+        url = API._build_url(API._get_config(self.company), "dummy.json")
         self.assertEqual(url, "https://ACCOUNT.app.invoicexpress.com/dummy.json")
 
     @patch.object(requests, "request")

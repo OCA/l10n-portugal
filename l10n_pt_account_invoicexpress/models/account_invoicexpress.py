@@ -9,7 +9,7 @@ import pprint
 import requests
 from werkzeug.urls import url_join
 
-from odoo import _, exceptions, fields, models
+from odoo import _, exceptions, models
 
 _logger = logging.getLogger(__name__)
 
@@ -18,13 +18,9 @@ class InvoiceXpress(models.AbstractModel):
     _name = "account.invoicexpress"
     _description = "InvoiceXpress connector"
 
-    account_name = fields.Char(compute="_compute_config")
-    api_key = fields.Char(compute="_compute_config")
-
-    def _get_config(self):
-        ICPSudo = self.env["ir.config_parameter"].sudo()
-        account_name = ICPSudo.get_param("invoicexpress.account_name")
-        api_key = ICPSudo.get_param("invoicexpress.api_key")
+    def _get_config(self, company):
+        account_name = company.invoicexpress_account_name
+        api_key = company.invoicexpress_api_key
         if not account_name or not api_key:
             error_msg = _(
                 """Something went wrong on API key. You should check the field
@@ -70,6 +66,7 @@ class InvoiceXpress(models.AbstractModel):
 
     def call(
         self,
+        company,
         endpoint,
         verb="GET",
         headers=None,
@@ -77,7 +74,7 @@ class InvoiceXpress(models.AbstractModel):
         payload=None,
         raise_errors=True,
     ):
-        config = self._get_config()
+        config = self._get_config(company)
         request_url = self._build_url(config, endpoint)
         request_headers = self._build_headers(config, headers)
         request_params = self._build_params(config, params)
