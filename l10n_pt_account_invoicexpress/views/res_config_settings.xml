@@ -18,7 +18,10 @@
                                     ><i
                                             class="fa fa-arrow-right"
                                         /> Generate an API key</a>
-                                    <div class="content-group">
+                                    <div
+                                        class="content-group"
+                                        name="invoicexpress_options"
+                                    >
                                         <div class="mt16">
                                             <label
                                                 for="invoicexpress_account_name"
@@ -32,6 +35,13 @@
                                                 string="InvoiceXpress API key"
                                             />
                                             <field name="invoicexpress_api_key" />
+                                        </div>
+                                        <div class="mt16">
+                                            <label
+                                                for="invoicexpress_template_id"
+                                                string="InvoiceXpress Email Template"
+                                            />
+                                            <field name="invoicexpress_template_id" />
                                         </div>
                                     </div>
                                 </div>
