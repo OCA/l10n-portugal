@@ -8,6 +8,8 @@
         <field name="arch" type="xml">
             <field name="origin" position="before">
                 <field name="license_plate" />
+                <field name="can_invoicexpress" invisible="1" />
+                <field name="can_invoicexpress_email" invisible="1" />
             </field>
             <xpath expr="//notebook//page[@name='note']" position="after">
                 <page
@@ -22,21 +24,19 @@
                     </group>
                 </page>
             </xpath>
-            <xpath expr="//button[@name='action_cancel']" position="after">
+            <xpath expr="//button[@name='do_print_picking']" position="before">
                 <button
                     name="action_create_invoicexpress_delivery"
                     string="Create InvoiceXpress"
                     type="object"
-                    groups="base.group_no_one"
-                    attrs="{'invisible': ['|',('state', 'not in', ('assigned','done')),('picking_type_code', '!=', 'outgoing')]}"
+                    attrs="{'invisible': ['|', '|', ('invoicexpress_id', '!=', False),
+                    ('state', 'not in', ('assigned','done')),('can_invoicexpress', '=', False)]}"
                 />
                 <button
                     name="action_send_invoicexpress_delivery"
-                    string="Email InvoiceXpress."
+                    string="InvoiceXpress Email"
                     type="object"
-                    groups="base.group_no_one"
-                    attrs="{'invisible': ['|','|',('invoicexpress_id', '=', False),
-                    ('state', 'not in', ('assigned','done')),('picking_type_code', '=', 'incoming')]}"
+                    attrs="{'invisible': ['|', ('can_invoicexpress_email', '=', False), ('invoicexpress_id', '=', False)]}"
                 />
             </xpath>
         </field>
