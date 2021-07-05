@@ -189,6 +189,13 @@ msgid "Journal Entry"
 msgstr ""
 
 #. module: l10n_pt_vat
+#: model:ir.model.fields,field_description:l10n_pt_vat.field_account_bank_statement_line__l10npt_has_tax_exempt_lines
+#: model:ir.model.fields,field_description:l10n_pt_vat.field_account_move__l10npt_has_tax_exempt_lines
+#: model:ir.model.fields,field_description:l10n_pt_vat.field_account_payment__l10npt_has_tax_exempt_lines
+msgid "L10Npt Has Tax Exempt Lines"
+msgstr ""
+
+#. module: l10n_pt_vat
 #: model:ir.model.fields,field_description:l10n_pt_vat.field_account_journal____last_update
 #: model:ir.model.fields,field_description:l10n_pt_vat.field_account_l10n_pt_vat_exempt_reason____last_update
 #: model:ir.model.fields,field_description:l10n_pt_vat.field_account_move____last_update
