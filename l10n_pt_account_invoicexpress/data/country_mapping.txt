@@ -1,0 +1,43 @@
+Odoo country list was mapped to the InvoiceXpress names as documented at
+https://invoicexpress.com/api-v2/documentation/appendix
+
+These InvoiceXpress country names found no macth in Odoo:
+
+Burma
+Canton and Enderbury Islands
+Dronning Maud Land
+East Timor
+International Monetary Fund
+Ivory Coast
+Johnston Island
+Kampuchea
+Midway Islands
+Netherlands Antilles
+Samoa (America)
+Tahiti
+Upper Volta
+Vatican
+Wake Island
+Western Samoa
+Zaïre
+
+These Odoo countries found no match in the InvoiceXpress list:
+
+id,name
+base.aq,Antarctica
+base.bq,Bonaire, Sint Eustatius and Saba
+base.bv,Bouvet Island
+base.tf,French Southern Territories
+base.va,Holy See (Vatican City State)
+base.xk,Kosovo
+base.bl,Saint Barthélémy
+base.mf,Saint Martin (French part)
+base.pm,Saint Pierre and Miquelon
+base.sx,Sint Maarten (Dutch part)
+base.gs,South Georgia and the South Sandwich Islands
+base.ss,South Sudan
+base.tk,Tokelau
+base.to,Tonga
+base.um,USA Minor Outlying Islands
+base.vi,Virgin Islands (USA)
+base.ax,Åland Islands
