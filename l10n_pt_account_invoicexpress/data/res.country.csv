@@ -1,0 +1,234 @@
+id,invoicexpress_name
+base.af,Afghanistan
+base.al,Albania
+base.dz,Algeria
+base.as,American Samoa
+base.ad,Andorra
+base.ao,Angola
+base.ai,Anguilla
+base.ag,Antigua and Barbuda
+base.ar,Argentina
+base.am,Armenia
+base.aw,Aruba
+base.au,Australia
+base.at,Austria
+base.az,Azerbaijan
+base.bs,Bahamas
+base.bh,Bahrain
+base.bd,Bangladesh
+base.bb,Barbados
+base.by,Belarus
+base.be,Belgium
+base.bz,Belize
+base.bj,Benin
+base.bm,Bermuda
+base.bt,Bhutan
+base.bo,Bolivia
+base.ba,Bosnia-Herzegovina
+base.bw,Botswana
+base.br,Brazil
+base.io,British Indian Ocean Territory
+base.bn,Brunei
+base.bg,Bulgaria
+base.bf,Burkina Faso
+base.bi,Burundi
+base.kh,Cambodia
+base.cm,Cameroon
+base.ca,Canada
+base.cv,Cape Verde
+base.ky,Cayman Islands
+base.cf,Central African Republic
+base.td,Chad
+base.cl,Chile
+base.cn,China
+base.cx,Christmas Island
+base.cc,Cocos (Keeling) Islands
+base.co,Colombia
+base.km,Comoros
+base.cg,Congo
+base.ck,Cook Islands
+base.cr,Costa Rica
+base.hr,Croatia
+base.cu,Cuba
+base.cw,Curaçao
+base.cy,Cyprus
+base.cz,Czech Republic
+base.ci,Côte d’Ivoire
+base.cd,"Congo, Democratic Republic"
+base.dk,Denmark
+base.dj,Djibouti
+base.dm,Dominica
+base.do,Dominican Republic
+base.ec,Ecuador
+base.eg,Egypt
+base.sv,El Salvador
+base.gq,Equatorial Guinea
+base.er,Eritrea
+base.ee,Estonia
+base.et,Ethiopia
+base.fk,Faeroe Islands (Føroyar)
+base.fo,Falkland Islands
+base.fj,Fiji
+base.fi,Finland
+base.fr,France
+base.gf,French Guiana
+base.pf,French Polynesia
+base.ga,Gabon
+base.gm,Gambia
+base.ge,Georgia
+base.de,Germany
+base.gh,Ghana
+base.gi,Gibraltar
+base.gr,Greece
+base.gl,Greenland
+base.gd,Grenada
+base.gp,Guadeloupe
+base.gu,Guam
+base.gt,Guatemala
+base.gg,Guernsey
+base.gn,Guinea
+base.gw,Guinea-Bissau
+base.gy,Guyana
+base.ht,Haiti
+base.hm,Heard and McDonald Islands
+base.hn,Honduras
+base.hk,Hong Kong
+base.hu,Hungary
+base.is,Iceland
+base.in,India
+base.id,Indonesia
+base.ir,Iran
+base.iq,Iraq
+base.ie,Ireland
+base.im,Isle of Man
+base.il,Israel
+base.it,Italy
+base.jm,Jamaica
+base.jp,Japan
+base.je,Jersey
+base.jo,Jordan
+base.kz,Kazakhstan
+base.ke,Kenya
+base.ki,Kiribati
+base.kw,Kuwait
+base.kg,Kyrgyzstan
+base.la,Laos
+base.lv,Latvia
+base.lb,Lebanon
+base.ls,Lesotho
+base.lr,Liberia
+base.ly,Libya
+base.li,Liechtenstein
+base.lt,Lithuania
+base.lu,Luxembourg
+base.mo,Macau
+base.mg,Madagascar
+base.mw,Malawi
+base.my,Malaysia
+base.mv,Maldives
+base.ml,Mali
+base.mt,Malta
+base.mh,Marshall Islands
+base.mq,Martinique
+base.mr,Mauritania
+base.mu,Mauritius
+base.yt,Mayotte
+base.mx,Mexico
+base.fm,Micronesia
+base.md,Moldova
+base.mc,Monaco
+base.mn,Mongolia
+base.me,Montenegro
+base.ms,Montserrat
+base.ma,Morocco
+base.mz,Mozambique
+base.mm,Myanmar
+base.na,Nauru
+base.nr,Namibia
+base.np,Nepal
+base.nl,Netherlands
+base.nc,New Caledonia
+base.nz,New Zealand
+base.ni,Nicaragua
+base.ne,Niger
+base.ng,Nigeria
+base.nu,Niue
+base.nf,Norfolk Island
+base.kp,"Korea, North"
+base.mk,Macedonia (Former Yug. Rep.)
+base.mp,Northern Mariana Islands
+base.no,Norway
+base.om,Oman
+base.pk,Pakistan
+base.pw,Palau
+base.pa,Panama
+base.pg,Papua New Guinea
+base.py,Paraguay
+base.pe,Peru
+base.ph,Philippines
+base.pn,Pitcairn Island
+base.pl,Poland
+base.pt,Portugal
+base.pr,Puerto Rico
+base.qa,Qatar
+base.ro,Romania
+base.ru,Russia
+base.rw,Rwanda
+base.re,Reunion
+base.sh,St. Helena
+base.kn,St. Kitts and Nevis
+base.lc,St. Lucia
+base.vc,St. Vincent and the Grenadines
+base.ws,Samoa (Western)
+base.sm,San Marino
+base.sa,Saudi Arabia
+base.sn,Sénégal
+base.rs,Serbia
+base.sc,Seychelles
+base.sl,Sierra Leone
+base.sg,Singapore
+base.sk,Slovakia
+base.si,Slovenia
+base.sb,Solomon Islands
+base.so,Somalia
+base.za,South Africa
+base.kr,"Korea, South"
+base.es,Spain
+base.lk,Sri Lanka
+base.ps,Palestine
+base.sd,Sudan
+base.sr,Suriname
+base.sj,Svalbard and Jan Mayen Islands
+base.sz,Swaziland
+base.se,Sweden
+base.ch,Switzerland
+base.sy,Syria
+base.st,São Tomé and Príncipe
+base.tw,Taiwan
+base.tj,Tajikistan
+base.tz,Tanzania
+base.th,Thailand
+base.tl,Timor-Leste
+base.tg,Togo
+base.tt,Trinidad and Tobago
+base.tn,Tunisia
+base.tr,Turkey
+base.tm,Turkmenistan
+base.tc,Turks and Caicos Islands
+base.tv,Tuvalu
+base.ug,Uganda
+base.ua,Ukraine
+base.ae,United Arab Emirates
+base.uk,Great Britain
+base.us,United States
+base.uy,Uruguay
+base.uz,Uzbekistan
+base.vu,Vanuatu
+base.ve,Venezuela
+base.vn,Vietnam
+base.vg,Virgin Islands
+base.wf,Wallis and Futuna Islands
+base.eh,Western Sahara
+base.ye,Yemen
+base.zm,Zambia
+base.zw,Zimbabwe
