@@ -21,6 +21,8 @@
         <field name="type_tax_use">sale</field>
         <field name="amount">0</field>
     </record>
+
+    <!-- Effective Taxes -->
     <record id="vat_exempt_eu" model="account.tax">
         <field name="name">VAT Exempt EU</field>
         <field name="type_tax_use">sale</field>
@@ -32,7 +34,6 @@
         <field name="amount">0</field>
     </record>
 
-    <!-- Effective Taxes -->
     <function
         model="account.tax"
         name="write"
@@ -80,35 +81,6 @@
 
     <!-- Fiscal positions -->
     <!-- Portugal mainland: l10n_pt.1_fiscal_position_national_customers -->
-    <record
-        id="l10n_pt.1_fiscal_position_national_customers"
-        model="account.fiscal.position"
-    >
-        <field name="name">PT Mainland</field>
-        <field name="auto_apply">True</field>
-        <field name="vat_required">True</field>
-        <field name="country_id" ref="base.pt" />
-        <field name="zip_from">1000</field>
-        <field name="zip_to">8999</field>
-    </record>
-    <record id="fp_madeira" model="account.fiscal.position">
-        <field name="name">PT Madeira</field>
-        <field name="sequence">1</field>
-        <field name="auto_apply">True</field>
-        <field name="vat_required">True</field>
-        <field name="country_id" ref="base.pt" />
-        <field name="zip_from">9000</field>
-        <field name="zip_to">9499</field>
-    </record>
-    <record id="fp_azores" model="account.fiscal.position">
-        <field name="name">PT Azores</field>
-        <field name="sequence">1</field>
-        <field name="auto_apply">True</field>
-        <field name="vat_required">True</field>
-        <field name="country_id" ref="base.pt" />
-        <field name="zip_from">9500</field>
-        <field name="zip_to">9999</field>
-    </record>
 
     <!-- Fiscal position tax mapping -->
     <record id="fp_mainland_vat_regular" model="account.fiscal.position.tax">
@@ -125,38 +97,6 @@
         <field name="position_id" ref="l10n_pt.1_fiscal_position_national_customers" />
         <field name="tax_src_id" ref="vat_reduced" />
         <field name="tax_dest_id" ref="l10n_pt.1_iva6" />
-    </record>
-
-    <record id="fp_madeira_vat_regular" model="account.fiscal.position.tax">
-        <field name="position_id" ref="fp_madeira" />
-        <field name="tax_src_id" ref="vat_regular" />
-        <field name="tax_dest_id" ref="iva22" />
-    </record>
-    <record id="fp_madeira_vat_intermediate" model="account.fiscal.position.tax">
-        <field name="position_id" ref="fp_madeira" />
-        <field name="tax_src_id" ref="vat_intermediate" />
-        <field name="tax_dest_id" ref="iva12" />
-    </record>
-    <record id="fp_madeira_vat_reduced" model="account.fiscal.position.tax">
-        <field name="position_id" ref="fp_madeira" />
-        <field name="tax_src_id" ref="vat_reduced" />
-        <field name="tax_dest_id" ref="iva5" />
-    </record>
-
-    <record id="fp_azores_vat_regular" model="account.fiscal.position.tax">
-        <field name="position_id" ref="fp_azores" />
-        <field name="tax_src_id" ref="vat_regular" />
-        <field name="tax_dest_id" ref="iva18" />
-    </record>
-    <record id="fp_azores_vat_intermediate" model="account.fiscal.position.tax">
-        <field name="position_id" ref="fp_azores" />
-        <field name="tax_src_id" ref="vat_intermediate" />
-        <field name="tax_dest_id" ref="iva9" />
-    </record>
-    <record id="fp_azores_vat_reduced" model="account.fiscal.position.tax">
-        <field name="position_id" ref="fp_azores" />
-        <field name="tax_src_id" ref="vat_reduced" />
-        <field name="tax_dest_id" ref="iva4" />
     </record>
 
     <!-- EU Final Consumer -->
