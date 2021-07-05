@@ -4,7 +4,7 @@
 {
     "name": "Portugal InvoiceXpress Transport Documents",
     "summary": "Legal trsanport documents generated with InvoiceXpress",
-    "version": "14.0.1.1.0",
+    "version": "14.0.1.0.0",
     "author": "Open Source Integrators, Odoo Community Association (OCA)",
     "license": "AGPL-3",
     "website": "https://github.com/OCA/l10n-portugal",
@@ -13,8 +13,9 @@
     "development_status": "Production/Stable",
     "depends": ["l10n_pt_account_invoicexpress", "sale_stock"],
     "data": [
-        "data/ir_config_parameter.xml",
+        "views/res_config_settings.xml",
         "views/stock_picking_view.xml",
+        "data/mail_template.xml",
     ],
     "application": False,
     "installable": True,
