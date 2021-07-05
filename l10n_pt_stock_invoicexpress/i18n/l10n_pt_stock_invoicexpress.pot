@@ -32,12 +32,6 @@ msgstr ""
 #. module: l10n_pt_stock_invoicexpress
 #: code:addons/l10n_pt_stock_invoicexpress/models/stock_picking.py:0
 #, python-format
-msgid "Delivery %s is not registerd in InvoiceXpress yet."
-msgstr ""
-
-#. module: l10n_pt_stock_invoicexpress
-#: code:addons/l10n_pt_stock_invoicexpress/models/stock_picking.py:0
-#, python-format
 msgid "Delivery from InvoiceXpress"
 msgstr ""
 
@@ -50,12 +44,6 @@ msgstr ""
 #. module: l10n_pt_stock_invoicexpress
 #: model_terms:ir.ui.view,arch_db:l10n_pt_stock_invoicexpress.view_stock_picking_form
 msgid "Email InvoiceXpress."
-msgstr ""
-
-#. module: l10n_pt_stock_invoicexpress
-#: code:addons/l10n_pt_stock_invoicexpress/models/stock_picking.py:0
-#, python-format
-msgid "Email sent by InvoiceXpress:<ul><li>To: {}</li><li>Cc: {}</li></ul>"
 msgstr ""
 
 #. module: l10n_pt_stock_invoicexpress
@@ -88,6 +76,12 @@ msgstr ""
 #. module: l10n_pt_stock_invoicexpress
 #: code:addons/l10n_pt_stock_invoicexpress/models/stock_picking.py:0
 #, python-format
+msgid "InvoiceXpress document has been sent successfully"
+msgstr ""
+
+#. module: l10n_pt_stock_invoicexpress
+#: code:addons/l10n_pt_stock_invoicexpress/models/stock_picking.py:0
+#, python-format
 msgid ""
 "InvoiceXpress record has been created for this delivery "
 "order:<ul><li>InvoiceXpress Id: "
@@ -109,12 +103,6 @@ msgstr ""
 #. module: l10n_pt_stock_invoicexpress
 #: model:ir.model.fields,field_description:l10n_pt_stock_invoicexpress.field_stock_picking__license_plate
 msgid "License Plate"
-msgstr ""
-
-#. module: l10n_pt_stock_invoicexpress
-#: code:addons/l10n_pt_stock_invoicexpress/models/stock_picking.py:0
-#, python-format
-msgid "None"
 msgstr ""
 
 #. module: l10n_pt_stock_invoicexpress

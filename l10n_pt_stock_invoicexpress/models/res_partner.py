@@ -14,5 +14,5 @@ class ResPartner(models.Model):
             "detail": ", ".join(filter(None, [self.street, self.street2])) or "",
             "city": self.city or "",
             "postal_code": self.zip or "",
-            "country": self.country_id.name or "",
+            "country": self.country_id.invoicexpress_name or "",
         }

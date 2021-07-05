@@ -1,0 +1,28 @@
+<odoo noupdate="1">
+    <record id="email_template_delivery" model="mail.template">
+        <field name="name">InvoiceXpress: Send Delivery by Email</field>
+        <field name="model_id" ref="stock.model_stock_picking" />
+        <field name="subject">Entrega ${object.name | safe}</field>
+        <field name="email_to">${object.partner_id.email | safe}</field>
+        <field name="email_cc">${object.env.user.email | safe}</field>
+        <field name="body_html" type="html">
+<p>
+Olá,
+<br />
+Enviamos em anexo a Guia de Trasporte ${object.name | safe}
+% if object.ref:
+    relativa à sua encomenda ${object.ref | safe}
+% endif
+.
+<br /><br />
+Obrigado
+% if user.signature:
+    <br />
+    ${user.signature | safe}
+% endif
+</p>
+        </field>
+        <field name="lang">${object.partner_id.lang}</field>
+        <field name="auto_delete" eval="True" />
+    </record>
+</odoo>
