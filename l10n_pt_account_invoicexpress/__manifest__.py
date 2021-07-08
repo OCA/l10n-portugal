@@ -8,7 +8,7 @@
     "author": "Open Source Integrators, Odoo Community Association (OCA)",
     "license": "AGPL-3",
     "website": "https://github.com/OCA/l10n-portugal",
-    "category": "Accounting/Localizations/Account Charts",
+    "category": "Accounting/Localizations/EDI",
     "maintainers": ["dreispt"],
     "development_status": "Production/Stable",
     "depends": ["l10n_pt_vat", "account"],

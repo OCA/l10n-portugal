@@ -80,7 +80,9 @@ class TestInvoiceXpress(common.TransactionCase):
 
     @patch.object(requests, "request")
     def test_101_create_invoicexpress_invoice(self, mock_request):
-        mock_request.return_value = mock_response({"invoice": {"id": 2137287}})
+        mock_request.return_value = mock_response(
+            {"invoice": {"id": 2137287, "inverted_sequence_number": "MYSEQ/123"}}
+        )
 
         move_form = Form(self.AccountMove.with_context(default_move_type="out_invoice"))
         move_form.invoice_date = fields.Date.today()
