@@ -101,20 +101,15 @@ class AccountMove(models.Model):
             )
         return invoice_data
 
-    def _update_invoicexpress_status(self, result):
-        vals = {
-            "invoicexpress_id": result.get("id"),
-            "invoicexpress_permalink": result.get("permalink"),
-        }
-        self.update(vals)
+    def _update_invoicexpress_status(self):
         inv_xpress_link = _(
             " <a class='btn btn-info mr-2' href={}>View Document</a>"
-        ).format(result.get("permalink"))
+        ).format(self.invoicexpress_permalink)
         msg = _(
             "InvoiceXpress record has been created for this invoice:"
             "<ul><li>InvoiceXpress Id: {inv_xpress_id}</li>"
             "<li>{inv_xpress_link}</li></ul>"
-        ).format(inv_xpress_id=result.get("id"), inv_xpress_link=inv_xpress_link)
+        ).format(inv_xpress_id=self.invoicexpress_id, inv_xpress_link=inv_xpress_link)
         self.message_post(body=msg)
 
     def action_create_invoicexpress_invoice(self):
@@ -124,18 +119,25 @@ class AccountMove(models.Model):
             payload = invoice._prepare_invoicexpress_vals()
             response = InvoiceXpress.call(
                 invoice.company_id, "{}.json".format(doctype), "POST", payload=payload
-            )
-            values = response.json().get("invoice") or response.json().get(
-                "credit_note"
-            )
+            ).json()
+            values = response.get("invoice") or response.get("credit_note")
             if values:
-                invoice._update_invoicexpress_status(values)
-                InvoiceXpress.call(
+                invoice.invoicexpress_id = values.get("id")
+                invoice.invoicexpress_permalink = values.get("permalink")
+                response1 = InvoiceXpress.call(
                     invoice.company_id,
-                    "{}/{}/change-state.json".format(doctype, values["id"]),
+                    "{}/{}/change-state.json".format(doctype, invoice.invoicexpress_id),
                     "PUT",
                     payload={"invoice": {"state": "finalized"}},
-                )
+                    raise_errors=False,
+                ).json()
+                values1 = response1.get("invoice") or response1.get("credit_note")
+                invx_number = values1 and values1["inverted_sequence_number"]
+                if invx_number:
+                    if invoice.payment_reference == invoice.name:
+                        invoice.payment_reference = invx_number
+                    invoice.name = invx_number
+                invoice._update_invoicexpress_status()
 
     def _prepare_invoicexpress_email_vals(self):
         self.ensure_one()
