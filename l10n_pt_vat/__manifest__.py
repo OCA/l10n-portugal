@@ -8,11 +8,10 @@
     "author": "Sossia, Odoo Community Association (OCA)",
     "summary": "Portuguese VAT requirements extensions",
     "website": "https://github.com/OCA/l10n-portugal",
-    "category": "Localisation/Portugal",
+    "category": "Accounting/Localizations",
     "data": [
         "security/ir.model.access.csv",
         "data/vat_adjustment_norm.xml",
-        "data/account_tax.xml",
         "views/vat_adjustment_norm_view.xml",
         "views/account_invoice_view.xml",
     ],
