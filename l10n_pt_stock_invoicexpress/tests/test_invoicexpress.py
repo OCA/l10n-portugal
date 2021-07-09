@@ -27,7 +27,9 @@ class TestInvoiceXpressStock(TestInvoiceXpress):
 
     @patch.object(requests, "request")
     def test_102_create_invoicexpress_picking(self, mock_request):
-        mock_request.return_value = mock_response({"shipping": {"id": 2137287}})
+        mock_request.return_value = mock_response(
+            {"shipping": {"id": 2137287, "inverted_sequence_number": "MYSEQ/123"}}
+        )
         self.stock_location = self.env.ref("stock.stock_location_stock")
         self.warehouse = self.env["stock.warehouse"].search(
             [("lot_stock_id", "=", self.stock_location.id)], limit=1
