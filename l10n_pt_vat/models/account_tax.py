@@ -10,4 +10,5 @@ class AccountTax(models.Model):
     l10n_pt_fiscal_zone = fields.Selection(
         [("PT", "Portugal Continental"), ("PT-AC", "Açores"), ("PT-MA", "Madeira")],
         string="Fiscal Zone",
+        default="PT",
     )
