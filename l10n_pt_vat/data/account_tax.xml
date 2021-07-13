@@ -75,7 +75,6 @@
         <field name="auto_apply">True</field>
         <field name="vat_required">True</field>
         <field name="country_id" ref="base.pt" />
-        <field name="vat_required">True</field>
         <field name="zip_from">1000</field>
         <field name="zip_to">8999</field>
     </record>
@@ -84,7 +83,6 @@
         <field name="auto_apply">True</field>
         <field name="vat_required">True</field>
         <field name="country_id" ref="base.pt" />
-        <field name="vat_required">True</field>
         <field name="zip_from">9000</field>
         <field name="zip_to">9499</field>
     </record>
@@ -93,55 +91,54 @@
         <field name="auto_apply">True</field>
         <field name="vat_required">True</field>
         <field name="country_id" ref="base.pt" />
-        <field name="vat_required">True</field>
         <field name="zip_from">9500</field>
         <field name="zip_to">9999</field>
     </record>
 
     <!-- Fiscal position tax mapping -->
-    <record id="fp_mainland_vat_regular" model="account.fiscal.position.tax">
+    <record id="fp_mainland_vat_regular_23" model="account.fiscal.position.tax">
         <field name="position_id" ref="fp_mainland" />
         <field name="tax_src_id" ref="vat_regular" />
         <field name="tax_dest_id" ref="vat_regular_23" />
     </record>
-    <record id="fp_mainland_vat_intermediate" model="account.fiscal.position.tax">
+    <record id="fp_mainland_vat_intermediate_13" model="account.fiscal.position.tax">
         <field name="position_id" ref="fp_mainland" />
         <field name="tax_src_id" ref="vat_intermediate" />
         <field name="tax_dest_id" ref="vat_intermediate_13" />
     </record>
-    <record id="fp_mainland_vat_reduced" model="account.fiscal.position.tax">
+    <record id="fp_mainland_vat_reduced_06" model="account.fiscal.position.tax">
         <field name="position_id" ref="fp_mainland" />
         <field name="tax_src_id" ref="vat_reduced" />
         <field name="tax_dest_id" ref="vat_reduced_06" />
     </record>
 
-    <record id="fp_mainland_vat_regular" model="account.fiscal.position.tax">
+    <record id="fp_mainland_vat_regular_22" model="account.fiscal.position.tax">
         <field name="position_id" ref="fp_madeira" />
         <field name="tax_src_id" ref="vat_regular" />
         <field name="tax_dest_id" ref="vat_regular_22" />
     </record>
-    <record id="fp_mainland_vat_intermediate" model="account.fiscal.position.tax">
+    <record id="fp_mainland_vat_intermediate_12" model="account.fiscal.position.tax">
         <field name="position_id" ref="fp_madeira" />
         <field name="tax_src_id" ref="vat_intermediate" />
         <field name="tax_dest_id" ref="vat_intermediate_12" />
     </record>
-    <record id="fp_mainland_vat_reduced" model="account.fiscal.position.tax">
+    <record id="fp_mainland_vat_reduced_05" model="account.fiscal.position.tax">
         <field name="position_id" ref="fp_madeira" />
         <field name="tax_src_id" ref="vat_reduced" />
         <field name="tax_dest_id" ref="vat_reduced_05" />
     </record>
 
-    <record id="fp_mainland_vat_regular" model="account.fiscal.position.tax">
+    <record id="fp_mainland_vat_regular_18" model="account.fiscal.position.tax">
         <field name="position_id" ref="fp_azores" />
         <field name="tax_src_id" ref="vat_regular" />
         <field name="tax_dest_id" ref="vat_regular_18" />
     </record>
-    <record id="fp_mainland_vat_intermediate" model="account.fiscal.position.tax">
+    <record id="fp_mainland_vat_intermediate_09" model="account.fiscal.position.tax">
         <field name="position_id" ref="fp_mainland" />
         <field name="tax_src_id" ref="vat_intermediate" />
         <field name="tax_dest_id" ref="vat_intermediate_09" />
     </record>
-    <record id="fp_mainland_vat_reduced" model="account.fiscal.position.tax">
+    <record id="fp_mainland_vat_reduced_04" model="account.fiscal.position.tax">
         <field name="position_id" ref="fp_mainland" />
         <field name="tax_src_id" ref="vat_reduced" />
         <field name="tax_dest_id" ref="vat_reduced_04" />
