@@ -131,12 +131,16 @@ msgid "InvoiceXpress ID"
 msgstr ""
 
 #. module: l10n_pt_stock_invoicexpress
+#: model:ir.model.fields,field_description:l10n_pt_stock_invoicexpress.field_stock_picking__invoicexpress_number
+msgid "InvoiceXpress Number"
+msgstr ""
+
+#. module: l10n_pt_stock_invoicexpress
 #: code:addons/l10n_pt_stock_invoicexpress/models/stock_picking.py:0
 #, python-format
 msgid ""
 "InvoiceXpress record has been created for this delivery "
-"order:<ul><li>InvoiceXpress Id: "
-"{inv_xpress_id}</li><li>{inv_xpress_link}</li></ul>"
+"order:<ul><li>Number: {inv_xpress_num}</li><li>{inv_xpress_link}</li></ul>"
 msgstr ""
 
 #. module: l10n_pt_stock_invoicexpress
