@@ -14,6 +14,9 @@ class StockPicking(models.Model):
 
     license_plate = fields.Char()
     invoicexpress_id = fields.Char("InvoiceXpress ID", copy=False, readonly=True)
+    invoicexpress_number = fields.Char(
+        "InvoiceXpress Number", copy=False, readonly=True
+    )
     invoicexpress_permalink = fields.Char(
         "InvoiceXpress Doc Link", copy=False, readonly=True
     )
@@ -106,22 +109,17 @@ class StockPicking(models.Model):
             }
         }
 
-    def _update_invoicexpress_status(self, result):
-        vals = {
-            "invoicexpress_id": result.get("id"),
-            "invoicexpress_permalink": result.get("permalink"),
-        }
-        self.update(vals)
-
-        # post the message on chatter
+    def _update_invoicexpress_status(self):
         inv_xpress_link = _(
             "<a class='btn btn-info mr-2' href={}>View Document</a>"
-        ).format(result.get("permalink"))
+        ).format(self.invoicexpress_permalink)
         msg = _(
-            "InvoiceXpress record has been created for this delivery order:"
-            "<ul><li>InvoiceXpress Id: {inv_xpress_id}</li>"
+            "InvoiceXpress record has been created for this delivery order:<ul>"
+            "<li>Number: {inv_xpress_num}</li>"
             "<li>{inv_xpress_link}</li></ul>"
-        ).format(inv_xpress_id=result.get("id"), inv_xpress_link=inv_xpress_link)
+        ).format(
+            inv_xpress_num=self.invoicexpress_number, inv_xpress_link=inv_xpress_link
+        )
         self.message_post(body=msg)
 
     def action_create_invoicexpress_delivery(self):
@@ -139,13 +137,17 @@ class StockPicking(models.Model):
             )
             values = response.json().get("shipping")
             if values:
-                delivery._update_invoicexpress_status(values)
-                InvoiceXpress.call(
+                delivery.invoicexpress_id = values.get("id")
+                delivery.invoicexpress_permalink = values.get("permalink")
+                response1 = InvoiceXpress.call(
                     delivery.company_id,
                     "{}/{}/change-state.json".format(doctype, values["id"]),
                     "PUT",
                     payload={"shipping": {"state": "finalized"}},
                 )
+                values1 = response1.json().get("shipping")
+                delivery.invoicexpress_number = values1["inverted_sequence_number"]
+                delivery._update_invoicexpress_status()
 
     def _prepare_invoicexpress_email_vals(self):
         self.ensure_one()
