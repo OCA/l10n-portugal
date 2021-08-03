@@ -6,13 +6,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"Last-Translator: Automatically generated\n"
+"PO-Revision-Date: 2021-08-03 11:49+0000\n"
+"Last-Translator: Daniel Reis <dgreis@sapo.pt>\n"
 "Language-Team: none\n"
 "Language: pt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 4.3.2\n"
 
 #. module: l10n_pt_stock_invoicexpress
 #: code:addons/l10n_pt_stock_invoicexpress/models/stock_picking.py:0
@@ -83,7 +85,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_pt_stock_invoicexpress.field_res_partner__display_name
 #: model:ir.model.fields,field_description:l10n_pt_stock_invoicexpress.field_stock_picking__display_name
 msgid "Display Name"
-msgstr ""
+msgstr "Nome a Exibir"
 
 #. module: l10n_pt_stock_invoicexpress
 #: code:addons/l10n_pt_stock_invoicexpress/models/stock_picking.py:0
@@ -102,7 +104,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_pt_stock_invoicexpress.field_res_partner__id
 #: model:ir.model.fields,field_description:l10n_pt_stock_invoicexpress.field_stock_picking__id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: l10n_pt_stock_invoicexpress
 #: model_terms:ir.ui.view,arch_db:l10n_pt_stock_invoicexpress.view_stock_picking_form
@@ -150,7 +152,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_pt_stock_invoicexpress.field_res_partner____last_update
 #: model:ir.model.fields,field_description:l10n_pt_stock_invoicexpress.field_stock_picking____last_update
 msgid "Last Modified on"
-msgstr ""
+msgstr "Última Modificação em"
 
 #. module: l10n_pt_stock_invoicexpress
 #: model:ir.model.fields,field_description:l10n_pt_stock_invoicexpress.field_stock_picking__license_plate
