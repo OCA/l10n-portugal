@@ -27,6 +27,7 @@
                 <attribute name="invisible">True</attribute>
             </button>
             <button name="preview_invoice" position="before">
+                <!-- This can be uncommented to aid debugging
                 <button
                     name="action_create_invoicexpress_invoice"
                     string="Create InvoiceXpress"
@@ -34,6 +35,7 @@
                     attrs="{'invisible': ['|', ('can_invoicexpress', '=', False), ('invoicexpress_id', '!=', False)]}"
                     groups="base.group_no_one"
                 />
+                -->
                 <button
                     name="action_send_invoicexpress_email"
                     string="Email InvoiceXpress"
