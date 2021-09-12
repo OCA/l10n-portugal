@@ -139,30 +139,34 @@ class AccountMove(models.Model):
                     invoice.name = invx_number
                 invoice._update_invoicexpress_status()
 
-    def _prepare_invoicexpress_email_vals(self):
+    def _prepare_invoicexpress_email_vals(self, ignore_no_config=False):
         self.ensure_one()
         template_id = self.company_id.invoicexpress_template_id
         values = template_id.generate_email(
             self.id, ["subject", "body_html", "email_to", "email_cc"]
         )
-        if not template_id:
+        if not template_id and not ignore_no_config:
             raise exceptions.UserError(
                 _(
                     "Please configure the InvoiceXpress email template"
                     " at Settings > General Setting, InvoiceXpress section"
                 )
             )
-        email_data = {
-            "message": {
-                "client": {"email": values["email_to"], "save": "0"},
-                "cc": values["email_cc"],
-                "subject": values["subject"],
-                "body": values["body_html"],
+        if not values.get("email_to") and not ignore_no_config:
+            raise exceptions.UserError(_("No address to send invoice email to."))
+        email_data = None
+        if template_id and values["email_to"]:
+            email_data = {
+                "message": {
+                    "client": {"email": values["email_to"], "save": "0"},
+                    "cc": values["email_cc"],
+                    "subject": values["subject"],
+                    "body": values["body_html"],
+                }
             }
-        }
         return email_data
 
-    def action_send_invoicexpress_email(self):
+    def action_send_invoicexpress_email(self, ignore_no_config=False):
         InvoiceXpress = self.env["account.invoicexpress"]
         for invoice in self.filtered("can_invoicexpress_email"):
             if not invoice.invoicexpress_id:
@@ -172,12 +176,8 @@ class AccountMove(models.Model):
             endpoint = "invoices/{}/email-document.json".format(
                 invoice.invoicexpress_id
             )
-            payload = invoice._prepare_invoicexpress_email_vals()
-            if not payload["message"]["client"]["email"]:
-                invoice.message_post(
-                    body=_("No email to send the InvoiceXpress document to.")
-                )
-            else:
+            payload = invoice._prepare_invoicexpress_email_vals(ignore_no_config)
+            if payload:
                 InvoiceXpress.call(invoice.company_id, endpoint, "PUT", payload=payload)
                 msg = _(
                     "Email sent by InvoiceXpress:<ul><li>To: {}</li><li>Cc: {}</li></ul>"
@@ -197,5 +197,5 @@ class AccountMove(models.Model):
         for invoice in self:
             if not invoice.invoicexpress_id:
                 invoice.action_create_invoicexpress_invoice()
-                invoice.action_send_invoicexpress_email()
+                invoice.action_send_invoicexpress_email(ignore_no_config=True)
         return res
