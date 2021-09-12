@@ -25,13 +25,16 @@
                 </page>
             </xpath>
             <xpath expr="//button[@name='do_print_picking']" position="before">
+                <!-- This can be uncommented to aid debugging
                 <button
                     name="action_create_invoicexpress_delivery"
                     string="Create InvoiceXpress"
                     type="object"
                     attrs="{'invisible': ['|', '|', ('invoicexpress_id', '!=', False),
                     ('state', 'not in', ('assigned','done')),('can_invoicexpress', '=', False)]}"
+                    groups="base.group_no_one"
                 />
+                -->
                 <button
                     name="action_send_invoicexpress_delivery"
                     string="InvoiceXpress Email"

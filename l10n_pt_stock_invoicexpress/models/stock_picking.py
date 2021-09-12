@@ -149,30 +149,36 @@ class StockPicking(models.Model):
                 delivery.invoicexpress_number = values1["inverted_sequence_number"]
                 delivery._update_invoicexpress_status()
 
-    def _prepare_invoicexpress_email_vals(self):
+    def _prepare_invoicexpress_email_vals(self, ignore_no_config=False):
         self.ensure_one()
         template_id = self.company_id.invoicexpress_delivery_template_id
         values = template_id.generate_email(
             self.id, ["subject", "body_html", "email_to", "email_cc"]
         )
-        if not template_id:
+        if not template_id and not ignore_no_config:
             raise exceptions.UserError(
                 _(
                     "Please configure the InvoiceXpress Delivery email template"
                     " at Settings > General Setting, InvoiceXpress section"
                 )
             )
-        email_data = {
-            "message": {
-                "client": {"email": values["email_to"], "save": "0"},
-                "cc": values["email_cc"],
-                "subject": values["subject"],
-                "body": values["body_html"],
+        if not values.get("email_to") and not ignore_no_config:
+            raise exceptions.UserError(
+                _("No address to send delivery document email to.")
+            )
+        email_data = None
+        if template_id and values["email_to"]:
+            email_data = {
+                "message": {
+                    "client": {"email": values["email_to"], "save": "0"},
+                    "cc": values["email_cc"],
+                    "subject": values["subject"],
+                    "body": values["body_html"],
+                }
             }
-        }
         return email_data
 
-    def action_send_invoicexpress_delivery(self):
+    def action_send_invoicexpress_delivery(self, ignore_no_config=False):
         InvoiceXpress = self.env["account.invoicexpress"]
         for delivery in self.filtered("can_invoicexpress_email"):
             if not delivery.invoicexpress_id:
@@ -184,13 +190,8 @@ class StockPicking(models.Model):
             endpoint = "{}/{}/email-document.json".format(
                 doctype, delivery.invoicexpress_id
             )
-            payload = delivery._prepare_invoicexpress_email_vals()
-
-            if not payload["message"]["client"]["email"]:
-                delivery.message_post(
-                    body=_("No email to send the InvoiceXpress document to.")
-                )
-            else:
+            payload = delivery._prepare_invoicexpress_email_vals(ignore_no_config)
+            if payload:
                 InvoiceXpress.call(
                     delivery.company_id, endpoint, "PUT", payload=payload
                 )
@@ -209,5 +210,5 @@ class StockPicking(models.Model):
         res = super()._action_done()
         to_invoicexpress = self.filtered(lambda x: x.partner_id.country_id.code == "PT")
         to_invoicexpress.action_create_invoicexpress_delivery()
-        to_invoicexpress.action_send_invoicexpress_delivery()
+        to_invoicexpress.action_send_invoicexpress_delivery(ignore_no_config=True)
         return res
