@@ -13,6 +13,7 @@
     "development_status": "Production/Stable",
     "depends": ["l10n_pt_account_invoicexpress", "sale_stock"],
     "data": [
+        "views/res_company_view.xml",
         "views/res_config_settings.xml",
         "views/stock_picking_view.xml",
         "data/mail_template.xml",
