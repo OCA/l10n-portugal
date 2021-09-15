@@ -16,6 +16,7 @@
         "views/res_config_settings.xml",
         "views/account_tax_view.xml",
         "views/account_move_view.xml",
+        "views/res_company_view.xml",
         "data/mail_template.xml",
         "data/res.country.csv",
     ],
