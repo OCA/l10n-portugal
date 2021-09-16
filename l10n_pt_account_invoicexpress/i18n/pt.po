@@ -86,11 +86,6 @@ msgid "Country"
 msgstr ""
 
 #. module: l10n_pt_account_invoicexpress
-#: model_terms:ir.ui.view,arch_db:l10n_pt_account_invoicexpress.view_account_move_form
-msgid "Create InvoiceXpress"
-msgstr ""
-
-#. module: l10n_pt_account_invoicexpress
 #: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_account_invoicexpress__display_name
 #: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_account_move__display_name
 #: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_account_tax__display_name
@@ -189,8 +184,8 @@ msgstr ""
 #: code:addons/l10n_pt_account_invoicexpress/models/account_move.py:0
 #, python-format
 msgid ""
-"InvoiceXpress record has been created for this invoice:<ul><li>InvoiceXpress"
-" Id: {inv_xpress_id}</li><li>{inv_xpress_link}</li></ul>"
+"InvoiceXpress record has been created for this invoice:<ul><li>InvoiceXpress "
+"Id: {inv_xpress_id}</li><li>{inv_xpress_link}</li></ul>"
 msgstr ""
 
 #. module: l10n_pt_account_invoicexpress
@@ -230,7 +225,7 @@ msgstr ""
 #. module: l10n_pt_account_invoicexpress
 #: code:addons/l10n_pt_account_invoicexpress/models/account_move.py:0
 #, python-format
-msgid "No email to send the InvoiceXpress document to."
+msgid "No address to send invoice email to."
 msgstr ""
 
 #. module: l10n_pt_account_invoicexpress
@@ -254,7 +249,8 @@ msgstr ""
 msgid ""
 "Select 'Sale' for customer invoices journals.\n"
 "Select 'Purchase' for vendor bills journals.\n"
-"Select 'Cash' or 'Bank' for journals that are used in customer or vendor payments.\n"
+"Select 'Cash' or 'Bank' for journals that are used in customer or vendor "
+"payments.\n"
 "Select 'General' for miscellaneous operations journals."
 msgstr ""
 
