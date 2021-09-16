@@ -66,11 +66,6 @@ msgid "Contact"
 msgstr ""
 
 #. module: l10n_pt_stock_invoicexpress
-#: model_terms:ir.ui.view,arch_db:l10n_pt_stock_invoicexpress.view_stock_picking_form
-msgid "Create InvoiceXpress"
-msgstr ""
-
-#. module: l10n_pt_stock_invoicexpress
 #: code:addons/l10n_pt_stock_invoicexpress/models/stock_picking.py:0
 #, python-format
 msgid "Delivery %s is not registerd in InvoiceXpress yet."
@@ -159,7 +154,7 @@ msgstr ""
 #. module: l10n_pt_stock_invoicexpress
 #: code:addons/l10n_pt_stock_invoicexpress/models/stock_picking.py:0
 #, python-format
-msgid "No email to send the InvoiceXpress document to."
+msgid "No address to send delivery document email to."
 msgstr ""
 
 #. module: l10n_pt_stock_invoicexpress
