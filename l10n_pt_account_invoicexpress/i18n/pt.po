@@ -154,6 +154,11 @@ msgid "InvoiceXpress Account Name"
 msgstr ""
 
 #. module: l10n_pt_account_invoicexpress
+#: model_terms:ir.ui.view,arch_db:l10n_pt_account_invoicexpress.res_compnay_form_invoicexpress
+msgid "InvoiceXpress Configuration"
+msgstr ""
+
+#. module: l10n_pt_account_invoicexpress
 #: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_account_bank_statement_line__invoicexpress_permalink
 #: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_account_move__invoicexpress_permalink
 #: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_account_payment__invoicexpress_permalink
