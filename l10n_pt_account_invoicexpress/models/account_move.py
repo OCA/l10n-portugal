@@ -21,7 +21,9 @@ class AccountMove(models.Model):
     def _compute_can_invoicexpress(self):
         for invoice in self:
             invoice.can_invoicexpress = (
-                invoice.is_sale_document() and invoice.company_id.invoicexpress_api_key
+                invoice.journal_id.use_invoicexpress
+                and invoice.is_sale_document()
+                and invoice.company_id.invoicexpress_api_key
             )
 
     @api.depends("can_invoicexpress", "company_id.invoicexpress_template_id")
