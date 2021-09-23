@@ -86,6 +86,7 @@ msgstr ""
 
 #. module: l10n_pt_account_invoicexpress
 #: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_account_invoicexpress__display_name
+#: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_account_journal__display_name
 #: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_account_move__display_name
 #: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_account_tax__display_name
 #: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_res_company__display_name
@@ -114,6 +115,7 @@ msgstr ""
 
 #. module: l10n_pt_account_invoicexpress
 #: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_account_invoicexpress__id
+#: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_account_journal__id
 #: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_account_move__id
 #: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_account_tax__id
 #: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_res_company__id
@@ -193,8 +195,25 @@ msgid ""
 msgstr ""
 
 #. module: l10n_pt_account_invoicexpress
+#: model_terms:ir.ui.view,arch_db:l10n_pt_account_invoicexpress.view_account_journal_form
+msgid "Invoicexpress"
+msgstr ""
+
+#. module: l10n_pt_account_invoicexpress
 #: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_res_country__invoicexpress_name
 msgid "Invoicexpress Name"
+msgstr ""
+
+#. module: l10n_pt_account_invoicexpress
+#: model:ir.model.fields,help:l10n_pt_account_invoicexpress.field_account_journal__use_invoicexpress
+msgid ""
+"Invoicexpress service is only used if checked. Only relevant for Sales "
+"journals."
+msgstr ""
+
+#. module: l10n_pt_account_invoicexpress
+#: model:ir.model,name:l10n_pt_account_invoicexpress.model_account_journal
+msgid "Journal"
 msgstr ""
 
 #. module: l10n_pt_account_invoicexpress
@@ -217,6 +236,7 @@ msgstr ""
 
 #. module: l10n_pt_account_invoicexpress
 #: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_account_invoicexpress____last_update
+#: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_account_journal____last_update
 #: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_account_move____last_update
 #: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_account_tax____last_update
 #: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_res_company____last_update
@@ -274,6 +294,11 @@ msgstr ""
 #. module: l10n_pt_account_invoicexpress
 #: model:ir.model,name:l10n_pt_account_invoicexpress.model_account_tax
 msgid "Tax"
+msgstr ""
+
+#. module: l10n_pt_account_invoicexpress
+#: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_account_journal__use_invoicexpress
+msgid "Use Invoicexpress"
 msgstr ""
 
 #. module: l10n_pt_account_invoicexpress
