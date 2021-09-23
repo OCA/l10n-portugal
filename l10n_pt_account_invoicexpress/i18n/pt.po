@@ -47,11 +47,6 @@ msgid ""
 msgstr ""
 
 #. module: l10n_pt_account_invoicexpress
-#: model_terms:ir.ui.view,arch_db:l10n_pt_account_invoicexpress.res_config_settings_view_form
-msgid "Account InvoiceXpress"
-msgstr ""
-
-#. module: l10n_pt_account_invoicexpress
 #: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_account_bank_statement_line__can_invoicexpress
 #: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_account_move__can_invoicexpress
 #: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_account_payment__can_invoicexpress
@@ -133,6 +128,7 @@ msgid "Invoice %s is not registerd in InvoiceXpress yet."
 msgstr ""
 
 #. module: l10n_pt_account_invoicexpress
+#: model_terms:ir.ui.view,arch_db:l10n_pt_account_invoicexpress.res_config_settings_view_form
 #: model_terms:ir.ui.view,arch_db:l10n_pt_account_invoicexpress.view_account_move_form
 msgid "InvoiceXpress"
 msgstr ""
@@ -140,12 +136,8 @@ msgstr ""
 #. module: l10n_pt_account_invoicexpress
 #: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_res_company__invoicexpress_api_key
 #: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_res_config_settings__invoicexpress_api_key
-msgid "InvoiceXpress API Key"
-msgstr ""
-
-#. module: l10n_pt_account_invoicexpress
 #: model_terms:ir.ui.view,arch_db:l10n_pt_account_invoicexpress.res_config_settings_view_form
-msgid "InvoiceXpress API key"
+msgid "InvoiceXpress API Key"
 msgstr ""
 
 #. module: l10n_pt_account_invoicexpress
@@ -170,7 +162,6 @@ msgstr ""
 #. module: l10n_pt_account_invoicexpress
 #: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_res_company__invoicexpress_template_id
 #: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_res_config_settings__invoicexpress_template_id
-#: model_terms:ir.ui.view,arch_db:l10n_pt_account_invoicexpress.res_config_settings_view_form
 msgid "InvoiceXpress Email Template"
 msgstr ""
 
@@ -180,6 +171,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_account_payment__invoicexpress_id
 #: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_account_tax__invoicexpress_id
 msgid "InvoiceXpress ID"
+msgstr ""
+
+#. module: l10n_pt_account_invoicexpress
+#: model_terms:ir.ui.view,arch_db:l10n_pt_account_invoicexpress.res_config_settings_view_form
+msgid "InvoiceXpress Invoice Email Template"
 msgstr ""
 
 #. module: l10n_pt_account_invoicexpress
