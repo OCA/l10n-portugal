@@ -8,7 +8,7 @@
             <field name="arch" type="xml">
                 <xpath expr="//div[@name='integration']" position="after">
                     <div name="l10n_pt_account_invoicexpress">
-                        <h2>Account InvoiceXpress</h2>
+                        <h2>InvoiceXpress</h2>
                         <div class="row mt16 o_settings_container">
                             <div class="col-xs-12 col-md-6 o_setting_box">
                                 <div class="o_setting_right_pane">
@@ -32,14 +32,14 @@
                                         <div class="mt16">
                                             <label
                                                 for="invoicexpress_api_key"
-                                                string="InvoiceXpress API key"
+                                                string="InvoiceXpress API Key"
                                             />
                                             <field name="invoicexpress_api_key" />
                                         </div>
                                         <div class="mt16">
                                             <label
                                                 for="invoicexpress_template_id"
-                                                string="InvoiceXpress Email Template"
+                                                string="InvoiceXpress Invoice Email Template"
                                             />
                                             <field name="invoicexpress_template_id" />
                                         </div>
