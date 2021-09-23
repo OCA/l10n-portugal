@@ -27,21 +27,39 @@ Portugal InvoiceXpress Transport Documents
 
 Generate Portuguese tax authority legal transport documents ("Guias de Transporte") using InvoiceXpress.
 
+The InvoiceXpress document is automatically generated when an ougoing Transfer or
+Delivery Order is validated.
+
+This feature depends on the InvoiceXpress Invoice generation feature.
+See https://github.com/OCA/l10n-portugal/blob/14.0/l10n_pt_account_invoicexpress/README.rst
+for more details.
+
 **Table of contents**
 
 .. contents::
    :local:
 
+Configuration
+=============
+
+This feature depends on the InvoiceXpress Incoice generation feature.
+See https://github.com/OCA/l10n-portugal/blob/14.0/l10n_pt_account_invoicexpress/README.rst
+for configuration details.
+
+An additional "InvoiceXpress Delivery Email" option is available,
+to configure the email template preparing the details for the emailto be sent by the
+InvoiceXpress service.
+
 Usage
 =====
 
-On Delivery Orders and Internal Transfer documents, use the "Create InvoiceXpress"
-button to generate a transport document for the Done quantities.
+On Delivery Orders and Internal Transfer documents,
+validating the transfer automatically generates
+an InvoiceXpress "Guia de Transporte" for the Done quantities.
 
-Multiple documents can be generated for the same delivery.
-
-The "Email InvoiceXpress" request the InvoiceXpress service to send an email with a
-copy of the legal document.
+The "Email InvoiceXpress" requests the InvoiceXpress service
+to send an email with a copy of the legal document.
+The content of this email can be configure in Odoo.
 
 Bug Tracker
 ===========
