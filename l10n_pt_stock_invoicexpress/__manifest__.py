@@ -3,7 +3,7 @@
 
 {
     "name": "Portugal InvoiceXpress Transport Documents",
-    "summary": "Legal transport documents generated with InvoiceXpress",
+    "summary": "Legal transport documents (Guias de Trasnporte) generated with InvoiceXpress",
     "version": "14.0.2.2.0",
     "author": "Open Source Integrators, Odoo Community Association (OCA)",
     "license": "AGPL-3",
@@ -18,6 +18,7 @@
         "views/stock_picking_view.xml",
         "data/mail_template.xml",
     ],
+    "images": ["static/description/cover.png"],
     "application": False,
     "installable": True,
     "auto_install": True,
