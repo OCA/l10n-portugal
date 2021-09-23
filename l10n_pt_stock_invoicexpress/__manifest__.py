@@ -4,7 +4,7 @@
 {
     "name": "Portugal InvoiceXpress Transport Documents",
     "summary": "Legal transport documents (Guias de Trasnporte) generated with InvoiceXpress",
-    "version": "14.0.2.2.0",
+    "version": "14.0.2.2.1",
     "author": "Open Source Integrators, Odoo Community Association (OCA)",
     "license": "AGPL-3",
     "website": "https://github.com/OCA/l10n-portugal",
