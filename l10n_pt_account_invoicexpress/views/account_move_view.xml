@@ -15,7 +15,6 @@
                     name="invoicexpress"
                     string="InvoiceXpress"
                     attrs="{'invisible': [('invoicexpress_id', '=', False)]}"
-                    groups="base.group_no_one"
                 >
                     <group>
                         <field name="invoicexpress_id" />
