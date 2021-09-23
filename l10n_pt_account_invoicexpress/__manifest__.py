@@ -3,7 +3,7 @@
 
 {
     "name": "Portugal InvoiceXpress Integration",
-    "summary": "Legal invoices with InvoiceXpress",
+    "summary": "Portuguese certified invoices using InvoiceXpress",
     "version": "14.0.2.3.0",
     "author": "Open Source Integrators, Odoo Community Association (OCA)",
     "license": "AGPL-3",
@@ -21,6 +21,7 @@
         "data/mail_template.xml",
         "data/res.country.csv",
     ],
+    "images": ["static/description/cover.png"],
     "application": True,
     "installable": True,
 }
