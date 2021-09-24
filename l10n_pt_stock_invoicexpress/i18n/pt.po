@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-08-03 11:49+0000\n"
+"PO-Revision-Date: 2021-09-24 13:34+0000\n"
 "Last-Translator: Daniel Reis <dgreis@sapo.pt>\n"
 "Language-Team: none\n"
 "Language: pt\n"
@@ -20,7 +20,7 @@ msgstr ""
 #: code:addons/l10n_pt_stock_invoicexpress/models/stock_picking.py:0
 #, python-format
 msgid "<a class='btn btn-info mr-2' href={}>View Document</a>"
-msgstr ""
+msgstr "<a class='btn btn-info mr-2' href={}>Ver Documento</a>"
 
 #. module: l10n_pt_stock_invoicexpress
 #: model:mail.template,body_html:l10n_pt_stock_invoicexpress.email_template_delivery
@@ -42,37 +42,53 @@ msgid ""
 "</p>\n"
 "        "
 msgstr ""
+"<p>\n"
+"Olá,\n"
+"<br/>\n"
+"Enviamos em anexo a Guia de Transporte ${object.name | safe}\n"
+"% if object.ref:\n"
+"    relativa à sua encomenda ${object.ref | safe}\n"
+"% endif\n"
+".\n"
+"<br/><br/>\n"
+"Obrigado\n"
+"% if user.signature:\n"
+"    <br/>\n"
+"    ${user.signature | safe}\n"
+"% endif\n"
+"</p>\n"
+"        "
 
 #. module: l10n_pt_stock_invoicexpress
 #: model:ir.model.fields,field_description:l10n_pt_stock_invoicexpress.field_stock_picking__can_invoicexpress
 msgid "Can Invoicexpress"
-msgstr ""
+msgstr "Permite Invoicexpress"
 
 #. module: l10n_pt_stock_invoicexpress
 #: model:ir.model.fields,field_description:l10n_pt_stock_invoicexpress.field_stock_picking__can_invoicexpress_email
 msgid "Can Invoicexpress Email"
-msgstr ""
+msgstr "Pode enviar email Invoicexpress"
 
 #. module: l10n_pt_stock_invoicexpress
 #: model:ir.model,name:l10n_pt_stock_invoicexpress.model_res_company
 msgid "Companies"
-msgstr ""
+msgstr "Empresas"
 
 #. module: l10n_pt_stock_invoicexpress
 #: model:ir.model,name:l10n_pt_stock_invoicexpress.model_res_config_settings
 msgid "Config Settings"
-msgstr ""
+msgstr "Configuração de Definições"
 
 #. module: l10n_pt_stock_invoicexpress
 #: model:ir.model,name:l10n_pt_stock_invoicexpress.model_res_partner
 msgid "Contact"
-msgstr ""
+msgstr "Contacto"
 
 #. module: l10n_pt_stock_invoicexpress
 #: code:addons/l10n_pt_stock_invoicexpress/models/stock_picking.py:0
 #, python-format
 msgid "Delivery %s is not registerd in InvoiceXpress yet."
-msgstr ""
+msgstr "Entrega %s ainda não está registada no InvoiceXpress."
 
 #. module: l10n_pt_stock_invoicexpress
 #: model:ir.model.fields,field_description:l10n_pt_stock_invoicexpress.field_res_company__display_name
@@ -87,11 +103,12 @@ msgstr "Nome a Exibir"
 #, python-format
 msgid "Email sent by InvoiceXpress:<ul><li>To: {}</li><li>Cc: {}</li></ul>"
 msgstr ""
+"Email enviado pelo InvoiceXpress:<ul><li>Para: {}</li><li>Cc: {}</li></ul>"
 
 #. module: l10n_pt_stock_invoicexpress
 #: model:mail.template,subject:l10n_pt_stock_invoicexpress.email_template_delivery
 msgid "Entrega ${object.name | safe}"
-msgstr ""
+msgstr "Entrega ${object.name | safe}"
 
 #. module: l10n_pt_stock_invoicexpress
 #: model:ir.model.fields,field_description:l10n_pt_stock_invoicexpress.field_res_company__id
@@ -104,34 +121,34 @@ msgstr "ID"
 #. module: l10n_pt_stock_invoicexpress
 #: model_terms:ir.ui.view,arch_db:l10n_pt_stock_invoicexpress.view_stock_picking_form
 msgid "InvoiceXpress"
-msgstr ""
+msgstr "InvoiceXpress"
 
 #. module: l10n_pt_stock_invoicexpress
 #: model:ir.model.fields,field_description:l10n_pt_stock_invoicexpress.field_res_company__invoicexpress_delivery_template_id
 #: model:ir.model.fields,field_description:l10n_pt_stock_invoicexpress.field_res_config_settings__invoicexpress_delivery_template_id
 #: model_terms:ir.ui.view,arch_db:l10n_pt_stock_invoicexpress.res_config_settings_view_form
 msgid "InvoiceXpress Delivery Email"
-msgstr ""
+msgstr "Email Entrega InvoiceXpress"
 
 #. module: l10n_pt_stock_invoicexpress
 #: model:ir.model.fields,field_description:l10n_pt_stock_invoicexpress.field_stock_picking__invoicexpress_permalink
 msgid "InvoiceXpress Doc Link"
-msgstr ""
+msgstr "Ligação documento InvoiceXpress"
 
 #. module: l10n_pt_stock_invoicexpress
 #: model_terms:ir.ui.view,arch_db:l10n_pt_stock_invoicexpress.view_stock_picking_form
 msgid "InvoiceXpress Email"
-msgstr ""
+msgstr "Email InvoiceXpress"
 
 #. module: l10n_pt_stock_invoicexpress
 #: model:ir.model.fields,field_description:l10n_pt_stock_invoicexpress.field_stock_picking__invoicexpress_id
 msgid "InvoiceXpress ID"
-msgstr ""
+msgstr "InvoiceXpress ID"
 
 #. module: l10n_pt_stock_invoicexpress
 #: model:ir.model.fields,field_description:l10n_pt_stock_invoicexpress.field_stock_picking__invoicexpress_number
 msgid "InvoiceXpress Number"
-msgstr ""
+msgstr "Número InvoiceXpress"
 
 #. module: l10n_pt_stock_invoicexpress
 #: code:addons/l10n_pt_stock_invoicexpress/models/stock_picking.py:0
@@ -140,6 +157,8 @@ msgid ""
 "InvoiceXpress record has been created for this delivery order:"
 "<ul><li>Number: {inv_xpress_num}</li><li>{inv_xpress_link}</li></ul>"
 msgstr ""
+"Registo InvoiceXpress foi criado para esta entrega:<ul><li>Número: "
+"{inv_xpress_num}</li><li>{inv_xpress_link}</li></ul>"
 
 #. module: l10n_pt_stock_invoicexpress
 #: model:ir.model.fields,field_description:l10n_pt_stock_invoicexpress.field_res_company____last_update
@@ -152,19 +171,19 @@ msgstr "Última Modificação em"
 #. module: l10n_pt_stock_invoicexpress
 #: model:ir.model.fields,field_description:l10n_pt_stock_invoicexpress.field_stock_picking__license_plate
 msgid "License Plate"
-msgstr ""
+msgstr "Matrícula"
 
 #. module: l10n_pt_stock_invoicexpress
 #: code:addons/l10n_pt_stock_invoicexpress/models/stock_picking.py:0
 #, python-format
 msgid "No address to send delivery document email to."
-msgstr ""
+msgstr "Falta o endereço para onde enviar o email com a Guia de Transporte."
 
 #. module: l10n_pt_stock_invoicexpress
 #: code:addons/l10n_pt_stock_invoicexpress/models/stock_picking.py:0
 #, python-format
 msgid "None"
-msgstr ""
+msgstr "Nenhum"
 
 #. module: l10n_pt_stock_invoicexpress
 #: code:addons/l10n_pt_stock_invoicexpress/models/stock_picking.py:0
@@ -173,22 +192,24 @@ msgid ""
 "Please configure the InvoiceXpress Delivery email template at Settings > "
 "General Setting, InvoiceXpress section"
 msgstr ""
+"Por favor configure o modelo email InvoiceXpress para entregas em Definições "
+"> Definições Gerais, secção InvoiceXpress"
 
 #. module: l10n_pt_stock_invoicexpress
 #: code:addons/l10n_pt_stock_invoicexpress/models/stock_picking.py:0
 #, python-format
 msgid "Scheduled Date should be bigger then current datetime!"
-msgstr ""
+msgstr "Data prevista deve ser posterior à data e hora atual!"
 
 #. module: l10n_pt_stock_invoicexpress
 #: model:ir.model,name:l10n_pt_stock_invoicexpress.model_stock_picking
 msgid "Transfer"
-msgstr ""
+msgstr "Transferência"
 
 #. module: l10n_pt_stock_invoicexpress
 #: model:ir.model.fields,field_description:l10n_pt_stock_invoicexpress.field_stock_picking__l10npt_transport_doc_due_date
 msgid "Transport Doc. Validity"
-msgstr ""
+msgstr "Validade Doc. Transporte"
 
 #. module: l10n_pt_stock_invoicexpress
 #: model:ir.model.fields,help:l10n_pt_stock_invoicexpress.field_res_company__invoicexpress_delivery_template_id
@@ -197,3 +218,5 @@ msgid ""
 "Used to generate the To, Cc, Subject and Body for the InvoiceXpress email "
 "sending the Delivery document."
 msgstr ""
+"Usado para gerar Para, Cc, Assunto e Corpo do email InvoiceXpress enviado "
+"com a Guia de Transporte."
