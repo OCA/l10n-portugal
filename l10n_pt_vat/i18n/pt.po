@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-11-18 15:02+0000\n"
-"PO-Revision-Date: 2021-08-03 11:49+0000\n"
+"PO-Revision-Date: 2021-09-24 13:34+0000\n"
 "Last-Translator: Daniel Reis <dgreis@sapo.pt>\n"
 "Language-Team: \n"
 "Language: pt\n"
@@ -21,7 +21,7 @@ msgstr ""
 #: code:addons/l10n_pt_vat/models/account_move.py:0
 #, python-format
 msgid "A tax exemption reason must be provided."
-msgstr ""
+msgstr "O motivo de isenção é obrigatório."
 
 #. module: l10n_pt_vat
 #: model:ir.model.fields,field_description:l10n_pt_vat.field_account_l10n_pt_vat_exempt_reason__active
@@ -31,13 +31,14 @@ msgstr "Ativo"
 
 #. module: l10n_pt_vat
 #: model:account.l10n_pt.vat.exempt.reason,name:l10n_pt_vat.M01
+#, fuzzy
 msgid "Artigo 16.º n.º 6 do CIVA"
-msgstr ""
+msgstr "Artigo 16.º n.º 6 do CIVA"
 
 #. module: l10n_pt_vat
 #: model:account.l10n_pt.vat.exempt.reason,name:l10n_pt_vat.M02
 msgid "Artigo 6.º do Decreto-Lei n.º 198/90, de 19 de Junho "
-msgstr ""
+msgstr "Artigo 6.º do Decreto-Lei n.º 198/90, de 19 de Junho "
 
 #. module: l10n_pt_vat
 #: model:ir.model.fields.selection,name:l10n_pt_vat.selection__account_tax__l10n_pt_fiscal_zone__pt-ac
@@ -110,7 +111,7 @@ msgstr "ID"
 #. module: l10n_pt_vat
 #: model:account.l10n_pt.vat.exempt.reason,name:l10n_pt_vat.M08
 msgid "IVA - Autoliquidação"
-msgstr ""
+msgstr "IVA - Autoliquidação"
 
 #. module: l10n_pt_vat
 #: model:account.l10n_pt.vat.exempt.reason,name:l10n_pt_vat.M09
