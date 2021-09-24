@@ -1,0 +1,7 @@
+<odoo>
+    <record id="vat_final_consumer" model="res.partner">
+        <field name="name">Consumidor Final</field>
+        <field name="company_type">person</field>
+        <field name="vat">999999990</field>
+    </record>
+</odoo>

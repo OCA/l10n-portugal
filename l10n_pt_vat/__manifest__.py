@@ -13,6 +13,7 @@
     "data": [
         "security/ir.model.access.csv",
         "data/account.l10n_pt.vat.exempt.reason.csv",
+        "data/res_partner_data.xml",
         "data/vat_adjustment_norm.xml",
         "views/account_journal_view.xml",
         "views/account_move_view.xml",
