@@ -7,8 +7,19 @@ from odoo import fields, models
 class Company(models.Model):
     _inherit = "res.company"
 
+    def _compute_has_invoicexpress(self):
+        for company in self:
+            company.has_invoicexpress = (
+                company.invoicexpress_account_name and company.invoicexpress_api_key
+            )
+
     invoicexpress_account_name = fields.Char(string="InvoiceXpress Account Name")
     invoicexpress_api_key = fields.Char(string="InvoiceXpress API Key")
+    has_invoicexpress = fields.Boolean(
+        compute="_compute_has_invoicexpress",
+        help="Easy to use indicator if InvoiceXpress is enabled and can be used",
+    )
+
     invoicexpress_template_id = fields.Many2one(
         "mail.template",
         "InvoiceXpress Email Template",
