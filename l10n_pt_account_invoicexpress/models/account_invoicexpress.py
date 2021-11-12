@@ -79,7 +79,12 @@ class InvoiceXpress(models.AbstractModel):
         request_headers = self._build_headers(config, headers)
         request_params = self._build_params(config, params)
         request_data = payload and json.dumps(payload) or ""
-        _logger.debug("\nRequest for %s %s:\n%s", request_url, verb, request_data)
+        _logger.debug(
+            "\nRequest for %s %s:\n%s",
+            request_url,
+            verb,
+            pprint.pformat(payload, indent=1),
+        )
         response = requests.request(
             verb,
             request_url,
