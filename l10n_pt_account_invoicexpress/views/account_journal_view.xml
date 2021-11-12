@@ -12,7 +12,8 @@
                     string="Invoicexpress"
                     attrs="{'invisible': [('type', '!=', 'sale')]}"
                 >
-                    <field name="use_invoicexpress" />
+                    <field name="invoicexpress_doc_type" />
+                    <field name="use_invoicexpress" groupe="base.group_no_one" />
                 </group>
             </page>
 

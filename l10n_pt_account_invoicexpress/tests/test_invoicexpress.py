@@ -24,8 +24,11 @@ class TestInvoiceXpress(common.TransactionCase):
             {
                 "invoicexpress_account_name": "ACCOUNT",
                 "invoicexpress_api_key": "APIKEY",
+                "country_id": self.env.ref("base.pt").id,
             }
         )
+        Journal = self.env["account.journal"]
+        self.sale_journals = Journal.search([("type", "=", "sale")])
 
         self.AccountMove = self.env["account.move"]
         self.ProductProduct = self.env["product.product"]
@@ -59,7 +62,7 @@ class TestInvoiceXpress(common.TransactionCase):
         mock_request.return_value = mock_response(
             {
                 "tax": {
-                    "id": 31540,
+                    "id": 12345,
                     "name": "IVA23",
                     "value": 23.0,
                     "region": "PT",
@@ -76,18 +79,24 @@ class TestInvoiceXpress(common.TransactionCase):
             }
         )
         taxA.action_invoicexpress_tax_create()
-        self.assertEqual(taxA.invoicexpress_id, "31540")
+        self.assertEqual(taxA.invoicexpress_id, "12345")
 
     @patch.object(requests, "request")
     def test_101_create_invoicexpress_invoice(self, mock_request):
         mock_request.return_value = mock_response(
-            {"invoice": {"id": 2137287, "inverted_sequence_number": "MYSEQ/123"}}
+            {
+                "invoice_receipt": {
+                    "id": 12345678,
+                    "inverted_sequence_number": "MYSEQ/123",
+                }
+            }
         )
-
+        # Ensure Journal is configured
+        self.sale_journals.write({"invoicexpress_doc_type": "invoice_receipt"})
+        # Create the Invoice
         move_form = Form(self.AccountMove.with_context(default_move_type="out_invoice"))
         move_form.invoice_date = fields.Date.today()
         move_form.partner_id = self.partnerA
-
         products = [self.productA, self.productB]
 
         for product in products:
@@ -95,6 +104,6 @@ class TestInvoiceXpress(common.TransactionCase):
                 line_form.product_id = product
         invoice = move_form.save()
         invoice.action_post()
-
-        invoice.action_create_invoicexpress_invoice()
-        self.assertTrue(invoice.invoicexpress_id)
+        self.assertEqual(invoice.invoicexpress_doc_type, "invoice_receipt")
+        self.assertEqual(invoice.invoicexpress_id, "12345678")
+        self.assertEqual(invoice.name, "FR MYSEQ/123")
