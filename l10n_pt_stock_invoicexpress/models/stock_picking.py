@@ -29,12 +29,12 @@ class StockPicking(models.Model):
     can_invoicexpress = fields.Boolean(compute="_compute_can_invoicexpress")
     can_invoicexpress_email = fields.Boolean(compute="_compute_can_invoicexpress_email")
 
-    @api.depends("picking_type_id", "company_id.invoicexpress_api_key")
+    @api.depends("picking_type_id", "company_id.has_invoicexpress")
     def _compute_can_invoicexpress(self):
         for delivery in self:
             delivery.can_invoicexpress = (
-                delivery.picking_type_id.code != "incoming"
-                and delivery.company_id.invoicexpress_api_key
+                delivery.company_id.has_invoicexpress
+                and delivery._get_invoicexpress_doctype()
             )
 
     @api.depends("can_invoicexpress", "company_id.invoicexpress_delivery_template_id")
@@ -53,27 +53,48 @@ class StockPicking(models.Model):
             )
 
     def _get_invoicexpress_doctype(self):
-        return "shippings" if self.picking_type_id.code != "incoming" else "devolutions"
+        """
+        Return the doc type, read from the Operation Type.
+        Also detect devolutions, and then use the appropriate type instead.
+        """
+        pick_doc_type = self.picking_type_id.invoicexpress_doc_type
+        return_orig_moves = self.move_ids_without_package.origin_returned_move_id
+        res = None
+        if return_orig_moves.mapped("picking_id.invoicexpress_id"):
+            # Support for devolutions
+            # Disabled for now, shoudl be used for suppleir devolutions only?
+            # res = "devolution"
+            res = None
+        elif pick_doc_type and pick_doc_type != "none":
+            res = pick_doc_type
+        return res
+
+    @api.model
+    def _get_invoicexpress_prefix(self, doctype):
+        return {
+            "transport": "GT",
+            "shipping": "GR",
+            "devolution": "GD",
+        }.get(doctype)
 
     def _prepare_invoicexpress_lines(self):
-        lines = self.move_lines.filtered(
-            lambda l: l.quantity_done and l.picking_code == "outgoing"
-        )
+        lines = self.move_lines.filtered("quantity_done")
         # Ensure Taxes are created on InvoiceXpress
         lines.mapped("sale_line_id.tax_id").action_invoicexpress_tax_create()
         items = []
         for line in lines:
-            # tax = line.sale_line_id.tax_id[:1]
+            tax = line.sale_line_id.tax_id[:1]
             # tax_detail = {"name": tax.name, "value": tax.amount} if tax else {}
+            tax_detail = {"name": tax.name} if tax else {}
             items.append(
                 {
                     "name": line.product_id.default_code
                     or line.product_id.display_name,
-                    "description": line.name or "",
+                    "description": line.product_id.name or "",  # line.name for SO desc
                     "unit_price": 0.0,  # line.sale_line_id.price_unit,
                     "quantity": line.quantity_done,
-                    # "discount": line.sale_line_id.discount,
-                    # "tax": tax_detail,
+                    "discount": line.sale_line_id.discount,
+                    "tax": tax_detail,
                 }
             )
         return items
@@ -85,14 +106,21 @@ class StockPicking(models.Model):
             raise exceptions.ValidationError(
                 _("Scheduled Date should be bigger then current datetime!")
             )
-        warehouse = self.location_id.get_warehouse()
         customer = self.partner_id.commercial_partner_id
         customer_vals = customer._prepare_invoicexpress_vals()
-        addr_from_vals = warehouse.partner_id._prepare_invoicexpress_shipping_vals()
-        addr_to_vals = self.partner_id._prepare_invoicexpress_shipping_vals()
+        if self.location_id.usage == "internal":  # Outgoing
+            address_from = self.picking_type_id.warehouse_id.partner_id
+            address_to = self.partner_id
+        elif self.location_dest_id.usage == "internal":  # Incoming => Return
+            address_from = self.partner_id
+            address_to = self.picking_type_id.warehouse_id.partner_id
+        addr_from_vals = address_from._prepare_invoicexpress_shipping_vals()
+        addr_to_vals = address_to._prepare_invoicexpress_shipping_vals()
+
+        doctype = self._get_invoicexpress_doctype()
         item_vals = self._prepare_invoicexpress_lines()
         return {
-            "shipping": {
+            doctype: {
                 "date": shipping_date.strftime("%d/%m/%Y"),
                 "due_date": (
                     self.l10npt_transport_doc_due_date or shipping_date
@@ -110,9 +138,10 @@ class StockPicking(models.Model):
         }
 
     def _update_invoicexpress_status(self):
+        inv_xpress_link_name = _("View Document")
         inv_xpress_link = _(
-            "<a class='btn btn-info mr-2' href={}>View Document</a>"
-        ).format(self.invoicexpress_permalink)
+            "<a class='btn btn-info mr-2' target='new' href={}>{}</a>"
+        ).format(self.invoicexpress_permalink, inv_xpress_link_name)
         msg = _(
             "InvoiceXpress record has been created for this delivery order:<ul>"
             "<li>Number: {inv_xpress_num}</li>"
@@ -130,24 +159,30 @@ class StockPicking(models.Model):
         """
         InvoiceXpress = self.env["account.invoicexpress"]
         for delivery in self.filtered("can_invoicexpress"):
-            doctype = delivery._get_invoicexpress_doctype()
             payload = delivery._prepare_invoicexpress_vals()
+            doctype = delivery._get_invoicexpress_doctype()
             response = InvoiceXpress.call(
-                delivery.company_id, "{}.json".format(doctype), "POST", payload=payload
+                delivery.company_id, "{}s.json".format(doctype), "POST", payload=payload
             )
-            values = response.json().get("shipping")
-            if values:
-                delivery.invoicexpress_id = values.get("id")
-                delivery.invoicexpress_permalink = values.get("permalink")
-                response1 = InvoiceXpress.call(
-                    delivery.company_id,
-                    "{}/{}/change-state.json".format(doctype, values["id"]),
-                    "PUT",
-                    payload={"shipping": {"state": "finalized"}},
+            values = response.json().get(doctype)
+            if not values:
+                raise exceptions.UserError(
+                    _("Something went wrong: the InvoiceXpress response looks empty.")
                 )
-                values1 = response1.json().get("shipping")
-                delivery.invoicexpress_number = values1["inverted_sequence_number"]
-                delivery._update_invoicexpress_status()
+            delivery.invoicexpress_id = values.get("id")
+            delivery.invoicexpress_permalink = values.get("permalink")
+            response1 = InvoiceXpress.call(
+                delivery.company_id,
+                "{}s/{}/change-state.json".format(doctype, values["id"]),
+                "PUT",
+                payload={doctype: {"state": "finalized"}},
+            )
+            values1 = response1.json().get(doctype)
+            prefix = self._get_invoicexpress_prefix(doctype)
+            seqnum = values1["inverted_sequence_number"]
+            invx_number = "%s %s" % (prefix, seqnum)
+            delivery.invoicexpress_number = invx_number
+            delivery._update_invoicexpress_status()
 
     def _prepare_invoicexpress_email_vals(self, ignore_no_config=False):
         self.ensure_one()
@@ -187,7 +222,7 @@ class StockPicking(models.Model):
                     delivery.name,
                 )
             doctype = delivery._get_invoicexpress_doctype()
-            endpoint = "{}/{}/email-document.json".format(
+            endpoint = "{}s/{}/email-document.json".format(
                 doctype, delivery.invoicexpress_id
             )
             payload = delivery._prepare_invoicexpress_email_vals(ignore_no_config)
@@ -203,12 +238,15 @@ class StockPicking(models.Model):
                 )
                 delivery.message_post(body=msg)
 
-    def _action_done(self):
+    def button_validate(self):
         """
         Automatically generate legal transport docs for PT customers
         """
-        res = super()._action_done()
-        to_invoicexpress = self.filtered(lambda x: x.partner_id.country_id.code == "PT")
-        to_invoicexpress.action_create_invoicexpress_delivery()
-        to_invoicexpress.action_send_invoicexpress_delivery(ignore_no_config=True)
+        res = super().button_validate()
+        if res is True:  # do not enter if the result is a dict, only if it is True
+            to_invoicexpress = self.filtered(
+                lambda x: x.partner_id.country_id.code == "PT"
+            )
+            to_invoicexpress.action_create_invoicexpress_delivery()
+            to_invoicexpress.action_send_invoicexpress_delivery(ignore_no_config=True)
         return res
