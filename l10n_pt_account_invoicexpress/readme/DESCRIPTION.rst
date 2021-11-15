@@ -8,9 +8,12 @@ Invoices:
   Invoice, Invoice Receipt, Simplified Invoice and VAT MOSS.
   The default document type is set on the Journal,
   and can be changed on the Invoice form.
+
 - Use the invoice commercial partner for the name and address,
   instead of the invoice contact.
+
 - Added support for the Terms and Conditions/Observations field
+
 - Added to Credit Notes the link to the source Invoice
 
 
