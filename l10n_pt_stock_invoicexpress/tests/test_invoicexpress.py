@@ -28,19 +28,19 @@ class TestInvoiceXpressStock(TestInvoiceXpress):
     @patch.object(requests, "request")
     def test_102_create_invoicexpress_picking(self, mock_request):
         mock_request.return_value = mock_response(
-            {"shipping": {"id": 2137287, "inverted_sequence_number": "MYSEQ/123"}}
+            {"transport": {"id": 12345678, "inverted_sequence_number": "MYSEQ/123"}}
         )
-        self.stock_location = self.env.ref("stock.stock_location_stock")
+        stock_location = self.env.ref("stock.stock_location_stock")
         self.warehouse = self.env["stock.warehouse"].search(
-            [("lot_stock_id", "=", self.stock_location.id)], limit=1
+            [("lot_stock_id", "=", stock_location.id)], limit=1
         )
-
-        scheduled_date = fields.Datetime.now() + timedelta(days=1)
-
-        # Create a new picking with the one products.
+        # Setup defaults for Operation Types
+        self.warehouse.company_id._update_default_doctype()
+        # Create a new picking with one product
         picking_form = Form(self.StockPicking)
         picking_form.partner_id = self.partnerA
         picking_form.picking_type_id = self.warehouse.out_type_id
+        scheduled_date = fields.Datetime.now() + timedelta(days=1)
         picking_form.scheduled_date = scheduled_date
         picking_form.origin = "Picking-Test"
         with picking_form.move_ids_without_package.new() as move_line:
@@ -52,7 +52,7 @@ class TestInvoiceXpressStock(TestInvoiceXpress):
         self.assertEqual(
             self.delivery_order.partner_id.country_id,
             self.pt_country,
-            "Portugal Country",
+            "Country is Portugal",
         )
 
         self.delivery_order.action_confirm()
@@ -64,5 +64,5 @@ class TestInvoiceXpressStock(TestInvoiceXpress):
             self.delivery_order.state, "assigned", "Delivery Order assigned"
         )
 
-        self.delivery_order.action_create_invoicexpress_delivery()
+        self.delivery_order.button_validate()
         self.assertTrue(self.delivery_order.invoicexpress_id)
