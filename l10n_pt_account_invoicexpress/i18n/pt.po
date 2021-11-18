@@ -6,24 +6,26 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"Last-Translator: Automatically generated\n"
+"PO-Revision-Date: 2021-11-18 20:36+0000\n"
+"Last-Translator: Daniel Reis <dgreis@sapo.pt>\n"
 "Language-Team: none\n"
 "Language: pt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 4.3.2\n"
 
 #. module: l10n_pt_account_invoicexpress
 #: code:addons/l10n_pt_account_invoicexpress/models/account_move.py:0
 #, python-format
 msgid " <a class='btn btn-info mr-2' href={}>View Document</a>"
-msgstr ""
+msgstr " <a class='btn btn-info mr-2' href={}>Ver Documento</a>"
 
 #. module: l10n_pt_account_invoicexpress
 #: model_terms:ir.ui.view,arch_db:l10n_pt_account_invoicexpress.res_config_settings_view_form
 msgid "<i class=\"fa fa-arrow-right\"/> Generate an API key"
-msgstr ""
+msgstr "<i class=\"fa fa-arrow-right\"/> Gerar uma chave de API"
 
 #. module: l10n_pt_account_invoicexpress
 #: model:mail.template,body_html:l10n_pt_account_invoicexpress.email_template_invoice
@@ -51,34 +53,34 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_account_move__can_invoicexpress
 #: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_account_payment__can_invoicexpress
 msgid "Can Invoicexpress"
-msgstr ""
+msgstr "Pode usar InvoiceXpress"
 
 #. module: l10n_pt_account_invoicexpress
 #: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_account_bank_statement_line__can_invoicexpress_email
 #: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_account_move__can_invoicexpress_email
 #: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_account_payment__can_invoicexpress_email
 msgid "Can Invoicexpress Email"
-msgstr ""
+msgstr "Pode enviar email InvoiceXpress"
 
 #. module: l10n_pt_account_invoicexpress
 #: model:ir.model,name:l10n_pt_account_invoicexpress.model_res_company
 msgid "Companies"
-msgstr ""
+msgstr "Empresas"
 
 #. module: l10n_pt_account_invoicexpress
 #: model:ir.model,name:l10n_pt_account_invoicexpress.model_res_config_settings
 msgid "Config Settings"
-msgstr ""
+msgstr "Configurações"
 
 #. module: l10n_pt_account_invoicexpress
 #: model:ir.model,name:l10n_pt_account_invoicexpress.model_res_partner
 msgid "Contact"
-msgstr ""
+msgstr "Contacto"
 
 #. module: l10n_pt_account_invoicexpress
 #: model:ir.model,name:l10n_pt_account_invoicexpress.model_res_country
 msgid "Country"
-msgstr ""
+msgstr "País"
 
 #. module: l10n_pt_account_invoicexpress
 #: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_account_invoicexpress__display_name
@@ -91,24 +93,24 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_res_country__display_name
 #: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_res_partner__display_name
 msgid "Display Name"
-msgstr ""
+msgstr "Nome de apresentação"
 
 #. module: l10n_pt_account_invoicexpress
 #: model_terms:ir.ui.view,arch_db:l10n_pt_account_invoicexpress.view_account_move_form
 msgid "Email InvoiceXpress"
-msgstr ""
+msgstr "Email InvoiceXpress"
 
 #. module: l10n_pt_account_invoicexpress
 #: code:addons/l10n_pt_account_invoicexpress/models/account_move.py:0
 #, python-format
 msgid "Email sent by InvoiceXpress:<ul><li>To: {}</li><li>Cc: {}</li></ul>"
-msgstr ""
+msgstr "Email enviado por InvoiceXpress:<ul><li>To: {}</li><li>Cc: {}</li></ul>"
 
 #. module: l10n_pt_account_invoicexpress
 #: code:addons/l10n_pt_account_invoicexpress/models/account_invoicexpress.py:0
 #, python-format
 msgid "Error running API request ({} {}): {}"
-msgstr ""
+msgstr "Erro na chamada à API ({} {}): {}"
 
 #. module: l10n_pt_account_invoicexpress
 #: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_account_invoicexpress__id
@@ -127,7 +129,7 @@ msgstr ""
 #: code:addons/l10n_pt_account_invoicexpress/models/account_move.py:0
 #, python-format
 msgid "Invoice %s is not registerd in InvoiceXpress yet."
-msgstr ""
+msgstr "Fatura %s não está registada no InvoiceXpress."
 
 #. module: l10n_pt_account_invoicexpress
 #: model_terms:ir.ui.view,arch_db:l10n_pt_account_invoicexpress.res_config_settings_view_form
@@ -140,19 +142,19 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_res_config_settings__invoicexpress_api_key
 #: model_terms:ir.ui.view,arch_db:l10n_pt_account_invoicexpress.res_config_settings_view_form
 msgid "InvoiceXpress API Key"
-msgstr ""
+msgstr "InvoiceXpress Chave API"
 
 #. module: l10n_pt_account_invoicexpress
 #: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_res_company__invoicexpress_account_name
 #: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_res_config_settings__invoicexpress_account_name
 #: model_terms:ir.ui.view,arch_db:l10n_pt_account_invoicexpress.res_config_settings_view_form
 msgid "InvoiceXpress Account Name"
-msgstr ""
+msgstr "InvoiceXpress Nome da Conta"
 
 #. module: l10n_pt_account_invoicexpress
 #: model_terms:ir.ui.view,arch_db:l10n_pt_account_invoicexpress.res_compnay_form_invoicexpress
 msgid "InvoiceXpress Configuration"
-msgstr ""
+msgstr "Configuração InvoiceXpress"
 
 #. module: l10n_pt_account_invoicexpress
 #: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_account_bank_statement_line__invoicexpress_permalink
@@ -183,7 +185,7 @@ msgstr ""
 #. module: l10n_pt_account_invoicexpress
 #: model:ir.model,name:l10n_pt_account_invoicexpress.model_account_invoicexpress
 msgid "InvoiceXpress connector"
-msgstr ""
+msgstr "Conector InvoiceXpress"
 
 #. module: l10n_pt_account_invoicexpress
 #: code:addons/l10n_pt_account_invoicexpress/models/account_move.py:0
@@ -192,6 +194,8 @@ msgid ""
 "InvoiceXpress record has been created for this invoice:<ul><li>InvoiceXpress "
 "Id: {inv_xpress_id}</li><li>{inv_xpress_link}</li></ul>"
 msgstr ""
+"O registo InvoiceXpress foi criado para esta fatura:<ul><li>InvoiceXpress Id:"
+" {inv_xpress_id}</li><li>{inv_xpress_link}</li></ul>"
 
 #. module: l10n_pt_account_invoicexpress
 #: model_terms:ir.ui.view,arch_db:l10n_pt_account_invoicexpress.view_account_journal_form
@@ -201,7 +205,7 @@ msgstr ""
 #. module: l10n_pt_account_invoicexpress
 #: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_res_country__invoicexpress_name
 msgid "Invoicexpress Name"
-msgstr ""
+msgstr "Nome Invoicexpress"
 
 #. module: l10n_pt_account_invoicexpress
 #: model:ir.model.fields,help:l10n_pt_account_invoicexpress.field_account_journal__use_invoicexpress
@@ -209,11 +213,13 @@ msgid ""
 "Invoicexpress service is only used if checked. Only relevant for Sales "
 "journals."
 msgstr ""
+"Serviço InvoiceXpress só será usado se estiver assinalado. Relevante apenas "
+"para Diários de Vendas."
 
 #. module: l10n_pt_account_invoicexpress
 #: model:ir.model,name:l10n_pt_account_invoicexpress.model_account_journal
 msgid "Journal"
-msgstr ""
+msgstr "Diário"
 
 #. module: l10n_pt_account_invoicexpress
 #: model:ir.model,name:l10n_pt_account_invoicexpress.model_account_move
