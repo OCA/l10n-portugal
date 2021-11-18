@@ -11,10 +11,13 @@ for more details.
 **UPDATE November/2021:**
 
 Deliveries:
-- Added support to the different document types:
+
+- Added support to the different document types,
   Transport ("Guia de Transporte") and Shipment ("Guia de Remessa").
   The default document type is set on the Operation Type.
+
 - Changed the line description to be the Product name,
   instead of the original Sales Order description,
   so that it uses the most up to date product description.
+
 - Added tax details to the document lines.

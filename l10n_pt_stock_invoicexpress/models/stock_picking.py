@@ -12,6 +12,55 @@ _logger = logging.getLogger(__name__)
 class StockPicking(models.Model):
     _inherit = "stock.picking"
 
+    @api.depends("picking_type_id", "company_id.has_invoicexpress")
+    def _compute_can_invoicexpress(self):
+        for delivery in self:
+            delivery.can_invoicexpress = (
+                delivery.company_id.has_invoicexpress
+                and delivery.invoicexpress_doc_type
+            )
+
+    @api.depends("can_invoicexpress", "company_id.invoicexpress_delivery_template_id")
+    def _compute_can_invoicexpress_email(self):
+        for delivery in self:
+            delivery.can_invoicexpress_email = (
+                delivery.can_invoicexpress
+                and delivery.company_id.invoicexpress_delivery_template_id
+            )
+
+    @api.depends("can_invoicexpress_email", "invoicexpress_doc_type")
+    def _compute_invoicexpress_send_email(self):
+        for delivery in self:
+            delivery.invoicexpress_send_email = (
+                delivery.can_invoicexpress_email
+                and delivery.invoicexpress_doc_type != "devolution"
+            )
+
+    @api.depends("scheduled_date")
+    def _compute_l10npt_transport_doc_due_date(self):
+        for doc in self:
+            doc.l10npt_transport_doc_due_date = fields.Date.add(
+                doc.scheduled_date, days=7
+            )
+
+    @api.depends("picking_type_id")
+    def _compute_invoicexpress_doc_type(self):
+        """
+        Return the doc type, read from the Operation Type.
+        Also detect devolutions, and then use the appropriate type instead.
+        """
+        for pick in self:
+            pick_doc_type = pick.picking_type_id.invoicexpress_doc_type
+            country = pick.partner_id.country_id
+            is_PT = not country or country.code == "PT"
+            # TODO: Automatic support for devolutions
+            # Disabled for now, should be used for supplier devolutions only?
+            # return_orig_moves = pick.move_ids_without_package.origin_returned_move_id
+            # if return_orig_moves.mapped("picking_id.invoicexpress_id"):
+            #     pick.invoicexpress_doc_type = "devolution"
+            if pick_doc_type and pick_doc_type != "none" and is_PT:
+                pick.invoicexpress_doc_type = pick_doc_type
+
     license_plate = fields.Char()
     invoicexpress_id = fields.Char("InvoiceXpress ID", copy=False, readonly=True)
     invoicexpress_number = fields.Char(
@@ -28,46 +77,34 @@ class StockPicking(models.Model):
     )
     can_invoicexpress = fields.Boolean(compute="_compute_can_invoicexpress")
     can_invoicexpress_email = fields.Boolean(compute="_compute_can_invoicexpress_email")
+    invoicexpress_send_email = fields.Boolean(
+        "InvX Send Email",
+        compute="_compute_invoicexpress_send_email",
+        store=True,
+        readonly=False,
+        copy=False,
+        help="If unchecked, both the InvoiceXpress email"
+        " and the Delivery email won't be sent.",
+    )
+    invoicexpress_doc_type = fields.Selection(
+        [
+            ("transport", "Guia de Transporte / Transport"),
+            ("shipping", "Guia de Remessa / Shipping"),
+            ("devolution", "Devolução / Return"),
+        ],
+        string="InvX Doc Type",
+        compute="_compute_invoicexpress_doc_type",
+        store=True,
+        readonly=False,
+        copy=False,
+        help="Select the type of legal delivery document"
+        " to be created by InvoiceXpress.",
+    )
 
-    @api.depends("picking_type_id", "company_id.has_invoicexpress")
-    def _compute_can_invoicexpress(self):
-        for delivery in self:
-            delivery.can_invoicexpress = (
-                delivery.company_id.has_invoicexpress
-                and delivery._get_invoicexpress_doctype()
-            )
-
-    @api.depends("can_invoicexpress", "company_id.invoicexpress_delivery_template_id")
-    def _compute_can_invoicexpress_email(self):
-        for delivery in self:
-            delivery.can_invoicexpress_email = (
-                delivery.can_invoicexpress
-                and delivery.company_id.invoicexpress_delivery_template_id
-            )
-
-    @api.depends("scheduled_date")
-    def _compute_l10npt_transport_doc_due_date(self):
-        for doc in self:
-            doc.l10npt_transport_doc_due_date = fields.Date.add(
-                doc.scheduled_date, days=7
-            )
-
-    def _get_invoicexpress_doctype(self):
-        """
-        Return the doc type, read from the Operation Type.
-        Also detect devolutions, and then use the appropriate type instead.
-        """
-        pick_doc_type = self.picking_type_id.invoicexpress_doc_type
-        return_orig_moves = self.move_ids_without_package.origin_returned_move_id
-        res = None
-        if return_orig_moves.mapped("picking_id.invoicexpress_id"):
-            # Support for devolutions
-            # Disabled for now, shoudl be used for suppleir devolutions only?
-            # res = "devolution"
-            res = None
-        elif pick_doc_type and pick_doc_type != "none":
-            res = pick_doc_type
-        return res
+    def _send_confirmation_email(self):
+        # Only send Delivery emails if the InvoiceXpress checkbox is selected
+        to_send = self.filtered("invoicexpress_send_email")
+        super(StockPicking, to_send)._send_confirmation_email()
 
     @api.model
     def _get_invoicexpress_prefix(self, doctype):
@@ -91,6 +128,7 @@ class StockPicking(models.Model):
                     "name": line.product_id.default_code
                     or line.product_id.display_name,
                     "description": line.product_id.name or "",  # line.name for SO desc
+                    # TODO: add an option to allow having the prices set?
                     "unit_price": 0.0,  # line.sale_line_id.price_unit,
                     "quantity": line.quantity_done,
                     "discount": line.sale_line_id.discount,
@@ -117,7 +155,7 @@ class StockPicking(models.Model):
         addr_from_vals = address_from._prepare_invoicexpress_shipping_vals()
         addr_to_vals = address_to._prepare_invoicexpress_shipping_vals()
 
-        doctype = self._get_invoicexpress_doctype()
+        doctype = self.invoicexpress_doc_type
         item_vals = self._prepare_invoicexpress_lines()
         return {
             doctype: {
@@ -160,7 +198,7 @@ class StockPicking(models.Model):
         InvoiceXpress = self.env["account.invoicexpress"]
         for delivery in self.filtered("can_invoicexpress"):
             payload = delivery._prepare_invoicexpress_vals()
-            doctype = delivery._get_invoicexpress_doctype()
+            doctype = delivery.invoicexpress_doc_type
             response = InvoiceXpress.call(
                 delivery.company_id, "{}s.json".format(doctype), "POST", payload=payload
             )
@@ -215,13 +253,13 @@ class StockPicking(models.Model):
 
     def action_send_invoicexpress_delivery(self, ignore_no_config=False):
         InvoiceXpress = self.env["account.invoicexpress"]
-        for delivery in self.filtered("can_invoicexpress_email"):
+        for delivery in self.filtered("invoicexpress_send_email"):
             if not delivery.invoicexpress_id:
                 raise exceptions.UserError(
-                    _("Delivery %s is not registerd in InvoiceXpress yet."),
+                    _("Delivery %s is not registered in InvoiceXpress yet."),
                     delivery.name,
                 )
-            doctype = delivery._get_invoicexpress_doctype()
+            doctype = delivery.invoicexpress_doc_type
             endpoint = "{}s/{}/email-document.json".format(
                 doctype, delivery.invoicexpress_id
             )

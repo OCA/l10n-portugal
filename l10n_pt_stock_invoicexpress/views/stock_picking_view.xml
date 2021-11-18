@@ -6,10 +6,15 @@
         <field name="model">stock.picking</field>
         <field name="inherit_id" ref="stock.view_picking_form" />
         <field name="arch" type="xml">
-            <field name="origin" position="before">
-                <field name="license_plate" />
+            <field name="origin" position="after">
                 <field name="can_invoicexpress" invisible="1" />
                 <field name="can_invoicexpress_email" invisible="1" />
+                <field name="invoicexpress_doc_type" />
+                <field
+                    name="invoicexpress_send_email"
+                    attrs="{'invisible': [('can_invoicexpress_email', '=', False)]}"
+                />
+                <field name="license_plate" />
             </field>
             <xpath expr="//notebook//page[@name='note']" position="after">
                 <page
