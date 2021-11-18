@@ -84,6 +84,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_account_invoicexpress__display_name
 #: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_account_journal__display_name
 #: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_account_move__display_name
+#: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_account_move_line__display_name
 #: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_account_tax__display_name
 #: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_res_company__display_name
 #: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_res_config_settings__display_name
@@ -113,6 +114,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_account_invoicexpress__id
 #: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_account_journal__id
 #: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_account_move__id
+#: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_account_move_line__id
 #: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_account_tax__id
 #: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_res_company__id
 #: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_res_config_settings__id
@@ -219,6 +221,11 @@ msgid "Journal Entry"
 msgstr ""
 
 #. module: l10n_pt_account_invoicexpress
+#: model:ir.model,name:l10n_pt_account_invoicexpress.model_account_move_line
+msgid "Journal Item"
+msgstr ""
+
+#. module: l10n_pt_account_invoicexpress
 #: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_account_bank_statement_line__journal_type
 #: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_account_move__journal_type
 #: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_account_payment__journal_type
@@ -235,6 +242,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_account_invoicexpress____last_update
 #: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_account_journal____last_update
 #: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_account_move____last_update
+#: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_account_move_line____last_update
 #: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_account_tax____last_update
 #: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_res_company____last_update
 #: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_res_config_settings____last_update
