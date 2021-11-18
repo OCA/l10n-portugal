@@ -25,13 +25,13 @@ class Company(models.Model):
         that don't have a doc type set yet.
         """
         for company in self.filtered("has_invoicexpress"):
-            all_picking_types = self.env["stock.picking.type"].search(
-                [("company_id", "=", company.id)]
+            pick_types_todo = self.env["stock.picking.type"].search(
+                [
+                    ("company_id", "=", company.id),
+                    ("invoicexpress_doc_type", "=", False),
+                ]
             )
-            to_update = all_picking_types.filtered(
-                lambda x: not x.invoicexpress_doc_type
-            )
-            for picktype in to_update:
+            for picktype in pick_types_todo:
                 picktype.invoicexpress_doc_type = (
                     picktype._default_invoicexpress_doc_type()
                 )
