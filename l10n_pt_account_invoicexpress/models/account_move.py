@@ -60,7 +60,7 @@ class AccountMove(models.Model):
                 {
                     "name": line.product_id.default_code
                     or line.product_id.display_name,
-                    "description": line.name,
+                    "description": line._get_invoicexpress_descr(),
                     "unit_price": line.price_unit,
                     "quantity": line.quantity,
                     "discount": line.discount,
@@ -200,4 +200,20 @@ class AccountMove(models.Model):
             if not invoice.invoicexpress_id:
                 invoice.action_create_invoicexpress_invoice()
                 invoice.action_send_invoicexpress_email(ignore_no_config=True)
+        return res
+
+
+class AccountMoveLine(models.Model):
+    _inherit = "account.move.line"
+
+    def _get_invoicexpress_descr(self):
+        """
+        Remove Odoo product code from description,
+        since it is already presneted in a the Code column
+        """
+        res = self.name
+        ref = self.product_id.default_code
+        prefix = "[%s] " % ref
+        if ref and self.name.startswith(prefix):
+            res = self.name[len(prefix) :]
         return res
