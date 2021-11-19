@@ -8,10 +8,11 @@
         <field name="arch" type="xml">
 
             <notebook position="inside">
-                <page string="InvoiceXpress Configuration" groups="base.group_no_one">
+                <page string="InvoiceXpress Configuration">
                     <group>
                         <field name="invoicexpress_account_name" />
                         <field name="invoicexpress_api_key" />
+                        <field name="has_invoicexpress" groups="base.group_no_one" />
                         <field name="invoicexpress_template_id" />
                     </group>
                 </page>
