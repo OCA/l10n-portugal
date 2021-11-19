@@ -11,7 +11,6 @@ class ResPartner(models.Model):
         self.ensure_one()
         vals = {
             "name": self.name,
-            "code": self.vat or "ODOO-{}".format(self.id),
             "email": self.email,
             "address": ", ".join(filter(None, [self.street, self.street2])),
             "city": self.city,
