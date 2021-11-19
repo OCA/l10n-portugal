@@ -4,7 +4,7 @@
 {
     "name": "Portugal InvoiceXpress Integration",
     "summary": "Portuguese certified invoices using InvoiceXpress",
-    "version": "14.0.3.0.0",
+    "version": "14.0.3.0.1",
     "author": "Open Source Integrators, Odoo Community Association (OCA)",
     "license": "AGPL-3",
     "website": "https://github.com/OCA/l10n-portugal",
