@@ -16,9 +16,12 @@ class ResPartner(models.Model):
             "city": self.city,
             "postal_code": self.zip,
             "country": self.country_id.invoicexpress_name,
-            "language": self.lang[:2],
             "fiscal_id": self.vat,
             "website": self.website,
             "phone": self.phone,
         }
+        # InvoiceXpress supported languages
+        language = self.lang[:2]
+        if language in ["pt", "en", "es"]:
+            vals["language"] = language
         return {k: v for k, v in vals.items() if v}
