@@ -20,8 +20,14 @@ class ResPartner(models.Model):
             "website": self.website,
             "phone": self.phone,
         }
-        # InvoiceXpress supported languages
-        language = self.lang[:2]
-        if language in ["pt", "en", "es"]:
-            vals["language"] = language
+        # InvoiceXpress document language (pt, es or rn)
+        # Outside PT and ES use english
+        # Could be a requirement for some border authorities
+        country_code = self.country_id.code
+        if country_code == "ES":
+            vals["language"] = "es"
+        elif country_code == "PT":
+            vals["language"] = "pt"
+        elif country_code:
+            vals["language"] = "en"
         return {k: v for k, v in vals.items() if v}
