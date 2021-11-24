@@ -39,14 +39,14 @@ class AccountMove(models.Model):
             doctype = invoice.journal_id.invoicexpress_doc_type
             europe = self.env.ref("base.europe")
             country = invoice.partner_shipping_id.country_id
+            is_eu = country and country.code != "PT" and country in europe.country_ids
             if not doctype or doctype == "none":
-                invoice.invoicexpress_doc_type = None
+                res = None
             elif invoice.move_type == "out_refund":
-                invoice.invoicexpress_doc_type = "credit_note"
-            elif country and country.code != "PT" and country in europe.country_ids:
-                invoice.invoicexpress_doc_type = "vat_moss_invoice"
+                res = "vat_moss_credit_note" if is_eu else "credit_note"
             else:
-                invoice.invoicexpress_doc_type = doctype
+                res = "vat_moss_invoice" if is_eu else doctype
+            invoice.invoicexpress_doc_type = res
 
     journal_type = fields.Selection(
         related="journal_id.type", string="Journal Type", readonly=True
@@ -64,6 +64,7 @@ class AccountMove(models.Model):
             ("invoice_receipt", "Invoice and Receipt"),
             ("simplified_invoice", "Simplified Invoice"),
             ("vat_moss_invoice", "Europe VAT MOSS Invoice"),
+            ("vat_moss_credit_note", "Europe VAT MOSS Credit Note"),
             ("debit_note", "Debit Note"),
             ("credit_note", "Credit Note"),
         ],
@@ -101,6 +102,7 @@ class AccountMove(models.Model):
             "invoice_receipt": "FR",
             "simplified_invoice": "FS",
             "vat_moss_invoice": "FVM",
+            # vat_moss_credit_note does not have a prefix!
             "credit_note": "NC",
             "debit_note": "ND",
         }.get(doctype)
@@ -219,7 +221,7 @@ class AccountMove(models.Model):
                     )
                 )
             prefix = self._get_invoicexpress_prefix(doctype)
-            invx_number = "%s %s" % (prefix, seqnum)
+            invx_number = "%s %s" % (prefix, seqnum) if prefix else seqnum
             if invoice.payment_reference == invoice.name:
                 invoice.payment_reference = invx_number
             invoice.name = invx_number
