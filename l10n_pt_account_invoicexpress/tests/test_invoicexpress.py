@@ -52,6 +52,25 @@ class TestInvoiceXpress(common.TransactionCase):
             }
         )
 
+    def test_res_partner__prepare_invoicexpress_vals(self):
+        partner_PT = self.partnerA.copy({"country_id": self.env.ref("base.pt").id})
+        partner_PT_vals = partner_PT._prepare_invoicexpress_vals()
+        self.assertEqual(
+            partner_PT_vals["language"], "pt", "Address in Portugal uses pt language"
+        )
+        partner_ES = self.partnerA.copy({"country_id": self.env.ref("base.es").id})
+        partner_ES_vals = partner_ES._prepare_invoicexpress_vals()
+        self.assertEqual(
+            partner_ES_vals["language"], "es", "Address in Spain uses es language"
+        )
+        partner_FR = self.partnerA.copy({"country_id": self.env.ref("base.fr").id})
+        partner_FR_vals = partner_FR._prepare_invoicexpress_vals()
+        self.assertEqual(
+            partner_FR_vals["language"],
+            "en",
+            "Address not in Spain or Portugal uses en language",
+        )
+
     def test_010_get_config_and_base_url(self):
         API = self.env["account.invoicexpress"]
         url = API._build_url(API._get_config(self.company), "dummy.json")
