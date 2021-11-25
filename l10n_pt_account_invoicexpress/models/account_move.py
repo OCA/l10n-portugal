@@ -1,6 +1,8 @@
 # Copyright (C) 2021 Open Source Integrators
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
+import uuid
+
 from odoo import _, api, exceptions, fields, models
 
 
@@ -132,6 +134,10 @@ class AccountMove(models.Model):
             )
         return items
 
+    def _get_invoicexpress_partner(self):
+        # Hook to customize the "client" values to use
+        return self.commercial_partner_id
+
     def _prepare_invoicexpress_vals(self):
         self.ensure_one()
         if not self.invoice_date and self.invoice_date_due:
@@ -139,15 +145,15 @@ class AccountMove(models.Model):
                 _("Kindly add the invoice date and invoice due date.")
             )
 
-        customer = self.commercial_partner_id._prepare_invoicexpress_vals()
+        client_vals = self._get_invoicexpress_partner().set_invoicexpress_contact()
         items = self._prepare_invoicexpress_lines()
-        proprietary_uid = ("%s.%s" % (self.name, self.env.cr.dbname)).replace(" ", "-")
+        proprietary_uid = "ODOO" + str(uuid.uuid4()).replace("-", "")
         invoice_data = {
             "invoice": {
                 "date": self.invoice_date.strftime("%d/%m/%Y"),
                 "due_date": self.invoice_date_due.strftime("%d/%m/%Y"),
                 "reference": self.ref or "",
-                "client": customer,
+                "client": client_vals,
                 "observations": self.narration or "",
                 "items": items,
             },
