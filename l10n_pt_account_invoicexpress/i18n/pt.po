@@ -123,6 +123,11 @@ msgid "Error running API request ({} {}): {}"
 msgstr "Erro na chamada à API ({} {}): {}"
 
 #. module: l10n_pt_account_invoicexpress
+#: model:ir.model.fields.selection,name:l10n_pt_account_invoicexpress.selection__account_move__invoicexpress_doc_type__vat_moss_credit_note
+msgid "Europe VAT MOSS Credit Note"
+msgstr ""
+
+#. module: l10n_pt_account_invoicexpress
 #: model:ir.model.fields.selection,name:l10n_pt_account_invoicexpress.selection__account_move__invoicexpress_doc_type__vat_moss_invoice
 msgid "Europe VAT MOSS Invoice"
 msgstr ""
