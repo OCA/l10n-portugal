@@ -212,6 +212,8 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_account_move__invoicexpress_id
 #: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_account_payment__invoicexpress_id
 #: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_account_tax__invoicexpress_id
+#: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_res_partner__invoicexpress_id
+#: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_res_users__invoicexpress_id
 msgid "InvoiceXpress ID"
 msgstr ""
 
