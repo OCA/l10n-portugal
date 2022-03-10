@@ -58,8 +58,8 @@ class InvoiceXpress(models.AbstractModel):
         if response.status_code not in [200, 201]:
             raise exceptions.ValidationError(
                 _(
-                    "Error running API request ({} {}): {}".format(
-                        response.status_code, response.reason, response.text
+                    "Error running API request ({} {}):\n{}".format(
+                        response.status_code, response.reason, response.json()
                     )
                 )
             )
