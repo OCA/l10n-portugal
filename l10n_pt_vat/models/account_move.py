@@ -25,14 +25,14 @@ class AccountMove(models.Model):
         readonly=False,
     )
 
-    @api.depends("country_code", "move_type", "invoice_line_ids.tax_ids")
+    @api.depends("country_code", "move_type", "invoice_line_ids")
     def _compute_l10npt_has_tax_exempt_lines(self):
         for invoice in self:
-            invoice.l10npt_has_tax_exempt_lines = (
+            invoice.l10npt_has_tax_exempt_lines = bool(
                 invoice.country_code == "PT"
                 and invoice.is_sale_document()
                 and invoice.invoice_line_ids.filtered(
-                    lambda x: not x.tax_ids.filtered("amount")
+                    lambda x: not x.display_type and not x.tax_ids.filtered("amount")
                 )
             )
 
