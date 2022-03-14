@@ -115,7 +115,9 @@ msgstr ""
 #. module: l10n_pt_account_invoicexpress
 #: code:addons/l10n_pt_account_invoicexpress/models/account_invoicexpress.py:0
 #, python-format
-msgid "Error running API request ({} {}): {}"
+msgid ""
+"Error running API request ({} {}):\n"
+"{}"
 msgstr ""
 
 #. module: l10n_pt_account_invoicexpress
