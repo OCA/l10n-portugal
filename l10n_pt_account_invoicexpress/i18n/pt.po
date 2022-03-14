@@ -119,8 +119,10 @@ msgstr ""
 #. module: l10n_pt_account_invoicexpress
 #: code:addons/l10n_pt_account_invoicexpress/models/account_invoicexpress.py:0
 #, python-format
-msgid "Error running API request ({} {}): {}"
-msgstr "Erro na chamada à API ({} {}): {}"
+msgid ""
+"Error running API request ({} {}):\n"
+"{}"
+msgstr ""
 
 #. module: l10n_pt_account_invoicexpress
 #: model:ir.model.fields.selection,name:l10n_pt_account_invoicexpress.selection__account_move__invoicexpress_doc_type__vat_moss_credit_note
@@ -429,6 +431,9 @@ msgstr ""
 #, python-format
 msgid "View Document"
 msgstr ""
+
+#~ msgid "Error running API request ({} {}): {}"
+#~ msgstr "Erro na chamada à API ({} {}): {}"
 
 #~ msgid " <a class='btn btn-info mr-2' href={}>View Document</a>"
 #~ msgstr " <a class='btn btn-info mr-2' href={}>Ver Documento</a>"
