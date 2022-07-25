@@ -11,9 +11,10 @@ class AccountMove(models.Model):
 
     @api.depends("restrict_mode_hash_table", "state")
     def _compute_show_reset_to_draft_button(self):
-        super()._compute_show_reset_to_draft_button()
+        res = super()._compute_show_reset_to_draft_button()
         # InvoiceXpress generated invoices can't be set to Draft
         self.filtered("invoicexpress_id").write({"show_reset_to_draft_button": False})
+        return res
 
     @api.depends("move_type", "journal_id.use_invoicexpress")
     def _compute_can_invoicexpress(self):
@@ -75,8 +76,8 @@ class AccountMove(models.Model):
         readonly=False,
         copy=False,
         help="Select the type of legal invoice document"
-        " to be created by InvoiceXpress."
-        " If unset, InvoiceXpress will not be used.",
+             " to be created by InvoiceXpress."
+             " If unset, InvoiceXpress will not be used.",
     )
 
     @api.constrains("journal_id", "company_id")
@@ -124,7 +125,7 @@ class AccountMove(models.Model):
             items.append(
                 {
                     "name": line.product_id.default_code
-                    or line.product_id.display_name,
+                            or line.product_id.display_name,
                     "description": line._get_invoicexpress_descr(),
                     "unit_price": line.price_unit,
                     "quantity": line.quantity,
@@ -305,5 +306,5 @@ class AccountMoveLine(models.Model):
         ref = self.product_id.default_code
         prefix = "[%s] " % ref
         if ref and self.name.startswith(prefix):
-            res = self.name[len(prefix) :]
+            res = self.name[len(prefix):]
         return res

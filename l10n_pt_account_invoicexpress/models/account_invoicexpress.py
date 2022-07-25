@@ -7,9 +7,8 @@ import logging
 import pprint
 
 import requests
-from werkzeug.urls import url_join
-
 from odoo import _, exceptions, models
+from werkzeug.urls import url_join
 
 _logger = logging.getLogger(__name__)
 
@@ -57,12 +56,8 @@ class InvoiceXpress(models.AbstractModel):
         # TODO: implement request rate limit
         if response.status_code not in [200, 201]:
             raise exceptions.ValidationError(
-                _(
-                    "Error running API request ({} {}):\n{}".format(
-                        response.status_code, response.reason, response.json()
-                    )
-                )
-            )
+                _('Error running API request ({} {}):\n{}').format(response.status_code, response.reason,
+                                                                   response.json()))
 
     def call(
         self,
