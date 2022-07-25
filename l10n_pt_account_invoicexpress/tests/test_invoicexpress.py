@@ -1,6 +1,7 @@
 from unittest.mock import Mock, patch
 
 import requests
+
 from odoo import fields
 from odoo.tests import Form, common
 
