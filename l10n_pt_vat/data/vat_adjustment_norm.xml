@@ -1,0 +1,96 @@
+<odoo noupdate="1">
+    <!--
+    VAT Adjustment Norm (Fields 40/41 of the VAT Statement)
+    -->
+    <record id="vat_adjustment_norm_a78n2" model="account.vat.adjustment_norm">
+        <field name="name">Art. 78º, nº 2</field>
+        <field name="out_refunds" eval="True" />
+    </record>
+    <record id="vat_adjustment_norm_a78n3" model="account.vat.adjustment_norm">
+        <field name="name">Art. 78º, nº 3</field>
+        <field name="out_refunds" eval="True" />
+        <field name="in_refunds" eval="True" />
+    </record>
+    <record id="vat_adjustment_norm_a78n4" model="account.vat.adjustment_norm">
+        <field name="name">Art. 78º, nº 4</field>
+        <field name="in_refunds" eval="True" />
+    </record>
+    <record id="vat_adjustment_norm_a78n6" model="account.vat.adjustment_norm">
+        <field name="name">Art. 78º, nº 6</field>
+        <field name="out_refunds" eval="True" />
+        <field name="in_refunds" eval="True" />
+    </record>
+    <record id="vat_adjustment_norm_a78n7a" model="account.vat.adjustment_norm">
+        <field name="name">Art. 78º, nº 7, alínea a)</field>
+        <field name="out_refunds" eval="True" />
+        <field name="in_refunds" eval="True" />
+    </record>
+    <record id="vat_adjustment_norm_a78n7b" model="account.vat.adjustment_norm">
+        <field name="name">Art. 78º, nº 7, alínea b)</field>
+        <field name="out_refunds" eval="True" />
+        <field name="in_refunds" eval="True" />
+    </record>
+    <record id="vat_adjustment_norm_a78n7c" model="account.vat.adjustment_norm">
+        <field name="name">Art. 78º, nº 7, alínea c)</field>
+        <field name="out_refunds" eval="True" />
+        <field name="in_refunds" eval="True" />
+    </record>
+    <record id="vat_adjustment_norm_a78n7d" model="account.vat.adjustment_norm">
+        <field name="name">Art. 78º, nº 7, alínea d)</field>
+        <field name="out_refunds" eval="True" />
+        <field name="in_refunds" eval="True" />
+    </record>
+    <record id="vat_adjustment_norm_a78n8b" model="account.vat.adjustment_norm">
+        <field name="name">Art. 78º, nº 8, alínea b)</field>
+        <field name="out_refunds" eval="True" />
+    </record>
+    <record id="vat_adjustment_norm_a78n8c" model="account.vat.adjustment_norm">
+        <field name="name">Art. 78º, nº 8, alínea c)</field>
+        <field name="out_refunds" eval="True" />
+    </record>
+    <record id="vat_adjustment_norm_a78n8d" model="account.vat.adjustment_norm">
+        <field name="name">Art. 78º, nº 8, alínea d)</field>
+        <field name="out_refunds" eval="True" />
+        <field name="in_refunds" eval="True" />
+    </record>
+    <record id="vat_adjustment_norm_a78n8e" model="account.vat.adjustment_norm">
+        <field name="name">Art. 78º, nº 8, alínea e)</field>
+        <field name="out_refunds" eval="True" />
+    </record>
+    <record id="vat_adjustment_norm_a78n12" model="account.vat.adjustment_norm">
+        <field name="name">Art. 78º, nº 12</field>
+        <field name="in_refunds" eval="True" />
+    </record>
+    <record id="vat_adjustment_norm_a78An2a" model="account.vat.adjustment_norm">
+        <field name="name">Art. 78º-A, nº 2, alínea a)</field>
+        <field name="out_refunds" eval="True" />
+    </record>
+    <record id="vat_adjustment_norm_a78An4a" model="account.vat.adjustment_norm">
+        <field name="name">Art. 78º-A, nº 4, alínea a)</field>
+        <field name="out_refunds" eval="True" />
+    </record>
+    <record id="vat_adjustment_norm_a78An4b" model="account.vat.adjustment_norm">
+        <field name="name">Art. 78º-A, nº 4, alínea b)</field>
+        <field name="out_refunds" eval="True" />
+    </record>
+    <record id="vat_adjustment_norm_a78An4c" model="account.vat.adjustment_norm">
+        <field name="name">Art. 78º-A, nº 4, alínea c)</field>
+        <field name="out_refunds" eval="True" />
+    </record>
+    <record id="vat_adjustment_norm_a78An4d" model="account.vat.adjustment_norm">
+        <field name="name">Art. 78º-A, nº 4, alínea d)</field>
+        <field name="out_refunds" eval="True" />
+    </record>
+    <record id="vat_adjustment_norm_a78Bn4" model="account.vat.adjustment_norm">
+        <field name="name">Art. 78º-B, nº 4</field>
+        <field name="out_refunds" eval="True" />
+    </record>
+    <record id="vat_adjustment_norm_a78Cn1" model="account.vat.adjustment_norm">
+        <field name="name">Art. 78º-C, nº 1</field>
+        <field name="in_refunds" eval="True" />
+    </record>
+    <record id="vat_adjustment_norm_a78Cn3" model="account.vat.adjustment_norm">
+        <field name="name">Art. 78º-C, nº 3</field>
+        <field name="in_refunds" eval="True" />
+    </record>
+</odoo>
