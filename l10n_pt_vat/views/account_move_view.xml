@@ -15,7 +15,8 @@
                     <field name="move_type" invisible="1" />
                     <field
                         name="vat_adjustment_norm_id"
-                        attrs="{'invisible': ['|',('country_code', '!=', 'PT'),('move_type', 'not in', ['out_refund', 'in_refund'])]}"
+                        attrs="{'invisible': ['|',('country_code', '!=', 'PT'),('move_type', 'not in',
+                         ['out_refund', 'in_refund'])]}"
                         domain="[('move_type', '=', move_type)]"
                     />
                 </div>
