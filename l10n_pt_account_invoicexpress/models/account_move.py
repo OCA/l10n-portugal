@@ -299,7 +299,7 @@ class AccountMoveLine(models.Model):
     def _get_invoicexpress_descr(self):
         """
         Remove Odoo product code from description,
-        since it is already presneted in a the Code column
+        since it is already presented in a the Code column
         """
         res = self.name
         ref = self.product_id.default_code
