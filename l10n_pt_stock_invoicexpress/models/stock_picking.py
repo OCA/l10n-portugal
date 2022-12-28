@@ -145,7 +145,7 @@ class StockPicking(models.Model):
                 _("Scheduled Date should be bigger then current datetime!")
             )
         customer = self.partner_id.commercial_partner_id
-        customer_vals = customer._prepare_invoicexpress_vals()
+        customer_vals = customer.set_invoicexpress_contact()
         if self.location_id.usage == "internal":  # Outgoing
             address_from = self.picking_type_id.warehouse_id.partner_id
             address_to = self.partner_id
