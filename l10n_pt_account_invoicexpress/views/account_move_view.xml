@@ -12,8 +12,10 @@
                 <field name="can_invoicexpress_email" invisible="1" />
                 <field
                     name="invoicexpress_doc_type"
-                    attrs="{'readonly': [('posted_before', '=', True)],
-                               'invisible': [('country_code', '!=', 'PT')]}"
+                    attrs="{
+                        'readonly': [('posted_before', '=', True)],
+                        'invisible': [('can_invoicexpress', '=', False)]
+                    }"
                 />
             </div>
             <xpath expr="//notebook//page[@name='other_info']" position="after">
@@ -29,7 +31,9 @@
                 </page>
             </xpath>
             <button name="action_invoice_sent" position="attributes">
-                <attribute name="invisible">True</attribute>
+                <attribute
+                    name="attrs"
+                >{'invisible': [('can_invoicexpress', '=', True)]}</attribute>
             </button>
             <button name="preview_invoice" position="before">
                 <!-- This can be uncommented to aid debugging
