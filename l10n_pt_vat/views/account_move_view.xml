@@ -1,0 +1,26 @@
+<odoo>
+    <!-- TODO: also add to the Credit Note wizard -->
+    <record id="account_invoice_form" model="ir.ui.view">
+        <field name="name">Invoice: add l10_pt</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form" />
+        <field name="arch" type="xml">
+            <data>
+                <!-- Add the VAT Adjustment Norm (Fields 40/41 of the VAT Statement) !-->
+                <div name="journal_div" position="after">
+                    <field
+                        name="l10npt_vat_exempt_reason"
+                        attrs="{'invisible': [('country_code', '!=', 'PT')]}"
+                    />
+                    <field name="move_type" invisible="1" />
+                    <field
+                        name="vat_adjustment_norm_id"
+                        attrs="{'invisible': ['|',('country_code', '!=', 'PT'),('move_type', 'not in',
+                         ['out_refund', 'in_refund'])]}"
+                        domain="[('move_type', '=', move_type)]"
+                    />
+                </div>
+            </data>
+        </field>
+    </record>
+</odoo>
