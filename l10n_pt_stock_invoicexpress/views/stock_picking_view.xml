@@ -14,7 +14,10 @@
                     name="invoicexpress_send_email"
                     attrs="{'invisible': [('can_invoicexpress_email', '=', False)]}"
                 />
-                <field name="license_plate" />
+                <field
+                    name="license_plate"
+                    attrs="{'invisible': [('can_invoicexpress', '=', False)]}"
+                />
             </field>
             <xpath expr="//notebook//page[@name='note']" position="after">
                 <page
