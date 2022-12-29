@@ -144,8 +144,8 @@ class AccountMove(models.Model):
             raise exceptions.UserError(
                 _("Kindly add the invoice date and invoice due date.")
             )
-
-        client_vals = self._get_invoicexpress_partner().set_invoicexpress_contact()
+        customer = self._get_invoicexpress_partner()
+        customer_vals = customer.set_invoicexpress_contact()
         items = self._prepare_invoicexpress_lines()
         proprietary_uid = "ODOO" + str(uuid.uuid4()).replace("-", "")
         invoice_data = {
@@ -153,7 +153,7 @@ class AccountMove(models.Model):
                 "date": self.invoice_date.strftime("%d/%m/%Y"),
                 "due_date": self.invoice_date_due.strftime("%d/%m/%Y"),
                 "reference": self.ref or "",
-                "client": client_vals,
+                "client": customer_vals,
                 "observations": self.narration or "",
                 "items": items,
             },
@@ -299,7 +299,7 @@ class AccountMoveLine(models.Model):
     def _get_invoicexpress_descr(self):
         """
         Remove Odoo product code from description,
-        since it is already presneted in a the Code column
+        since it is already presented in a the Code column
         """
         res = self.name
         ref = self.product_id.default_code
