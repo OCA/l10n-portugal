@@ -21,7 +21,8 @@ Available addons
 ----------------
 addon | version | maintainers | summary
 --- | --- | --- | ---
-[l10n_pt_vat](l10n_pt_vat/) | 16.0.1.0.0 |  | Portuguese VAT requirements extensions
+[l10n_pt_account_invoicexpress](l10n_pt_account_invoicexpress/) | 16.0.1.0.0 | [![dreispt](https://github.com/dreispt.png?size=30px)](https://github.com/dreispt) | Portuguese certified invoices using InvoiceXpress
+[l10n_pt_vat](l10n_pt_vat/) | 16.0.1.0.0 | [![dreispt](https://github.com/dreispt.png?size=30px)](https://github.com/dreispt) | Portuguese VAT requirements extensions
 
 [//]: # (end addons)
 
