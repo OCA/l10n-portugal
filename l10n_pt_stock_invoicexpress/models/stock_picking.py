@@ -115,7 +115,7 @@ class StockPicking(models.Model):
         }.get(doctype)
 
     def _prepare_invoicexpress_lines(self):
-        lines = self.move_lines.filtered("quantity_done")
+        lines = self.move_ids_without_package.filtered("quantity_done")
         # Ensure Taxes are created on InvoiceXpress
         lines.mapped("sale_line_id.tax_id").action_invoicexpress_tax_create()
         items = []

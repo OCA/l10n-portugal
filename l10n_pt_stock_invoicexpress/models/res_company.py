@@ -37,10 +37,14 @@ class Company(models.Model):
                 )
 
     @api.model
-    def create(self, vals):
-        res = super().create(vals)
-        if [x in vals for x in ("invoicexpress_account_name", "invoicexpress_api_key")]:
-            res._update_default_doctype()
+    def create_multi(self, vals_list):
+        res = super().create_multi(vals_list)
+        for vals in vals_list:
+            if [
+                x in vals
+                for x in ("invoicexpress_account_name", "invoicexpress_api_key")
+            ]:
+                res._update_default_doctype()
         return res
 
     def write(self, vals):
