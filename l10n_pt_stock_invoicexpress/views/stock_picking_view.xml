@@ -43,6 +43,7 @@
                     groups="base.group_no_one"
                 />
                 -->
+                <field name="invoicexpress_id" invisible="True" />
                 <button
                     name="action_send_invoicexpress_delivery"
                     string="InvoiceXpress Email"
