@@ -7,9 +7,9 @@ Portugal - IVA
    !! changes will be overwritten.                   !!
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-.. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
+.. |badge1| image:: https://img.shields.io/badge/maturity-Production%2FStable-green.png
     :target: https://odoo-community.org/page/development-status
-    :alt: Beta
+    :alt: Production/Stable
 .. |badge2| image:: https://img.shields.io/badge/licence-AGPL--3-blue.png
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
@@ -79,6 +79,14 @@ This module is maintained by the OCA.
 OCA, or the Odoo Community Association, is a nonprofit organization whose
 mission is to support the collaborative development of Odoo features and
 promote its widespread use.
+
+.. |maintainer-dreispt| image:: https://github.com/dreispt.png?size=40px
+    :target: https://github.com/dreispt
+    :alt: dreispt
+
+Current `maintainer <https://odoo-community.org/page/maintainer-role>`__:
+
+|maintainer-dreispt| 
 
 This module is part of the `OCA/l10n-portugal <https://github.com/OCA/l10n-portugal/tree/14.0/l10n_pt_vat>`_ project on GitHub.
 
