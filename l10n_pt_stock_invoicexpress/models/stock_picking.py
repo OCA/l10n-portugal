@@ -104,7 +104,7 @@ class StockPicking(models.Model):
     def _send_confirmation_email(self):
         # Only send Delivery emails if the InvoiceXpress checkbox is selected
         to_send = self.filtered("invoicexpress_send_email")
-        super(StockPicking, to_send)._send_confirmation_email()
+        return super(StockPicking, to_send)._send_confirmation_email()
 
     @api.model
     def _get_invoicexpress_prefix(self, doctype):
