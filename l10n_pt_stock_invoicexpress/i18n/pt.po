@@ -17,6 +17,7 @@ msgstr ""
 "X-Generator: Weblate 4.3.2\n"
 
 #. module: l10n_pt_stock_invoicexpress
+#. odoo-python
 #: code:addons/l10n_pt_stock_invoicexpress/models/stock_picking.py:0
 #, python-format
 msgid "<a class='btn btn-info mr-2' target='new' href={}>{}</a>"
@@ -28,36 +29,20 @@ msgid ""
 "<p>\n"
 "Olá,\n"
 "<br/>\n"
-"Enviamos em anexo a Guia de Trasporte ${object.name | safe}\n"
-"% if object.ref:\n"
-"    relativa à sua encomenda ${object.ref | safe}\n"
-"% endif\n"
+"Enviamos em anexo a Guia de Trasporte <t t-out=\"object.name\"/>\n"
+"<t t-if=\"object.ref\">\n"
+"    relativa à sua encomenda <t t-out=\"object.ref\"/>\n"
+"</t>\n"
 ".\n"
 "<br/><br/>\n"
 "Obrigado\n"
-"% if user.signature:\n"
+"<t t-if=\"user.signature\">\n"
 "    <br/>\n"
-"    ${user.signature | safe}\n"
-"% endif\n"
+"    <t t-out=\"user.signature or ''\"/>\n"
+"</t>\n"
 "</p>\n"
 "        "
 msgstr ""
-"<p>\n"
-"Olá,\n"
-"<br/>\n"
-"Enviamos em anexo a Guia de Transporte ${object.name | safe}\n"
-"% if object.ref:\n"
-"    relativa à sua encomenda ${object.ref | safe}\n"
-"% endif\n"
-".\n"
-"<br/><br/>\n"
-"Obrigado\n"
-"% if user.signature:\n"
-"    <br/>\n"
-"    ${user.signature | safe}\n"
-"% endif\n"
-"</p>\n"
-"        "
 
 #. module: l10n_pt_stock_invoicexpress
 #: model:ir.model.fields,field_description:l10n_pt_stock_invoicexpress.field_stock_picking__can_invoicexpress
@@ -85,6 +70,7 @@ msgid "Contact"
 msgstr "Contacto"
 
 #. module: l10n_pt_stock_invoicexpress
+#. odoo-python
 #: code:addons/l10n_pt_stock_invoicexpress/models/stock_picking.py:0
 #, python-format
 msgid "Delivery %s is not registered in InvoiceXpress yet."
@@ -96,15 +82,7 @@ msgid "Devolução / Return"
 msgstr ""
 
 #. module: l10n_pt_stock_invoicexpress
-#: model:ir.model.fields,field_description:l10n_pt_stock_invoicexpress.field_res_company__display_name
-#: model:ir.model.fields,field_description:l10n_pt_stock_invoicexpress.field_res_config_settings__display_name
-#: model:ir.model.fields,field_description:l10n_pt_stock_invoicexpress.field_res_partner__display_name
-#: model:ir.model.fields,field_description:l10n_pt_stock_invoicexpress.field_stock_picking__display_name
-#: model:ir.model.fields,field_description:l10n_pt_stock_invoicexpress.field_stock_picking_type__display_name
-msgid "Display Name"
-msgstr "Nome a Exibir"
-
-#. module: l10n_pt_stock_invoicexpress
+#. odoo-python
 #: code:addons/l10n_pt_stock_invoicexpress/models/stock_picking.py:0
 #, python-format
 msgid "Email sent by InvoiceXpress:<ul><li>To: {}</li><li>Cc: {}</li></ul>"
@@ -113,8 +91,8 @@ msgstr ""
 
 #. module: l10n_pt_stock_invoicexpress
 #: model:mail.template,subject:l10n_pt_stock_invoicexpress.email_template_delivery
-msgid "Entrega ${object.name | safe}"
-msgstr "Entrega ${object.name | safe}"
+msgid "Entrega {{ object.name }}"
+msgstr ""
 
 #. module: l10n_pt_stock_invoicexpress
 #: model:ir.model.fields.selection,name:l10n_pt_stock_invoicexpress.selection__stock_picking__invoicexpress_doc_type__shipping
@@ -127,15 +105,6 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_pt_stock_invoicexpress.selection__stock_picking_type__invoicexpress_doc_type__transport
 msgid "Guia de Transporte / Transport"
 msgstr ""
-
-#. module: l10n_pt_stock_invoicexpress
-#: model:ir.model.fields,field_description:l10n_pt_stock_invoicexpress.field_res_company__id
-#: model:ir.model.fields,field_description:l10n_pt_stock_invoicexpress.field_res_config_settings__id
-#: model:ir.model.fields,field_description:l10n_pt_stock_invoicexpress.field_res_partner__id
-#: model:ir.model.fields,field_description:l10n_pt_stock_invoicexpress.field_stock_picking__id
-#: model:ir.model.fields,field_description:l10n_pt_stock_invoicexpress.field_stock_picking_type__id
-msgid "ID"
-msgstr "ID"
 
 #. module: l10n_pt_stock_invoicexpress
 #: model:ir.model.fields,help:l10n_pt_stock_invoicexpress.field_stock_picking__invoicexpress_send_email
@@ -187,6 +156,7 @@ msgid "InvoiceXpress Number"
 msgstr "Número InvoiceXpress"
 
 #. module: l10n_pt_stock_invoicexpress
+#. odoo-python
 #: code:addons/l10n_pt_stock_invoicexpress/models/stock_picking.py:0
 #, python-format
 msgid ""
@@ -197,18 +167,14 @@ msgstr ""
 "{inv_xpress_num}</li><li>{inv_xpress_link}</li></ul>"
 
 #. module: l10n_pt_stock_invoicexpress
-#: model:ir.model.fields,field_description:l10n_pt_stock_invoicexpress.field_stock_picking_type__invoicexpress_doc_type
-msgid "Invoicexpress Doc Type"
+#: model:mail.template,name:l10n_pt_stock_invoicexpress.email_template_delivery
+msgid "InvoiceXpress: Send Delivery by Email"
 msgstr ""
 
 #. module: l10n_pt_stock_invoicexpress
-#: model:ir.model.fields,field_description:l10n_pt_stock_invoicexpress.field_res_company____last_update
-#: model:ir.model.fields,field_description:l10n_pt_stock_invoicexpress.field_res_config_settings____last_update
-#: model:ir.model.fields,field_description:l10n_pt_stock_invoicexpress.field_res_partner____last_update
-#: model:ir.model.fields,field_description:l10n_pt_stock_invoicexpress.field_stock_picking____last_update
-#: model:ir.model.fields,field_description:l10n_pt_stock_invoicexpress.field_stock_picking_type____last_update
-msgid "Last Modified on"
-msgstr "Última Modificação em"
+#: model:ir.model.fields,field_description:l10n_pt_stock_invoicexpress.field_stock_picking_type__invoicexpress_doc_type
+msgid "Invoicexpress Doc Type"
+msgstr ""
 
 #. module: l10n_pt_stock_invoicexpress
 #: model:ir.model.fields,field_description:l10n_pt_stock_invoicexpress.field_stock_picking__license_plate
@@ -221,12 +187,14 @@ msgid "No InvoiceXpress document"
 msgstr ""
 
 #. module: l10n_pt_stock_invoicexpress
+#. odoo-python
 #: code:addons/l10n_pt_stock_invoicexpress/models/stock_picking.py:0
 #, python-format
 msgid "No address to send delivery document email to."
 msgstr "Falta o endereço para onde enviar o email com a Guia de Transporte."
 
 #. module: l10n_pt_stock_invoicexpress
+#. odoo-python
 #: code:addons/l10n_pt_stock_invoicexpress/models/stock_picking.py:0
 #, python-format
 msgid "None"
@@ -238,6 +206,7 @@ msgid "Picking Type"
 msgstr ""
 
 #. module: l10n_pt_stock_invoicexpress
+#. odoo-python
 #: code:addons/l10n_pt_stock_invoicexpress/models/stock_picking.py:0
 #, python-format
 msgid ""
@@ -248,6 +217,7 @@ msgstr ""
 "> Definições Gerais, secção InvoiceXpress"
 
 #. module: l10n_pt_stock_invoicexpress
+#. odoo-python
 #: code:addons/l10n_pt_stock_invoicexpress/models/stock_picking.py:0
 #, python-format
 msgid "Scheduled Date should be bigger then current datetime!"
@@ -267,6 +237,7 @@ msgid ""
 msgstr ""
 
 #. module: l10n_pt_stock_invoicexpress
+#. odoo-python
 #: code:addons/l10n_pt_stock_invoicexpress/models/stock_picking.py:0
 #, python-format
 msgid "Something went wrong: the InvoiceXpress response looks empty."
@@ -293,10 +264,58 @@ msgstr ""
 "com a Guia de Transporte."
 
 #. module: l10n_pt_stock_invoicexpress
+#. odoo-python
 #: code:addons/l10n_pt_stock_invoicexpress/models/stock_picking.py:0
 #, python-format
 msgid "View Document"
 msgstr ""
+
+#~ msgid ""
+#~ "<p>\n"
+#~ "Olá,\n"
+#~ "<br/>\n"
+#~ "Enviamos em anexo a Guia de Trasporte ${object.name | safe}\n"
+#~ "% if object.ref:\n"
+#~ "    relativa à sua encomenda ${object.ref | safe}\n"
+#~ "% endif\n"
+#~ ".\n"
+#~ "<br/><br/>\n"
+#~ "Obrigado\n"
+#~ "% if user.signature:\n"
+#~ "    <br/>\n"
+#~ "    ${user.signature | safe}\n"
+#~ "% endif\n"
+#~ "</p>\n"
+#~ "        "
+#~ msgstr ""
+#~ "<p>\n"
+#~ "Olá,\n"
+#~ "<br/>\n"
+#~ "Enviamos em anexo a Guia de Transporte ${object.name | safe}\n"
+#~ "% if object.ref:\n"
+#~ "    relativa à sua encomenda ${object.ref | safe}\n"
+#~ "% endif\n"
+#~ ".\n"
+#~ "<br/><br/>\n"
+#~ "Obrigado\n"
+#~ "% if user.signature:\n"
+#~ "    <br/>\n"
+#~ "    ${user.signature | safe}\n"
+#~ "% endif\n"
+#~ "</p>\n"
+#~ "        "
+
+#~ msgid "Display Name"
+#~ msgstr "Nome a Exibir"
+
+#~ msgid "Entrega ${object.name | safe}"
+#~ msgstr "Entrega ${object.name | safe}"
+
+#~ msgid "ID"
+#~ msgstr "ID"
+
+#~ msgid "Last Modified on"
+#~ msgstr "Última Modificação em"
 
 #~ msgid "<a class='btn btn-info mr-2' href={}>View Document</a>"
 #~ msgstr "<a class='btn btn-info mr-2' href={}>Ver Documento</a>"
