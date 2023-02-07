@@ -40,15 +40,12 @@ class AccountMove(models.Model):
         invoices = self.filtered("journal_id.use_invoicexpress")
         for invoice in invoices:
             doctype = invoice.journal_id.invoicexpress_doc_type
-            europe = self.env.ref("base.europe")
-            country = invoice.partner_shipping_id.country_id
-            is_eu = country and country.code != "PT" and country in europe.country_ids
             if not doctype or doctype == "none":
                 res = None
             elif invoice.move_type == "out_refund":
-                res = "vat_moss_credit_note" if is_eu else "credit_note"
+                res = "credit_note"
             else:
-                res = "vat_moss_invoice" if is_eu else doctype
+                res = doctype
             invoice.invoicexpress_doc_type = res
 
     journal_type = fields.Selection(
