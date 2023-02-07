@@ -5,7 +5,7 @@ Generate Portuguese tax authority legal Invoices ("Faturas") using InvoiceXpress
 Invoices:
 
 - Added support to the different documents types:
-  Invoice, Invoice Receipt, Simplified Invoice and VAT MOSS.
+  Invoice, Invoice Receipt, Simplified Invoice.
   The default document type is set on the Journal,
   and can be changed on the Invoice form.
 
