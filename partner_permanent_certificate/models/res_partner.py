@@ -7,9 +7,13 @@ from odoo import fields, models
 class ResPartner(models.Model):
     _inherit = "res.partner"
 
-    perm_certificate_code = fields.Char(
+    l10n_pt_perm_certificate_code = fields.Char(
         string="Permanent Certificate Code",
-        compute=lambda s: s._compute_identification("perm_certificate_code", "ccp"),
-        inverse=lambda s: s._inverse_identification("perm_certificate_code", "ccp"),
+        compute=lambda s: s._compute_identification(
+            "l10n_pt_perm_certificate_code", "ccp"
+        ),
+        inverse=lambda s: s._inverse_identification(
+            "l10n_pt_perm_certificate_code", "ccp"
+        ),
         search=lambda s, *a: s._search_identification("ccp", *a),
     )

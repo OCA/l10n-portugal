@@ -35,10 +35,10 @@ class TestPartnerPermCertificate(TransactionCase):
 
     def test_03_perm_cert_create(self):
         new_partner = self.env["res.partner"].create(
-            {"name": "Test Partner", "perm_certificate_code": "0123-4567-8901"}
+            {"name": "Test Partner", "l10n_pt_perm_certificate_code": "0123-4567-8901"}
         )
 
-        self.assertEqual(new_partner.perm_certificate_code, "0123-4567-8901")
+        self.assertEqual(new_partner.l10n_pt_perm_certificate_code, "0123-4567-8901")
 
         id_numbers = new_partner.id_numbers
         self.assertTrue(id_numbers)
@@ -46,8 +46,8 @@ class TestPartnerPermCertificate(TransactionCase):
         self.assertEqual(id_numbers.name, "0123-4567-8901")
 
     def test_04_perm_cert_write(self):
-        self.main_partner.write({"perm_certificate_code": "0123-4567-8902"})
-        perm_cert = self.main_partner.perm_certificate_code
+        self.main_partner.write({"l10n_pt_perm_certificate_code": "0123-4567-8902"})
+        perm_cert = self.main_partner.l10n_pt_perm_certificate_code
         self.assertEqual(perm_cert, "0123-4567-8902")
 
         id_numbers = self.main_partner.id_numbers
