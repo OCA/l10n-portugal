@@ -4,7 +4,7 @@
 {
     "name": "Partner Permanent Certificate",
     "summary": "Adds field 'Permanent Certificate'",
-    "version": "14.0.1.0.1",
+    "version": "14.0.1.1.0",
     "category": "Customer Relationship Management",
     "author": "Exo Software,Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-portugal",

@@ -39,8 +39,8 @@ msgid "Perm. Certificate"
 msgstr ""
 
 #. module: partner_permanent_certificate
-#: model:ir.model.fields,field_description:partner_permanent_certificate.field_res_partner__perm_certificate_code
-#: model:ir.model.fields,field_description:partner_permanent_certificate.field_res_users__perm_certificate_code
+#: model:ir.model.fields,field_description:partner_permanent_certificate.field_res_partner__l10n_pt_perm_certificate_code
+#: model:ir.model.fields,field_description:partner_permanent_certificate.field_res_users__l10n_pt_perm_certificate_code
 #: model:res.partner.id_category,name:partner_permanent_certificate.id_category_perm_cert
 msgid "Permanent Certificate Code"
 msgstr ""

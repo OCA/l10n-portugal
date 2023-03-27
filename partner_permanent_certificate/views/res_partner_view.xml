@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <!-- Add perm_certificate_code field -->
+    <!-- Add l10n_pt_perm_certificate_code field -->
     <record id="view_partner_form_ccp" model="ir.ui.view">
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="base.view_partner_form" />
@@ -8,7 +8,7 @@
         <field name="arch" type="xml">
             <field name="industry_id" position="after">
                 <field
-                    name="perm_certificate_code"
+                    name="l10n_pt_perm_certificate_code"
                     string="Perm. Certificate"
                     attrs="{'invisible': [('is_company', '=', False)]}"
                 />
