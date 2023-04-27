@@ -6,16 +6,17 @@
         <field name="inherit_id" ref="account.view_move_form" />
         <field name="arch" type="xml">
             <data>
-                <!-- Add the VAT Adjustment Norm (Fields 40/41 of the VAT Statement) !-->
+                <!-- Add the VAT Adjustment Norm (Fields 40/41 of the VAT Statement) -->
                 <div name="journal_div" position="after">
+                    <field name="move_type" invisible="1" />
+                    <field name="is_l10npt_vat_enabled" invisible="1" />
                     <field
                         name="l10npt_vat_exempt_reason"
-                        invisible="country_code != 'PT'"
+                        invisible="not is_l10npt_vat_enabled"
                     />
-                    <field name="move_type" invisible="1" />
                     <field
                         name="vat_adjustment_norm_id"
-                        invisible="country_code != 'PT' or move_type not in ['out_refund', 'in_refund']"
+                        invisible="not is_l10npt_vat_enabled or move_type not in ['out_refund', 'in_refund']"
                         domain="[('move_type', '=', move_type)]"
                     />
                 </div>
