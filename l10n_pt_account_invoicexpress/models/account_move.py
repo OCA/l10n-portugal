@@ -76,6 +76,13 @@ class AccountMove(models.Model):
         " If unset, InvoiceXpress will not be used.",
     )
 
+    def _compute_is_l10npt_vat_enabled(self):
+        super()._compute_is_l10npt_vat_enabled()
+        # Disable VAT PT options is InvoiceXpress is disabled
+        for invoice in self.filtered("invoice.is_l10npt_vat_enabled"):
+            if not invoice.can_invoicexpress:
+                invoice.is_l10npt_vat_enabled = False
+
     @api.constrains("journal_id", "company_id")
     def _check_invoicexpress_doctype_config(self):
         """
