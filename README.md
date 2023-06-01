@@ -25,6 +25,7 @@ addon | version | maintainers | summary
 [l10n_pt_stock_invoicexpress](l10n_pt_stock_invoicexpress/) | 14.0.3.0.1 | [![dreispt](https://github.com/dreispt.png?size=30px)](https://github.com/dreispt) | Portuguese legal transport and shipping documents (Guias de Transporte e Guias de Remessa) generated with InvoiceXpress
 [l10n_pt_vat](l10n_pt_vat/) | 14.0.1.0.2 | [![dreispt](https://github.com/dreispt.png?size=30px)](https://github.com/dreispt) | Portuguese VAT requirements extensions
 [partner_permanent_certificate](partner_permanent_certificate/) | 14.0.1.1.0 | [![pedrocasi](https://github.com/pedrocasi.png?size=30px)](https://github.com/pedrocasi) | Adds field 'Permanent Certificate'
+[sms_global_digital](sms_global_digital/) | 14.0.1.0.0 | [![tiagorangel](https://github.com/tiagorangel.png?size=30px)](https://github.com/tiagorangel) | Send SMS messages using the Global Digital API
 
 [//]: # (end addons)
 
