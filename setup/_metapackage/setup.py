@@ -12,6 +12,7 @@ setuptools.setup(
         'odoo14-addon-l10n_pt_stock_invoicexpress',
         'odoo14-addon-l10n_pt_vat',
         'odoo14-addon-partner_permanent_certificate',
+        'odoo14-addon-sms_global_digital',
     ],
     classifiers=[
         'Programming Language :: Python',
