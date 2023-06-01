@@ -6,8 +6,6 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-05-13 14:05+0000\n"
-"PO-Revision-Date: 2022-05-13 14:05+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -39,13 +37,8 @@ msgid "Display Name"
 msgstr ""
 
 #. module: sms_global_digital
-#: model:ir.model.fields,field_description:sms_global_digital.field_sms_sms__error_detail
-msgid "Error Detail"
-msgstr ""
-
-#. module: sms_global_digital
 #: model_terms:ir.ui.view,arch_db:sms_global_digital.iap_account_view_form
-msgid "Global Digital account"
+msgid "Global Digital Account"
 msgstr ""
 
 #. module: sms_global_digital
@@ -61,11 +54,6 @@ msgid "ID"
 msgstr ""
 
 #. module: sms_global_digital
-#: model:ir.model.fields,field_description:sms_global_digital.field_iap_account__sequence
-msgid "Iap Account Sequence"
-msgstr ""
-
-#. module: sms_global_digital
 #: model:ir.model.fields,field_description:sms_global_digital.field_iap_account____last_update
 #: model:ir.model.fields,field_description:sms_global_digital.field_sms_api____last_update
 #: model:ir.model.fields,field_description:sms_global_digital.field_sms_sms____last_update
@@ -73,8 +61,20 @@ msgid "Last Modified on"
 msgstr ""
 
 #. module: sms_global_digital
+#: code:addons/sms_global_digital/models/sms_api.py:0
+#, python-format
+msgid "Message not sent, please enter a valid number!"
+msgstr ""
+
+#. module: sms_global_digital
 #: model:ir.model,name:sms_global_digital.model_sms_sms
 msgid "Outgoing SMS"
+msgstr ""
+
+#. module: sms_global_digital
+#: code:addons/sms_global_digital/models/sms_api.py:0
+#, python-format
+msgid "Please enter a phone number!"
 msgstr ""
 
 #. module: sms_global_digital
