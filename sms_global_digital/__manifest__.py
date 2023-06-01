@@ -8,7 +8,7 @@
     "category": "SMS",
     "website": "https://github.com/OCA/l10n-portugal",
     "author": "Exo Software,Odoo Community Association (OCA)",
-    "maintainers": ["tiagorangel"],
+    "maintainers": ["tiagosrangel"],
     "license": "AGPL-3",
     "application": False,
     "installable": True,
