@@ -290,6 +290,41 @@ class AccountMove(models.Model):
                 invoice.action_send_invoicexpress_email(ignore_no_config=True)
         return res
 
+    def _track_subtype(self, init_values):
+        res = super()._track_subtype(init_values)
+        if "payment_state" in init_values and self.payment_state == "paid":
+            for invoice in self:
+                if invoice.invoicexpress_id:
+                    invoice._mark_invoice_paid()
+        return res
+
+    def _mark_invoice_paid(self):
+        InvoiceXpress = self.env["account.invoicexpress"]
+        for invoice in self.filtered("can_invoicexpress"):
+            doctype = invoice.invoicexpress_doc_type
+            if not doctype:
+                raise exceptions.UserError(
+                    _("Invoice is missing the InvoiceXpress document type!")
+                )
+            response = InvoiceXpress.call(
+                invoice.company_id,
+                "{}s/{}/change-state.json".format(doctype, invoice.invoicexpress_id),
+                "PUT",
+                payload={"invoice": {"state": "settled"}},
+                raise_errors=True,
+            ).json()
+            values = response.get(doctype)
+            seqnum = values and values.get("inverted_sequence_number")
+            if not seqnum:
+                raise exceptions.UserError(
+                    _(
+                        "Something went wrong: the InvoiceXpress response"
+                        " is missing a sequence number."
+                    )
+                )
+            msg = _("InvoiceXpress record has been modified to Paid.")
+            self.message_post(body=msg)
+
 
 class AccountMoveLine(models.Model):
     _inherit = "account.move.line"
