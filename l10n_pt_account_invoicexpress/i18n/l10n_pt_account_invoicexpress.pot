@@ -23,17 +23,17 @@ msgstr ""
 msgid ""
 "<p>\n"
 "Olá,\n"
-"<br/>\n"
-"Enviamos em anexo a fatura <t t-out=\"object.name\"/>\n"
+"<br>\n"
+"Enviamos em anexo a fatura <t t-out=\"object.name\"></t>\n"
 "<t t-if=\"object.ref\">\n"
-"    relativa à sua encomenda <t t-out=\"object.ref\"/>\n"
+"    relativa à sua encomenda <t t-out=\"object.ref\"></t>\n"
 "</t>\n"
 ".\n"
-"<br/><br/>\n"
+"<br><br>\n"
 "Obrigado\n"
 "<t t-if=\"user.signature\">\n"
-"    <br/>\n"
-"    <t t-out=\"user.signature or ''\"/>\n"
+"    <br>\n"
+"    <t t-out=\"user.signature or ''\"></t>\n"
 "</t>\n"
 "</p>\n"
 "        "
@@ -145,6 +145,7 @@ msgstr ""
 #. module: l10n_pt_account_invoicexpress
 #. odoo-python
 #: code:addons/l10n_pt_account_invoicexpress/models/account_move.py:0
+#: code:addons/l10n_pt_account_invoicexpress/models/account_move.py:0
 #, python-format
 msgid "Invoice is missing the InvoiceXpress document type!"
 msgstr ""
@@ -214,6 +215,13 @@ msgstr ""
 msgid ""
 "InvoiceXpress record has been created for this invoice:<ul><li>InvoiceXpress"
 " Id: {inv_xpress_id}</li><li>{inv_xpress_link}</li></ul>"
+msgstr ""
+
+#. module: l10n_pt_account_invoicexpress
+#. odoo-python
+#: code:addons/l10n_pt_account_invoicexpress/models/account_move.py:0
+#, python-format
+msgid "InvoiceXpress record has been modified to Paid."
 msgstr ""
 
 #. module: l10n_pt_account_invoicexpress
@@ -359,6 +367,7 @@ msgstr ""
 
 #. module: l10n_pt_account_invoicexpress
 #. odoo-python
+#: code:addons/l10n_pt_account_invoicexpress/models/account_move.py:0
 #: code:addons/l10n_pt_account_invoicexpress/models/account_move.py:0
 #, python-format
 msgid ""
