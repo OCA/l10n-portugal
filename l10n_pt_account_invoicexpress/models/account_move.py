@@ -281,7 +281,7 @@ class AccountMove(models.Model):
                 )
                 invoice.message_post(body=msg)
 
-    def _post(self, soft=False):
+    def _post(self, soft=True):
         res = super()._post(soft=soft)
         for invoice in self:
             if not invoice.invoicexpress_id:
