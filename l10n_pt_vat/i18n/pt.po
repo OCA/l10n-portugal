@@ -74,10 +74,7 @@ msgid "Description"
 msgstr "Descrição"
 
 #. module: l10n_pt_vat
-#: model:ir.model.fields,field_description:l10n_pt_vat.field_account_journal__display_name
 #: model:ir.model.fields,field_description:l10n_pt_vat.field_account_l10n_pt_vat_exempt_reason__display_name
-#: model:ir.model.fields,field_description:l10n_pt_vat.field_account_move__display_name
-#: model:ir.model.fields,field_description:l10n_pt_vat.field_account_tax__display_name
 #: model:ir.model.fields,field_description:l10n_pt_vat.field_account_vat_adjustment_norm__display_name
 msgid "Display Name"
 msgstr "Nome a Exibir"
@@ -100,10 +97,7 @@ msgid "Fiscal Zone"
 msgstr "Zona Fiscal"
 
 #. module: l10n_pt_vat
-#: model:ir.model.fields,field_description:l10n_pt_vat.field_account_journal__id
 #: model:ir.model.fields,field_description:l10n_pt_vat.field_account_l10n_pt_vat_exempt_reason__id
-#: model:ir.model.fields,field_description:l10n_pt_vat.field_account_move__id
-#: model:ir.model.fields,field_description:l10n_pt_vat.field_account_tax__id
 #: model:ir.model.fields,field_description:l10n_pt_vat.field_account_vat_adjustment_norm__id
 msgid "ID"
 msgstr "ID"
@@ -198,10 +192,7 @@ msgid "L10Npt Has Tax Exempt Lines"
 msgstr ""
 
 #. module: l10n_pt_vat
-#: model:ir.model.fields,field_description:l10n_pt_vat.field_account_journal____last_update
 #: model:ir.model.fields,field_description:l10n_pt_vat.field_account_l10n_pt_vat_exempt_reason____last_update
-#: model:ir.model.fields,field_description:l10n_pt_vat.field_account_move____last_update
-#: model:ir.model.fields,field_description:l10n_pt_vat.field_account_tax____last_update
 #: model:ir.model.fields,field_description:l10n_pt_vat.field_account_vat_adjustment_norm____last_update
 msgid "Last Modified on"
 msgstr "Última Modificação em"
@@ -294,9 +285,7 @@ msgstr "Utilizar em notas de crédito de terceiros"
 #: model:ir.model.fields,field_description:l10n_pt_vat.field_account_bank_statement_line__vat_adjustment_norm_id
 #: model:ir.model.fields,field_description:l10n_pt_vat.field_account_move__vat_adjustment_norm_id
 #: model:ir.model.fields,field_description:l10n_pt_vat.field_account_payment__vat_adjustment_norm_id
-#: model_terms:ir.ui.view,arch_db:l10n_pt_vat.vat_adjustment_norm_view_form
 #: model_terms:ir.ui.view,arch_db:l10n_pt_vat.vat_adjustment_norm_view_search
-#: model_terms:ir.ui.view,arch_db:l10n_pt_vat.vat_adjustment_norm_view_tree
 msgid "VAT Adjustment Norm"
 msgstr "Norma de Regularização de IVA"
 
