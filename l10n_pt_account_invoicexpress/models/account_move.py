@@ -124,7 +124,7 @@ class AccountMove(models.Model):
                     "name": line.product_id.default_code
                     or line.product_id.display_name,
                     "description": line._get_invoicexpress_descr(),
-                    "unit_price": line.price_unit,
+                    "unit_price": abs(line.balance),
                     "quantity": line.quantity,
                     "discount": line.discount,
                     "tax": tax_detail,
