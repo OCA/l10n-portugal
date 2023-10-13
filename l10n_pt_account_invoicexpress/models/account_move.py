@@ -119,12 +119,25 @@ class AccountMove(models.Model):
             tax = line.tax_ids[:1]
             # If not tax set, force zero VAT
             tax_detail = {"name": tax.name or "IVA0", "value": tax.amount or 0.0}
+            # Because InvoiceXpress expects unit_price in EUR, check if we need to convert
+            # line currency to company currency (company should use EUR as default currency)
+            if line.currency_id == line.company_id.currency_id:
+                price_unit = line.price_unit
+            else:
+                price_unit = line.currency_id._convert(
+                    line.price_unit,
+                    line.company_id.currency_id,
+                    line.company_id,
+                    line.move_id.invoice_date
+                    or line.move_id.date
+                    or fields.Date.context_today(line),
+                )
             items.append(
                 {
                     "name": line.product_id.default_code
                     or line.product_id.display_name,
                     "description": line._get_invoicexpress_descr(),
-                    "unit_price": line.price_unit,
+                    "unit_price": price_unit,
                     "quantity": line.quantity,
                     "discount": line.discount,
                     "tax": tax_detail,
