@@ -108,6 +108,7 @@ class AccountMove(models.Model):
         }.get(doctype)
 
     def _prepare_invoicexpress_lines(self):
+        date_today = fields.Date.today()
         # FIXME: set user lang, based on country?
         lines = self.invoice_line_ids.filtered(
             lambda l: l.display_type not in ("line_section", "line_note")
@@ -119,12 +120,23 @@ class AccountMove(models.Model):
             tax = line.tax_ids[:1]
             # If not tax set, force zero VAT
             tax_detail = {"name": tax.name or "IVA0", "value": tax.amount or 0.0}
+            # Because InvoiceXpress expects unit_price in EUR, check if we need to convert
+            # line currency to company currency (company should use EUR as default currency)
+            if line.currency_id.id == line.company_id.currency_id.id:
+                price_unit = line.price_unit
+            else:
+                price_unit = line.currency_id._convert(
+                    line.price_unit,
+                    line.company_id.currency_id,
+                    line.company_id,
+                    date_today
+                )
             items.append(
                 {
                     "name": line.product_id.default_code
                     or line.product_id.display_name,
                     "description": line._get_invoicexpress_descr(),
-                    "unit_price": abs(line.balance),
+                    "unit_price": price_unit,
                     "quantity": line.quantity,
                     "discount": line.discount,
                     "tax": tax_detail,
