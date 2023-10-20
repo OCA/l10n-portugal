@@ -4,6 +4,8 @@
 import uuid
 
 from odoo import _, api, exceptions, fields, models
+from odoo.tools import float_compare
+from odoo.addons.account.models.account_move import TYPE_REVERSE_MAP
 
 
 class AccountMove(models.Model):
@@ -282,13 +284,93 @@ class AccountMove(models.Model):
                 invoice.message_post(body=msg)
 
     def _post(self, soft=True):
+        credit_note_lines = self._prepare_credit_note_lines()
+
         res = super()._post(soft=soft)
         for invoice in self:
             if not invoice.invoicexpress_id:
                 invoice._check_invoicexpress_doctype_config()
                 invoice.action_create_invoicexpress_invoice()
                 invoice.action_send_invoicexpress_email(ignore_no_config=True)
+                if credit_note_lines.get(invoice.id):
+                    invoice.create_credit_note(credit_note_lines[invoice.id])
+
         return res
+
+    def _prepare_credit_note_lines(self):
+        credit_note_lines = {}
+
+        for invoice in self:
+            if not invoice.invoicexpress_id:
+                negative_lines = invoice.invoice_line_ids.filtered(
+                    lambda l: l.is_downpayment and float_compare(l.price_total, 0.0, 2) < 0
+                )
+                if negative_lines:
+                    # Prepare negative lines for credit note
+                    credit_note_lines.update({
+                        invoice.id: [{
+                            'product_id': negative_line.product_id.id,
+                            'quantity': abs(negative_line.quantity),
+                            'price_unit': negative_line.price_unit,
+                            'sale_line_ids': negative_line.sale_line_ids.ids,
+                        } for negative_line in negative_lines]
+                    })
+
+                    # Delete negative lines from invoice before post
+                    negative_lines.unlink()
+
+                    # Delete down payment section
+                    invoice = invoice.with_context(lang='en_US')
+                    down_payment_section = invoice.invoice_line_ids.filtered(
+                        lambda l: l.display_type == 'line_section' and l.name == 'Down Payments'
+                    )
+                    down_payment_section.unlink()
+
+        return credit_note_lines
+
+    def create_credit_note(self, lines):
+        self.ensure_one()
+
+        # The credit note should use the same exempt reason that was used in the
+        # invoice with the down payment
+        l10npt_vat_exempt_reason = None
+        invoices = self.line_ids.sale_line_ids.order_id.invoice_ids
+        invoices = invoices.filtered('l10npt_vat_exempt_reason')
+        for invoice in invoices:
+            has_downpayment = any(
+                line.is_downpayment and float_compare(line.price_total, 0.0, 2) >= 0
+                for line in invoice.invoice_line_ids
+            )
+            if has_downpayment:
+                l10npt_vat_exempt_reason = invoice.l10npt_vat_exempt_reason.id
+                break
+
+        credit_note = self.env['account.move'].create({
+            'ref': _('Reversal of: %s', self.name),
+            'date': self.date,
+            'invoice_date_due': self.date,
+            'invoice_date': self.date,
+            'journal_id': self.journal_id.id,
+            'invoice_payment_term_id': None,
+            'invoice_user_id': self.invoice_user_id.id,
+            'auto_post': 'no',
+            'move_type': TYPE_REVERSE_MAP[self.move_type],
+            'reversed_entry_id': self.id,
+            'currency_id': self.currency_id.id,
+            'l10npt_vat_exempt_reason': l10npt_vat_exempt_reason,
+            'invoice_line_ids': [
+                (0, 0, {
+                    'product_id': line['product_id'],
+                    'quantity': line['quantity'],
+                    'price_unit': line['price_unit'],
+                    'sale_line_ids': [(6, 0, line['sale_line_ids'])],
+                    'tax_ids': None,
+                }) for line in lines
+            ],
+        })
+
+        if l10npt_vat_exempt_reason:
+            credit_note.action_post()
 
     def _track_subtype(self, init_values):
         res = super()._track_subtype(init_values)
@@ -300,7 +382,10 @@ class AccountMove(models.Model):
 
     def _mark_invoice_paid(self):
         InvoiceXpress = self.env["account.invoicexpress"]
-        for invoice in self.filtered("can_invoicexpress"):
+        # Credit notes are considered paid by default when finalized in InvoiceXpress
+        for invoice in self.filtered(
+            lambda i: i.can_invoicexpress and i.move_type not in ('out_refund', 'in_refund')
+        ):
             doctype = invoice.invoicexpress_doc_type
             if not doctype:
                 raise exceptions.UserError(
@@ -324,6 +409,22 @@ class AccountMove(models.Model):
                 )
             msg = _("InvoiceXpress record has been modified to Paid.")
             self.message_post(body=msg)
+
+    def action_register_payment(self):
+        for invoice in self:
+            if not invoice.invoicexpress_id:
+                continue
+
+            if invoice.reversed_entry_id:
+                raise exceptions.UserError(_('Please reconcile outstanding credits instead in the reversed invoice.'))
+
+            if invoice.invoice_has_outstanding:
+                for payment in invoice.invoice_outstanding_credits_debits_widget.get('content'):
+                    move = self.env['account.move'].browse(payment['move_id'])
+                    if move.move_type in ('out_refund', 'in_refund') and move.reversed_entry_id == invoice:
+                        raise exceptions.UserError(_('Please reconcile outstanding credits first.'))
+
+        return super(AccountMove, self).action_register_payment()
 
 
 class AccountMoveLine(models.Model):
