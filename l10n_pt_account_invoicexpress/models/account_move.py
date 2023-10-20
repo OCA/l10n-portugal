@@ -369,8 +369,14 @@ class AccountMove(models.Model):
             ],
         })
 
+        # Post and reconcile credit note
         if l10npt_vat_exempt_reason:
             credit_note.action_post()
+
+            outstanding_lines = credit_note.line_ids
+            outstanding_lines = outstanding_lines.filtered(lambda l: float_compare(l.balance, 0.0, 2) < 0)
+            for outstanding_line in outstanding_lines:
+                self.js_assign_outstanding_line(outstanding_line.id)
 
     def _track_subtype(self, init_values):
         res = super()._track_subtype(init_values)
