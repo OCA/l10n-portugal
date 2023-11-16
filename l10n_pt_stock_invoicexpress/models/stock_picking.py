@@ -178,12 +178,12 @@ class StockPicking(models.Model):
     def _update_invoicexpress_status(self):
         inv_xpress_link_name = _("View Document")
         inv_xpress_link = _(
-            "<a class='btn btn-info mr-2' target='new' href={}>{}</a>"
-        ).format(self.invoicexpress_permalink, inv_xpress_link_name)
+            "<a class='btn btn-info mr-2' target='new' href=%(link)s>%(name)s</a>"
+        ).format(link=self.invoicexpress_permalink, name=inv_xpress_link_name)
         msg = _(
             "InvoiceXpress record has been created for this delivery order:<ul>"
-            "<li>Number: {inv_xpress_num}</li>"
-            "<li>{inv_xpress_link}</li></ul>"
+            "<li>Number: %(inv_xpress_num)s</li>"
+            "<li>%(inv_xpress_link)s</li></ul>"
         ).format(
             inv_xpress_num=self.invoicexpress_number, inv_xpress_link=inv_xpress_link
         )
@@ -269,10 +269,11 @@ class StockPicking(models.Model):
                     delivery.company_id, endpoint, "PUT", payload=payload
                 )
                 msg = _(
-                    "Email sent by InvoiceXpress:<ul><li>To: {}</li><li>Cc: {}</li></ul>"
+                    "Email sent by InvoiceXpress:<ul><li>To: "
+                    "%(email)s/li><li>Cc: %(cc)s</li></ul>"
                 ).format(
-                    payload["message"]["client"]["email"],
-                    payload["message"]["cc"] or _("None"),
+                    email=payload["message"]["client"]["email"],
+                    cc=payload["message"]["cc"] or _("None"),
                 )
                 delivery.message_post(body=msg)
 
