@@ -274,10 +274,11 @@ class AccountMove(models.Model):
             if payload:
                 InvoiceXpress.call(invoice.company_id, endpoint, "PUT", payload=payload)
                 msg = _(
-                    "Email sent by InvoiceXpress:<ul><li>To: {}</li><li>Cc: {}</li></ul>"
+                    "Email sent by InvoiceXpress:<ul><li>To: "
+                    "%(email)s</li><li>Cc: %(cc)s</li></ul>"
                 ).format(
-                    payload["message"]["client"]["email"],
-                    payload["message"]["cc"] or _("None"),
+                    email=payload["message"]["client"]["email"],
+                    cc=payload["message"]["cc"] or _("None"),
                 )
                 invoice.message_post(body=msg)
 
