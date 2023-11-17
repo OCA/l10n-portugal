@@ -100,9 +100,10 @@ msgstr "Email InvoiceXpress"
 #. odoo-python
 #: code:addons/l10n_pt_account_invoicexpress/models/account_move.py:0
 #, python-format
-msgid "Email sent by InvoiceXpress:<ul><li>To: {}</li><li>Cc: {}</li></ul>"
+msgid ""
+"Email sent by InvoiceXpress:<ul><li>To: %(email)s</li><li>Cc: %(cc)s</li></"
+"ul>"
 msgstr ""
-"Email enviado por InvoiceXpress:<ul><li>To: {}</li><li>Cc: {}</li></ul>"
 
 #. module: l10n_pt_account_invoicexpress
 #. odoo-python
@@ -418,6 +419,11 @@ msgstr ""
 #, python-format
 msgid "View Document"
 msgstr ""
+
+#, python-format
+#~ msgid "Email sent by InvoiceXpress:<ul><li>To: {}</li><li>Cc: {}</li></ul>"
+#~ msgstr ""
+#~ "Email enviado por InvoiceXpress:<ul><li>To: {}</li><li>Cc: {}</li></ul>"
 
 #~ msgid "Display Name"
 #~ msgstr "Nome de apresentação"
