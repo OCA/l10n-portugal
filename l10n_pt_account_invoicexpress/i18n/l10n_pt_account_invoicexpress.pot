@@ -97,7 +97,9 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_pt_account_invoicexpress/models/account_move.py:0
 #, python-format
-msgid "Email sent by InvoiceXpress:<ul><li>To: {}</li><li>Cc: {}</li></ul>"
+msgid ""
+"Email sent by InvoiceXpress:<ul><li>To: %(email)s</li><li>Cc: "
+"%(cc)s</li></ul>"
 msgstr ""
 
 #. module: l10n_pt_account_invoicexpress
