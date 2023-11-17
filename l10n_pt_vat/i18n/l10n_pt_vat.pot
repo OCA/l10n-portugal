@@ -285,7 +285,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_pt_vat.field_account_payment__vat_adjustment_norm_id
 #: model_terms:ir.ui.view,arch_db:l10n_pt_vat.vat_adjustment_norm_view_form
 #: model_terms:ir.ui.view,arch_db:l10n_pt_vat.vat_adjustment_norm_view_search
-#: model_terms:ir.ui.view,arch_db:l10n_pt_vat.vat_adjustment_norm_view_tree
 msgid "VAT Adjustment Norm"
 msgstr ""
 
