@@ -1,5 +1,4 @@
 <odoo>
-    <data>
         <record id="res_config_settings_view_form" model="ir.ui.view">
             <field name="name">res.config.settings.view.form.invoicexpress</field>
             <field name="priority" eval="200" />
@@ -9,13 +8,12 @@
                 <div name="invoicexpress_options" position="after">
                     <div class="mt16">
                         <label
-                            for="invoicexpress_delivery_template_id"
-                            string="InvoiceXpress Delivery Email"
-                        />
+                        for="invoicexpress_delivery_template_id"
+                        string="InvoiceXpress Delivery Email"
+                    />
                         <field name="invoicexpress_delivery_template_id" />
                     </div>
                 </div>
             </field>
         </record>
-    </data>
 </odoo>
