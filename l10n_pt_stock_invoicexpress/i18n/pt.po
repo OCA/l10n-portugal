@@ -20,7 +20,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_pt_stock_invoicexpress/models/stock_picking.py:0
 #, python-format
-msgid "<a class='btn btn-info mr-2' target='new' href={}>{}</a>"
+msgid "<a class='btn btn-info mr-2' target='new' href=%(link)s>%(name)s</a>"
 msgstr ""
 
 #. module: l10n_pt_stock_invoicexpress
@@ -85,9 +85,9 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_pt_stock_invoicexpress/models/stock_picking.py:0
 #, python-format
-msgid "Email sent by InvoiceXpress:<ul><li>To: {}</li><li>Cc: {}</li></ul>"
+msgid ""
+"Email sent by InvoiceXpress:<ul><li>To: %(email)s/li><li>Cc: %(cc)s</li></ul>"
 msgstr ""
-"Email enviado pelo InvoiceXpress:<ul><li>Para: {}</li><li>Cc: {}</li></ul>"
 
 #. module: l10n_pt_stock_invoicexpress
 #: model:mail.template,subject:l10n_pt_stock_invoicexpress.email_template_delivery
@@ -161,10 +161,8 @@ msgstr "Número InvoiceXpress"
 #, python-format
 msgid ""
 "InvoiceXpress record has been created for this delivery order:"
-"<ul><li>Number: {inv_xpress_num}</li><li>{inv_xpress_link}</li></ul>"
+"<ul><li>Number: %(inv_xpress_num)s</li><li>%(inv_xpress_link)s</li></ul>"
 msgstr ""
-"Registo InvoiceXpress foi criado para esta entrega:<ul><li>Número: "
-"{inv_xpress_num}</li><li>{inv_xpress_link}</li></ul>"
 
 #. module: l10n_pt_stock_invoicexpress
 #: model:mail.template,name:l10n_pt_stock_invoicexpress.email_template_delivery
@@ -269,6 +267,19 @@ msgstr ""
 #, python-format
 msgid "View Document"
 msgstr ""
+
+#, python-format
+#~ msgid "Email sent by InvoiceXpress:<ul><li>To: {}</li><li>Cc: {}</li></ul>"
+#~ msgstr ""
+#~ "Email enviado pelo InvoiceXpress:<ul><li>Para: {}</li><li>Cc: {}</li></ul>"
+
+#, python-format
+#~ msgid ""
+#~ "InvoiceXpress record has been created for this delivery order:"
+#~ "<ul><li>Number: {inv_xpress_num}</li><li>{inv_xpress_link}</li></ul>"
+#~ msgstr ""
+#~ "Registo InvoiceXpress foi criado para esta entrega:<ul><li>Número: "
+#~ "{inv_xpress_num}</li><li>{inv_xpress_link}</li></ul>"
 
 #~ msgid ""
 #~ "<p>\n"
