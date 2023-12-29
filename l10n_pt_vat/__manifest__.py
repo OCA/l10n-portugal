@@ -14,7 +14,7 @@
     "depends": ["account", "l10n_pt"],
     "data": [
         "security/ir.model.access.csv",
-        "data/account.l10n_pt.vat.exempt.reason.csv",
+        "data/vat_exempt_reason.xml",
         "data/vat_adjustment_norm.xml",
         "views/account_journal_view.xml",
         "views/account_move_view.xml",
