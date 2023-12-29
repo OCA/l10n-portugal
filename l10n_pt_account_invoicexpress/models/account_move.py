@@ -108,7 +108,6 @@ class AccountMove(models.Model):
         }.get(doctype)
 
     def _prepare_invoicexpress_lines(self):
-        date_today = fields.Date.today()
         # FIXME: set user lang, based on country?
         lines = self.invoice_line_ids.filtered(
             lambda l: l.display_type not in ("line_section", "line_note")
@@ -129,7 +128,7 @@ class AccountMove(models.Model):
                     line.price_unit,
                     line.company_id.currency_id,
                     line.company_id,
-                    date_today,
+                    line.move_id.invoice_date or line.move_id.date or fields.Date.context_today(line),
                 )
             items.append(
                 {
