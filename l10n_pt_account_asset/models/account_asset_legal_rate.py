@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    OpenERP, Open Source Management Solution
@@ -20,52 +19,47 @@
 #
 ##############################################################################
 
-from openerp import api, models, fields
+from openerp import api, fields, models
 
 
 class AccountAssetLegalRate(models.Model):
     _name = "account.asset.legal_rate"
     _description = "Asset Legal Rate"
 
-    name = fields.Char(
-        string='Name',
-        required=True)
+    name = fields.Char(string="Name", required=True)
 
-    code = fields.Char(
-        string='Code',
-        size=4,
-        required=True)
+    code = fields.Char(string="Code", size=4, required=True)
 
     depreciation_rate = fields.Float(
-        string='Depreciation rate (%)',
-        default=100.0,
-        digits=(3, 2))
+        string="Depreciation rate (%)", default=100.0, digits=(3, 2)
+    )
 
     _sql_constraints = [
-        ('depreciation_rate',
-         ' CHECK (depreciation_rate > 0 and depreciation_rate <= 100)',
-         'Invalid percentage!'),
+        (
+            "depreciation_rate",
+            " CHECK (depreciation_rate > 0 and depreciation_rate <= 100)",
+            "Invalid percentage!",
+        ),
     ]
 
     @api.multi
-    @api.depends('name', 'code')
+    @api.depends("name", "code")
     def name_get(self):
         result = []
         for rec in self:
-            result.append((rec.id, '%s %s' % (rec.code, rec.name)))
+            result.append((rec.id, "%s %s" % (rec.code, rec.name)))
         return result
 
-    def name_search(self, cr, uid, name,
-                    args=None, operator='ilike', context=None, limit=100):
+    def name_search(
+        self, cr, uid, name, args=None, operator="ilike", context=None, limit=100
+    ):
         if args is None:
             args = []
         if context is None:
             context = {}
         ids = []
         if name:
-            ids = self.search(cr, uid,
-                              [('name', 'ilike', name)] + args, limit=limit)
+            ids = self.search(cr, uid, [("name", "ilike", name)] + args, limit=limit)
         if not ids:
-            ids = self.search(cr, uid,
-                              [('code', 'ilike', name)] + args, limit=limit)
+            ids = self.search(cr, uid, [("code", "ilike", name)] + args, limit=limit)
         return self.name_get(cr, uid, ids, context=context)

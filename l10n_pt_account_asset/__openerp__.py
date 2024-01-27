@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Odoo, Open Source Management Solution
@@ -29,9 +28,9 @@
     "website": "https://github.com/OCA/l10n-portugal",
     "category": "Localisation/Portugal",
     "data": [
-            "security/ir.model.access.csv",
-            "views/account_asset_category.xml",
-            "views/account_legal_rate.xml",
+        "security/ir.model.access.csv",
+        "views/account_asset_category.xml",
+        "views/account_legal_rate.xml",
         "data/account_legal_rate.xml",
     ],
     "installable": True,

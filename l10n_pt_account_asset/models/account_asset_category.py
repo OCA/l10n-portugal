@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    OpenERP, Open Source Management Solution
@@ -19,23 +18,23 @@
 #
 ##############################################################################
 
-from openerp import models, fields, api
+from openerp import api, fields, models
 
 
 class AccountAssetCategory(models.Model):
-    _inherit = 'account.asset.category'
+    _inherit = "account.asset.category"
 
     legal_rate_id = fields.Many2one(
-        'account.asset.legal_rate',
-        string='Legal Rate',)
+        "account.asset.legal_rate",
+        string="Legal Rate",
+    )
 
     prorata = fields.Boolean(default=True)
 
-    @api.onchange('legal_rate_id')
+    @api.onchange("legal_rate_id")
     def onchange_legal_rate(self):
         if self.legal_rate_id:
-            self.method_time = 'year'
-            self.method_period = 'year'
+            self.method_time = "year"
+            self.method_period = "year"
             self.prorata = True
-            self.method_number = round(
-                100 / self.legal_rate_id.depreciation_rate, 0)
+            self.method_number = round(100 / self.legal_rate_id.depreciation_rate, 0)
