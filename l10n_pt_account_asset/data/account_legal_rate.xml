@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<openerp>
-    <data>
+<odoo>
 
         <!--
         Asset Legal Rate
@@ -9,8 +8,8 @@
         <record id="asset_legal_rate_2095" model="account.asset.legal_rate">
             <field name="code">2095</field>
             <field
-                name="name"
-            >Instal. de água, eletricidade, ar comprim., refrigeração e telefónicas (interiores)</field>
+            name="name"
+        >Instal. de água, eletricidade, ar comprim., refrigeração e telefónicas (interiores)</field>
 	    <field name="depreciation_rate">10</field>
         </record>
         <record id="asset_legal_rate_2100" model="account.asset.legal_rate">
@@ -36,15 +35,15 @@
 	<record id="asset_legal_rate_2120" model="account.asset.legal_rate">
             <field name="code">2120</field>
             <field
-                name="name"
-            >Instal. de captação e distrib. de água (instal. privativas)</field>
+            name="name"
+        >Instal. de captação e distrib. de água (instal. privativas)</field>
 	    <field name="depreciation_rate">5</field>
         </record>
 	<record id="asset_legal_rate_2125" model="account.asset.legal_rate">
             <field name="code">2125</field>
             <field
-                name="name"
-            >Instal. de carga, descarga e embarque (instal. privativas)</field>
+            name="name"
+        >Instal. de carga, descarga e embarque (instal. privativas)</field>
 	    <field name="depreciation_rate">7.14</field>
         </record>
 	<record id="asset_legal_rate_2130" model="account.asset.legal_rate">
@@ -55,8 +54,8 @@
 	<record id="asset_legal_rate_2135" model="account.asset.legal_rate">
             <field name="code">2135</field>
             <field
-                name="name"
-            >Instal. de distribuição de combustíveis líquidos (instal. privativas)</field>
+            name="name"
+        >Instal. de distribuição de combustíveis líquidos (instal. privativas)</field>
 	    <field name="depreciation_rate">10</field>
         </record>
 	<record id="asset_legal_rate_2140" model="account.asset.legal_rate">
@@ -92,8 +91,8 @@
 	<record id="asset_legal_rate_2170" model="account.asset.legal_rate">
             <field name="code">2170</field>
             <field
-                name="name"
-            >Instal. radiofónicas, radiotelegráficas e de televisão (instalações privativas)</field>
+            name="name"
+        >Instal. radiofónicas, radiotelegráficas e de televisão (instalações privativas)</field>
 	    <field name="depreciation_rate">12.5</field>
         </record>
 	<record id="asset_legal_rate_2175" model="account.asset.legal_rate">
@@ -210,8 +209,8 @@
 	<record id="asset_legal_rate_2275" model="account.asset.legal_rate">
             <field name="code">2275</field>
             <field
-                name="name"
-            >Máquinas de escrever, de calcular, de contabilidade e de fotocopiar</field>
+            name="name"
+        >Máquinas de escrever, de calcular, de contabilidade e de fotocopiar</field>
 	    <field name="depreciation_rate">20</field>
         </record>
 	<record id="asset_legal_rate_2280" model="account.asset.legal_rate">
@@ -283,8 +282,8 @@
 	<record id="asset_legal_rate_2345" model="account.asset.legal_rate">
             <field name="code">2345</field>
             <field
-                name="name"
-            >Tratores e atrelados, empilhadores e carros com caixa basculante (dumpers)</field>
+            name="name"
+        >Tratores e atrelados, empilhadores e carros com caixa basculante (dumpers)</field>
 	    <field name="depreciation_rate">16.66</field>
         </record>
 	<record id="asset_legal_rate_2350" model="account.asset.legal_rate">
@@ -295,8 +294,8 @@
 	<record id="asset_legal_rate_2355" model="account.asset.legal_rate">
             <field name="code">2355</field>
             <field
-                name="name"
-            >Veículos de tração animal. compreendendo animais de tiro</field>
+            name="name"
+        >Veículos de tração animal. compreendendo animais de tiro</field>
 	    <field name="depreciation_rate">12.5</field>
         </record>
 	<record id="asset_legal_rate_2360" model="account.asset.legal_rate">
@@ -307,8 +306,8 @@
 	<record id="asset_legal_rate_2365" model="account.asset.legal_rate">
             <field name="code">2365</field>
             <field
-                name="name"
-            >Vias férreas (sistema Decauville) e respetivo material rolante</field>
+            name="name"
+        >Vias férreas (sistema Decauville) e respetivo material rolante</field>
 	    <field name="depreciation_rate">10</field>
         </record>
 	<record id="asset_legal_rate_2370" model="account.asset.legal_rate">
@@ -329,15 +328,15 @@
 	<record id="asset_legal_rate_2385" model="account.asset.legal_rate">
             <field name="code">2385</field>
             <field
-                name="name"
-            >Veículos automóveis: pesados e reboques, de mercadorias</field>
+            name="name"
+        >Veículos automóveis: pesados e reboques, de mercadorias</field>
 	    <field name="depreciation_rate">20</field>
         </record>
 	<record id="asset_legal_rate_2390" model="account.asset.legal_rate">
             <field name="code">2390</field>
             <field
-                name="name"
-            >Veíc. autom.: pesados e reboques de merc., utiliz. em vias que prov. forte desgaste</field>
+            name="name"
+        >Veíc. autom.: pesados e reboques de merc., utiliz. em vias que prov. forte desgaste</field>
 	    <field name="depreciation_rate">25</field>
         </record>
 	<record id="asset_legal_rate_2395" model="account.asset.legal_rate">
@@ -346,5 +345,4 @@
 	    <field name="depreciation_rate">16.66</field>
         </record>
 
-    </data>
-</openerp>
+</odoo>

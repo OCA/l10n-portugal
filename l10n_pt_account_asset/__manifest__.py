@@ -20,7 +20,7 @@
 
 {
     "name": "Portugal - Asset Management",
-    "version": "8.0.1.0.1",
+    "version": "16.0.1.0.0",
     "license": "AGPL-3",
     "depends": ["account_asset_management"],
     "author": "Sossia, Odoo Community Association (OCA)",

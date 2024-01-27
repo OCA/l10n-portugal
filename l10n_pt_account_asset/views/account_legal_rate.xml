@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<openerp>
-   <data>
+<odoo>
 
 	<!-- Account Asset Legal Rate -->
 	<record id="account_asset_legal_rate_view_search" model="ir.ui.view">
@@ -19,7 +18,7 @@
 		<field name="field_parent">child_ids</field>
 		<field name="priority">100</field>
 		<field name="arch" type="xml">
-			<tree string="Asset Legal Rate">
+			<tree>
 				<field name="code" />
 				<field name="name" />
 				<field name="depreciation_rate" />
@@ -42,7 +41,6 @@
 	<record id="action_asset_legal_rate_form" model="ir.actions.act_window">
 		<field name="name">Asset Legal Rates</field>
 		<field name="res_model">account.asset.legal_rate</field>
-		<field name="view_type">form</field>
 		<field name="view_mode">tree,form</field>
 		<field name="search_view_id" ref="account_asset_legal_rate_view_search" />
 	</record>
@@ -50,17 +48,15 @@
 	<record id="account_asset_legal_rate_action_list" model="ir.actions.act_window">
 		<field name="name">Legal Rates</field>
 		<field name="res_model">account.asset.legal_rate</field>
-		<field name="view_type">form</field>
 		<field name="view_mode">tree,form</field>
 		<field name="view_id" ref="account_asset_legal_rate_view_tree" />
 		<field name="search_view_id" ref="account_asset_legal_rate_view_search" />
 	</record>
 
 	<menuitem
-            id="account_asset_legal_rate_menu"
-            parent="account_asset_management.menu_finance_config_assets"
-            action="account_asset_legal_rate_action_list"
-        />
+        id="account_asset_legal_rate_menu"
+        parent="account_asset_management.menu_finance_config_assets"
+        action="account_asset_legal_rate_action_list"
+    />
 
-   </data>
-</openerp>
+</odoo>

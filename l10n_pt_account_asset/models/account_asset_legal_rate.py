@@ -19,17 +19,15 @@
 #
 ##############################################################################
 
-from openerp import api, fields, models
+from odoo import api, fields, models
 
 
 class AccountAssetLegalRate(models.Model):
     _name = "account.asset.legal_rate"
     _description = "Asset Legal Rate"
 
-    name = fields.Char(string="Name", required=True)
-
-    code = fields.Char(string="Code", size=4, required=True)
-
+    name = fields.Char(required=True)
+    code = fields.Char(size=4, required=True)
     depreciation_rate = fields.Float(
         string="Depreciation rate (%)", default=100.0, digits=(3, 2)
     )
@@ -42,7 +40,6 @@ class AccountAssetLegalRate(models.Model):
         ),
     ]
 
-    @api.multi
     @api.depends("name", "code")
     def name_get(self):
         result = []
