@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="id_category_perm_cert" model="res.partner.id_category">
+        <field name="code">ccp</field>
+        <field name="name">Permanent Certificate Code</field>
+    </record>
+</odoo>
