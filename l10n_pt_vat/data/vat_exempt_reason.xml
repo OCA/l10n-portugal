@@ -1,0 +1,233 @@
+<odoo noupdate="1">
+    <!--
+    VAT l10n_pt - Exempt Reason
+    -->
+    <record id="M01" model="account.l10n_pt.vat.exempt.reason">
+        <field name="code">M01</field>
+        <field
+            name="name"
+        >Não sujeito - alínea c) do n.º 6 do art.º 16.º do CIVA</field>
+        <field
+            name="note"
+        >Despesas pagas em nome e por contas de terceiros - Artigo 16.º do CIVA</field>
+    </record>
+    <record id="M02" model="account.l10n_pt.vat.exempt.reason">
+        <field name="code">M02</field>
+        <field
+            name="name"
+        >Isento IVA - Artigo 6.º do decreto-lei n.º 198/90 de 19 de junho</field>
+        <field
+            name="note"
+        >Exportações indiretas (venda a um exportador nacional) - valor superior a
+            1.000€/fatura - Situações isentas - Artigo n.º 6º do decreto-lei n.º 198/90 de 19 de
+            junho</field>
+    </record>
+    <record id="M04" model="account.l10n_pt.vat.exempt.reason">
+        <field name="code">M04</field>
+        <field name="name">Isento IVA - Artigo 13º CIVA</field>
+        <field name="note">Importações - Artigo 13.º do CIVA</field>
+    </record>
+    <record id="M05" model="account.l10n_pt.vat.exempt.reason">
+        <field name="code">M05</field>
+        <field
+            name="name"
+        >Isento de IVA - n.º x do artigo 14 do CIVA, Colocar qual o n.º do artigo
+            14.º do CIVA aplicável a isenção</field>
+        <field
+            name="note"
+        >Situações isentas - Isenções nas exportações, operações assimiladas e
+            transportes internacionais - Artigo 14.º do CIVA</field>
+    </record>
+    <record id="M06" model="account.l10n_pt.vat.exempt.reason">
+        <field name="code">M06</field>
+        <field
+            name="name"
+        >Isento de IVA - n.º x  do artigo 15.º do CIVA, colocar qual o n.º e
+            alínea aplicável à isenção</field>
+        <field name="note">Regimes suspensivos - bens colocados em entrepostos fiscais e
+            alfandegários - Artigo 15.º do CIVA</field>
+    </record>
+    <record id="M07" model="account.l10n_pt.vat.exempt.reason">
+        <field name="code">M07</field>
+        <field
+            name="name"
+        >Isento de IVA - n.º x do artigo 9.º do CIVA, colocar qual o n.º do
+            artigo 9.º do CIVA aplicável a isenção</field>
+        <field
+            name="note"
+        >Situações isentas - Operações Internas - Artigo 9.º do CIVA</field>
+    </record>
+    <record id="M09" model="account.l10n_pt.vat.exempt.reason">
+        <field name="code">M09</field>
+        <field name="name">IVA - não confere direito à dedução</field>
+        <field
+            name="note"
+        >Regime especial dos pequenos retalhistas - Artigo 60.º do CIVA - Artigo
+            60.º do CIVA</field>
+    </record>
+    <record id="M10" model="account.l10n_pt.vat.exempt.reason">
+        <field name="code">M10</field>
+        <field name="name">IVA - regime de isenção</field>
+        <field
+            name="note"
+        >Regime especial de isenção - Artigo 53.º do CIVA (Faturação &lt; 12.500€) - Artigo 53.º do CIVA</field>
+    </record>
+    <record id="M11" model="account.l10n_pt.vat.exempt.reason">
+        <field name="code">M11</field>
+        <field name="name">Não tributado</field>
+        <field
+            name="note"
+        >Regime especial do Tabaco e fósforos - Decreto-lei n.º 346/85 de 23 de
+            agosto</field>
+    </record>
+    <record id="M12" model="account.l10n_pt.vat.exempt.reason">
+        <field name="code">M12</field>
+        <field name="name">Regime da margem de lucro - Agências de viagens</field>
+        <field
+            name="note"
+        >Regime especial das agências de viagens e circuitos turísticos - n.º 2 do
+            art.º 4.º do Decreto-Lei n.º 221/85, de 3 de Julho</field>
+    </record>
+    <record id="M13" model="account.l10n_pt.vat.exempt.reason">
+        <field name="code">M13</field>
+        <field name="name">Regime da margem de lucro - Bens em segunda mão</field>
+        <field
+            name="note"
+        >Regime da margem de lucro - Bens em segunda mão - N.º 1 do art. 6.º do
+            anexo ao Decreto-Lei n.º 199/96, de 18 de Outubro</field>
+    </record>
+    <record id="M14" model="account.l10n_pt.vat.exempt.reason">
+        <field name="code">M14</field>
+        <field name="name">Regime da margem de lucro - Objetos de arte</field>
+        <field
+            name="note"
+        >Regime da margem de lucro - Objetos de arte - N.º 1 do art. 6.º do anexo
+            ao Decreto-Lei n.º 199/96, de 18 de Outubro</field>
+    </record>
+    <record id="M15" model="account.l10n_pt.vat.exempt.reason">
+        <field name="code">M15</field>
+        <field
+            name="name"
+        >Regime da margem de lucro - Objetos de coleção e antiguidades</field>
+        <field
+            name="note"
+        >Regime da margem de lucro - Objetos de coleção e antiguidades - N.º 1 do
+            art. 6.º do anexo ao Decreto-Lei n.º 199/96, de 18 de Outubro</field>
+    </record>
+    <record id="M16" model="account.l10n_pt.vat.exempt.reason">
+        <field name="code">M16</field>
+        <field
+            name="name"
+        >Colocar qual a alínea do artigo 14.º do RITI aplicável a isenção</field>
+        <field
+            name="note"
+        >Situações isentas - Transmissões Intracomunitárias - Artigo 14.º do RITI</field>
+    </record>
+    <record id="M19" model="account.l10n_pt.vat.exempt.reason">
+        <field name="code">M19</field>
+        <field name="name">Isenção do diploma xxxx</field>
+        <field
+            name="note"
+        >Outras isenções - Isenções temporárias determinadas em diplomas próprio
+            (exemplo: em 2022 isenção temporária alimentação animal para consumo)</field>
+    </record>
+    <record id="M20" model="account.l10n_pt.vat.exempt.reason">
+        <field name="code">M20</field>
+        <field name="name">IVA - Regime forfetário</field>
+        <field name="note">IVA - Regime forfetário - Artigo 59.º-B n.º 2 do CIVA</field>
+    </record>
+    <record id="M21" model="account.l10n_pt.vat.exempt.reason">
+        <field name="code">M21</field>
+        <field name="name">IVA - não confere direito à dedução</field>
+        <field name="note">Regime de tributação dos combustíveis líquidos aplicáveis aos
+            revendedores - N.º 4 do art.º 72 do CIVA</field>
+    </record>
+    <record id="M22" model="account.l10n_pt.vat.exempt.reason">
+        <field name="code">M22</field>
+        <field name="name">Mercadorias à Consignação</field>
+        <field
+            name="note"
+        >Mercadorias à Consignação - Artigo 38.º n.º 1 alínea a)</field>
+    </record>
+    <record id="M30" model="account.l10n_pt.vat.exempt.reason">
+        <field name="code">M30</field>
+        <field name="name">IVA - autoliquidação</field>
+        <field
+            name="note"
+        >Regime inversão Sucatas, resíduos e desperdícios (anexo E, CIVA)
+            (Situação em que o destinatário ou adquirente é o devedor do imposto) - Sector de
+            desperdícios, resíduos e sucatas recicláveis a que se refere a alínea i) do n.º 1 do
+            art.º 2.º do CIVA</field>
+    </record>
+    <record id="M31" model="account.l10n_pt.vat.exempt.reason">
+        <field name="code">M31</field>
+        <field name="name">IVA - autoliquidação</field>
+        <field
+            name="note"
+        >Regime inversão construção civil (Situação em que o destinatário ou
+            adquirente é o devedor do imposto) - Serviços de construção civil a que se refere a
+            alínea j) do n.º 1 do art.º 2.º do CIVA</field>
+    </record>
+    <record id="M32" model="account.l10n_pt.vat.exempt.reason">
+        <field name="code">M32</field>
+        <field name="name">IVA - autoliquidação</field>
+        <field
+            name="note"
+        >Regime de inversão emissão de gases efeito estufa (Situação em que o
+            destinatário ou adquirente é o devedor do imposto) - Emissões de gases com efeito de
+            estufa a que se refere a alínea l) do n.º 1 do art.º 2.º do CIVA</field>
+    </record>
+    <record id="M33" model="account.l10n_pt.vat.exempt.reason">
+        <field name="code">M33</field>
+        <field name="name">IVA - autoliquidação</field>
+        <field
+            name="note"
+        >Regime inversão na cortiça, madeira, pinhas e pinhões com casca (Situação
+            em que o destinatário ou adquirente é o devedor do imposto) - Emissões de gases com
+            efeito de estufa a que se refere a alínea m) do n.º 1 do art.º 2.º do CIVA</field>
+    </record>
+    <record id="M40" model="account.l10n_pt.vat.exempt.reason">
+        <field name="code">M40</field>
+        <field name="name">IVA - autoliquidação</field>
+        <field
+            name="note"
+        >Regime inversão regras de localização bens e prestação serviços (PT e EM)
+            - Situação em que o destinatário ou adquirente é o devedor do imposto - Alínea a) do n.º
+            6 do art.º 6.º do CIVA (a contrario)</field>
+    </record>
+    <record id="M41" model="account.l10n_pt.vat.exempt.reason">
+        <field name="code">M41</field>
+        <field name="name">IVA - autoliquidação</field>
+        <field
+            name="note"
+        >Relacionado com Aquisições Intracomunitária de bens - Artigo 8.º n.º 3 do
+            RITI</field>
+    </record>
+    <record id="M42" model="account.l10n_pt.vat.exempt.reason">
+        <field name="code">M42</field>
+        <field name="name">IVA - autoliquidação</field>
+        <field
+            name="note"
+        >Regime dos Sujeitos Passivos que renunciaram à isenção nas operações com
+            imóveis (imobiliárias) - decreto-lei n.º 21/2007 de 29 de janeiro</field>
+    </record>
+    <record id="M43" model="account.l10n_pt.vat.exempt.reason">
+        <field name="code">M43</field>
+        <field name="name">IVA - autoliquidação</field>
+        <field
+            name="note"
+        >Regime especial aplicável ao ouro para investimento - Renúncia a isenção
+            quando o adquirente seja sujeito passivo de imposto - N.º 4 do artigo 5.º e n.º 2 do
+            art.º 10.º, ambos o anexo ao Decreto-Lei n.º 362/99, de 16 de Setembro</field>
+    </record>
+    <record id="M99" model="account.l10n_pt.vat.exempt.reason">
+        <field name="code">M99</field>
+        <field name="name">Não sujeito; não tributado (Ou similar)</field>
+        <field
+            name="note"
+        >Outras situações de não liquidação do imposto (Exemplos: artigo 2.º, n.º
+            2; artigo 3.º, n.ºs 4, 6 e 7; artigo 4.º, n.º 5, todos do CIVA) Também os Serviços p/
+            Fora da Comunidade Art.º 6 n.º 11 - </field>
+    </record>
+
+</odoo>
