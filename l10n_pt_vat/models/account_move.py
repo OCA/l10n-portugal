@@ -8,6 +8,7 @@ from odoo import _, api, exceptions, fields, models
 class AccountMove(models.Model):
     _inherit = "account.move"
 
+    is_l10npt_vat_enabled = fields.Boolean(compute="_compute_is_l10npt_vat_enabled")
     vat_adjustment_norm_id = fields.Many2one(
         "account.vat.adjustment_norm",
         string="VAT Adjustment Norm",
@@ -24,6 +25,12 @@ class AccountMove(models.Model):
         store=True,
         readonly=False,
     )
+
+    def _compute_is_l10npt_vat_enabled(self):
+        for invoice in self:
+            invoice.is_l10npt_vat_enabled = (
+                invoice.country_code == "PT" and invoice.is_sale_document()
+            )
 
     @api.depends("country_code", "move_type", "invoice_line_ids")
     def _compute_l10npt_has_tax_exempt_lines(self):
@@ -53,9 +60,7 @@ class AccountMove(models.Model):
         """
         VAT Exemption reason is required if there are lines without tax
         """
-        for invoice in self.filtered(
-            lambda x: x.country_code == "PT" and x.is_sale_document()
-        ):
+        for invoice in self.filtered("is_l10npt_vat_enabled"):
             exempt_lines = invoice.invoice_line_ids.filtered(
                 lambda x: not x.tax_ids.filtered("amount")
             )

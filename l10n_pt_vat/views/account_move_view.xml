@@ -8,16 +8,17 @@
         <field name="arch" type="xml">
 
             <data>
-                <!-- Add the VAT Adjustment Norm (Fields 40/41 of the VAT Statement) !-->
+                <!-- Add the VAT Adjustment Norm (Fields 40/41 of the VAT Statement) -->
                 <div name="journal_div" position="after">
+                    <field name="move_type" invisible="1" />
+                    <field name="is_l10npt_vat_enabled" invisible="1" />
                     <field
                         name="l10npt_vat_exempt_reason"
-                        attrs="{'invisible': [('country_code', '!=', 'PT')]}"
+                        attrs="{'invisible': [('is_l10npt_vat_enabled', '=', 'False')]}"
                     />
-                    <field name="move_type" invisible="1" />
                     <field
                         name="vat_adjustment_norm_id"
-                        attrs="{'invisible': ['|',('country_code', '!=', 'PT'),('move_type', 'not in', ['out_refund', 'in_refund'])]}"
+                        attrs="{'invisible': ['|',('is_l10npt_vat_enabled', '=', False),('move_type', 'not in', ['out_refund', 'in_refund'])]}"
                         domain="[('move_type', '=', move_type)]"
                     />
                 </div>
