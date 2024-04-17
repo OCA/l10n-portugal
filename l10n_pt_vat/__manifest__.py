@@ -3,7 +3,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 {
     "name": "Portugal - IVA",
-    "version": "14.0.1.0.4",
+    "version": "14.0.1.0.5",
     "license": "AGPL-3",
     "author": "Open Source Integrators, Sossia, Odoo Community Association (OCA)",
     "summary": "Portuguese VAT requirements extensions",
