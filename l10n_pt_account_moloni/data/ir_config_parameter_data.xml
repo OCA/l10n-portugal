@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="moloni_invoice_status" model="ir.config_parameter">
+            <field name="key">moloni_invoice_status</field>
+            <field name="value">1</field>
+        </record>
+
+        <record id="moloni_product_reference" model="ir.config_parameter">
+            <field name="key">moloni_product_reference</field>
+            <field name="value">Odoo Product</field>
+        </record>
+
+        <record id="moloni_product_category_name" model="ir.config_parameter">
+            <field name="key">moloni_product_category_name</field>
+            <field name="value">Odoo Product Category</field>
+        </record>
+
+        <record id="moloni_product_unit_name" model="ir.config_parameter">
+            <field name="key">moloni_product_unit_name</field>
+            <field name="value">Odoo Product Unit</field>
+        </record>
+
+    </data>
+</odoo>
