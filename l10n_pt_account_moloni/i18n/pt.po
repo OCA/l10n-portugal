@@ -1,0 +1,589 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* account_moloni
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 13.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-01-20 20:47+0000\n"
+"PO-Revision-Date: 2020-01-20 20:47+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: account_moloni
+#: model_terms:ir.ui.view,arch_db:account_moloni.res_config_settings_view_form
+msgid "<span class=\"o_form_label\">Authentication Credentials</span>"
+msgstr "<span class=\"o_form_label\">Credenciais de Autenticação</span>"
+
+#. module: account_moloni
+#: model_terms:ir.ui.view,arch_db:account_moloni.res_config_settings_view_form
+msgid "<span class=\"o_form_label\">Invoice Configurations</span>"
+msgstr "<span class=\"o_form_label\">Configurações da Fatura</span>"
+
+#. module: account_moloni
+#: model_terms:ir.ui.view,arch_db:account_moloni.res_config_settings_view_form
+msgid "<span class=\"o_form_label\">Product Configurations</span>"
+msgstr "<span class=\"o_form_label\">Configurações do Produto</span>"
+
+#. module: account_moloni
+#: code:addons/account_moloni/models/account.py:0
+#, python-format
+msgid ""
+"Authentication failed:\n"
+"\n"
+"%s."
+msgstr ""
+"Falha na autenticação:\n"
+"\n"
+"%s."
+
+#. module: account_moloni
+#: model:ir.model.fields,field_description:account_moloni.field_res_config_settings__moloni_client_secret_code
+#: model_terms:ir.ui.view,arch_db:account_moloni.res_config_settings_view_form
+msgid "Client Secret Code"
+msgstr "Client Secret Code"
+
+#. module: account_moloni
+#: model:ir.model.fields.selection,name:account_moloni.selection__res_config_settings__moloni_invoice_status__1
+msgid "Closed"
+msgstr "Fechado"
+
+#. module: account_moloni
+#: code:addons/account_moloni/models/res_config_settings.py:0
+#, python-format
+msgid ""
+"Companies:\n"
+"\n"
+"%s."
+msgstr ""
+"Empresas:\n"
+"\n"
+"%s."
+
+#. module: account_moloni
+#: model:ir.model.fields,field_description:account_moloni.field_res_config_settings__moloni_company_id
+#: model_terms:ir.ui.view,arch_db:account_moloni.res_config_settings_view_form
+msgid "Company ID"
+msgstr "ID da Empresa"
+
+#. module: account_moloni
+#: model:ir.model,name:account_moloni.model_res_config_settings
+msgid "Config Settings"
+msgstr "Configurações"
+
+#. module: account_moloni
+#: code:addons/account_moloni/models/account.py:0
+#, python-format
+msgid "Create customer failed with status code %d."
+msgstr "Falha ao criar cliente com o código %d."
+
+#. module: account_moloni
+#: code:addons/account_moloni/models/account.py:0
+#, python-format
+msgid ""
+"Create customer failed:\n"
+"\n"
+"%s."
+msgstr ""
+"Falha ao criar cliente:\n"
+"\n"
+"%s."
+
+#. module: account_moloni
+#: code:addons/account_moloni/models/account.py:0
+#, python-format
+msgid "Create invoice failed with status code %d."
+msgstr "Falha na criação da fatura com o código %d."
+
+#. module: account_moloni
+#: code:addons/account_moloni/models/account.py:0
+#, python-format
+msgid ""
+"Create invoice failed:\n"
+"\n"
+"%s."
+msgstr ""
+"Falha na criação da fatura:\n"
+"\n"
+"%s."
+
+#. module: account_moloni
+#: code:addons/account_moloni/models/account.py:0
+#, python-format
+msgid "Create product category failed with status code %d."
+msgstr "Falha na criação da categoria do produto com o código %d."
+
+#. module: account_moloni
+#: code:addons/account_moloni/models/account.py:0
+#, python-format
+msgid ""
+"Create product category failed:\n"
+"\n"
+"%s."
+msgstr ""
+"Falha na criação da categoria do produto:\n"
+"\n"
+"%s."
+
+#. module: account_moloni
+#: code:addons/account_moloni/models/account.py:0
+#, python-format
+msgid "Create product failed with status code %d."
+msgstr "Falha ao criar o produto com o código %d."
+
+#. module: account_moloni
+#: code:addons/account_moloni/models/account.py:0
+#, python-format
+msgid ""
+"Create product failed:\n"
+"\n"
+"%s."
+msgstr ""
+"Falha ao criar o produto:\n"
+"\n"
+"%s."
+
+#. module: account_moloni
+#: code:addons/account_moloni/models/account.py:0
+#, python-format
+msgid "Create product unit failed with status code %d."
+msgstr "Falha na criação da unidade do produto com o código %d."
+
+#. module: account_moloni
+#: code:addons/account_moloni/models/account.py:0
+#, python-format
+msgid ""
+"Create product unit failed:\n"
+"\n"
+"%s."
+msgstr ""
+"Falha na criação da unidade do produto:\n"
+"\n"
+"%s."
+
+#. module: account_moloni
+#: code:addons/account_moloni/models/account.py:0
+#, python-format
+msgid "Create tax failed with status code %d."
+msgstr "Falha na criação do imposto com o código %d."
+
+#. module: account_moloni
+#: code:addons/account_moloni/models/account.py:0
+#, python-format
+msgid ""
+"Create tax failed:\n"
+"\n"
+"%s."
+msgstr ""
+"Falha ao criar imposto:\n"
+"\n"
+"%s."
+
+#. module: account_moloni
+#: model:ir.model.fields,field_description:account_moloni.field_res_config_settings__moloni_developer_id
+#: model_terms:ir.ui.view,arch_db:account_moloni.res_config_settings_view_form
+msgid "Developer ID"
+msgstr "Developer ID"
+
+#. module: account_moloni
+#: model:ir.model.fields,field_description:account_moloni.field_abstract_moloni__display_name
+msgid "Display Name"
+msgstr "Nome a Exibir"
+
+#. module: account_moloni
+#: model:ir.model.fields,field_description:account_moloni.field_res_config_settings__moloni_document_set_id
+#: model_terms:ir.ui.view,arch_db:account_moloni.res_config_settings_view_form
+msgid "Document Set ID"
+msgstr "ID da Série de Documento"
+
+#. module: account_moloni
+#: code:addons/account_moloni/models/res_config_settings.py:0
+#, python-format
+msgid ""
+"Document Sets:\n"
+"\n"
+"%s."
+msgstr ""
+"Séries de Documentos:\n"
+"\n"
+"%s."
+
+#. module: account_moloni
+#: model:ir.model.fields.selection,name:account_moloni.selection__res_config_settings__moloni_invoice_status__0
+msgid "Draft"
+msgstr "Rascunho"
+
+#. module: account_moloni
+#: code:addons/account_moloni/models/account.py:0
+#, python-format
+msgid "Get all companies failed with status code %d."
+msgstr "Falha ao obter todas as empresas com o código %d."
+
+#. module: account_moloni
+#: code:addons/account_moloni/models/account.py:0
+#, python-format
+msgid ""
+"Get all companies failed:\n"
+"\n"
+"%s."
+msgstr ""
+"Falha ao obter todas as empresas:\n"
+"\n"
+"%s."
+
+#. module: account_moloni
+#: code:addons/account_moloni/models/account.py:0
+#, python-format
+msgid "Get all document sets failed with status code %d."
+msgstr "Falha ao obter todas as séries de documentos com o código %d."
+
+#. module: account_moloni
+#: code:addons/account_moloni/models/account.py:0
+#, python-format
+msgid ""
+"Get all document sets failed:\n"
+"\n"
+"%s."
+msgstr ""
+"Falha ao obter todas as séries de documentos:\n"
+"\n"
+"%s."
+
+#. module: account_moloni
+#: code:addons/account_moloni/models/account.py:0
+#, python-format
+msgid "Get all product categories failed with status code %d."
+msgstr "Falha ao obter todas as categorias de produtos com o código %d."
+
+#. module: account_moloni
+#: code:addons/account_moloni/models/account.py:0
+#, python-format
+msgid ""
+"Get all product categories failed:\n"
+"\n"
+"%s."
+msgstr ""
+"Falha ao obter todas as categorias de produtos:\n"
+"\n"
+"%s."
+
+#. module: account_moloni
+#: code:addons/account_moloni/models/account.py:0
+#, python-format
+msgid "Get all product units failed with status code %d."
+msgstr "Falha ao obter todas as unidades de produtos com o código %d."
+
+#. module: account_moloni
+#: code:addons/account_moloni/models/account.py:0
+#, python-format
+msgid ""
+"Get all product units failed:\n"
+"\n"
+"%s."
+msgstr ""
+"Falha ao obter todas as unidades de produtos:\n"
+"\n"
+"%s."
+
+#. module: account_moloni
+#: code:addons/account_moloni/models/account.py:0
+#, python-format
+msgid "Get all taxes failed with status code %d."
+msgstr "Falha ao obter todos os impostos com o código %d."
+
+#. module: account_moloni
+#: code:addons/account_moloni/models/account.py:0
+#, python-format
+msgid ""
+"Get all taxes failed:\n"
+"\n"
+"%s."
+msgstr ""
+"Falha ao obter todos os impostos:\n"
+"\n"
+"%s."
+
+#. module: account_moloni
+#: code:addons/account_moloni/models/account.py:0
+#, python-format
+msgid "Get customer failed with status code %d."
+msgstr "Falha ao obter o cliente com o código %d."
+
+#. module: account_moloni
+#: code:addons/account_moloni/models/account.py:0
+#, python-format
+msgid ""
+"Get customer failed:\n"
+"\n"
+"%s."
+msgstr ""
+"Falha ao obter o cliente:\n"
+"\n"
+"%s."
+
+#. module: account_moloni
+#: code:addons/account_moloni/models/account.py:0
+#, python-format
+msgid "Get next customer number failed with status code %d."
+msgstr "Falha ao obter o próximo número de cliente com o código %d."
+
+#. module: account_moloni
+#: code:addons/account_moloni/models/account.py:0
+#, python-format
+msgid ""
+"Get next customer number failed:\n"
+"\n"
+"%s."
+msgstr ""
+"Falha ao obter o próximo número de cliente:\n"
+"\n"
+"%s."
+
+#. module: account_moloni
+#: model:ir.model.fields,field_description:account_moloni.field_abstract_moloni__id
+msgid "ID"
+msgstr "ID"
+
+#. module: account_moloni
+#: code:addons/account_moloni/models/res_config_settings.py:0
+#: code:addons/account_moloni/models/res_config_settings.py:0
+#: code:addons/account_moloni/models/res_config_settings.py:0
+#, python-format
+msgid "ID: %s\n"
+msgstr "ID: %s\n"
+
+#. module: account_moloni
+#: code:addons/account_moloni/models/account.py:0
+#, python-format
+msgid "Incorrect Moloni authentication credentials."
+msgstr "Credenciais de autenticação do Moloni incorretas."
+
+#. module: account_moloni
+#: model_terms:ir.ui.view,arch_db:account_moloni.res_config_settings_view_form
+msgid "Invoice Status"
+msgstr "Status da Fatura"
+
+#. module: account_moloni
+#: model_terms:ir.ui.view,arch_db:account_moloni.res_config_settings_view_form
+msgid "It's recommended that you change your password frequently."
+msgstr "É recomendável que você altere sua password com frequência."
+
+#. module: account_moloni
+#: model:ir.model,name:account_moloni.model_account_move
+msgid "Journal Entries"
+msgstr "Lançamentos de Diário"
+
+#. module: account_moloni
+#: model:ir.model.fields,field_description:account_moloni.field_abstract_moloni____last_update
+msgid "Last Modified on"
+msgstr "Última Modificação em"
+
+#. module: account_moloni
+#: model:ir.model,name:account_moloni.model_abstract_moloni
+#: model_terms:ir.ui.view,arch_db:account_moloni.res_config_settings_view_form
+msgid "Moloni API"
+msgstr "API do Moloni"
+
+#. module: account_moloni
+#: model:ir.model.fields,field_description:account_moloni.field_abstract_moloni__moloni_id
+#: model:ir.model.fields,field_description:account_moloni.field_account_move__moloni_id
+#: model:ir.model.fields,field_description:account_moloni.field_account_tax__moloni_id
+msgid "Moloni ID"
+msgstr "ID do Moloni"
+
+#. module: account_moloni
+#: code:addons/account_moloni/models/res_config_settings.py:0
+#: code:addons/account_moloni/models/res_config_settings.py:0
+#: code:addons/account_moloni/models/res_config_settings.py:0
+#, python-format
+msgid ""
+"Name: %s\n"
+"\n"
+msgstr ""
+"Nome: %s\n"
+"\n"
+
+#. module: account_moloni
+#: model:ir.model.fields,field_description:account_moloni.field_res_config_settings__moloni_password
+#: model_terms:ir.ui.view,arch_db:account_moloni.res_config_settings_view_form
+msgid "Password"
+msgstr "Password"
+
+#. module: account_moloni
+#: code:addons/account_moloni/models/account.py:0
+#, python-format
+msgid ""
+"Please configure Moloni authentication credentials in invoicing settings."
+msgstr ""
+"Configure as credenciais de autenticação do Moloni nas configurações de faturação."
+
+#. module: account_moloni
+#: code:addons/account_moloni/models/account.py:0
+#, python-format
+msgid "Please configure Moloni company id in invoicing settings."
+msgstr "Configure o id da empresa do Moloni nas configurações de faturação."
+
+#. module: account_moloni
+#: code:addons/account_moloni/models/account.py:0
+#, python-format
+msgid "Please configure Moloni document set id in invoicing settings."
+msgstr "Configure o id da série de documento do Moloni nas configurações de faturação."
+
+#. module: account_moloni
+#: code:addons/account_moloni/models/account.py:0
+#, python-format
+msgid "Please configure Moloni product category name in invoicing settings."
+msgstr "Configure o nome da categoria do produto do Moloni nas configurações de faturação."
+
+#. module: account_moloni
+#: code:addons/account_moloni/models/account.py:0
+#, python-format
+msgid "Please configure Moloni product reference in invoicing settings."
+msgstr "Configure a referência do produto do Moloni nas configurações de faturação."
+
+#. module: account_moloni
+#: code:addons/account_moloni/models/account.py:0
+#, python-format
+msgid "Please configure Moloni product unit name in invoicing settings."
+msgstr "Configure o nome da unidade do produto do Moloni nas configurações de faturação."
+
+#. module: account_moloni
+#: code:addons/account_moloni/models/account.py:0
+#, python-format
+msgid "Please configure Moloni tax id in invoicing settings."
+msgstr "Configure o ID do imposto do Moloni nas configurações de faturação."
+
+#. module: account_moloni
+#: code:addons/account_moloni/models/account.py:0
+#, python-format
+msgid "Please configure VAT for customer %s."
+msgstr "Configure o NIF para o cliente %s."
+
+#. module: account_moloni
+#: model_terms:ir.ui.view,arch_db:account_moloni.view_move_form
+msgid "Post to Moloni"
+msgstr "Faturar no Moloni"
+
+#. module: account_moloni
+#: model:ir.model.fields,field_description:account_moloni.field_res_config_settings__moloni_product_category_name
+#: model_terms:ir.ui.view,arch_db:account_moloni.res_config_settings_view_form
+msgid "Product Category Name"
+msgstr "Nome da Categoria do Produto"
+
+#. module: account_moloni
+#: model:ir.model.fields,field_description:account_moloni.field_res_config_settings__moloni_product_reference
+#: model_terms:ir.ui.view,arch_db:account_moloni.res_config_settings_view_form
+msgid "Product Reference"
+msgstr "Referência do Produto"
+
+#. module: account_moloni
+#: model:ir.model.fields,field_description:account_moloni.field_res_config_settings__moloni_product_unit_name
+#: model_terms:ir.ui.view,arch_db:account_moloni.res_config_settings_view_form
+msgid "Product Unit Name"
+msgstr "Nome da Unidade do Produto"
+
+#. module: account_moloni
+#: model_terms:ir.ui.view,arch_db:account_moloni.res_config_settings_view_form
+msgid "Required to create the default product."
+msgstr "Necessário para criar o produto padrão."
+
+#. module: account_moloni
+#: model_terms:ir.ui.view,arch_db:account_moloni.res_config_settings_view_form
+msgid "Required to create the invoice."
+msgstr "Necessário para criar a fatura."
+
+#. module: account_moloni
+#: code:addons/account_moloni/models/account.py:0
+#, python-format
+msgid "Search for customer failed with status code %d."
+msgstr "A pesquisa do cliente falhou com o código %d."
+
+#. module: account_moloni
+#: code:addons/account_moloni/models/account.py:0
+#, python-format
+msgid "Search for product failed with status code %d."
+msgstr "A pesquisa do produto falhou com o código %d."
+
+#. module: account_moloni
+#: model_terms:ir.ui.view,arch_db:account_moloni.res_config_settings_view_form
+msgid "See Companies"
+msgstr "Ver Empresas"
+
+#. module: account_moloni
+#: model_terms:ir.ui.view,arch_db:account_moloni.res_config_settings_view_form
+msgid "See Document Sets"
+msgstr "Ver Séries de Documentos"
+
+#. module: account_moloni
+#: model_terms:ir.ui.view,arch_db:account_moloni.res_config_settings_view_form
+msgid "See Taxes"
+msgstr "Ver Impostos"
+
+#. module: account_moloni
+#: model:ir.model.fields,field_description:account_moloni.field_res_config_settings__moloni_invoice_status
+msgid "Status"
+msgstr "Status"
+
+#. module: account_moloni
+#: model:ir.model,name:account_moloni.model_account_tax
+msgid "Tax"
+msgstr "Imposto"
+
+#. module: account_moloni
+#: model:ir.model.fields,field_description:account_moloni.field_res_config_settings__moloni_tax_id
+#: model_terms:ir.ui.view,arch_db:account_moloni.res_config_settings_view_form
+msgid "Tax ID"
+msgstr "ID do Imposto"
+
+#. module: account_moloni
+#: code:addons/account_moloni/models/account.py:0
+#, python-format
+msgid "Tax with ID %s not found."
+msgstr "Imposto com ID %s não encontrado."
+
+#. module: account_moloni
+#: code:addons/account_moloni/models/res_config_settings.py:0
+#, python-format
+msgid ""
+"Taxes:\n"
+"\n"
+"%s."
+msgstr ""
+"Impostos:\n"
+"\n"
+"%s."
+
+#. module: account_moloni
+#: code:addons/account_moloni/models/account.py:0
+#, python-format
+msgid "Update customer failed with status code %d."
+msgstr "Falha na atualização do cliente com o código %d."
+
+#. module: account_moloni
+#: code:addons/account_moloni/models/account.py:0
+#, python-format
+msgid ""
+"Update customer failed:\n"
+"\n"
+"%s."
+msgstr ""
+"Falha na atualização do cliente:\n"
+"\n"
+"%s."
+
+#. module: account_moloni
+#: model:ir.model.fields,field_description:account_moloni.field_res_config_settings__moloni_username
+#: model_terms:ir.ui.view,arch_db:account_moloni.res_config_settings_view_form
+msgid "Username"
+msgstr "Nome de Utilizador"
+
+#. module: account_moloni
+#: code:addons/account_moloni/models/res_config_settings.py:0
+#, python-format
+msgid "Value: %s\n"
+msgstr "Valor: %s\n"
