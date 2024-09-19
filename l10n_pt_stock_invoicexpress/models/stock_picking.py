@@ -218,7 +218,7 @@ class StockPicking(models.Model):
             values1 = response1.json().get(doctype)
             prefix = self._get_invoicexpress_prefix(doctype)
             seqnum = values1["inverted_sequence_number"]
-            invx_number = "%s %s" % (prefix, seqnum)
+            invx_number = f"{prefix} {seqnum}"
             delivery.invoicexpress_number = invx_number
             delivery._update_invoicexpress_status()
 
