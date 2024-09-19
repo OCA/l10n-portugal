@@ -8,10 +8,7 @@
         <field name="arch" type="xml">
 
             <page name="advanced_settings" position="inside">
-                <group
-                    string="Invoicexpress"
-                    attrs="{'invisible': [('type', '!=', 'sale')]}"
-                >
+                <group string="Invoicexpress" invisible="type != 'sale'">
                     <field name="invoicexpress_doc_type" />
                     <field name="use_invoicexpress" groupe="base.group_no_one" />
                 </group>
