@@ -110,7 +110,7 @@ class AccountMove(models.Model):
     def _prepare_invoicexpress_lines(self):
         # FIXME: set user lang, based on country?
         lines = self.invoice_line_ids.filtered(
-            lambda l: l.display_type not in ("line_section", "line_note")
+            lambda x: x.display_type not in ("line_section", "line_note")
         )
         # Ensure Taxes are created on InvoiceXpress
         lines.mapped("tax_ids").action_invoicexpress_tax_create()
@@ -119,8 +119,10 @@ class AccountMove(models.Model):
             tax = line.tax_ids[:1]
             # If not tax set, force zero VAT
             tax_detail = {"name": tax.name or "IVA0", "value": tax.amount or 0.0}
-            # Because InvoiceXpress expects unit_price in EUR, check if we need to convert
-            # line currency to company currency (company should use EUR as default currency)
+            # Because InvoiceXpress expects unit_price in EUR,
+            # check if we need to convert
+            # line currency to company currency
+            # (company should use EUR as default currency)
             if line.currency_id == line.company_id.currency_id:
                 price_unit = line.price_unit
             else:
@@ -238,7 +240,7 @@ class AccountMove(models.Model):
                     )
                 )
             prefix = self._get_invoicexpress_prefix(doctype)
-            invx_number = "%s %s" % (prefix, seqnum) if prefix else seqnum
+            invx_number = f"{prefix}, {seqnum}" if prefix else seqnum
             if invoice.payment_reference == invoice.name:
                 invoice.payment_reference = invx_number
             invoice.name = invx_number

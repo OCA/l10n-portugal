@@ -12,17 +12,15 @@
                 <field name="can_invoicexpress_email" invisible="1" />
                 <field
                     name="invoicexpress_doc_type"
-                    attrs="{
-                        'readonly': [('posted_before', '=', True)],
-                        'invisible': [('can_invoicexpress', '=', False)]
-                    }"
+                    readonly="posted_before"
+                    invisible="not can_invoicexpress"
                 />
             </div>
             <xpath expr="//notebook//page[@name='other_info']" position="after">
                 <page
                     name="invoicexpress"
                     string="InvoiceXpress"
-                    attrs="{'invisible': [('invoicexpress_id', '=', False)]}"
+                    invisible="not can_invoicexpress"
                 >
                     <group>
                         <field name="invoicexpress_id" />
@@ -31,9 +29,7 @@
                 </page>
             </xpath>
             <button name="action_invoice_sent" position="attributes">
-                <attribute
-                    name="attrs"
-                >{'invisible': [('can_invoicexpress', '=', True)]}</attribute>
+                <attribute name="invisible">can_invoicexpress</attribute>
             </button>
             <button name="preview_invoice" position="before">
                 <!-- This can be uncommented to aid debugging
@@ -41,7 +37,7 @@
                     name="action_create_invoicexpress_invoice"
                     string="Create InvoiceXpress"
                     type="object"
-                    attrs="{'invisible': ['|', ('can_invoicexpress', '=', False), ('invoicexpress_id', '!=', False)]}"
+                    invisible="not can_invoicexpress or invoicexpress_id"
                     groups="base.group_no_one"
                 />
                 -->
@@ -49,7 +45,7 @@
                     name="action_send_invoicexpress_email"
                     string="Email InvoiceXpress"
                     type="object"
-                    attrs="{'invisible': ['|', ('can_invoicexpress_email', '=', False), ('invoicexpress_id', '=', False)]}"
+                    invisible="not can_invoicexpress_email or not invoicexpress_id"
                 />
             </button>
 
