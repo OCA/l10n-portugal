@@ -21,7 +21,7 @@ Available addons
 ----------------
 addon | version | maintainers | summary
 --- | --- | --- | ---
-[l10n_pt_vat](l10n_pt_vat/) | 15.0.1.0.1 |  | Portuguese VAT requirements extensions
+[l10n_pt_vat](l10n_pt_vat/) | 15.0.1.0.2 |  | Portuguese VAT requirements extensions
 
 [//]: # (end addons)
 
