@@ -16,14 +16,15 @@ class VatExemptReason(models.Model):
     note = fields.Text(string="Description")
 
     def name_get(self):
-        return [(x.id, "[%s] %s" % (x.code, x.name)) for x in self]
+        return [(x.id, f"[{'x.code'}] {'x.name'}") for x in self]
 
     @api.model
     def _name_search(
         self, name, args=None, operator="ilike", limit=100, name_get_uid=None
     ):
         """
-        Returns a list of tuples containing id, name, as internally it is called {def name_get}
+        Returns a list of tuples containing id, name,
+        as internally it is called <<def name_get>>
         result format: {[(id, name), (id, name), ...]}
         """
         args = args or []

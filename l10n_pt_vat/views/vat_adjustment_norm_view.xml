@@ -14,8 +14,6 @@
     <record id="vat_adjustment_norm_view_tree" model="ir.ui.view">
         <field name="name">account.vat.adjustment_norm.tree</field>
         <field name="model">account.vat.adjustment_norm</field>
-        <field name="field_parent">child_ids</field>
-        <field name="priority">100</field>
         <field name="arch" type="xml">
             <tree>
                 <field name="name" />
