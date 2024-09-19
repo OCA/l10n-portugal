@@ -13,7 +13,7 @@ class ResPartner(models.Model):
         self.ensure_one()
         vals = {
             "name": self.name,
-            "code": "ODOO-{}".format(self.ref or self.id),
+            "code": f"ODOO-{self.ref or self.id}",
             "email": self.email,
             "address": ", ".join(filter(None, [self.street, self.street2])),
             "city": self.city,
@@ -47,7 +47,7 @@ class ResPartner(models.Model):
             # Create: POST /clients.json
             response = InvoiceXpress.call(
                 company,
-                "{}s.json".format(doctype),
+                f"{doctype}s.json",
                 "POST",
                 payload={"client": vals},
                 raise_errors=False,
@@ -55,7 +55,7 @@ class ResPartner(models.Model):
             if response.status_code == 422:  # Oh, it already exists!
                 response = InvoiceXpress.call(
                     company,
-                    "{}s/find-by-code.json".format(doctype),
+                    f"{doctype}s/find-by-code.json",
                     "GET",
                     params={"client_code": vals["code"]},
                 )
@@ -68,7 +68,7 @@ class ResPartner(models.Model):
             # Update: PUT /clients/$(client-id).json
             response = InvoiceXpress.call(
                 company,
-                "{}s/{}.json".format(doctype, self.invoicexpress_id),
+                f"{doctype}s/{self.invoicexpress_id}.json",
                 "PUT",
                 payload={"client": vals},
                 raise_errors=True,

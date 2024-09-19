@@ -212,7 +212,7 @@ class AccountMove(models.Model):
                 )
             payload = invoice._prepare_invoicexpress_vals()
             response = InvoiceXpress.call(
-                invoice.company_id, "{}s.json".format(doctype), "POST", payload=payload
+                invoice.company_id, f"{doctype}s.json", "POST", payload=payload
             ).json()
             values = response.get(doctype)
             if not values:
@@ -223,7 +223,7 @@ class AccountMove(models.Model):
             invoice.invoicexpress_permalink = values.get("permalink")
             response1 = InvoiceXpress.call(
                 invoice.company_id,
-                "{}s/{}/change-state.json".format(doctype, invoice.invoicexpress_id),
+                f"{doctype}s/{invoice.invoicexpress_id}/change-state.json",
                 "PUT",
                 payload={"invoice": {"state": "finalized"}},
                 raise_errors=True,
@@ -280,9 +280,7 @@ class AccountMove(models.Model):
                     % invoice.name
                 )
             doctype = invoice.invoicexpress_doc_type
-            endpoint = "{}s/{}/email-document.json".format(
-                doctype, invoice.invoicexpress_id
-            )
+            endpoint = f"{doctype}s/{invoice.invoicexpress_id}/email-document.json"
             payload = invoice._prepare_invoicexpress_email_vals(ignore_no_config)
             if payload:
                 InvoiceXpress.call(invoice.company_id, endpoint, "PUT", payload=payload)
@@ -322,7 +320,7 @@ class AccountMove(models.Model):
                 )
             response = InvoiceXpress.call(
                 invoice.company_id,
-                "{}s/{}/change-state.json".format(doctype, invoice.invoicexpress_id),
+                f"{doctype}s/{invoice.invoicexpress_id}/change-state.json",
                 "PUT",
                 payload={"invoice": {"state": "settled"}},
                 raise_errors=True,
