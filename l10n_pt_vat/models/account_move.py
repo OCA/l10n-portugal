@@ -57,7 +57,8 @@ class AccountMove(models.Model):
             lambda x: x.country_code == "PT" and x.is_sale_document()
         ):
             exempt_lines = invoice.invoice_line_ids.filtered(
-                lambda x: not x.tax_ids.filtered("amount")
+                lambda x: x.display_type not in ["line_section", "line_note"]
+                and not x.tax_ids.filtered("amount")
             )
             if exempt_lines and not invoice.l10npt_vat_exempt_reason:
                 raise exceptions.ValidationError(
