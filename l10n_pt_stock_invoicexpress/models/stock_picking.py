@@ -200,7 +200,7 @@ class StockPicking(models.Model):
             payload = delivery._prepare_invoicexpress_vals()
             doctype = delivery.invoicexpress_doc_type
             response = InvoiceXpress.call(
-                delivery.company_id, "{}s.json".format(doctype), "POST", payload=payload
+                delivery.company_id, f"{doctype}s.json", "POST", payload=payload
             )
             values = response.json().get(doctype)
             if not values:
@@ -260,9 +260,7 @@ class StockPicking(models.Model):
                     delivery.name,
                 )
             doctype = delivery.invoicexpress_doc_type
-            endpoint = "{}s/{}/email-document.json".format(
-                doctype, delivery.invoicexpress_id
-            )
+            endpoint = f"{doctype}s/{delivery.invoicexpress_id}/email-document.json"
             payload = delivery._prepare_invoicexpress_email_vals(ignore_no_config)
             if payload:
                 InvoiceXpress.call(
