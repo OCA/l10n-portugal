@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="res_company_form_invoicexpress_stock" model="ir.ui.view">
+        <field name="name">InvoiceXpress Stock Company Configuration</field>
+        <field name="model">res.company</field>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="base.view_company_form" />
+        <field name="arch" type="xml">
+
+            <field name="invoicexpress_template_id" position="after">
+                <field name="invoicexpress_delivery_template_id" />
+            </field>
+
+        </field>
+    </record>
+</odoo>
