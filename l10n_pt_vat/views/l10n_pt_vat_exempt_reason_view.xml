@@ -1,0 +1,37 @@
+<odoo>
+    <record id="vat_exempt_reason_tree" model="ir.ui.view">
+        <field name="name">VAT Exempt Reason List</field>
+        <field name="model">account.l10n_pt.vat.exempt.reason</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="code" />
+                <field name="name" />
+                <field name="note" />
+            </tree>
+        </field>
+    </record>
+    <record id="vat_exempt_reason_form" model="ir.ui.view">
+        <field name="name">VAT Exempt Reason Form</field>
+        <field name="model">account.l10n_pt.vat.exempt.reason</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="code" />
+                    <field name="name" />
+                    <field name="note" />
+                </group>
+            </form>
+        </field>
+    </record>
+    <record id="vat_exempt_reason_action" model="ir.actions.act_window">
+        <field name="name">VAT Exempt Reason</field>
+        <field name="res_model">account.l10n_pt.vat.exempt.reason</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+        id="menu_action_vat_exempt_reason"
+        parent="account.account_account_menu"
+        action="vat_exempt_reason_action"
+        sequence="40"
+    />
+</odoo>

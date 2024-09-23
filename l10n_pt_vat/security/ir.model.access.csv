@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_account_vat_adjustment_norm,account.vat.adjustment_norm,model_account_vat_adjustment_norm,account.group_account_user,1,0,0,0
+access_account_vat_adjustment_norm_manager,account.vat.adjustment_norm,model_account_vat_adjustment_norm,account.group_account_manager,1,1,1,1
+access_account_vat_exempt_reason,account.l10n_pt.vat.exempt.reason,model_account_l10n_pt_vat_exempt_reason,account.group_account_user,1,0,0,0
+access_account_vat_exempt_reason_manager,account.l10n_pt.vat.exempt.reason,model_account_l10n_pt_vat_exempt_reason,account.group_account_manager,1,1,1,1
