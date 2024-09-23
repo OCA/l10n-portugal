@@ -1,0 +1,28 @@
+<odoo noupdate="1">
+    <record id="email_template_invoice" model="mail.template">
+        <field name="name">InvoiceXpress: Send Invoice by Email</field>
+        <field name="model_id" ref="account.model_account_move" />
+        <field name="subject">Sua Fatura {{ object.name }}</field>
+        <field name="email_to">{{ object.partner_id.email }}</field>
+        <field name="email_cc">{{ object.env.user.email }}</field>
+        <field name="body_html" type="html">
+<p>
+Olá,
+<br />
+Enviamos em anexo a fatura <t t-out="object.name" />
+<t t-if="object.ref">
+    relativa à sua encomenda <t t-out="object.ref" />
+</t>
+.
+<br /><br />
+Obrigado
+<t t-if="user.signature">
+    <br />
+    <t t-out="user.signature or ''" />
+</t>
+</p>
+        </field>
+        <field name="lang">{{ object.partner_id.lang }}</field>
+        <field name="auto_delete" eval="True" />
+    </record>
+</odoo>

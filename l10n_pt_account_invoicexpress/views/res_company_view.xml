@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="res_compnay_form_invoicexpress" model="ir.ui.view">
+        <field name="name">InvoiceXpress Company Configuration</field>
+        <field name="model">res.company</field>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="base.view_company_form" />
+        <field name="arch" type="xml">
+
+            <notebook position="inside">
+                <page string="InvoiceXpress Configuration">
+                    <group>
+                        <field name="invoicexpress_account_name" />
+                        <field name="invoicexpress_api_key" />
+                        <field name="has_invoicexpress" groups="base.group_no_one" />
+                        <field name="invoicexpress_template_id" />
+                    </group>
+                </page>
+            </notebook>
+
+        </field>
+    </record>
+</odoo>
