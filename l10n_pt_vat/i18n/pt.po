@@ -201,12 +201,6 @@ msgid "L10Npt Has Tax Exempt Lines"
 msgstr ""
 
 #. module: l10n_pt_vat
-#: model:ir.model.fields,field_description:l10n_pt_vat.field_account_l10n_pt_vat_exempt_reason____last_update
-#: model:ir.model.fields,field_description:l10n_pt_vat.field_account_vat_adjustment_norm____last_update
-msgid "Last Modified on"
-msgstr "Última Modificação em"
-
-#. module: l10n_pt_vat
 #: model:ir.model.fields,field_description:l10n_pt_vat.field_account_l10n_pt_vat_exempt_reason__write_uid
 #: model:ir.model.fields,field_description:l10n_pt_vat.field_account_vat_adjustment_norm__write_uid
 msgid "Last Updated by"
@@ -333,6 +327,9 @@ msgstr "Motivo de Isenção de IVA"
 #: model:ir.model.fields.selection,name:l10n_pt_vat.selection__account_vat_adjustment_norm__move_type__in_refund
 msgid "Vendor Credit Note"
 msgstr "Nota de Crédito de Fornecedor"
+
+#~ msgid "Last Modified on"
+#~ msgstr "Última Modificação em"
 
 #, fuzzy
 #~ msgid "Artigo 16.º n.º 6 do CIVA"
