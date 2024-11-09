@@ -59,7 +59,7 @@ class TestInvoiceXpressStock(TestInvoiceXpress):
         self.delivery_order.action_assign()
         self.delivery_order.move_line_ids.filtered(
             lambda ml: ml.product_id == self.productA
-        ).qty_done = 2.0
+        ).quantity = 2.0
         self.assertEqual(
             self.delivery_order.state, "assigned", "Delivery Order assigned"
         )
