@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="view_location_form_ext" model="ir.ui.view">
+        <field name="model">stock.location</field>
+        <field name="inherit_id" ref="stock.view_location_form" />
+        <field name="arch" type="xml">
+
+            <group name="additional_info" position="inside">
+                <field name="l10n_pt_license_plate" />
+            </group>
+
+        </field>
+    </record>
+
+</odoo>
