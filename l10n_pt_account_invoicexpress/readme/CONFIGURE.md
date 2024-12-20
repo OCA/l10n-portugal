@@ -1,11 +1,15 @@
 To configure:
 
 - Navigate to Settings/General Settings.
-- In the "General Settings" configuration section, locate the
+- In the "Invoicing" configuration section, locate the
   "InvoiceXpress" subsection: There you can set:
   - InvoiceXpress Account Name
   - InvoiceXpress API Key
   - InvoiceXpress Invoice Email Template
+
+- In "Invoicing/Accounting" configuration section, locate the
+  Sales Journals, and set the "InvoiceXpress Doc Type".
+  This is required before invoices before any invoice can be created.
 
 The email template is used to prepare the details for the email the
 InvoiceXpress service sends with the invoice:

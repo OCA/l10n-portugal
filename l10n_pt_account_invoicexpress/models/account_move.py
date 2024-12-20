@@ -3,6 +3,8 @@
 
 import uuid
 
+from markupsafe import Markup
+
 from odoo import _, api, exceptions, fields, models
 
 
@@ -202,7 +204,7 @@ class AccountMove(models.Model):
             "<ul><li>InvoiceXpress Id: {inv_xpress_id}</li>"
             "<li>{inv_xpress_link}</li></ul>"
         ).format(inv_xpress_id=self.invoicexpress_id, inv_xpress_link=inv_xpress_link)
-        self.message_post(body=msg)
+        self.message_post(body=Markup(msg))
 
     def action_create_invoicexpress_invoice(self):
         InvoiceXpress = self.env["account.invoicexpress"]
@@ -240,7 +242,7 @@ class AccountMove(models.Model):
                     )
                 )
             prefix = self._get_invoicexpress_prefix(doctype)
-            invx_number = f"{prefix}, {seqnum}" if prefix else seqnum
+            invx_number = f"{prefix} {seqnum}" if prefix else seqnum
             if invoice.payment_reference == invoice.name:
                 invoice.payment_reference = invx_number
             invoice.name = invx_number
@@ -249,9 +251,6 @@ class AccountMove(models.Model):
     def _prepare_invoicexpress_email_vals(self, ignore_no_config=False):
         self.ensure_one()
         template_id = self.company_id.invoicexpress_template_id
-        values = template_id.generate_email(
-            self.id, ["subject", "body_html", "email_to", "email_cc"]
-        )
         if not template_id and not ignore_no_config:
             raise exceptions.UserError(
                 _(
@@ -259,6 +258,9 @@ class AccountMove(models.Model):
                     " at Settings > General Setting, InvoiceXpress section"
                 )
             )
+        values = template_id._generate_template(
+            [self.id], ["subject", "body_html", "email_to", "email_cc"]
+        )[self.id]
         if not values.get("email_to") and not ignore_no_config:
             raise exceptions.UserError(_("No address to send invoice email to."))
         email_data = None
@@ -288,12 +290,12 @@ class AccountMove(models.Model):
                 InvoiceXpress.call(invoice.company_id, endpoint, "PUT", payload=payload)
                 msg = _(
                     "Email sent by InvoiceXpress:<ul><li>To: "
-                    "%(email)s</li><li>Cc: %(cc)s</li></ul>"
+                    "{email}</li><li>Cc:{cc}</li></ul>"
                 ).format(
                     email=payload["message"]["client"]["email"],
                     cc=payload["message"]["cc"] or _("None"),
                 )
-                invoice.message_post(body=msg)
+                invoice.message_post(body=Markup(msg))
 
     def _post(self, soft=True):
         res = super()._post(soft=soft)
@@ -337,7 +339,7 @@ class AccountMove(models.Model):
                     )
                 )
             msg = _("InvoiceXpress record has been modified to Paid.")
-            self.message_post(body=msg)
+            self.message_post(body=Markup(msg))
 
 
 class AccountMoveLine(models.Model):

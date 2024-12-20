@@ -1,17 +1,6 @@
 Generate Portuguese tax authority legal Invoices ("Faturas") using
 InvoiceXpress.
 
-**UPDATE November/2021:**
-
-Invoices:
-
-- Added support to the different documents types: Invoice, Invoice
-  Receipt, Simplified Invoice. The default document type is set on the
-  Journal, and can be changed on the Invoice form.
-- Use the invoice commercial partner for the name and address, instead
-  of the invoice contact.
-- Added support for the Terms and Conditions/Observations field
-- Added to Credit Notes the link to the source Invoice
 
 InvoiceXpress is a paid service. Visit <https://invoicexpress.com> for
 more details.
@@ -28,5 +17,5 @@ generated document should be used. Having other print layouts for the
 invoice is not allowed by the Portuguese Tax Authority.
 
 Legal transport documents ("Guias de Transporte" e "Guias de Remessa)
-are also supported through the extension module
-"l10n_pt_stock_invoicexpress".
+are also supported through an extension module. For this please ensure that
+"l10n_pt_stock_invoicexpress" is installed.

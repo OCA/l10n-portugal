@@ -11,7 +11,7 @@
                 <page string="InvoiceXpress Configuration">
                     <group>
                         <field name="invoicexpress_account_name" />
-                        <field name="invoicexpress_api_key" />
+                        <field name="invoicexpress_api_key" password="True" />
                         <field name="has_invoicexpress" groups="base.group_no_one" />
                         <field name="invoicexpress_template_id" />
                     </group>
