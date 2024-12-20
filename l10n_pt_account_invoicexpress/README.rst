@@ -31,18 +31,6 @@ Portugal InvoiceXpress Integration
 Generate Portuguese tax authority legal Invoices ("Faturas") using
 InvoiceXpress.
 
-**UPDATE November/2021:**
-
-Invoices:
-
--  Added support to the different documents types: Invoice, Invoice
-   Receipt, Simplified Invoice. The default document type is set on the
-   Journal, and can be changed on the Invoice form.
--  Use the invoice commercial partner for the name and address, instead
-   of the invoice contact.
--  Added support for the Terms and Conditions/Observations field
--  Added to Credit Notes the link to the source Invoice
-
 InvoiceXpress is a paid service. Visit https://invoicexpress.com for
 more details.
 
@@ -58,8 +46,8 @@ generated document should be used. Having other print layouts for the
 invoice is not allowed by the Portuguese Tax Authority.
 
 Legal transport documents ("Guias de Transporte" e "Guias de Remessa)
-are also supported through the extension module
-"l10n_pt_stock_invoicexpress".
+are also supported through an extension module. For this please ensure
+that "l10n_pt_stock_invoicexpress" is installed.
 
 **Table of contents**
 
@@ -72,12 +60,17 @@ Configuration
 To configure:
 
 -  Navigate to Settings/General Settings.
--  In the "General Settings" configuration section, locate the
-   "InvoiceXpress" subsection: There you can set:
+
+-  In the "Invoicing" configuration section, locate the "InvoiceXpress"
+   subsection: There you can set:
 
    -  InvoiceXpress Account Name
    -  InvoiceXpress API Key
    -  InvoiceXpress Invoice Email Template
+
+-  In "Invoicing/Accounting" configuration section, locate the Sales
+   Journals, and set the "InvoiceXpress Doc Type". This is required
+   before invoices before any invoice can be created.
 
 The email template is used to prepare the details for the email the
 InvoiceXpress service sends with the invoice:
@@ -116,6 +109,19 @@ send an email with a copy of the legal document.
 
 The Invoice form shows an "InvoiceXpress" tab containing details for the
 corresponding InvoiceXpress document.
+
+Invoices:
+
+-  Added support to the different documents types: Invoice, Invoice
+   Receipt, Simplified Invoice. The default document type is set on the
+   Journal, and can be changed on the Invoice form.
+-  Use the invoice commercial partner for the name and address, instead
+   of the invoice contact.
+-  Added support for the Terms and Conditions/Observations field
+-  Added to Credit Notes the link to the source Invoice
+
+The monthly SAF-T file should be downloaded from the InvoiceXpress
+website.
 
 Bug Tracker
 ===========
