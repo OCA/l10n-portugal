@@ -10,8 +10,8 @@
 Olá,
 <br />
 Enviamos em anexo a Guia de Trasporte <t t-out="object.name" />
-<t t-if="object.ref">
-    relativa à sua encomenda <t t-out="object.ref" />
+<t t-if="object.origin">
+    relativa à sua encomenda <t t-out="object.origin" />
 </t>
 .
 <br /><br />

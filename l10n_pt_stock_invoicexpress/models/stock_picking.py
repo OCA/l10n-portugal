@@ -3,6 +3,8 @@
 
 import logging
 
+from markupsafe import Markup
+
 from odoo import _, api, exceptions, fields, models
 from odoo.tools import format_datetime
 
@@ -178,16 +180,16 @@ class StockPicking(models.Model):
     def _update_invoicexpress_status(self):
         inv_xpress_link_name = _("View Document")
         inv_xpress_link = _(
-            "<a class='btn btn-info mr-2' target='new' href=%(link)s>%(name)s</a>"
+            "<a class='btn btn-info mr-2' target='new' href={link}>{name}</a>"
         ).format(link=self.invoicexpress_permalink, name=inv_xpress_link_name)
         msg = _(
             "InvoiceXpress record has been created for this delivery order:<ul>"
-            "<li>Number: %(inv_xpress_num)s</li>"
-            "<li>%(inv_xpress_link)s</li></ul>"
+            "<li>Number: {inv_xpress_num}</li>"
+            "<li>{inv_xpress_link}</li></ul>"
         ).format(
             inv_xpress_num=self.invoicexpress_number, inv_xpress_link=inv_xpress_link
         )
-        self.message_post(body=msg)
+        self.message_post(body=Markup(msg))
 
     def action_create_invoicexpress_delivery(self):
         """
@@ -225,9 +227,9 @@ class StockPicking(models.Model):
     def _prepare_invoicexpress_email_vals(self, ignore_no_config=False):
         self.ensure_one()
         template_id = self.company_id.invoicexpress_delivery_template_id
-        values = template_id.generate_email(
-            self.id, ["subject", "body_html", "email_to", "email_cc"]
-        )
+        values = template_id._generate_template(
+            [self.id], ["subject", "body_html", "email_to", "email_cc"]
+        )[self.id]
         if not template_id and not ignore_no_config:
             raise exceptions.UserError(
                 _(
@@ -268,12 +270,12 @@ class StockPicking(models.Model):
                 )
                 msg = _(
                     "Email sent by InvoiceXpress:<ul><li>To: "
-                    "%(email)s/li><li>Cc: %(cc)s</li></ul>"
+                    "{email}/li><li>Cc: {cc}</li></ul>"
                 ).format(
                     email=payload["message"]["client"]["email"],
                     cc=payload["message"]["cc"] or _("None"),
                 )
-                delivery.message_post(body=msg)
+                delivery.message_post(Markup(body=msg))
 
     def button_validate(self):
         """
@@ -281,6 +283,9 @@ class StockPicking(models.Model):
         """
         res = super().button_validate()
         if res is True:  # do not enter if the result is a dict, only if it is True
+            missing_country = self.filtered(lambda x: not x.partner_id.country_id)
+            if missing_country:
+                raise exceptions.UserError(_("Please set the country of the partner."))
             to_invoicexpress = self.filtered(
                 lambda x: x.partner_id.country_id.code == "PT"
             )
