@@ -10,7 +10,6 @@
                 <div name="journal_div" position="after">
                     <field
                         name="l10npt_vat_exempt_reason"
-                        widget="selection"
                         invisible="country_code != 'PT'"
                     />
                     <field name="move_type" invisible="1" />
