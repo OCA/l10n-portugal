@@ -57,6 +57,15 @@
             name="note"
         >Situações isentas - Operações Internas - Artigo 9.º do CIVA</field>
     </record>
+    <record id="M08" model="account.l10n_pt.vat.exempt.reason">
+        <field name="code">M08</field>
+        <field name="name">IVA - Autoliquidação</field>
+        <field
+            name="note"
+        >Artigo 2.º n.º 1 alínea i), j) ou l) do CIVA, Artigo 6.º do CIVA,
+         Decreto-Lei n.º 21/2007, de 29 de Janeiro, Decreto-Lei n.º 362/99, de 16
+         de Setembro</field>
+    </record>
     <record id="M09" model="account.l10n_pt.vat.exempt.reason">
         <field name="code">M09</field>
         <field name="name">IVA - não confere direito à dedução</field>
