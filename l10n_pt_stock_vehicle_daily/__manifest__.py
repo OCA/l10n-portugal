@@ -8,7 +8,7 @@
     "license": "AGPL-3",
     "author": "Luz de Airbag, Open Source Integrators, Odoo Community Association (OCA)",
     "category": "Warehouse",
-    "version": "16.0.1.0.0",
+    "version": "14.0.1.0.0",
     "depends": [
         "stock_move_location",  # from OCA/stock-logistics-warehouse
     ],
