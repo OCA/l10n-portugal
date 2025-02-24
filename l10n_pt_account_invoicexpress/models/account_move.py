@@ -196,9 +196,7 @@ class AccountMove(models.Model):
 
     def _update_invoicexpress_status(self):
         inv_xpress_link_name = _("View Document")
-        inv_xpress_link = (
-            "<a class='btn btn-info mr-2' target='new' href={}>{}</a>"
-        ).format(self.invoicexpress_permalink, inv_xpress_link_name)
+        inv_xpress_link = f"<a class='btn btn-info mr-2' target='new' href={self.invoicexpress_permalink}>{inv_xpress_link_name}</a>"
         msg = _(
             "InvoiceXpress record has been created for this invoice:"
             "<ul><li>InvoiceXpress Id: {inv_xpress_id}</li>"
