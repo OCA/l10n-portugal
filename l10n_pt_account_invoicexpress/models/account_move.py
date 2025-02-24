@@ -196,7 +196,10 @@ class AccountMove(models.Model):
 
     def _update_invoicexpress_status(self):
         inv_xpress_link_name = _("View Document")
-        inv_xpress_link = f"<a class='btn btn-info mr-2' target='new' href={self.invoicexpress_permalink}>{inv_xpress_link_name}</a>"
+        inv_xpress_link = (
+            f"<a class='btn btn-info mr-2' target='new'"
+            f" href={self.invoicexpress_permalink}>{inv_xpress_link_name}</a>"
+        )
         msg = _(
             "InvoiceXpress record has been created for this invoice:"
             "<ul><li>InvoiceXpress Id: {inv_xpress_id}</li>"
@@ -350,7 +353,7 @@ class AccountMoveLine(models.Model):
         """
         res = self.name
         ref = self.product_id.default_code
-        prefix = "[%s] " % ref
+        prefix = f"[{ref}] "
         if ref and self.name.startswith(prefix):
             res = self.name[len(prefix) :]
         return res
