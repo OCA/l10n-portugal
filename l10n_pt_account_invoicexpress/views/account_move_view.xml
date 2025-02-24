@@ -6,7 +6,6 @@
         <field name="model">account.move</field>
         <field name="inherit_id" ref="account.view_move_form" />
         <field name="arch" type="xml">
-
             <div name="journal_div" position="after">
                 <field name="can_invoicexpress" invisible="1" />
                 <field name="can_invoicexpress_email" invisible="1" />
@@ -48,7 +47,6 @@
                     invisible="not can_invoicexpress_email or not invoicexpress_id"
                 />
             </button>
-
         </field>
     </record>
 </odoo>
