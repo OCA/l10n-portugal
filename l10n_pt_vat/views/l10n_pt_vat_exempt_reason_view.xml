@@ -3,11 +3,11 @@
         <field name="name">VAT Exempt Reason List</field>
         <field name="model">account.l10n_pt.vat.exempt.reason</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="code" />
                 <field name="name" />
                 <field name="note" />
-            </tree>
+            </list>
         </field>
     </record>
     <record id="vat_exempt_reason_form" model="ir.ui.view">
@@ -26,7 +26,7 @@
     <record id="vat_exempt_reason_action" model="ir.actions.act_window">
         <field name="name">VAT Exempt Reason</field>
         <field name="res_model">account.l10n_pt.vat.exempt.reason</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
     </record>
     <menuitem
         id="menu_action_vat_exempt_reason"
