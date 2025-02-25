@@ -6,7 +6,7 @@
         <field name="email_to">{{ object.partner_id.email }}</field>
         <field name="email_cc">{{ object.env.user.email }}</field>
         <field name="body_html" type="html">
-<p>
+            <p>
 Olá,
 <br />
 Enviamos em anexo a Guia de Trasporte <t t-out="object.name" />
@@ -17,9 +17,9 @@ Enviamos em anexo a Guia de Trasporte <t t-out="object.name" />
 <br /><br />
 Obrigado
 <t t-if="user.signature">
-    <br />
-    <t t-out="user.signature or ''" />
-</t>
+                <br />
+                <t t-out="user.signature or ''" />
+            </t>
 </p>
         </field>
         <field name="lang">{{ object.partner_id.lang }}</field>

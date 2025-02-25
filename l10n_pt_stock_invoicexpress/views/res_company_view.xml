@@ -6,11 +6,9 @@
         <field name="type">form</field>
         <field name="inherit_id" ref="base.view_company_form" />
         <field name="arch" type="xml">
-
             <field name="invoicexpress_template_id" position="after">
                 <field name="invoicexpress_delivery_template_id" />
             </field>
-
         </field>
     </record>
 </odoo>
