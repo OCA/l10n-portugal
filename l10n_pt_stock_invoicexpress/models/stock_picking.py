@@ -283,7 +283,9 @@ class StockPicking(models.Model):
         """
         res = super().button_validate()
         if res is True:  # do not enter if the result is a dict, only if it is True
-            missing_country = self.filtered(lambda x: not x.partner_id.country_id)
+            missing_country = self.filtered(
+                lambda x: x.can_invoicexpress and not x.partner_id.country_id
+            )
             if missing_country:
                 raise exceptions.UserError(_("Please set the country of the partner."))
             to_invoicexpress = self.filtered(
