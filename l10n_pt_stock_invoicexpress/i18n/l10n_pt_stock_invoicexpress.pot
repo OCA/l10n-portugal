@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 16.0\n"
+"Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -16,8 +16,7 @@ msgstr ""
 #. module: l10n_pt_stock_invoicexpress
 #. odoo-python
 #: code:addons/l10n_pt_stock_invoicexpress/models/stock_picking.py:0
-#, python-format
-msgid "<a class='btn btn-info mr-2' target='new' href=%(link)s>%(name)s</a>"
+msgid "<a class='btn btn-info mr-2' target='new' href={link}>{name}</a>"
 msgstr ""
 
 #. module: l10n_pt_stock_invoicexpress
@@ -25,18 +24,18 @@ msgstr ""
 msgid ""
 "<p>\n"
 "Olá,\n"
-"<br>\n"
-"Enviamos em anexo a Guia de Trasporte <t t-out=\"object.name\"></t>\n"
-"<t t-if=\"object.ref\">\n"
-"    relativa à sua encomenda <t t-out=\"object.ref\"></t>\n"
+"<br/>\n"
+"Enviamos em anexo a Guia de Trasporte <t t-out=\"object.name\"/>\n"
+"<t t-if=\"object.origin\">\n"
+"    relativa à sua encomenda <t t-out=\"object.origin\"/>\n"
 "</t>\n"
 ".\n"
-"<br><br>\n"
+"<br/><br/>\n"
 "Obrigado\n"
 "<t t-if=\"user.signature\">\n"
-"    <br>\n"
-"    <t t-out=\"user.signature or ''\"></t>\n"
-"</t>\n"
+"                <br/>\n"
+"                <t t-out=\"user.signature or ''\"/>\n"
+"            </t>\n"
 "</p>\n"
 "        "
 msgstr ""
@@ -69,7 +68,6 @@ msgstr ""
 #. module: l10n_pt_stock_invoicexpress
 #. odoo-python
 #: code:addons/l10n_pt_stock_invoicexpress/models/stock_picking.py:0
-#, python-format
 msgid "Delivery %s is not registered in InvoiceXpress yet."
 msgstr ""
 
@@ -81,10 +79,8 @@ msgstr ""
 #. module: l10n_pt_stock_invoicexpress
 #. odoo-python
 #: code:addons/l10n_pt_stock_invoicexpress/models/stock_picking.py:0
-#, python-format
 msgid ""
-"Email sent by InvoiceXpress:<ul><li>To: %(email)s/li><li>Cc: "
-"%(cc)s</li></ul>"
+"Email sent by InvoiceXpress:<ul><li>To: {email}/li><li>Cc: {cc}</li></ul>"
 msgstr ""
 
 #. module: l10n_pt_stock_invoicexpress
@@ -156,11 +152,9 @@ msgstr ""
 #. module: l10n_pt_stock_invoicexpress
 #. odoo-python
 #: code:addons/l10n_pt_stock_invoicexpress/models/stock_picking.py:0
-#, python-format
 msgid ""
 "InvoiceXpress record has been created for this delivery "
-"order:<ul><li>Number: "
-"%(inv_xpress_num)s</li><li>%(inv_xpress_link)s</li></ul>"
+"order:<ul><li>Number: {inv_xpress_num}</li><li>{inv_xpress_link}</li></ul>"
 msgstr ""
 
 #. module: l10n_pt_stock_invoicexpress
@@ -186,14 +180,12 @@ msgstr ""
 #. module: l10n_pt_stock_invoicexpress
 #. odoo-python
 #: code:addons/l10n_pt_stock_invoicexpress/models/stock_picking.py:0
-#, python-format
 msgid "No address to send delivery document email to."
 msgstr ""
 
 #. module: l10n_pt_stock_invoicexpress
 #. odoo-python
 #: code:addons/l10n_pt_stock_invoicexpress/models/stock_picking.py:0
-#, python-format
 msgid "None"
 msgstr ""
 
@@ -205,7 +197,6 @@ msgstr ""
 #. module: l10n_pt_stock_invoicexpress
 #. odoo-python
 #: code:addons/l10n_pt_stock_invoicexpress/models/stock_picking.py:0
-#, python-format
 msgid ""
 "Please configure the InvoiceXpress Delivery email template at Settings > "
 "General Setting, InvoiceXpress section"
@@ -214,7 +205,12 @@ msgstr ""
 #. module: l10n_pt_stock_invoicexpress
 #. odoo-python
 #: code:addons/l10n_pt_stock_invoicexpress/models/stock_picking.py:0
-#, python-format
+msgid "Please set the country of the partner."
+msgstr ""
+
+#. module: l10n_pt_stock_invoicexpress
+#. odoo-python
+#: code:addons/l10n_pt_stock_invoicexpress/models/stock_picking.py:0
 msgid "Scheduled Date should be bigger then current datetime!"
 msgstr ""
 
@@ -234,7 +230,6 @@ msgstr ""
 #. module: l10n_pt_stock_invoicexpress
 #. odoo-python
 #: code:addons/l10n_pt_stock_invoicexpress/models/stock_picking.py:0
-#, python-format
 msgid "Something went wrong: the InvoiceXpress response looks empty."
 msgstr ""
 
@@ -259,6 +254,5 @@ msgstr ""
 #. module: l10n_pt_stock_invoicexpress
 #. odoo-python
 #: code:addons/l10n_pt_stock_invoicexpress/models/stock_picking.py:0
-#, python-format
 msgid "View Document"
 msgstr ""
