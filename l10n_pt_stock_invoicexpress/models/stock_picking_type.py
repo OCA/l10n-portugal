@@ -8,6 +8,7 @@ class StockPickingType(models.Model):
     _inherit = "stock.picking.type"
 
     def _default_invoicexpress_doc_type(self):
+        # used in res.config.settings
         return (
             "transport"
             if self.company_id.has_invoicexpress and self.code == "outgoing"
@@ -20,7 +21,6 @@ class StockPickingType(models.Model):
             ("shipping", "Guia de Remessa / Shipping"),
             ("none", "No InvoiceXpress document"),
         ],
-        default="transport",
         help="Select the type of legal delivery document"
         " to be created by InvoiceXpress. If unset",
     )
