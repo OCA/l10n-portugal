@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.form</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="account.res_config_settings_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//div[@id='invoicing_settings']" position="after">
+                <h2>Moloni API</h2>
+                <div class="row mt16 o_settings_container">
+                    <div class="col-12 col-lg-6 o_setting_box">
+                        <div class="o_setting_left_pane" />
+                        <div class="o_setting_right_pane">
+                            <span class="o_form_label">Authentication Credentials</span>
+                            <div class="text-muted">
+                                It's recommended that you change your password frequently.
+                            </div>
+                            <div class="content-group">
+                                <div class="row mt16">
+                                    <label
+                                        string="Developer ID"
+                                        for="moloni_developer_id"
+                                        class="col-lg-3 o_light_label"
+                                    />
+                                    <field name="moloni_developer_id" />
+                                </div>
+                                <div class="row">
+                                    <label
+                                        string="Client Secret Code"
+                                        for="moloni_client_secret_code"
+                                        class="col-lg-3 o_light_label"
+                                    />
+                                    <field name="moloni_client_secret_code" />
+                                </div>
+                                <div class="row">
+                                    <label
+                                        string="Username"
+                                        for="moloni_username"
+                                        class="col-lg-3 o_light_label"
+                                    />
+                                    <field name="moloni_username" />
+                                </div>
+                                <div class="row">
+                                    <label
+                                        string="Password"
+                                        for="moloni_password"
+                                        class="col-lg-3 o_light_label"
+                                    />
+                                    <field name="moloni_password" />
+                                </div>
+                                <div class="row mt16">
+                                    <label
+                                        string="Company ID"
+                                        for="moloni_company_id"
+                                        class="col-lg-3 o_light_label"
+                                    />
+                                    <field name="moloni_company_id" />
+                                </div>
+                                <button
+                                    string="See Companies"
+                                    name="moloni_get_all_companies"
+                                    type="object"
+                                    class="oe_link btn-sm"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 o_setting_box">
+                        <div class="o_setting_left_pane" />
+                        <div class="o_setting_right_pane">
+                            <span class="o_form_label">Invoice Configurations</span>
+                            <div class="text-muted">
+                                Required to create the invoice.
+                            </div>
+                            <div class="content-group">
+                                <div class="row mt16">
+                                    <label
+                                        string="Invoice Status"
+                                        for="moloni_invoice_status"
+                                        class="col-lg-3 o_light_label"
+                                    />
+                                    <field name="moloni_invoice_status" />
+                                </div>
+                                <div class="row mt16">
+                                    <label
+                                        string="Document Set ID"
+                                        for="moloni_document_set_id"
+                                        class="col-lg-3 o_light_label"
+                                    />
+                                    <field name="moloni_document_set_id" />
+                                </div>
+                                <button
+                                    string="See Document Sets"
+                                    name="moloni_get_all_document_sets"
+                                    type="object"
+                                    class="oe_link btn-sm"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 o_setting_box">
+                        <div class="o_setting_left_pane" />
+                        <div class="o_setting_right_pane">
+                            <span class="o_form_label">Product Configurations</span>
+                            <div class="text-muted">
+                                Required to create the default product.
+                            </div>
+                            <div class="content-group">
+                                <div class="row mt16">
+                                    <label
+                                        string="Tax ID"
+                                        for="moloni_tax_id"
+                                        class="col-lg-3 o_light_label"
+                                    />
+                                    <field name="moloni_tax_id" />
+                                </div>
+                                <button
+                                    string="See Taxes"
+                                    name="moloni_get_all_taxes"
+                                    type="object"
+                                    class="oe_link btn-sm"
+                                />
+                                <div class="row mt16">
+                                    <label
+                                        string="Product Reference"
+                                        for="moloni_product_reference"
+                                        class="col-lg-3 o_light_label"
+                                    />
+                                    <field name="moloni_product_reference" />
+                                </div>
+                                <div class="row mt16">
+                                    <label
+                                        string="Product Category Name"
+                                        for="moloni_product_category_name"
+                                        class="col-lg-3 o_light_label"
+                                    />
+                                    <field name="moloni_product_category_name" />
+                                </div>
+                                <div class="row mt16">
+                                    <label
+                                        string="Product Unit Name"
+                                        for="moloni_product_unit_name"
+                                        class="col-lg-3 o_light_label"
+                                    />
+                                    <field name="moloni_product_unit_name" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
