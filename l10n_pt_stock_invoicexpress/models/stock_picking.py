@@ -275,7 +275,7 @@ class StockPicking(models.Model):
                     email=payload["message"]["client"]["email"],
                     cc=payload["message"]["cc"] or _("None"),
                 )
-                delivery.message_post(Markup(body=msg))
+                delivery.message_post(body=Markup(msg))
 
     def button_validate(self):
         """
