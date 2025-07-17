@@ -57,10 +57,15 @@ class InvoiceXpress(models.AbstractModel):
         # TODO: implement request rate limit
         if response.status_code not in [200, 201]:
             if response.json():
-                msg = "\n".join(
-                    "- " + (x.get("error") or repr(x))
-                    for x in response.json().get("errors", [])
-                )
+                errors = response.json().get("errors", [])
+                if isinstance(errors, list) and len(errors) > 0:
+                    msg = "\n".join(
+                        "- " + (x.get("error") or repr(x))
+                        for x in response.json().get("errors", [])
+                    )
+                elif isinstance(errors, dict):
+                    msg = errors.get("error", False) or repr(errors)
+
             else:
                 msg = repr(response.json())
             raise exceptions.ValidationError(
