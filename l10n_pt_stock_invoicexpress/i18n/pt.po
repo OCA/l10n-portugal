@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-09-24 13:34+0000\n"
+"PO-Revision-Date: 2025-08-20 10:26+0000\n"
 "Last-Translator: Daniel Reis <dgreis@sapo.pt>\n"
 "Language-Team: none\n"
 "Language: pt\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.3.2\n"
+"X-Generator: Weblate 5.10.4\n"
 
 #. module: l10n_pt_stock_invoicexpress
 #. odoo-python
@@ -74,12 +74,12 @@ msgstr "Contacto"
 #: code:addons/l10n_pt_stock_invoicexpress/models/stock_picking.py:0
 #, python-format
 msgid "Delivery %s is not registered in InvoiceXpress yet."
-msgstr ""
+msgstr "Entrega %s ainda não está registada no InvoiceXpress."
 
 #. module: l10n_pt_stock_invoicexpress
 #: model:ir.model.fields.selection,name:l10n_pt_stock_invoicexpress.selection__stock_picking__invoicexpress_doc_type__devolution
 msgid "Devolução / Return"
-msgstr ""
+msgstr "Devolução"
 
 #. module: l10n_pt_stock_invoicexpress
 #. odoo-python
@@ -88,6 +88,8 @@ msgstr ""
 msgid ""
 "Email sent by InvoiceXpress:<ul><li>To: %(email)s/li><li>Cc: %(cc)s</li></ul>"
 msgstr ""
+"Email enviado pelo InvoiceXpress:<ul><li>To: %(email)s/li><li>Cc: "
+"%(cc)s</li></ul>"
 
 #. module: l10n_pt_stock_invoicexpress
 #: model:mail.template,subject:l10n_pt_stock_invoicexpress.email_template_delivery
@@ -98,13 +100,13 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_pt_stock_invoicexpress.selection__stock_picking__invoicexpress_doc_type__shipping
 #: model:ir.model.fields.selection,name:l10n_pt_stock_invoicexpress.selection__stock_picking_type__invoicexpress_doc_type__shipping
 msgid "Guia de Remessa / Shipping"
-msgstr ""
+msgstr "Guia de Remessa"
 
 #. module: l10n_pt_stock_invoicexpress
 #: model:ir.model.fields.selection,name:l10n_pt_stock_invoicexpress.selection__stock_picking__invoicexpress_doc_type__transport
 #: model:ir.model.fields.selection,name:l10n_pt_stock_invoicexpress.selection__stock_picking_type__invoicexpress_doc_type__transport
 msgid "Guia de Transporte / Transport"
-msgstr ""
+msgstr "Guia de Transporte"
 
 #. module: l10n_pt_stock_invoicexpress
 #: model:ir.model.fields,help:l10n_pt_stock_invoicexpress.field_stock_picking__invoicexpress_send_email
