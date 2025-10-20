@@ -11,11 +11,13 @@
                     <field
                         name="l10npt_vat_exempt_reason"
                         widget="selection"
+                        groups="account.group_account_user"
                         attrs="{'invisible': [('country_code', '!=', 'PT')]}"
                     />
                     <field name="move_type" invisible="1" />
                     <field
                         name="vat_adjustment_norm_id"
+                        groups="account.group_account_user"
                         attrs="{'invisible': ['|',('country_code', '!=', 'PT'),('move_type', 'not in',
                          ['out_refund', 'in_refund'])]}"
                         domain="[('move_type', '=', move_type)]"
