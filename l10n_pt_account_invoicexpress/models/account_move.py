@@ -13,7 +13,8 @@ class AccountMove(models.Model):
     def _compute_show_reset_to_draft_button(self):
         super()._compute_show_reset_to_draft_button()
         # InvoiceXpress generated invoices can't be set to Draft
-        self.filtered("invoicexpress_id").write({"show_reset_to_draft_button": False})
+        for move in self.filtered("invoicexpress_id"):
+            move.show_reset_to_draft_button = False
         return
 
     @api.depends("move_type", "journal_id.use_invoicexpress")
