@@ -23,5 +23,5 @@
         "views/vat_adjustment_norm_view.xml",
     ],
     "installable": True,
-    "auto_install": True,
+    "auto_install": False,
 }

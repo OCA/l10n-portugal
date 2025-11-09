@@ -5,3 +5,5 @@ including:
 - The use of pre-defined legally accepted reasons for issuing credit
   notes, as required for fields 40/41 of the VAT statement (Portaria nº
   255/2013).
+
+NOTE: scheduled to replaced by the future core module `l10n_pt_certification`.
