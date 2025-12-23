@@ -10,7 +10,7 @@ class IrActionsReport(models.Model):
     _inherit = 'ir.actions.report'
 
     def _pre_render_qweb_pdf(self, report_ref, res_ids=None, data=None):
-        if len(res_ids) > 1:
+      if res_ids and len(res_ids) > 1:
             # Check that, if multiple documents being printed, only PT companies are selected,
             # as mixing companies from different countries may lead to missing template elements.
             pt_companies = self.env.companies.filtered(lambda c: c.country_code == 'PT')
