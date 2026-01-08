@@ -37,7 +37,12 @@ class ResPartner(models.Model):
 
     def set_invoicexpress_contact(self):
         self.ensure_one()
-        self.vat and self.check_vat()  # Double check VAT is right
+        if self.vat and self.country_id:
+            # Double check VAT is right
+            vat_prefix, vat_number = self._split_vat(self.vat)
+            self._check_vat_number(
+                vat_prefix or self.country_id.code.lower(), vat_number
+            )
         InvoiceXpress = self.env["account.invoicexpress"]
         company = self.company_id or self.env.company
         doctype = "client"

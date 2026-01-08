@@ -105,8 +105,7 @@ msgid ""
 "Email sent by InvoiceXpress:<ul><li>To: %(email)s</li><li>Cc: %(cc)s</li></"
 "ul>"
 msgstr ""
-"Email enviado pelo InvoiceXpress:<ul><li>Para: %(email)s</li><li>Cc: "
-"%(cc)s</li></ul>"
+"Email enviado pelo InvoiceXpress:<ul><li>Para: %(email)s</li><li>Cc: %(cc)s</li></ul>"
 
 #. module: l10n_pt_account_invoicexpress
 #. odoo-python
@@ -142,8 +141,8 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_pt_account_invoicexpress/models/account_move.py:0
 #, python-format
-msgid "Invoice %s is not registered in InvoiceXpress yet."
-msgstr ""
+msgid "Invoice %(invoice)s is not registered in InvoiceXpress yet."
+msgstr "A fatura %(invoice)s ainda não está registada no InvoiceXpress."
 
 #. module: l10n_pt_account_invoicexpress
 #: model:ir.model.fields.selection,name:l10n_pt_account_invoicexpress.selection__account_move__invoicexpress_doc_type__invoice_receipt
@@ -221,10 +220,9 @@ msgstr "Conector InvoiceXpress"
 #, python-format
 msgid ""
 "InvoiceXpress record has been created for this invoice:<ul><li>InvoiceXpress "
-"Id: {inv_xpress_id}</li><li>{inv_xpress_link}</li></ul>"
+"Id: %(inv_xpress_id)s</li><li>%(inv_xpress_link)s</li></ul>"
 msgstr ""
-"O registo InvoiceXpress foi criado para esta fatura:<ul><li>InvoiceXpress "
-"Id: {inv_xpress_id}</li><li>{inv_xpress_link}</li></ul>"
+"Registo InvoiceXpress foi criado para esta fatura:<ul><li>Id InvoiceXpress: %(inv_xpress_id)s</li><li>%(inv_xpress_link)s</li></ul>"
 
 #. module: l10n_pt_account_invoicexpress
 #. odoo-python
@@ -279,8 +277,8 @@ msgstr "Diário"
 #. odoo-python
 #: code:addons/l10n_pt_account_invoicexpress/models/account_move.py:0
 #, python-format
-msgid "Journal %s is missing the InvoiceXpress document type configuration!"
-msgstr ""
+msgid "Journal %(journal)s is missing the InvoiceXpress document type configuration!"
+msgstr "O diário %(journal)s está sem a configuração do tipo de documento InvoiceXpress!"
 
 #. module: l10n_pt_account_invoicexpress
 #: model:ir.model,name:l10n_pt_account_invoicexpress.model_account_move
@@ -420,6 +418,13 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_pt_account_invoicexpress/models/account_move.py:0
 #, python-format
+msgid "<a class='btn btn-info mr-2' target='new' href=%(link)s>%(name)s</a>"
+msgstr ""
+
+#. module: l10n_pt_account_invoicexpress
+#. odoo-python
+#: code:addons/l10n_pt_account_invoicexpress/models/account_move.py:0
+#, python-format
 msgid "View Document"
 msgstr ""
 
@@ -437,5 +442,5 @@ msgstr ""
 #~ msgid " <a class='btn btn-info mr-2' href={}>View Document</a>"
 #~ msgstr " <a class='btn btn-info mr-2' href={}>Ver Documento</a>"
 
-#~ msgid "Invoice %s is not registerd in InvoiceXpress yet."
-#~ msgstr "Fatura %s não está registada no InvoiceXpress."
+#~ msgid "Invoice %(invoice)s is not registerd in InvoiceXpress yet."
+#~ msgstr "Fatura %(invoice)s não está registada no InvoiceXpress."
