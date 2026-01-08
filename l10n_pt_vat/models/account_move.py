@@ -2,7 +2,7 @@
 # Copyright (C) 2021 Open SOurce Integrators (<http://www.opensourceintegrators.com>)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-from odoo import _, api, exceptions, fields, models
+from odoo import api, exceptions, fields, models
 
 
 class AccountMove(models.Model):
@@ -67,6 +67,6 @@ class AccountMove(models.Model):
             )
             if exempt_lines and not invoice.l10npt_vat_exempt_reason:
                 raise exceptions.ValidationError(
-                    _("A tax exemption reason must be provided.")
+                    self.env._("A tax exemption reason must be provided.")
                 )
         return super().action_post()
