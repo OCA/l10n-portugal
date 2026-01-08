@@ -21,13 +21,13 @@ Portugal InvoiceXpress Integration
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fl10n--portugal-lightgray.png?logo=github
-    :target: https://github.com/OCA/l10n-portugal/tree/18.0/l10n_pt_account_invoicexpress
+    :target: https://github.com/OCA/l10n-portugal/tree/19.0/l10n_pt_account_invoicexpress
     :alt: OCA/l10n-portugal
 .. |badge4| image:: https://img.shields.io/badge/weblate-Translate%20me-F47D42.png
-    :target: https://translation.odoo-community.org/projects/l10n-portugal-18-0/l10n-portugal-18-0-l10n_pt_account_invoicexpress
+    :target: https://translation.odoo-community.org/projects/l10n-portugal-19-0/l10n-portugal-19-0-l10n_pt_account_invoicexpress
     :alt: Translate me on Weblate
 .. |badge5| image:: https://img.shields.io/badge/runboat-Try%20me-875A7B.png
-    :target: https://runboat.odoo-community.org/builds?repo=OCA/l10n-portugal&target_branch=18.0
+    :target: https://runboat.odoo-community.org/builds?repo=OCA/l10n-portugal&target_branch=19.0
     :alt: Try me on Runboat
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
@@ -63,26 +63,26 @@ Configuration
 
 To configure:
 
-- Navigate to Settings/General Settings.
+-  Navigate to Settings/General Settings.
 
-- In the "Invoicing" configuration section, locate the "InvoiceXpress"
-  subsection: There you can set:
+-  In the "Invoicing" configuration section, locate the "InvoiceXpress"
+   subsection: There you can set:
 
-  - InvoiceXpress Account Name
-  - InvoiceXpress API Key
-  - InvoiceXpress Invoice Email Template
+   -  InvoiceXpress Account Name
+   -  InvoiceXpress API Key
+   -  InvoiceXpress Invoice Email Template
 
-- In "Invoicing/Accounting" configuration section, locate the Sales
-  Journals, and set the "InvoiceXpress Doc Type". This is required
-  before invoices before any invoice can be created.
+-  In "Invoicing/Accounting" configuration section, locate the Sales
+   Journals, and set the "InvoiceXpress Doc Type". This is required
+   before invoices before any invoice can be created.
 
 The email template is used to prepare the details for the email the
 InvoiceXpress service sends with the invoice:
 
-- "To" email address
-- "Cc" email address
-- Subject
-- Body
+-  "To" email address
+-  "Cc" email address
+-  Subject
+-  Body
 
 Translations are supported, and the customer language is used to render
 the email details.
@@ -116,13 +116,13 @@ corresponding InvoiceXpress document.
 
 Invoices:
 
-- Added support to the different documents types: Invoice, Invoice
-  Receipt, Simplified Invoice. The default document type is set on the
-  Journal, and can be changed on the Invoice form.
-- Use the invoice commercial partner for the name and address, instead
-  of the invoice contact.
-- Added support for the Terms and Conditions/Observations field
-- Added to Credit Notes the link to the source Invoice
+-  Added support to the different documents types: Invoice, Invoice
+   Receipt, Simplified Invoice. The default document type is set on the
+   Journal, and can be changed on the Invoice form.
+-  Use the invoice commercial partner for the name and address, instead
+   of the invoice contact.
+-  Added support for the Terms and Conditions/Observations field
+-  Added to Credit Notes the link to the source Invoice
 
 The monthly SAF-T file should be downloaded from the InvoiceXpress
 website.
@@ -133,7 +133,7 @@ Bug Tracker
 Bugs are tracked on `GitHub Issues <https://github.com/OCA/l10n-portugal/issues>`_.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us to smash it by providing a detailed and welcomed
-`feedback <https://github.com/OCA/l10n-portugal/issues/new?body=module:%20l10n_pt_account_invoicexpress%0Aversion:%2018.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
+`feedback <https://github.com/OCA/l10n-portugal/issues/new?body=module:%20l10n_pt_account_invoicexpress%0Aversion:%2019.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
 
 Do not contact contributors directly about support or help with technical issues.
 
@@ -148,8 +148,8 @@ Authors
 Contributors
 ------------
 
-- Daniel Reis <dreis@opensourceintegrators.com>, `Open Source
-  Integrators <https://www.opensourceintegrators.eu>`__
+-  Daniel Reis <dreis@opensourceintegrators.com>, `Open Source
+   Integrators <https://www.opensourceintegrators.eu>`__
 
 Maintainers
 -----------
@@ -172,6 +172,6 @@ Current `maintainer <https://odoo-community.org/page/maintainer-role>`__:
 
 |maintainer-dreispt| 
 
-This module is part of the `OCA/l10n-portugal <https://github.com/OCA/l10n-portugal/tree/18.0/l10n_pt_account_invoicexpress>`_ project on GitHub.
+This module is part of the `OCA/l10n-portugal <https://github.com/OCA/l10n-portugal/tree/19.0/l10n_pt_account_invoicexpress>`_ project on GitHub.
 
 You are welcome to contribute. To learn how please visit https://odoo-community.org/page/Contribute.

@@ -9,7 +9,7 @@ import pprint
 import requests
 from werkzeug.urls import url_join
 
-from odoo import _, exceptions, models
+from odoo import exceptions, models
 
 _logger = logging.getLogger(__name__)
 
@@ -22,10 +22,10 @@ class InvoiceXpress(models.AbstractModel):
         account_name = company.invoicexpress_account_name
         api_key = company.invoicexpress_api_key
         if not account_name or not api_key:
-            error_msg = _(
-                """Something went wrong on API key. You should check the field
-                %(field:res.config.settings.invoicexpress_account_name)s in
-                %(menu:base_setup.menu_config)s."""
+            error_msg = self.env._(
+                "Something went wrong on API key. You should check the field"
+                " %(field:res.config.settings.invoicexpress_account_name)s in"
+                " %(menu:base_setup.menu_config)s."
             )
             raise self.env["res.config.settings"].get_config_warning(error_msg)
         return {"account_name": account_name, "api_key": api_key}
@@ -69,12 +69,12 @@ class InvoiceXpress(models.AbstractModel):
             else:
                 msg = repr(response.json())
             raise exceptions.ValidationError(
-                _("Error running API request (%(status_code)s %(reason)s):\n%(json)s")
-                % {
-                    "status_code": response.status_code,
-                    "reason": response.reason,
-                    "json": msg,
-                }
+                self.env._(
+                    "Error running API request (%(status_code)s %(reason)s):\n%(json)s",
+                    status_code=response.status_code,
+                    reason=response.reason,
+                    json=msg,
+                )
             )
 
     def call(

@@ -5,7 +5,7 @@ import uuid
 
 from markupsafe import Markup
 
-from odoo import _, api, exceptions, fields, models
+from odoo import api, exceptions, fields, models
 
 
 class AccountMove(models.Model):
@@ -90,11 +90,11 @@ class AccountMove(models.Model):
             has_invoicexpress = invoice.company_id.has_invoicexpress
             if not journal_doctype and has_invoicexpress:
                 raise exceptions.UserError(
-                    _(
-                        "Journal %s is missing the InvoiceXpress"
-                        " document type configuration!"
+                    self.env._(
+                        "Journal %(journal)s is missing the InvoiceXpress"
+                        " document type configuration!",
+                        journal=invoice.journal_id.display_name,
                     )
-                    % invoice.journal_id.display_name
                 )
 
     @api.model
@@ -157,7 +157,7 @@ class AccountMove(models.Model):
         self.ensure_one()
         if not self.invoice_date and self.invoice_date_due:
             raise exceptions.UserError(
-                _("Kindly add the invoice date and invoice due date.")
+                self.env._("Kindly add the invoice date and invoice due date.")
             )
         customer = self._get_invoicexpress_partner()
         customer_vals = customer.set_invoicexpress_contact()
@@ -195,16 +195,19 @@ class AccountMove(models.Model):
         return invoice_data
 
     def _update_invoicexpress_status(self):
-        inv_xpress_link_name = _("View Document")
-        inv_xpress_link = (
-            f"<a class='btn btn-info mr-2' target='new'"
-            f" href={self.invoicexpress_permalink}>{inv_xpress_link_name}</a>"
+        inv_xpress_link_name = self.env._("View Document")
+        inv_xpress_link = self.env._(
+            "<a class='btn btn-info mr-2' target='new' href=%(link)s>%(name)s</a>",
+            link=self.invoicexpress_permalink,
+            name=inv_xpress_link_name,
         )
-        msg = _(
+        msg = self.env._(
             "InvoiceXpress record has been created for this invoice:"
-            "<ul><li>InvoiceXpress Id: {inv_xpress_id}</li>"
-            "<li>{inv_xpress_link}</li></ul>"
-        ).format(inv_xpress_id=self.invoicexpress_id, inv_xpress_link=inv_xpress_link)
+            "<ul><li>InvoiceXpress Id: %(inv_xpress_id)s</li>"
+            "<li>%(inv_xpress_link)s</li></ul>",
+            inv_xpress_id=self.invoicexpress_id,
+            inv_xpress_link=inv_xpress_link,
+        )
         self.message_post(body=Markup(msg))
 
     def action_create_invoicexpress_invoice(self):
@@ -213,7 +216,7 @@ class AccountMove(models.Model):
             doctype = invoice.invoicexpress_doc_type
             if not doctype:
                 raise exceptions.UserError(
-                    _("Invoice is missing the InvoiceXpress document type!")
+                    self.env._("Invoice is missing the InvoiceXpress document type!")
                 )
             payload = invoice._prepare_invoicexpress_vals()
             response = InvoiceXpress.call(
@@ -222,7 +225,9 @@ class AccountMove(models.Model):
             values = response.get(doctype)
             if not values:
                 raise exceptions.UserError(
-                    _("Something went wrong: the InvoiceXpress response looks empty.")
+                    self.env._(
+                        "Something went wrong: the InvoiceXpress response looks empty."
+                    )
                 )
             invoice.invoicexpress_id = values.get("id")
             invoice.invoicexpress_permalink = values.get("permalink")
@@ -237,7 +242,7 @@ class AccountMove(models.Model):
             seqnum = values1 and values1.get("inverted_sequence_number")
             if not seqnum:
                 raise exceptions.UserError(
-                    _(
+                    self.env._(
                         "Something went wrong: the InvoiceXpress response"
                         " is missing a sequence number."
                     )
@@ -254,7 +259,7 @@ class AccountMove(models.Model):
         template_id = self.company_id.invoicexpress_template_id
         if not template_id and not ignore_no_config:
             raise exceptions.UserError(
-                _(
+                self.env._(
                     "Please configure the InvoiceXpress email template"
                     " at Settings > General Setting, InvoiceXpress section"
                 )
@@ -263,7 +268,9 @@ class AccountMove(models.Model):
             [self.id], ["subject", "body_html", "email_to", "email_cc"]
         )[self.id]
         if not values.get("email_to") and not ignore_no_config:
-            raise exceptions.UserError(_("No address to send invoice email to."))
+            raise exceptions.UserError(
+                self.env._("No address to send invoice email to.")
+            )
         email_data = None
         if template_id and values["email_to"]:
             email_data = {
@@ -281,20 +288,21 @@ class AccountMove(models.Model):
         for invoice in self.filtered("can_invoicexpress_email"):
             if not invoice.invoicexpress_id:
                 raise exceptions.UserError(
-                    _("Invoice %s is not registered in InvoiceXpress yet.")
-                    % invoice.name
+                    self.env._(
+                        "Invoice %(invoice)s is not registered in InvoiceXpress yet.",
+                        invoice=invoice.name,
+                    )
                 )
             doctype = invoice.invoicexpress_doc_type
             endpoint = f"{doctype}s/{invoice.invoicexpress_id}/email-document.json"
             payload = invoice._prepare_invoicexpress_email_vals(ignore_no_config)
             if payload:
                 InvoiceXpress.call(invoice.company_id, endpoint, "PUT", payload=payload)
-                msg = _(
-                    "Email sent by InvoiceXpress:<ul><li>To: "
-                    "{email}</li><li>Cc:{cc}</li></ul>"
-                ).format(
+                msg = self.env._(
+                    "Email sent by InvoiceXpress:"
+                    "<ul><li>To: %(email)s</li><li>Cc: %(cc)s</li></ul>",
                     email=payload["message"]["client"]["email"],
-                    cc=payload["message"]["cc"] or _("None"),
+                    cc=payload["message"].get("cc", ""),
                 )
                 invoice.message_post(body=Markup(msg))
 
@@ -321,7 +329,7 @@ class AccountMove(models.Model):
             doctype = invoice.invoicexpress_doc_type
             if not doctype:
                 raise exceptions.UserError(
-                    _("Invoice is missing the InvoiceXpress document type!")
+                    self.env._("Invoice is missing the InvoiceXpress document type!")
                 )
             response = InvoiceXpress.call(
                 invoice.company_id,
@@ -334,12 +342,12 @@ class AccountMove(models.Model):
             seqnum = values and values.get("inverted_sequence_number")
             if not seqnum:
                 raise exceptions.UserError(
-                    _(
+                    self.env._(
                         "Something went wrong: the InvoiceXpress response"
                         " is missing a sequence number."
                     )
                 )
-            msg = _("InvoiceXpress record has been modified to Paid.")
+            msg = self.env._("InvoiceXpress record has been modified to Paid.")
             self.message_post(body=Markup(msg))
 
 

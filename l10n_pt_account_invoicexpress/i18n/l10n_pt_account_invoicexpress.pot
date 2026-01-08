@@ -107,7 +107,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_pt_account_invoicexpress/models/account_move.py:0
 msgid ""
-"Email sent by InvoiceXpress:<ul><li>To: {email}</li><li>Cc:{cc}</li></ul>"
+"Email sent by InvoiceXpress:<ul><li>To: %(email)s</li><li>Cc: %(cc)s</li></ul>"
 msgstr ""
 
 #. module: l10n_pt_account_invoicexpress
@@ -149,7 +149,7 @@ msgstr ""
 #. module: l10n_pt_account_invoicexpress
 #. odoo-python
 #: code:addons/l10n_pt_account_invoicexpress/models/account_move.py:0
-msgid "Invoice %s is not registered in InvoiceXpress yet."
+msgid "Invoice %(invoice)s is not registered in InvoiceXpress yet."
 msgstr ""
 
 #. module: l10n_pt_account_invoicexpress
@@ -224,7 +224,7 @@ msgstr ""
 #: code:addons/l10n_pt_account_invoicexpress/models/account_move.py:0
 msgid ""
 "InvoiceXpress record has been created for this invoice:<ul><li>InvoiceXpress"
-" Id: {inv_xpress_id}</li><li>{inv_xpress_link}</li></ul>"
+" Id: %(inv_xpress_id)s</li><li>%(inv_xpress_link)s</li></ul>"
 msgstr ""
 
 #. module: l10n_pt_account_invoicexpress
@@ -275,7 +275,7 @@ msgstr ""
 #. module: l10n_pt_account_invoicexpress
 #. odoo-python
 #: code:addons/l10n_pt_account_invoicexpress/models/account_move.py:0
-msgid "Journal %s is missing the InvoiceXpress document type configuration!"
+msgid "Journal %(journal)s is missing the InvoiceXpress document type configuration!"
 msgstr ""
 
 #. module: l10n_pt_account_invoicexpress
@@ -389,6 +389,12 @@ msgstr ""
 msgid ""
 "Used to generate the To, Cc, Subject and Body for the email sent by the "
 "InvoiceXpress service"
+msgstr ""
+
+#. module: l10n_pt_account_invoicexpress
+#. odoo-python
+#: code:addons/l10n_pt_account_invoicexpress/models/account_move.py:0
+msgid "<a class='btn btn-info mr-2' target='new' href=%(link)s>%(name)s</a>"
 msgstr ""
 
 #. module: l10n_pt_account_invoicexpress
