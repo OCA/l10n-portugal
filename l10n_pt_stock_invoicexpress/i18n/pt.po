@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 14.0\n"
+"Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
 "PO-Revision-Date: 2025-08-20 10:26+0000\n"
 "Last-Translator: Daniel Reis <dgreis@sapo.pt>\n"
@@ -86,9 +86,11 @@ msgstr "Devolução"
 #: code:addons/l10n_pt_stock_invoicexpress/models/stock_picking.py:0
 #, python-format
 msgid ""
-"Email sent by InvoiceXpress:<ul><li>To: %(email)s/li><li>Cc: %(cc)s</li></ul>"
+"Email sent by InvoiceXpress:<ul><li>To: "
+"%(email)s</li><li>Cc: %(cc)s</li></ul>"
 msgstr ""
-"Email enviado pelo InvoiceXpress:<ul><li>To: %(email)s/li><li>Cc: "
+"Email enviado pelo InvoiceXpress:<ul><li>To: "
+"%(email)s</li><li>Cc: "
 "%(cc)s</li></ul>"
 
 #. module: l10n_pt_stock_invoicexpress
@@ -162,14 +164,15 @@ msgstr "Número InvoiceXpress"
 #: code:addons/l10n_pt_stock_invoicexpress/models/stock_picking.py:0
 #, python-format
 msgid ""
-"InvoiceXpress record has been created for this delivery order:"
-"<ul><li>Number: %(inv_xpress_num)s</li><li>%(inv_xpress_link)s</li></ul>"
+"InvoiceXpress record has been created for this delivery order:<ul>"
+"<li>Number: %(inv_xpress_num)s</li><li>%(inv_xpress_link)s</li></ul>"
 msgstr ""
+"Registo InvoiceXpress foi criado para esta entrega:<ul><li>Número: %(inv_xpress_num)s</li><li>%(inv_xpress_link)s</li></ul>"
 
 #. module: l10n_pt_stock_invoicexpress
 #: model:mail.template,name:l10n_pt_stock_invoicexpress.email_template_delivery
 msgid "InvoiceXpress: Send Delivery by Email"
-msgstr ""
+msgstr "InvoiceXpress: Enviar Entrega por Email"
 
 #. module: l10n_pt_stock_invoicexpress
 #: model:ir.model.fields,field_description:l10n_pt_stock_invoicexpress.field_stock_picking_type__invoicexpress_doc_type
@@ -215,6 +218,13 @@ msgid ""
 msgstr ""
 "Por favor configure o modelo email InvoiceXpress para entregas em Definições "
 "> Definições Gerais, secção InvoiceXpress"
+
+#. module: l10n_pt_stock_invoicexpress
+#. odoo-python
+#: code:addons/l10n_pt_stock_invoicexpress/models/stock_picking.py:0
+#, python-format
+msgid "Please set the country of the partner."
+msgstr "Por favor defina o país do parceiro."
 
 #. module: l10n_pt_stock_invoicexpress
 #. odoo-python

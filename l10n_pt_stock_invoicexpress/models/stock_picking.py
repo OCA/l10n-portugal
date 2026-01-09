@@ -5,7 +5,7 @@ import logging
 
 from markupsafe import Markup
 
-from odoo import _, api, exceptions, fields, models
+from odoo import api, exceptions, fields, models
 from odoo.tools import format_datetime
 
 _logger = logging.getLogger(__name__)
@@ -117,12 +117,12 @@ class StockPicking(models.Model):
         }.get(doctype)
 
     def _prepare_invoicexpress_lines(self):
-        lines = self.move_ids_without_package.filtered("quantity")
+        lines = self.move_ids.filtered("quantity")
         # Ensure Taxes are created on InvoiceXpress
-        lines.mapped("sale_line_id.tax_id").action_invoicexpress_tax_create()
+        lines.mapped("sale_line_id.tax_ids").action_invoicexpress_tax_create()
         items = []
         for line in lines:
-            tax = line.sale_line_id.tax_id[:1]
+            tax = line.sale_line_id.tax_ids[:1]
             # tax_detail = {"name": tax.name, "value": tax.amount} if tax else {}
             tax_detail = {"name": tax.name} if tax else {}
             items.append(
@@ -144,7 +144,7 @@ class StockPicking(models.Model):
         shipping_date = fields.Datetime.add(fields.Datetime.now(), minutes=5)
         if shipping_date < fields.Datetime.now():
             raise exceptions.ValidationError(
-                _("Scheduled Date should be bigger then current datetime!")
+                self.env._("Scheduled Date should be bigger than current datetime!")
             )
         customer = self.partner_id.commercial_partner_id
         customer_vals = customer.set_invoicexpress_contact()
@@ -178,16 +178,18 @@ class StockPicking(models.Model):
         }
 
     def _update_invoicexpress_status(self):
-        inv_xpress_link_name = _("View Document")
-        inv_xpress_link = _(
-            "<a class='btn btn-info mr-2' target='new' href={link}>{name}</a>"
-        ).format(link=self.invoicexpress_permalink, name=inv_xpress_link_name)
-        msg = _(
+        inv_xpress_link_name = self.env._("View Document")
+        inv_xpress_link = self.env._(
+            "<a class='btn btn-info mr-2' target='new' href=%(link)s>%(name)s</a>",
+            link=self.invoicexpress_permalink,
+            name=inv_xpress_link_name,
+        )
+        msg = self.env._(
             "InvoiceXpress record has been created for this delivery order:<ul>"
-            "<li>Number: {inv_xpress_num}</li>"
-            "<li>{inv_xpress_link}</li></ul>"
-        ).format(
-            inv_xpress_num=self.invoicexpress_number, inv_xpress_link=inv_xpress_link
+            "<li>Number: %(inv_xpress_num)s</li>"
+            "<li>%(inv_xpress_link)s</li></ul>",
+            inv_xpress_num=self.invoicexpress_number,
+            inv_xpress_link=inv_xpress_link,
         )
         self.message_post(body=Markup(msg))
 
@@ -207,7 +209,9 @@ class StockPicking(models.Model):
             values = response.json().get(doctype)
             if not values:
                 raise exceptions.UserError(
-                    _("Something went wrong: the InvoiceXpress response looks empty.")
+                    self.env._(
+                        "Something went wrong: the InvoiceXpress response looks empty."
+                    )
                 )
             delivery.invoicexpress_id = values.get("id")
             delivery.invoicexpress_permalink = values.get("permalink")
@@ -232,14 +236,14 @@ class StockPicking(models.Model):
         )[self.id]
         if not template_id and not ignore_no_config:
             raise exceptions.UserError(
-                _(
+                self.env._(
                     "Please configure the InvoiceXpress Delivery email template"
                     " at Settings > General Setting, InvoiceXpress section"
                 )
             )
         if not values.get("email_to") and not ignore_no_config:
             raise exceptions.UserError(
-                _("No address to send delivery document email to.")
+                self.env._("No address to send delivery document email to.")
             )
         email_data = None
         if template_id and values["email_to"]:
@@ -258,7 +262,7 @@ class StockPicking(models.Model):
         for delivery in self.filtered("invoicexpress_send_email"):
             if not delivery.invoicexpress_id:
                 raise exceptions.UserError(
-                    _("Delivery %s is not registered in InvoiceXpress yet."),
+                    self.env._("Delivery %s is not registered in InvoiceXpress yet."),
                     delivery.name,
                 )
             doctype = delivery.invoicexpress_doc_type
@@ -268,12 +272,11 @@ class StockPicking(models.Model):
                 InvoiceXpress.call(
                     delivery.company_id, endpoint, "PUT", payload=payload
                 )
-                msg = _(
+                msg = self.env._(
                     "Email sent by InvoiceXpress:<ul><li>To: "
-                    "{email}/li><li>Cc: {cc}</li></ul>"
-                ).format(
+                    "%(email)s</li><li>Cc: %(cc)s</li></ul>",
                     email=payload["message"]["client"]["email"],
-                    cc=payload["message"]["cc"] or _("None"),
+                    cc=payload["message"].get("cc") or self.env._("None"),
                 )
                 delivery.message_post(body=Markup(msg))
 
@@ -287,7 +290,9 @@ class StockPicking(models.Model):
                 lambda x: x.can_invoicexpress and not x.partner_id.country_id
             )
             if missing_country:
-                raise exceptions.UserError(_("Please set the country of the partner."))
+                raise exceptions.UserError(
+                    self.env._("Please set the country of the partner.")
+                )
             to_invoicexpress = self.filtered(
                 lambda x: x.partner_id.country_id.code == "PT"
             )

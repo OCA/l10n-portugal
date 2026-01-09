@@ -43,7 +43,7 @@ class TestInvoiceXpressStock(TestInvoiceXpress):
         scheduled_date = fields.Datetime.now() + timedelta(days=1)
         picking_form.scheduled_date = scheduled_date
         picking_form.origin = "Picking-Test"
-        with picking_form.move_ids_without_package.new() as move_line:
+        with picking_form.move_ids.new() as move_line:
             move_line.product_id = self.productA
             move_line.product_uom_qty = 2
         self.delivery_order = picking_form.save()
