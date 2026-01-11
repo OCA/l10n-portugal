@@ -7,4 +7,4 @@ from odoo import fields, models
 class StockLocation(models.Model):
     _inherit = "stock.location"
 
-    l10n_pt_license_plate = fields.Char("License Plate")
+    license_plate = fields.Char()

@@ -6,9 +6,11 @@
     "to communicate to Portuguese Tax Authorities",
     "website": "https://github.com/OCA/l10n-portugal",
     "license": "AGPL-3",
-    "author": "Luz de Airbag, Open Source Integrators, Odoo Community Association (OCA)",
+    "author": (
+        "Luz de Airbag,Open Source Integrators,Odoo Community Association (OCA)"
+    ),
     "category": "Warehouse",
-    "version": "14.0.1.1.0",
+    "version": "19.0.1.0.0",
     "depends": [
         "stock_move_location",  # from OCA/stock-logistics-warehouse
     ],

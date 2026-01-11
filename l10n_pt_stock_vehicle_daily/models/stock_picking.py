@@ -8,14 +8,13 @@ from odoo import api, fields, models
 class StockPicking(models.Model):
     _inherit = "stock.picking"
 
-    l10n_pt_license_plate = fields.Char(
-        string="License Plate",
-        compute="_compute_l10n_pt_license_plate",
+    license_plate = fields.Char(
+        compute="_compute_license_plate",
         store=True,
         readonly=False,
     )
 
     @api.depends("location_id")
-    def _compute_l10n_pt_license_plate(self):
+    def _compute_license_plate(self):
         for picking in self:
-            picking.l10n_pt_license_plate = picking.location_id.l10n_pt_license_plate
+            picking.license_plate = picking.location_id.license_plate
