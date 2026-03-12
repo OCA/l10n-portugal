@@ -5,7 +5,7 @@
         <field name="inherit_id" ref="stock.view_picking_form" />
         <field name="arch" type="xml">
             <group name="other_infos" position="inside">
-                <field name="l10n_pt_license_plate" />
+                <field name="license_plate" />
             </group>
         </field>
     </record>

@@ -48,9 +48,9 @@ msgid "Last Modified on"
 msgstr ""
 
 #. module: l10n_pt_stock_vehicle_daily
-#: model:ir.model.fields,field_description:l10n_pt_stock_vehicle_daily.field_stock_location__l10n_pt_license_plate
-#: model:ir.model.fields,field_description:l10n_pt_stock_vehicle_daily.field_stock_picking__l10n_pt_license_plate
-#: model:ir.model.fields,field_description:l10n_pt_stock_vehicle_daily.field_wiz_stock_move_location__l10n_pt_license_plate
+#: model:ir.model.fields,field_description:l10n_pt_stock_vehicle_daily.field_stock_location__license_plate
+#: model:ir.model.fields,field_description:l10n_pt_stock_vehicle_daily.field_stock_picking__license_plate
+#: model:ir.model.fields,field_description:l10n_pt_stock_vehicle_daily.field_wiz_stock_move_location__license_plate
 msgid "License Plate"
 msgstr ""
 
