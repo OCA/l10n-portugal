@@ -63,26 +63,26 @@ Configuration
 
 To configure:
 
-- Navigate to Settings/General Settings.
+-  Navigate to Settings/General Settings.
 
-- In the "Invoicing" configuration section, locate the "InvoiceXpress"
-  subsection: There you can set:
+-  In the "Invoicing" configuration section, locate the "InvoiceXpress"
+   subsection: There you can set:
 
-  - InvoiceXpress Account Name
-  - InvoiceXpress API Key
-  - InvoiceXpress Invoice Email Template
+   -  InvoiceXpress Account Name
+   -  InvoiceXpress API Key
+   -  InvoiceXpress Invoice Email Template
 
-- In "Invoicing/Accounting" configuration section, locate the Sales
-  Journals, and set the "InvoiceXpress Doc Type". This is required
-  before invoices before any invoice can be created.
+-  In "Invoicing/Accounting" configuration section, locate the Sales
+   Journals, and set the "InvoiceXpress Doc Type". This is required
+   before invoices before any invoice can be created.
 
 The email template is used to prepare the details for the email the
 InvoiceXpress service sends with the invoice:
 
-- "To" email address
-- "Cc" email address
-- Subject
-- Body
+-  "To" email address
+-  "Cc" email address
+-  Subject
+-  Body
 
 Translations are supported, and the customer language is used to render
 the email details.
@@ -116,13 +116,13 @@ corresponding InvoiceXpress document.
 
 Invoices:
 
-- Added support to the different documents types: Invoice, Invoice
-  Receipt, Simplified Invoice. The default document type is set on the
-  Journal, and can be changed on the Invoice form.
-- Use the invoice commercial partner for the name and address, instead
-  of the invoice contact.
-- Added support for the Terms and Conditions/Observations field
-- Added to Credit Notes the link to the source Invoice
+-  Added support to the different documents types: Invoice, Invoice
+   Receipt, Simplified Invoice. The default document type is set on the
+   Journal, and can be changed on the Invoice form.
+-  Use the invoice commercial partner for the name and address, instead
+   of the invoice contact.
+-  Added support for the Terms and Conditions/Observations field
+-  Added to Credit Notes the link to the source Invoice
 
 The monthly SAF-T file should be downloaded from the InvoiceXpress
 website.
@@ -148,8 +148,8 @@ Authors
 Contributors
 ------------
 
-- Daniel Reis <dreis@opensourceintegrators.com>, `Open Source
-  Integrators <https://www.opensourceintegrators.eu>`__
+-  Daniel Reis <dreis@opensourceintegrators.com>, `Open Source
+   Integrators <https://www.opensourceintegrators.eu>`__
 
 Maintainers
 -----------

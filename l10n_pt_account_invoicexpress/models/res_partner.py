@@ -7,13 +7,16 @@ from odoo import fields, models
 class ResPartner(models.Model):
     _inherit = "res.partner"
 
+    invoicexpress_ref = fields.Char("InvoiceXpress Code", copy=False)
+    # Deprecated: will be removed in future versions
+    # invoicexpress_id does not work in InvX multi-account cases
     invoicexpress_id = fields.Char("InvoiceXpress ID", copy=False, readonly=True)
 
     def _prepare_invoicexpress_vals(self):
         self.ensure_one()
         vals = {
             "name": self.name,
-            "code": f"ODOO-{self.ref or self.id}",
+            "code": self.invoicexpress_ref,
             "email": self.email,
             "address": ", ".join(filter(None, [self.street, self.street2])),
             "city": self.city,
@@ -23,7 +26,7 @@ class ResPartner(models.Model):
             "website": self.website,
             "phone": self.phone,
         }
-        # InvoiceXpress document language (pt, es or rn)
+        # InvoiceXpress document language (pt, es or en)
         # Outside PT and ES use english
         # Could be a requirement for some border authorities
         country_code = self.country_id.code
@@ -35,47 +38,51 @@ class ResPartner(models.Model):
             vals["language"] = "en"
         return {k: v for k, v in vals.items() if v}
 
-    def set_invoicexpress_contact(self):
+    def set_invoicexpress_contact(self, company=False):
         self.ensure_one()
-        if self.vat and self.country_id:
-            # Double check VAT is right
-            vat_prefix, vat_number = self._split_vat(self.vat)
-            self._check_vat_number(
-                vat_prefix or self.country_id.code.lower(), vat_number
-            )
+        self.vat and self.check_vat()  # Double check VAT is correct
         InvoiceXpress = self.env["account.invoicexpress"]
-        company = self.company_id or self.env.company
+        company = company or self.company_id or self.env.company
         doctype = "client"
+
+        if not self.invoicexpress_ref:
+            self.invoicexpress_ref = f"ODOO-{self.ref or self.id}"
         vals = self._prepare_invoicexpress_vals()
-        invx_id_to_update = self.invoicexpress_id
-        if not invx_id_to_update:
-            # Create: POST /clients.json
+
+        # Find existing client by code
+        response = InvoiceXpress.call(
+            company,
+            f"{doctype}s/find-by-code.json",
+            "GET",
+            params={"client_code": vals["code"]},
+            raise_errors=False,
+        )
+        # Create if missing: POST /clients.json
+        if response.status_code == 404:
             response = InvoiceXpress.call(
                 company,
                 f"{doctype}s.json",
                 "POST",
                 payload={"client": vals},
-                raise_errors=False,
             )
-            if response.status_code == 422:  # Oh, it already exists!
-                response = InvoiceXpress.call(
-                    company,
-                    f"{doctype}s/find-by-code.json",
-                    "GET",
-                    params={"client_code": vals["code"]},
-                )
-                values = response.json().get(doctype)
-                invx_id_to_update = values.get("id")  # Update is needed!
-            values = response.json().get(doctype, {})
-            self.invoicexpress_id = values.get("id")
+        else:
+            # Update existing client
+            # Check if VAT is the same, if not create a new contact
+            values = response.json().get(doctype)
+            if values and values.get("fiscal_id") != self.vat:
+                code = self.invoicexpress_ref
+                new_code = f"ODOO-{self.ref or self.id}-{self.vat or ''}"
+                if code != new_code:
+                    self.invoicexpress_ref = new_code
+                    return self.set_invoicexpress_contact(company)
 
-        if invx_id_to_update:
             # Update: PUT /clients/$(client-id).json
+            invoicexpress_id = values.get("id")
             response = InvoiceXpress.call(
                 company,
-                f"{doctype}s/{self.invoicexpress_id}.json",
+                f"{doctype}s/{invoicexpress_id}.json",
                 "PUT",
                 payload={"client": vals},
-                raise_errors=True,
             )
+
         return {"name": vals["name"], "code": vals["code"]}

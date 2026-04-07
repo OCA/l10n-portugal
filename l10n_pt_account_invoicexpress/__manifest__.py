@@ -19,6 +19,7 @@
         "views/account_move_view.xml",
         "views/res_company_view.xml",
         "views/res_country_view.xml",
+        "views/res_partner_view.xml",
         "data/mail_template.xml",
         "data/res.country.csv",
     ],
