@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 18.0\n"
+"Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -23,6 +23,12 @@ msgid ""
 "        Select 'Cash', 'Bank' or 'Credit Card' for journals that are used in customer or vendor payments.\n"
 "        Select 'General' for miscellaneous operations journals.\n"
 "        "
+msgstr ""
+
+#. module: l10n_pt_account_invoicexpress
+#. odoo-python
+#: code:addons/l10n_pt_account_invoicexpress/models/account_move.py:0
+msgid "<a class='btn btn-info mr-2' target='new' href=%(link)s>%(name)s</a>"
 msgstr ""
 
 #. module: l10n_pt_account_invoicexpress
@@ -94,6 +100,19 @@ msgid "Debit Note"
 msgstr ""
 
 #. module: l10n_pt_account_invoicexpress
+#: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_account_invoicexpress__display_name
+#: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_account_journal__display_name
+#: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_account_move__display_name
+#: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_account_move_line__display_name
+#: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_account_tax__display_name
+#: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_res_company__display_name
+#: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_res_config_settings__display_name
+#: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_res_country__display_name
+#: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_res_partner__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_pt_account_invoicexpress
 #: model:ir.model.fields,help:l10n_pt_account_invoicexpress.field_res_company__has_invoicexpress
 msgid "Easy to use indicator if InvoiceXpress is enabled and can be used"
 msgstr ""
@@ -107,7 +126,8 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_pt_account_invoicexpress/models/account_move.py:0
 msgid ""
-"Email sent by InvoiceXpress:<ul><li>To: %(email)s</li><li>Cc: %(cc)s</li></ul>"
+"Email sent by InvoiceXpress:<ul><li>To: %(email)s</li><li>Cc: "
+"%(cc)s</li></ul>"
 msgstr ""
 
 #. module: l10n_pt_account_invoicexpress
@@ -131,6 +151,19 @@ msgstr ""
 #. module: l10n_pt_account_invoicexpress
 #: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_res_company__has_invoicexpress
 msgid "Has Invoicexpress"
+msgstr ""
+
+#. module: l10n_pt_account_invoicexpress
+#: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_account_invoicexpress__id
+#: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_account_journal__id
+#: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_account_move__id
+#: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_account_move_line__id
+#: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_account_tax__id
+#: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_res_company__id
+#: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_res_config_settings__id
+#: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_res_country__id
+#: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_res_partner__id
+msgid "ID"
 msgstr ""
 
 #. module: l10n_pt_account_invoicexpress
@@ -275,7 +308,9 @@ msgstr ""
 #. module: l10n_pt_account_invoicexpress
 #. odoo-python
 #: code:addons/l10n_pt_account_invoicexpress/models/account_move.py:0
-msgid "Journal %(journal)s is missing the InvoiceXpress document type configuration!"
+msgid ""
+"Journal %(journal)s is missing the InvoiceXpress document type "
+"configuration!"
 msgstr ""
 
 #. module: l10n_pt_account_invoicexpress
@@ -314,12 +349,6 @@ msgstr ""
 #. module: l10n_pt_account_invoicexpress
 #. odoo-python
 #: code:addons/l10n_pt_account_invoicexpress/models/account_move.py:0
-msgid "None"
-msgstr ""
-
-#. module: l10n_pt_account_invoicexpress
-#. odoo-python
-#: code:addons/l10n_pt_account_invoicexpress/models/account_move.py:0
 msgid ""
 "Please configure the InvoiceXpress email template at Settings > General "
 "Setting, InvoiceXpress section"
@@ -349,9 +378,9 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_pt_account_invoicexpress/models/account_invoicexpress.py:0
 msgid ""
-"Something went wrong on API key. You should check the field\n"
-"                %(field:res.config.settings.invoicexpress_account_name)s in\n"
-"                %(menu:base_setup.menu_config)s."
+"Something went wrong on API key. You should check the field "
+"%(field:res.config.settings.invoicexpress_account_name)s in "
+"%(menu:base_setup.menu_config)s."
 msgstr ""
 
 #. module: l10n_pt_account_invoicexpress
@@ -389,12 +418,6 @@ msgstr ""
 msgid ""
 "Used to generate the To, Cc, Subject and Body for the email sent by the "
 "InvoiceXpress service"
-msgstr ""
-
-#. module: l10n_pt_account_invoicexpress
-#. odoo-python
-#: code:addons/l10n_pt_account_invoicexpress/models/account_move.py:0
-msgid "<a class='btn btn-info mr-2' target='new' href=%(link)s>%(name)s</a>"
 msgstr ""
 
 #. module: l10n_pt_account_invoicexpress
