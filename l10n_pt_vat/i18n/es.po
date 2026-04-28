@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2026-04-28 11:10+0000\n"
+"PO-Revision-Date: 2026-04-28 11:21+0000\n"
 "Last-Translator: Daniel Duque <danieldqmrt@gmail.com>\n"
 "Language-Team: none\n"
 "Language: es\n"
@@ -21,23 +21,23 @@ msgstr ""
 #: code:addons/l10n_pt_vat/models/account_move.py:0
 #, python-format
 msgid "A tax exemption reason must be provided."
-msgstr ""
+msgstr "Se debe indicar un motivo de exención de impuestos."
 
 #. module: l10n_pt_vat
 #: model:ir.model.fields,field_description:l10n_pt_vat.field_account_l10n_pt_vat_exempt_reason__active
 #: model:ir.model.fields,field_description:l10n_pt_vat.field_account_vat_adjustment_norm__active
 msgid "Active"
-msgstr ""
+msgstr "Activo"
 
 #. module: l10n_pt_vat
 #: model:ir.model.fields.selection,name:l10n_pt_vat.selection__account_tax__l10n_pt_fiscal_zone__pt-ac
 msgid "Açores"
-msgstr ""
+msgstr "Azores"
 
 #. module: l10n_pt_vat
 #: model:ir.model.fields,field_description:l10n_pt_vat.field_account_l10n_pt_vat_exempt_reason__code
 msgid "Code"
-msgstr ""
+msgstr "Código"
 
 #. module: l10n_pt_vat
 #: model:account.l10n_pt.vat.exempt.reason,name:l10n_pt_vat.M16
@@ -48,48 +48,48 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_pt_vat.field_account_l10n_pt_vat_exempt_reason__create_uid
 #: model:ir.model.fields,field_description:l10n_pt_vat.field_account_vat_adjustment_norm__create_uid
 msgid "Created by"
-msgstr ""
+msgstr "Creado por"
 
 #. module: l10n_pt_vat
 #: model:ir.model.fields,field_description:l10n_pt_vat.field_account_l10n_pt_vat_exempt_reason__create_date
 #: model:ir.model.fields,field_description:l10n_pt_vat.field_account_vat_adjustment_norm__create_date
 msgid "Created on"
-msgstr ""
+msgstr "Creado el"
 
 #. module: l10n_pt_vat
 #: model:ir.model.fields.selection,name:l10n_pt_vat.selection__account_vat_adjustment_norm__move_type__out_refund
 msgid "Customer Credit Note"
-msgstr ""
+msgstr "Factura rectificativa de cliente"
 
 #. module: l10n_pt_vat
 #: model:ir.model.fields,field_description:l10n_pt_vat.field_account_l10n_pt_vat_exempt_reason__note
 #: model:ir.model.fields,field_description:l10n_pt_vat.field_account_vat_adjustment_norm__note
 msgid "Description"
-msgstr ""
+msgstr "Descripción"
 
 #. module: l10n_pt_vat
 #: model:ir.model.fields,field_description:l10n_pt_vat.field_account_l10n_pt_vat_exempt_reason__display_name
 #: model:ir.model.fields,field_description:l10n_pt_vat.field_account_vat_adjustment_norm__display_name
 msgid "Display Name"
-msgstr ""
+msgstr "Nombre mostrado"
 
 #. module: l10n_pt_vat
 #: model:ir.model.fields,help:l10n_pt_vat.field_account_bank_statement_line__vat_adjustment_norm_id
 #: model:ir.model.fields,help:l10n_pt_vat.field_account_move__vat_adjustment_norm_id
 #: model:ir.model.fields,help:l10n_pt_vat.field_account_payment__vat_adjustment_norm_id
 msgid "Fields 40/41 of the VAT Statement"
-msgstr ""
+msgstr "Campos 40/41 de la declaración de IVA"
 
 #. module: l10n_pt_vat
 #: model:ir.model.fields,field_description:l10n_pt_vat.field_account_tax__l10n_pt_fiscal_zone
 msgid "Fiscal Zone"
-msgstr ""
+msgstr "Zona fiscal"
 
 #. module: l10n_pt_vat
 #: model:ir.model.fields,field_description:l10n_pt_vat.field_account_l10n_pt_vat_exempt_reason__id
 #: model:ir.model.fields,field_description:l10n_pt_vat.field_account_vat_adjustment_norm__id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: l10n_pt_vat
 #: model:account.l10n_pt.vat.exempt.reason,name:l10n_pt_vat.M08
@@ -130,6 +130,8 @@ msgid ""
 "If True, it will allow you to apply the adjustment norm to third party "
 "companies refunds."
 msgstr ""
+"Si está marcado, permitirá aplicar la norma de ajuste a las devoluciones de "
+"empresas terceras."
 
 #. module: l10n_pt_vat
 #: model:ir.model.fields,help:l10n_pt_vat.field_account_vat_adjustment_norm__out_refunds
@@ -137,6 +139,8 @@ msgid ""
 "If True, it will allow you to apply the adjustment norm to your company "
 "refunds."
 msgstr ""
+"Si está marcado, permitirá aplicar la norma de ajuste a las devoluciones de "
+"su empresa."
 
 #. module: l10n_pt_vat
 #: model:ir.model.fields,help:l10n_pt_vat.field_account_vat_adjustment_norm__active
@@ -144,6 +148,8 @@ msgid ""
 "If the active field is set to False, it will allow you to hide the "
 "adjustment norm without removing it."
 msgstr ""
+"Si el campo activo se desmarca, permitirá ocultar la norma de ajuste sin "
+"eliminarla."
 
 #. module: l10n_pt_vat
 #: model:account.l10n_pt.vat.exempt.reason,name:l10n_pt_vat.M04
@@ -184,47 +190,47 @@ msgstr ""
 #. module: l10n_pt_vat
 #: model:ir.model,name:l10n_pt_vat.model_account_journal
 msgid "Journal"
-msgstr ""
+msgstr "Diario"
 
 #. module: l10n_pt_vat
 #: model:ir.model,name:l10n_pt_vat.model_account_move
 msgid "Journal Entry"
-msgstr ""
+msgstr "Asiento contable"
 
 #. module: l10n_pt_vat
 #: model:ir.model.fields,field_description:l10n_pt_vat.field_account_bank_statement_line__l10npt_has_tax_exempt_lines
 #: model:ir.model.fields,field_description:l10n_pt_vat.field_account_move__l10npt_has_tax_exempt_lines
 #: model:ir.model.fields,field_description:l10n_pt_vat.field_account_payment__l10npt_has_tax_exempt_lines
 msgid "L10Npt Has Tax Exempt Lines"
-msgstr ""
+msgstr "L10Npt tiene líneas exentas de impuestos"
 
 #. module: l10n_pt_vat
 #: model:ir.model.fields,field_description:l10n_pt_vat.field_account_l10n_pt_vat_exempt_reason____last_update
 #: model:ir.model.fields,field_description:l10n_pt_vat.field_account_vat_adjustment_norm____last_update
 msgid "Last Modified on"
-msgstr ""
+msgstr "Última modificación el"
 
 #. module: l10n_pt_vat
 #: model:ir.model.fields,field_description:l10n_pt_vat.field_account_l10n_pt_vat_exempt_reason__write_uid
 #: model:ir.model.fields,field_description:l10n_pt_vat.field_account_vat_adjustment_norm__write_uid
 msgid "Last Updated by"
-msgstr ""
+msgstr "Última actualización por"
 
 #. module: l10n_pt_vat
 #: model:ir.model.fields,field_description:l10n_pt_vat.field_account_l10n_pt_vat_exempt_reason__write_date
 #: model:ir.model.fields,field_description:l10n_pt_vat.field_account_vat_adjustment_norm__write_date
 msgid "Last Updated on"
-msgstr ""
+msgstr "Última actualización el"
 
 #. module: l10n_pt_vat
 #: model_terms:ir.ui.view,arch_db:l10n_pt_vat.vat_adjustment_norm_view_form
 msgid "Legal Norm (ex: Art. 78º, nº 8, alínea b)) ..."
-msgstr ""
+msgstr "Norma legal (ej: Art. 78º, nº 8, apartado b)) ..."
 
 #. module: l10n_pt_vat
 #: model:ir.model.fields.selection,name:l10n_pt_vat.selection__account_tax__l10n_pt_fiscal_zone__pt-ma
 msgid "Madeira"
-msgstr ""
+msgstr "Madeira"
 
 #. module: l10n_pt_vat
 #: model:account.l10n_pt.vat.exempt.reason,name:l10n_pt_vat.M22
@@ -234,13 +240,13 @@ msgstr ""
 #. module: l10n_pt_vat
 #: model:ir.model.fields,field_description:l10n_pt_vat.field_account_vat_adjustment_norm__move_type
 msgid "Move Type"
-msgstr ""
+msgstr "Tipo de movimiento"
 
 #. module: l10n_pt_vat
 #: model:ir.model.fields,field_description:l10n_pt_vat.field_account_l10n_pt_vat_exempt_reason__name
 #: model:ir.model.fields,field_description:l10n_pt_vat.field_account_vat_adjustment_norm__name
 msgid "Name"
-msgstr ""
+msgstr "Nombre"
 
 #. module: l10n_pt_vat
 #: model:account.l10n_pt.vat.exempt.reason,name:l10n_pt_vat.M01
@@ -260,7 +266,7 @@ msgstr ""
 #. module: l10n_pt_vat
 #: model:ir.model.fields.selection,name:l10n_pt_vat.selection__account_tax__l10n_pt_fiscal_zone__pt
 msgid "Portugal Continental"
-msgstr ""
+msgstr "Portugal Continental"
 
 #. module: l10n_pt_vat
 #: model:account.l10n_pt.vat.exempt.reason,name:l10n_pt_vat.M12
@@ -285,17 +291,17 @@ msgstr ""
 #. module: l10n_pt_vat
 #: model:ir.model,name:l10n_pt_vat.model_account_tax
 msgid "Tax"
-msgstr ""
+msgstr "Impuesto"
 
 #. module: l10n_pt_vat
 #: model:ir.model.fields,field_description:l10n_pt_vat.field_account_vat_adjustment_norm__out_refunds
 msgid "Use on company refunds"
-msgstr ""
+msgstr "Usar en devoluciones de la empresa"
 
 #. module: l10n_pt_vat
 #: model:ir.model.fields,field_description:l10n_pt_vat.field_account_vat_adjustment_norm__in_refunds
 msgid "Use on third party refunds"
-msgstr ""
+msgstr "Usar en devoluciones de terceros"
 
 #. module: l10n_pt_vat
 #: model:ir.model,name:l10n_pt_vat.model_account_vat_adjustment_norm
@@ -304,13 +310,13 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_pt_vat.field_account_payment__vat_adjustment_norm_id
 #: model_terms:ir.ui.view,arch_db:l10n_pt_vat.vat_adjustment_norm_view_search
 msgid "VAT Adjustment Norm"
-msgstr ""
+msgstr "Norma de ajuste de IVA"
 
 #. module: l10n_pt_vat
 #: model:ir.actions.act_window,name:l10n_pt_vat.vat_adjustment_norm_action
 #: model:ir.ui.menu,name:l10n_pt_vat.menu_action_vat_adjustment_norm
 msgid "VAT Adjustment Norms"
-msgstr ""
+msgstr "Normas de ajuste de IVA"
 
 #. module: l10n_pt_vat
 #: model:ir.actions.act_window,name:l10n_pt_vat.vat_exempt_reason_action
@@ -330,4 +336,4 @@ msgstr "Motivo de exención de IVA"
 #. module: l10n_pt_vat
 #: model:ir.model.fields.selection,name:l10n_pt_vat.selection__account_vat_adjustment_norm__move_type__in_refund
 msgid "Vendor Credit Note"
-msgstr ""
+msgstr "Factura rectificativa de proveedor"
