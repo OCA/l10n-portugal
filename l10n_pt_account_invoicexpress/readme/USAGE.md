@@ -16,6 +16,7 @@ Invoices:
   of the invoice contact.
 - Added support for the Terms and Conditions/Observations field
 - Added to Credit Notes the link to the source Invoice
+- For standalone credit notes (invoices created outside InvoiceXpress), fill the Reference field with the invoice series/number (e.g., "FT A/1") before posting
 
 
 The monthly SAF-T file should be downloaded from the InvoiceXpress website.
