@@ -20,11 +20,14 @@
                 <page
                     name="invoicexpress"
                     string="InvoiceXpress"
-                    invisible="not can_invoicexpress_email"
-                    groups="base.group_no_one"
+                    invisible="not can_invoicexpress"
                 >
                     <group>
-                        <field name="invoicexpress_id" />
+                        <field
+                            name="l10npt_vat_exempt_reason"
+                            readonly="state in ('cancel', 'done')"
+                        />
+                        <field name="invoicexpress_number" />
                         <field name="invoicexpress_permalink" widget="url" />
                     </group>
                 </page>
