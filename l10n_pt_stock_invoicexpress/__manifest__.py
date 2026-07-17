@@ -18,6 +18,7 @@
         "views/res_config_settings.xml",
         "views/stock_picking_view.xml",
         "views/stock_picking_type_view.xml",
+        "views/sale_order_views.xml",
         "data/mail_template.xml",
     ],
     "images": ["static/description/cover.png"],
