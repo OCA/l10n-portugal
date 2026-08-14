@@ -160,7 +160,7 @@ class AccountMove(models.Model):
                 self.env._("Kindly add the invoice date and invoice due date.")
             )
         customer = self._get_invoicexpress_partner()
-        customer_vals = customer.set_invoicexpress_contact()
+        customer_vals = customer.set_invoicexpress_contact(company=self.company_id)
         items = self._prepare_invoicexpress_lines()
         proprietary_uid = "ODOO" + str(uuid.uuid4()).replace("-", "")
         invoice_data = {

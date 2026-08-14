@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_partner_form_invoicexpress" model="ir.ui.view">
+        <field name="name">res.partner.form.invoicexpress</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="account.view_partner_property_form" />
+        <field name="arch" type="xml">
+            <!-- Add InvoiceXpress fields to the Accounting tab -->
+            <xpath expr="//group[@id='invoice_send_settings']" position="inside">
+                <field name="invoicexpress_code" />
+            </xpath>
+        </field>
+    </record>
+</odoo>
