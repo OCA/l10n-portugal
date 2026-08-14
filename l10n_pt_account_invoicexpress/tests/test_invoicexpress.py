@@ -1,17 +1,11 @@
-from unittest.mock import Mock, patch
+from unittest.mock import patch
 
 import requests
 
 from odoo import fields
 from odoo.tests import Form, common
 
-
-def mock_response(json, status_code=200):
-    mock_response = Mock()
-    mock_response.json.return_value = json
-    mock_response.text = str(json)
-    mock_response.status_code = status_code
-    return mock_response
+from .invoicexpress_mock import mock_request_side_effect, mock_response
 
 
 @common.tagged("-at_install", "post_install")
@@ -100,16 +94,9 @@ class TestInvoiceXpress(common.TransactionCase):
         taxA.action_invoicexpress_tax_create()
         self.assertEqual(taxA.invoicexpress_id, "12345")
 
-    @patch.object(requests, "request")
+    @patch("requests.request")
     def test_101_create_invoicexpress_invoice(self, mock_request):
-        mock_request.return_value = mock_response(
-            {
-                "invoice_receipt": {
-                    "id": 12345678,
-                    "inverted_sequence_number": "MYSEQ/123",
-                }
-            }
-        )
+        mock_request.side_effect = mock_request_side_effect
         # Ensure Journal is configured
         self.sale_journals.write({"invoicexpress_doc_type": "invoice_receipt"})
         # Create the Invoice
