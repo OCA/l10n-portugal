@@ -1,22 +1,15 @@
 from datetime import timedelta
-from unittest.mock import Mock, patch
-
-import requests
+from unittest.mock import patch
 
 from odoo import fields
 from odoo.tests import Form, common
 
+from odoo.addons.l10n_pt_account_invoicexpress.tests.invoicexpress_mock import (
+    mock_request_side_effect,
+)
 from odoo.addons.l10n_pt_account_invoicexpress.tests.test_invoicexpress import (
     TestInvoiceXpress,
 )
-
-
-def mock_response(json, status_code=200):
-    mock_response = Mock()
-    mock_response.json.return_value = json
-    mock_response.text = str(json)
-    mock_response.status_code = status_code
-    return mock_response
 
 
 @common.tagged("-at_install", "post_install")
@@ -24,18 +17,30 @@ class TestInvoiceXpressStock(TestInvoiceXpress):
     def setUp(self):
         super().setUp()
         self.StockPicking = self.env["stock.picking"]
-
-    @patch.object(requests, "request")
-    def test_102_create_invoicexpress_picking(self, mock_request):
-        mock_request.return_value = mock_response(
-            {"transport": {"id": 12345678, "inverted_sequence_number": "MYSEQ/123"}}
-        )
         stock_location = self.env.ref("stock.stock_location_stock")
         self.warehouse = self.env["stock.warehouse"].search(
-            [("lot_stock_id", "=", stock_location.id)], limit=1
+            [
+                ("lot_stock_id", "=", stock_location.id),
+                ("company_id", "=", self.company.id),
+            ],
+            limit=1,
         )
+        if not self.warehouse:
+            # Create a warehouse for the test company if none exists
+            self.warehouse = self.env["stock.warehouse"].create(
+                {
+                    "name": "Test Warehouse",
+                    "company_id": self.company.id,
+                    "lot_stock_id": stock_location.id,
+                }
+            )
         # Setup defaults for Operation Types
         self.warehouse.company_id._update_default_doctype()
+        self.warehouse.out_type_id.invoicexpress_doc_type = "transport"
+
+    @patch("requests.request")
+    def test_102_create_invoicexpress_picking(self, mock_request):
+        mock_request.side_effect = mock_request_side_effect
         # Create a new picking with one product
         picking_form = Form(self.StockPicking)
         picking_form.partner_id = self.partnerA
