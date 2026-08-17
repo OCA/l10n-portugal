@@ -49,25 +49,38 @@ class InvoiceXpress(models.AbstractModel):
     def _check_http_status(self, response):
         """
         You can perform up to 100 requests per minute for each Account. If you exceed
-        this limit, you’ll get a 429 Too Many Requests response for subsequent requests.
+        this limit, you'll get a 429 Too Many Requests response for subsequent requests.
 
         We recommend you handle 429 responses so your integration retries requests
         automatically.
         """
         # TODO: implement request rate limit
         if response.status_code not in [200, 201]:
-            if response.json():
-                errors = response.json().get("errors", [])
-                if isinstance(errors, list) and len(errors) > 0:
-                    msg = "\n".join(
-                        "- " + (x.get("error") or repr(x))
-                        for x in response.json().get("errors", [])
-                    )
-                elif isinstance(errors, dict):
-                    msg = errors.get("error", False) or repr(errors)
+            errors = []
+            json_data = None
+            try:
+                if response.content:
+                    json_data = response.json()
+                    errors = json_data.get("errors", [])
+            except (ValueError, requests.exceptions.JSONDecodeError):
+                # Response doesn't contain JSON, use text content or empty errors
+                if response.text:
+                    errors = [response.text]
 
+            if isinstance(errors, list) and len(errors) > 0:
+                msg = "\n".join(
+                    "- " + (x.get("error") if isinstance(x, dict) else str(x))
+                    for x in errors
+                )
+            elif isinstance(errors, dict):
+                msg = errors.get("error", False) or repr(errors)
+            elif json_data:
+                # If we have JSON but no errors field, show the whole response
+                msg = repr(json_data)
             else:
-                msg = repr(response.json())
+                # Handle empty responses or provide a more descriptive message
+                msg = response.text or ""
+
             raise exceptions.ValidationError(
                 self.env._(
                     "Error running API request (%(status_code)s %(reason)s):\n%(json)s",
