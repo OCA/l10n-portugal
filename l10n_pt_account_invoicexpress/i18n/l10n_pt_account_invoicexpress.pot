@@ -75,6 +75,12 @@ msgid "Companies"
 msgstr ""
 
 #. module: l10n_pt_account_invoicexpress
+#: model:ir.model.fields,help:l10n_pt_account_invoicexpress.field_res_partner__invoicexpress_code
+#: model:ir.model.fields,help:l10n_pt_account_invoicexpress.field_res_users__invoicexpress_code
+msgid "Company-specific identifier used for this partner in InvoiceXpress."
+msgstr ""
+
+#. module: l10n_pt_account_invoicexpress
 #: model:ir.model,name:l10n_pt_account_invoicexpress.model_res_config_settings
 msgid "Config Settings"
 msgstr ""
@@ -97,6 +103,12 @@ msgstr ""
 #. module: l10n_pt_account_invoicexpress
 #: model:ir.model.fields.selection,name:l10n_pt_account_invoicexpress.selection__account_move__invoicexpress_doc_type__debit_note
 msgid "Debit Note"
+msgstr ""
+
+#. module: l10n_pt_account_invoicexpress
+#: model:ir.model.fields,help:l10n_pt_account_invoicexpress.field_res_partner__invoicexpress_id
+#: model:ir.model.fields,help:l10n_pt_account_invoicexpress.field_res_users__invoicexpress_id
+msgid "Deprecated: will be removed in future versions"
 msgstr ""
 
 #. module: l10n_pt_account_invoicexpress
@@ -214,6 +226,12 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_res_config_settings__invoicexpress_account_name
 #: model_terms:ir.ui.view,arch_db:l10n_pt_account_invoicexpress.res_config_settings_view_form
 msgid "InvoiceXpress Account Name"
+msgstr ""
+
+#. module: l10n_pt_account_invoicexpress
+#: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_res_partner__invoicexpress_code
+#: model:ir.model.fields,field_description:l10n_pt_account_invoicexpress.field_res_users__invoicexpress_code
+msgid "InvoiceXpress Code"
 msgstr ""
 
 #. module: l10n_pt_account_invoicexpress
