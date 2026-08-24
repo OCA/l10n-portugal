@@ -3,6 +3,7 @@ from unittest.mock import patch
 import requests
 
 from odoo import fields
+from odoo.exceptions import UserError
 from odoo.tests import Form, common
 
 from .invoicexpress_mock import mock_request_side_effect, mock_response
@@ -113,3 +114,22 @@ class TestInvoiceXpress(common.TransactionCase):
         self.assertEqual(invoice.invoicexpress_doc_type, "invoice_receipt")
         self.assertEqual(invoice.invoicexpress_id, "12345678")
         self.assertEqual(invoice.name, "FR MYSEQ/123")
+
+    @patch.object(requests, "request")
+    def test_102_create_invoicexpress_invoice_missing_sequence(self, mock_request):
+        mock_request.return_value = mock_response(
+            {
+                "invoice_receipt": {
+                    "id": 12345678,
+                }
+            }
+        )
+        self.sale_journals.write({"invoicexpress_doc_type": "invoice_receipt"})
+        move_form = Form(self.AccountMove.with_context(default_move_type="out_invoice"))
+        move_form.invoice_date = fields.Date.today()
+        move_form.partner_id = self.partnerA
+        with move_form.invoice_line_ids.new() as line_form:
+            line_form.product_id = self.productA
+        invoice = move_form.save()
+        with self.assertRaises(UserError):
+            invoice.action_post()

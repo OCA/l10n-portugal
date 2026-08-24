@@ -122,14 +122,12 @@ class AccountMove(models.Model):
             # If not tax set, force zero VAT
             tax_detail = {"name": tax.name or "IVA0", "value": tax.amount or 0.0}
             # Because InvoiceXpress expects unit_price in EUR,
-            # check if we need to convert
-            # line currency to company currency
+            # check if we need to convert line currency to company currency
             # (company should use EUR as default currency)
-            if line.currency_id == line.company_id.currency_id:
-                price_unit = line.price_unit
-            else:
+            price_unit = line._get_invoicexpress_price_unit()
+            if line.currency_id != line.company_id.currency_id:
                 price_unit = line.currency_id._convert(
-                    line.price_unit,
+                    price_unit,
                     line.company_id.currency_id,
                     line.company_id,
                     line.move_id.invoice_date
@@ -234,20 +232,23 @@ class AccountMove(models.Model):
                 raise_errors=True,
             ).json()
             values1 = response1.get(doctype)
-            seqnum = values1 and values1.get("inverted_sequence_number")
-            if not seqnum:
-                raise exceptions.UserError(
-                    _(
-                        "Something went wrong: the InvoiceXpress response"
-                        " is missing a sequence number."
-                    )
-                )
-            prefix = self._get_invoicexpress_prefix(doctype)
-            invx_number = f"{prefix} {seqnum}" if prefix else seqnum
-            if invoice.payment_reference == invoice.name:
-                invoice.payment_reference = invx_number
-            invoice.name = invx_number
+            invoice._update_values_from_invoicexpress_finalized_response(values1)
             invoice._update_invoicexpress_status()
+
+    def _update_values_from_invoicexpress_finalized_response(self, values):
+        seqnum = values and values.get("inverted_sequence_number")
+        if not seqnum:
+            raise exceptions.UserError(
+                _(
+                    "Something went wrong: the InvoiceXpress response"
+                    " is missing a sequence number."
+                )
+            )
+        prefix = self._get_invoicexpress_prefix(self.invoicexpress_doc_type)
+        invx_number = f"{prefix} {seqnum}" if prefix else seqnum
+        if self.payment_reference == self.name:
+            self.payment_reference = invx_number
+        self.name = invx_number
 
     def _prepare_invoicexpress_email_vals(self, ignore_no_config=False):
         self.ensure_one()
@@ -357,3 +358,6 @@ class AccountMoveLine(models.Model):
         if ref and self.name.startswith(prefix):
             res = self.name[len(prefix) :]
         return res
+
+    def _get_invoicexpress_price_unit(self):
+        return self.price_unit
