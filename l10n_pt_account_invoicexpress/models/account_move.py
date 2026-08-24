@@ -189,9 +189,15 @@ class AccountMove(models.Model):
             )
         doctype = self.invoicexpress_doc_type
         if doctype in ("credit_note", "debit_note"):
-            owner_invoice_num = self.reversed_entry_id.invoicexpress_id
-            if owner_invoice_num:
-                invoice_data["invoice"]["owner_invoice_id"] = owner_invoice_num
+            # For standalone credit notes (invoices created outside InvoiceXpress)
+            # Use ref field for it contains the invoice series/number
+            if self.ref and not self.reversed_entry_id.invoicexpress_id:
+                invoice_data["raw_owner_invoice"] = self.ref
+            # For credit notes referencing invoices created in InvoiceXpress
+            else:
+                owner_invoice_num = self.reversed_entry_id.invoicexpress_id
+                if owner_invoice_num:
+                    invoice_data["invoice"]["owner_invoice_id"] = owner_invoice_num
         return invoice_data
 
     def _update_invoicexpress_status(self):
