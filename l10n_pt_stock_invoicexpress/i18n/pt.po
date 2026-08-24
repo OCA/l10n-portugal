@@ -19,7 +19,6 @@ msgstr ""
 #. module: l10n_pt_stock_invoicexpress
 #. odoo-python
 #: code:addons/l10n_pt_stock_invoicexpress/models/stock_picking.py:0
-#, python-format
 msgid "<a class='btn btn-info mr-2' target='new' href=%(link)s>%(name)s</a>"
 msgstr ""
 
@@ -28,20 +27,26 @@ msgstr ""
 msgid ""
 "<p>\n"
 "Olá,\n"
-"<br>\n"
-"Enviamos em anexo a Guia de Trasporte <t t-out=\"object.name\"></t>\n"
-"<t t-if=\"object.ref\">\n"
-"    relativa à sua encomenda <t t-out=\"object.ref\"></t>\n"
+"<br/>\n"
+"Enviamos em anexo a Guia de Trasporte <t t-out=\"object.name\"/>\n"
+"<t t-if=\"object.origin\">\n"
+"    relativa à sua encomenda <t t-out=\"object.origin\"/>\n"
 "</t>\n"
 ".\n"
-"<br><br>\n"
+"<br/><br/>\n"
 "Obrigado\n"
 "<t t-if=\"user.signature\">\n"
-"    <br>\n"
-"    <t t-out=\"user.signature or ''\"></t>\n"
-"</t>\n"
+"                <br/>\n"
+"                <t t-out=\"user.signature or ''\"/>\n"
+"            </t>\n"
 "</p>\n"
 "        "
+msgstr ""
+
+#. module: l10n_pt_stock_invoicexpress
+#. odoo-python
+#: code:addons/l10n_pt_stock_invoicexpress/models/stock_picking.py:0
+msgid "A tax exemption reason must be provided."
 msgstr ""
 
 #. module: l10n_pt_stock_invoicexpress
@@ -70,9 +75,15 @@ msgid "Contact"
 msgstr "Contacto"
 
 #. module: l10n_pt_stock_invoicexpress
+#: model:ir.model.fields,help:l10n_pt_stock_invoicexpress.field_stock_picking__invoicexpress_transport_date
+msgid ""
+"Date for the InvoiceXpress transport document. If not set, the shipping date "
+"will be used."
+msgstr ""
+
+#. module: l10n_pt_stock_invoicexpress
 #. odoo-python
 #: code:addons/l10n_pt_stock_invoicexpress/models/stock_picking.py:0
-#, python-format
 msgid "Delivery %s is not registered in InvoiceXpress yet."
 msgstr "Entrega %s ainda não está registada no InvoiceXpress."
 
@@ -82,16 +93,25 @@ msgid "Devolução / Return"
 msgstr "Devolução"
 
 #. module: l10n_pt_stock_invoicexpress
+#: model:ir.model.fields,field_description:l10n_pt_stock_invoicexpress.field_res_company__display_name
+#: model:ir.model.fields,field_description:l10n_pt_stock_invoicexpress.field_res_config_settings__display_name
+#: model:ir.model.fields,field_description:l10n_pt_stock_invoicexpress.field_res_partner__display_name
+#: model:ir.model.fields,field_description:l10n_pt_stock_invoicexpress.field_sale_order__display_name
+#: model:ir.model.fields,field_description:l10n_pt_stock_invoicexpress.field_stock_move__display_name
+#: model:ir.model.fields,field_description:l10n_pt_stock_invoicexpress.field_stock_picking__display_name
+#: model:ir.model.fields,field_description:l10n_pt_stock_invoicexpress.field_stock_picking_type__display_name
+msgid "Display Name"
+msgstr "Nome a Exibir"
+
+#. module: l10n_pt_stock_invoicexpress
 #. odoo-python
 #: code:addons/l10n_pt_stock_invoicexpress/models/stock_picking.py:0
-#, python-format
 msgid ""
-"Email sent by InvoiceXpress:<ul><li>To: "
-"%(email)s</li><li>Cc: %(cc)s</li></ul>"
+"Email sent by InvoiceXpress:<ul><li>To: %(email)s</li><li>Cc: %(cc)s</li></"
+"ul>"
 msgstr ""
-"Email enviado pelo InvoiceXpress:<ul><li>To: "
-"%(email)s</li><li>Cc: "
-"%(cc)s</li></ul>"
+"Email enviado pelo InvoiceXpress:<ul><li>To: %(email)s</li><li>Cc: %(cc)s</"
+"li></ul>"
 
 #. module: l10n_pt_stock_invoicexpress
 #: model:mail.template,subject:l10n_pt_stock_invoicexpress.email_template_delivery
@@ -111,10 +131,33 @@ msgid "Guia de Transporte / Transport"
 msgstr "Guia de Transporte"
 
 #. module: l10n_pt_stock_invoicexpress
+#: model:ir.model.fields,field_description:l10n_pt_stock_invoicexpress.field_res_company__id
+#: model:ir.model.fields,field_description:l10n_pt_stock_invoicexpress.field_res_config_settings__id
+#: model:ir.model.fields,field_description:l10n_pt_stock_invoicexpress.field_res_partner__id
+#: model:ir.model.fields,field_description:l10n_pt_stock_invoicexpress.field_sale_order__id
+#: model:ir.model.fields,field_description:l10n_pt_stock_invoicexpress.field_stock_move__id
+#: model:ir.model.fields,field_description:l10n_pt_stock_invoicexpress.field_stock_picking__id
+#: model:ir.model.fields,field_description:l10n_pt_stock_invoicexpress.field_stock_picking_type__id
+msgid "ID"
+msgstr "ID"
+
+#. module: l10n_pt_stock_invoicexpress
+#: model:ir.model.fields,help:l10n_pt_stock_invoicexpress.field_stock_picking_type__invoicexpress_include_uom
+msgid ""
+"If checked, the Unit of Measure will be included in the line descriptions "
+"sent to InvoiceXpress."
+msgstr ""
+
+#. module: l10n_pt_stock_invoicexpress
 #: model:ir.model.fields,help:l10n_pt_stock_invoicexpress.field_stock_picking__invoicexpress_send_email
 msgid ""
 "If unchecked, both the InvoiceXpress email and the Delivery email won't be "
 "sent."
+msgstr ""
+
+#. module: l10n_pt_stock_invoicexpress
+#: model:ir.model.fields,field_description:l10n_pt_stock_invoicexpress.field_stock_picking_type__invoicexpress_include_uom
+msgid "Include UoM in Descriptions"
 msgstr ""
 
 #. module: l10n_pt_stock_invoicexpress
@@ -125,6 +168,11 @@ msgstr ""
 #. module: l10n_pt_stock_invoicexpress
 #: model:ir.model.fields,field_description:l10n_pt_stock_invoicexpress.field_stock_picking__invoicexpress_send_email
 msgid "InvX Send Email"
+msgstr ""
+
+#. module: l10n_pt_stock_invoicexpress
+#: model:ir.model.fields,field_description:l10n_pt_stock_invoicexpress.field_stock_picking__invoicexpress_transport_date
+msgid "InvX Transport Document Date"
 msgstr ""
 
 #. module: l10n_pt_stock_invoicexpress
@@ -160,14 +208,19 @@ msgid "InvoiceXpress Number"
 msgstr "Número InvoiceXpress"
 
 #. module: l10n_pt_stock_invoicexpress
+#: model:ir.model.fields,field_description:l10n_pt_stock_invoicexpress.field_stock_move__l10npt_invoicexpress_tax_id
+msgid "InvoiceXpress Tax"
+msgstr ""
+
+#. module: l10n_pt_stock_invoicexpress
 #. odoo-python
 #: code:addons/l10n_pt_stock_invoicexpress/models/stock_picking.py:0
-#, python-format
 msgid ""
-"InvoiceXpress record has been created for this delivery order:<ul>"
-"<li>Number: %(inv_xpress_num)s</li><li>%(inv_xpress_link)s</li></ul>"
+"InvoiceXpress record has been created for this delivery order:"
+"<ul><li>Number: %(inv_xpress_num)s</li><li>%(inv_xpress_link)s</li></ul>"
 msgstr ""
-"Registo InvoiceXpress foi criado para esta entrega:<ul><li>Número: %(inv_xpress_num)s</li><li>%(inv_xpress_link)s</li></ul>"
+"Registo InvoiceXpress foi criado para esta entrega:<ul><li>Número: %"
+"(inv_xpress_num)s</li><li>%(inv_xpress_link)s</li></ul>"
 
 #. module: l10n_pt_stock_invoicexpress
 #: model:mail.template,name:l10n_pt_stock_invoicexpress.email_template_delivery
@@ -177,6 +230,12 @@ msgstr "InvoiceXpress: Enviar Entrega por Email"
 #. module: l10n_pt_stock_invoicexpress
 #: model:ir.model.fields,field_description:l10n_pt_stock_invoicexpress.field_stock_picking_type__invoicexpress_doc_type
 msgid "Invoicexpress Doc Type"
+msgstr ""
+
+#. module: l10n_pt_stock_invoicexpress
+#: model:ir.model.fields,field_description:l10n_pt_stock_invoicexpress.field_sale_order__l10npt_has_tax_exempt_lines
+#: model:ir.model.fields,field_description:l10n_pt_stock_invoicexpress.field_stock_picking__l10npt_has_tax_exempt_lines
+msgid "L10Npt Has Tax Exempt Lines"
 msgstr ""
 
 #. module: l10n_pt_stock_invoicexpress
@@ -192,14 +251,12 @@ msgstr ""
 #. module: l10n_pt_stock_invoicexpress
 #. odoo-python
 #: code:addons/l10n_pt_stock_invoicexpress/models/stock_picking.py:0
-#, python-format
 msgid "No address to send delivery document email to."
 msgstr "Falta o endereço para onde enviar o email com a Guia de Transporte."
 
 #. module: l10n_pt_stock_invoicexpress
 #. odoo-python
 #: code:addons/l10n_pt_stock_invoicexpress/models/stock_picking.py:0
-#, python-format
 msgid "None"
 msgstr "Nenhum"
 
@@ -211,7 +268,6 @@ msgstr ""
 #. module: l10n_pt_stock_invoicexpress
 #. odoo-python
 #: code:addons/l10n_pt_stock_invoicexpress/models/stock_picking.py:0
-#, python-format
 msgid ""
 "Please configure the InvoiceXpress Delivery email template at Settings > "
 "General Setting, InvoiceXpress section"
@@ -222,16 +278,19 @@ msgstr ""
 #. module: l10n_pt_stock_invoicexpress
 #. odoo-python
 #: code:addons/l10n_pt_stock_invoicexpress/models/stock_picking.py:0
-#, python-format
 msgid "Please set the country of the partner."
 msgstr "Por favor defina o país do parceiro."
 
 #. module: l10n_pt_stock_invoicexpress
+#: model:ir.model,name:l10n_pt_stock_invoicexpress.model_sale_order
+msgid "Sales Order"
+msgstr ""
+
+#. module: l10n_pt_stock_invoicexpress
 #. odoo-python
 #: code:addons/l10n_pt_stock_invoicexpress/models/stock_picking.py:0
-#, python-format
-msgid "Scheduled Date should be bigger then current datetime!"
-msgstr "Data prevista deve ser posterior à data e hora atual!"
+msgid "Scheduled Date should be bigger than current datetime!"
+msgstr ""
 
 #. module: l10n_pt_stock_invoicexpress
 #: model:ir.model.fields,help:l10n_pt_stock_invoicexpress.field_stock_picking__invoicexpress_doc_type
@@ -249,8 +308,17 @@ msgstr ""
 #. module: l10n_pt_stock_invoicexpress
 #. odoo-python
 #: code:addons/l10n_pt_stock_invoicexpress/models/stock_picking.py:0
-#, python-format
 msgid "Something went wrong: the InvoiceXpress response looks empty."
+msgstr ""
+
+#. module: l10n_pt_stock_invoicexpress
+#: model:ir.model,name:l10n_pt_stock_invoicexpress.model_stock_move
+msgid "Stock Move"
+msgstr ""
+
+#. module: l10n_pt_stock_invoicexpress
+#: model:ir.model.fields,help:l10n_pt_stock_invoicexpress.field_stock_move__l10npt_invoicexpress_tax_id
+msgid "Tax used for the InvoiceXpress transport document line."
 msgstr ""
 
 #. module: l10n_pt_stock_invoicexpress
@@ -274,11 +342,34 @@ msgstr ""
 "com a Guia de Transporte."
 
 #. module: l10n_pt_stock_invoicexpress
+#: model:ir.model.fields,field_description:l10n_pt_stock_invoicexpress.field_sale_order__l10npt_vat_exempt_reason
+#: model:ir.model.fields,field_description:l10n_pt_stock_invoicexpress.field_stock_picking__l10npt_vat_exempt_reason
+msgid "VAT Exempt Reason"
+msgstr ""
+
+#. module: l10n_pt_stock_invoicexpress
+#: model:ir.model.fields,help:l10n_pt_stock_invoicexpress.field_stock_picking__l10npt_vat_exempt_reason
+msgid ""
+"VAT exemption reason to send to InvoiceXpress when the transport document "
+"contains exempt items."
+msgstr ""
+
+#. module: l10n_pt_stock_invoicexpress
+#: model:ir.model.fields,help:l10n_pt_stock_invoicexpress.field_sale_order__l10npt_vat_exempt_reason
+msgid ""
+"VAT exemption reason used on invoices and transport documents created from "
+"this sale order. Defaults from the sales journal."
+msgstr ""
+
+#. module: l10n_pt_stock_invoicexpress
 #. odoo-python
 #: code:addons/l10n_pt_stock_invoicexpress/models/stock_picking.py:0
-#, python-format
 msgid "View Document"
 msgstr ""
+
+#, python-format
+#~ msgid "Scheduled Date should be bigger then current datetime!"
+#~ msgstr "Data prevista deve ser posterior à data e hora atual!"
 
 #, python-format
 #~ msgid "Email sent by InvoiceXpress:<ul><li>To: {}</li><li>Cc: {}</li></ul>"
@@ -328,14 +419,8 @@ msgstr ""
 #~ "</p>\n"
 #~ "        "
 
-#~ msgid "Display Name"
-#~ msgstr "Nome a Exibir"
-
 #~ msgid "Entrega ${object.name | safe}"
 #~ msgstr "Entrega ${object.name | safe}"
-
-#~ msgid "ID"
-#~ msgstr "ID"
 
 #~ msgid "Last Modified on"
 #~ msgstr "Última Modificação em"
