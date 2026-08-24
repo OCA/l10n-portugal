@@ -3,8 +3,6 @@
     'name': 'Portugal - Accounting (Certification)',
     'website': 'https://github.com/OCA/l10n-portugal',
     'icon': '/account/static/description/l10n.png',
-    'version': '18.0.1.0.0',
-    'author': 'Odoo',
     'category': 'Accounting/Localizations/Account Charts',
     'description': """
 This bridge module adds the technical requirements of the Portuguese Certification regulation (Administrative Decree no. 363/2010) that stipulates certain criteria concerning the inalterability and authenticity of invoicing data.
@@ -39,6 +37,7 @@ The module adds the following features:
     ],
     'demo': [
         'demo/ir_config_parameter_data.xml',
+        'demo/l10n_pt_at_series_demo.xml',
     ],
     'post_init_hook': '_post_init_hook',
     'license': 'LGPL-3',

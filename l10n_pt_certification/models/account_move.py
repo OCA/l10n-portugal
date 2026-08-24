@@ -69,7 +69,7 @@ class AccountMoveLine(models.Model):
             lambda l: l.display_type == 'product'
             and l.move_type != 'entry'
             and l.company_id.account_fiscal_country_id.code == 'PT'
-            and l.price_total <= 0.0
+            and (l.price_total <= 0.0 and not l.is_downpayment)
         ):
             if any(line.price_total < 0.0 for line in non_positive_lines):
                 raise ValidationError(_("You cannot create an invoice with negative lines on it. "
@@ -576,10 +576,9 @@ class AccountMove(models.Model):
                 move.l10n_pt_inalterable_hash_short = False
 
     def l10n_pt_verify_prerequisites_qr_code(self):
-        for move in self.filtered(lambda m: (
-                m.country_code == 'PT' and m.move_type in self.get_sale_types(include_receipts=True)
-        )):
-            return pt_hash_utils.verify_prerequisites_qr_code(move, move.inalterable_hash, move.l10n_pt_atcud)
+        self.ensure_one()
+        if self.country_code == 'PT' and self.move_type in self.get_sale_types(include_receipts=True):
+            return pt_hash_utils.verify_prerequisites_qr_code(self, self.inalterable_hash, self.l10n_pt_atcud)
 
     @api.depends('l10n_pt_atcud')
     def _compute_l10n_pt_qr_code_str(self):

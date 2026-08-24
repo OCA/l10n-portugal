@@ -16,40 +16,37 @@ class AccountMove(models.Model):
         for move in self.filtered('reversed_entry_id'):
             original_move = move.reversed_entry_id
             if only_reconciled:
-                reversals = original_move._get_reconciled_invoices().filtered(lambda m: m.move_type == 'out_refund')
+                reversals = original_move._get_reconciled_invoices().filtered(lambda move: move.move_type == 'out_refund')
             else:
                 reversals = move
 
-            # Skip if different currencies
+            # Unless all the invoices / credit notes are made in the same currency, we can't conveniently
+            # check that the credit notes don't exceed the invoices (due to exchange rate differences),
+            # so we skip this check.
             if len(set(original_move.mapped('currency_id') + reversals.mapped('currency_id'))) != 1:
                 continue
 
-            original_quantities = defaultdict(float)
-            reverse_quantities = defaultdict(float)
+            original_quantities = defaultdict(lambda: 0)
+            reverse_quantities = defaultdict(lambda: 0)
 
-            # Calculate quantities for original and reversal moves
             for line in original_move.invoice_line_ids.filtered(lambda l: l.display_type == 'product'):
-                original_quantities[line.product_id] += line.product_uom_id._compute_quantity(
-                    line.quantity, line.product_id.uom_id
-                )
-            
+                original_quantities[line.product_id] += line.product_uom_id._compute_quantity(line.quantity, line.product_id.uom_id)
             for line in reversals.invoice_line_ids.filtered(lambda l: l.display_type == 'product'):
-                reverse_quantities[line.product_id] += line.product_uom_id._compute_quantity(
-                    line.quantity, line.product_id.uom_id
-                )
+                reverse_quantities[line.product_id] += line.product_uom_id._compute_quantity(line.quantity, line.product_id.uom_id)
 
-            # Check for quantity violations
             exceeding_quantities = []
             for product, quantity in reverse_quantities.items():
                 if product not in original_quantities:
                     exceeding_quantities.append(_("'%s' is not present on the original invoice.", product.name))
                 elif (excess := quantity - original_quantities[product]) > 0:
-                    exceeding_quantities.append(_(
-                        "'%(product_name)s' exceeds quantity on original invoice by %(excess)f %(uom_name)s",
-                        product_name=product.name,
-                        excess=excess,
-                        uom_name=product.uom_id.name
-                    ))
+                    exceeding_quantities.append(
+                        _(
+                            "'%(product_name)s' exceeds quantity on original invoice by %(excess)f %(uom_name)s",
+                            product_name=product.name,
+                            excess=excess,
+                            uom_name=product.uom_id.name
+                        )
+                    )
 
             if exceeding_quantities:
                 if len(reversals) > 1:
@@ -72,9 +69,8 @@ class AccountMove(models.Model):
                     lines_to_correct='\n'.join(exceeding_quantities),
                 ))
 
-            # Check for amount violations
             credit_note_total = abs(sum(move.amount_total_in_currency_signed for move in reversals))
-            excess = credit_note_total - abs(original_move.amount_total_in_currency_signed)
+            excess = abs(credit_note_total) - abs(original_move.amount_total_in_currency_signed)
 
             if float_compare(excess, 0, precision_digits=2) > 0:
                 if len(reversals) > 1:

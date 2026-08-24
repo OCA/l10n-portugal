@@ -51,7 +51,7 @@ def get_message_to_hash(date, l10n_pt_hashed_on, l10n_pt_document_number, amount
 
 
 def sign_records(env, docs_to_sign, model):
-    result = call_iap(env, "sign_documents", {"documents": docs_to_sign})
+    result = call_iap(env, "sign_documents", {"documents": docs_to_sign, "model": model})
     res = {}
     for record_id, record_info in result.items():
         res[env[model].browse(int(record_id))] = f"${record_info['signature_version']}${record_info['signature']}"
