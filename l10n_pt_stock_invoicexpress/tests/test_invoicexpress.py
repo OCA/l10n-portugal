@@ -117,10 +117,10 @@ class TestInvoiceXpressStock(TestInvoiceXpress):
                         0,
                         {
                             "product_id": product.id,
-                            "product_uom": product.uom_id.id,
+                            "product_uom_id": product.uom_id.id,
                             "product_uom_qty": 1,
                             "price_unit": 10.0,
-                            "tax_id": [(6, 0, [tax.id])],
+                            "tax_ids": [(6, 0, [tax.id])],
                         },
                     )
                 ],
@@ -139,7 +139,7 @@ class TestInvoiceXpressStock(TestInvoiceXpress):
         picking_form.partner_id = self.partnerA
         picking_form.picking_type_id = self.warehouse.out_type_id
         picking_form.scheduled_date = fields.Datetime.now() + timedelta(days=1)
-        with picking_form.move_ids_without_package.new() as move:
+        with picking_form.move_ids.new() as move:
             move.product_id = product
             move.product_uom_qty = quantity
         picking = picking_form.save()
@@ -184,7 +184,7 @@ class TestInvoiceXpressStock(TestInvoiceXpress):
 
         self.assertEqual(len(sale_order.picking_ids), 1, "A delivery should be created")
         delivery = sale_order.picking_ids
-        delivery.move_ids_without_package.quantity = 1.0
+        delivery.move_ids.quantity = 1.0
         self.assertTrue(delivery.l10npt_has_tax_exempt_lines)
         self.assertEqual(delivery.l10npt_vat_exempt_reason, reason)
 

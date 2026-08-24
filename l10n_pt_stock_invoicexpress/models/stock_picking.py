@@ -57,20 +57,20 @@ class StockPicking(models.Model):
             is_PT = not country or country.code == "PT"
             # TODO: Automatic support for devolutions
             # Disabled for now, should be used for supplier devolutions only?
-            # return_orig_moves = pick.move_ids_without_package.origin_returned_move_id
+            # return_orig_moves = pick.move_ids.origin_returned_move_id
             # if return_orig_moves.mapped("picking_id.invoicexpress_id"):
             #     pick.invoicexpress_doc_type = "devolution"
             if pick_doc_type and pick_doc_type != "none" and is_PT:
                 pick.invoicexpress_doc_type = pick_doc_type
 
     @api.depends(
-        "move_ids_without_package.quantity",
-        "move_ids_without_package.l10npt_invoicexpress_tax_id",
+        "move_ids.quantity",
+        "move_ids.l10npt_invoicexpress_tax_id",
     )
     def _compute_l10npt_has_tax_exempt_lines(self):
         for picking in self:
             picking.l10npt_has_tax_exempt_lines = bool(
-                picking.move_ids_without_package.filtered(
+                picking.move_ids.filtered(
                     lambda m: m.quantity
                     and m.l10npt_invoicexpress_tax_id
                     and not m.l10npt_invoicexpress_tax_id.amount

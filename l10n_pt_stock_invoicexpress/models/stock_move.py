@@ -15,7 +15,7 @@ class StockMove(models.Model):
     )
 
     @api.depends(
-        "sale_line_id.tax_id",
+        "sale_line_id.tax_ids",
         "product_id.taxes_id",
         "product_id.taxes_id.type_tax_use",
         "company_id.account_sale_tax_id",
@@ -28,7 +28,7 @@ class StockMove(models.Model):
         company's default sale tax.
         """
         for move in self:
-            tax = move.sale_line_id.tax_id[:1]
+            tax = move.sale_line_id.tax_ids[:1]
             if not tax:
                 tax = move.product_id.taxes_id.filtered(
                     lambda tax_rec, move=move: tax_rec.type_tax_use == "sale"

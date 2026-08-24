@@ -20,11 +20,11 @@ class SaleOrder(models.Model):
         "created from this sale order. Defaults from the sales journal.",
     )
 
-    @api.depends("order_line.tax_id", "order_line.display_type")
+    @api.depends("order_line.tax_ids", "order_line.display_type")
     def _compute_l10npt_has_tax_exempt_lines(self):
         for order in self:
             order.l10npt_has_tax_exempt_lines = any(
-                not line.display_type and not line.tax_id.filtered("amount")
+                not line.display_type and not line.tax_ids.filtered("amount")
                 for line in order.order_line
             )
 
