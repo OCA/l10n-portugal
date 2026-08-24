@@ -9,6 +9,10 @@ on:
       - "18.0"
       - "18.0-ocabot-*"
 
+env:
+  # the target branch (18.0, 19.0, …), which is the same as the Odoo version
+  CACHE_REF: "${{ github.event_name == 'pull_request' && github.base_ref || github.ref_name }}"
+
 jobs:
   unreleased-deps:
     runs-on: ubuntu-latest
@@ -51,6 +55,7 @@ jobs:
           - 5432:5432
     env:
       OCA_ENABLE_CHECKLOG_ODOO: "1"
+      DUMP_PATH: "${{ github.workspace }}/.cache/odoo-dump"
     steps:
       - uses: actions/checkout@v4
         with:
@@ -61,8 +66,28 @@ jobs:
         run: manifestoo -d . check-licenses
       - name: Check development status
         run: manifestoo -d . check-dev-status --default-dev-status=Beta
+      - name: Cache test DB dump
+        id: cache-dump
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.DUMP_PATH }}
+          key: odoo-dump-${{ matrix.container }}-${{ env.CACHE_REF }}-${{ hashFiles('**/pyproject.toml', '**/__manifest__.py') }}
+          restore-keys: |
+            odoo-dump-${{ matrix.container }}-${{ env.CACHE_REF }}-
       - name: Initialize test db
-        run: oca_init_test_database
+        run: |
+          oca_wait_for_postgres
+          mkdir -p "$(dirname '${{ env.DUMP_PATH }}')"
+          if [ -f "${{ env.DUMP_PATH }}" ]; then
+            echo "Restoring test database from cached dump"
+            dropdb --if-exists $PGDATABASE
+            createdb $PGDATABASE
+            pg_restore -j 2 -F c --exit-on-error -d $PGDATABASE "${{ env.DUMP_PATH }}"
+          else
+            echo "Initializing test database and creating cache dump"
+            oca_init_test_database
+            pg_dump -Fc -f "${{ env.DUMP_PATH }}" $PGDATABASE
+          fi
       - name: Run tests
         run: oca_run_tests
       - name: Upload screenshots from JS tests
