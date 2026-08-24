@@ -24,3 +24,9 @@ class StockPickingType(models.Model):
         help="Select the type of legal delivery document"
         " to be created by InvoiceXpress. If unset",
     )
+    invoicexpress_include_uom = fields.Boolean(
+        string="Include UoM in Descriptions",
+        default=False,
+        help="If checked, the Unit of Measure will be included "
+        "in the line descriptions sent to InvoiceXpress.",
+    )
