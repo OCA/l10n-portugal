@@ -10,11 +10,11 @@ class StockMoveLine(models.Model):
     def _prepare_invoicexpress_line_vals(self):
         self.ensure_one()
         product = self.product_id
-        tax = self.move_id.l10npt_invoicexpress_tax_id or product.taxes_id[:1]
+        tax = self._get_invoicexpress_tax()
         name = product.default_code or product.display_name or "MISC"
 
         # description_picking often includes the default code; avoid showing it twice
-        description = self.description_picking
+        description = self.description_picking or ""
         prefix = f"[{product.default_code}] " if product.default_code else ""
         if product.default_code and description.startswith(prefix):
             description = description[len(prefix) :]
@@ -31,3 +31,17 @@ class StockMoveLine(models.Model):
             "discount": self.move_id.sale_line_id.discount or 0.0,
             "tax": {"name": tax.name} if tax else {},
         }
+
+    def _get_invoicexpress_tax(self):
+        """Return the tax to report for this move line on InvoiceXpress.
+
+        Falls back to the first product tax matching the line's company.
+        """
+        self.ensure_one()
+        tax = self.move_id.l10npt_invoicexpress_tax_id
+        if not tax:
+            company = self.picking_id.company_id or self.company_id
+            tax = self.product_id.taxes_id.filtered(
+                lambda t, company=company: t.company_id == company
+            )[:1]
+        return tax

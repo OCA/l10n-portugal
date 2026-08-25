@@ -6,7 +6,14 @@
         <field name="arch" type="xml">
             <field name="create_backorder" position="after">
                 <field name="invoicexpress_doc_type" />
-                <field name="invoicexpress_include_uom" />
+                <field
+                    name="invoicexpress_auto_create"
+                    invisible="not invoicexpress_doc_type or invoicexpress_doc_type == 'none'"
+                />
+                <field
+                    name="invoicexpress_include_uom"
+                    invisible="not invoicexpress_doc_type or invoicexpress_doc_type == 'none'"
+                />
             </field>
         </field>
     </record>

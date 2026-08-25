@@ -64,17 +64,16 @@ class StockPicking(models.Model):
                 pick.invoicexpress_doc_type = pick_doc_type
 
     @api.depends(
-        "move_ids_without_package.quantity",
-        "move_ids_without_package.l10npt_invoicexpress_tax_id",
+        "move_line_ids.quantity_product_uom",
+        "move_line_ids.move_id.l10npt_invoicexpress_tax_id",
+        "move_line_ids.product_id.taxes_id",
     )
     def _compute_l10npt_has_tax_exempt_lines(self):
         for picking in self:
-            picking.l10npt_has_tax_exempt_lines = bool(
-                picking.move_ids_without_package.filtered(
-                    lambda m: m.quantity
-                    and m.l10npt_invoicexpress_tax_id
-                    and not m.l10npt_invoicexpress_tax_id.amount
-                )
+            picking.l10npt_has_tax_exempt_lines = any(
+                (tax := line._get_invoicexpress_tax()) and not tax.amount
+                for line in picking.move_line_ids
+                if line.quantity_product_uom
             )
 
     @api.depends(
@@ -172,9 +171,8 @@ class StockPicking(models.Model):
         # values for the fields that are required by the InvoiceXpress API.
         move_lines = self.move_line_ids
         # Ensure Taxes are created on InvoiceXpress
-        taxes = (
-            move_lines.move_id.l10npt_invoicexpress_tax_id
-            | move_lines.product_id.taxes_id
+        taxes = self.env["account.tax"].union(
+            *[line._get_invoicexpress_tax() for line in move_lines]
         )
         taxes.action_invoicexpress_tax_create()
         return [line._prepare_invoicexpress_line_vals() for line in move_lines]
