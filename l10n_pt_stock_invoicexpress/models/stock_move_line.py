@@ -11,21 +11,30 @@ class StockMoveLine(models.Model):
         self.ensure_one()
         product = self.product_id
         tax = self._get_invoicexpress_tax()
-        name = product.default_code or product.display_name or "MISC"
 
-        # description_picking often includes the default code; avoid showing it twice
-        description = self.description_picking or ""
-        prefix = f"[{product.default_code}] " if product.default_code else ""
-        if product.default_code and description.startswith(prefix):
-            description = description[len(prefix) :]
-        else:
-            description = ": ".join([product.name, description])
+        # Use the move line's picking description, falling back to the stock.move
+        # description (package lines may not have a related move).
+        code = product.default_code or product.display_name or "MISC"
+        description = self.description_picking or self.move_id.description_picking or ""
+        # The `name` field already holds the product code or product name; do not
+        # repeat it at the start of the description.
+        # Examples (product.name = "Widget", default_code = "W001"):
+        #   "[W001] Widget: blue version" -> "Widget: blue version"
+        #   "[W001] blue version"         -> "blue version"
+        #   "Widget: blue version"        -> "blue version"
+        #   "blue version"                -> "blue version"
+        #   "" / no description           -> "Widget"
+        for prefix in (f"[{code}] ", f"{code}: ", f"{code} ", f"{code}"):
+            if description.startswith(prefix):
+                description = description[len(prefix) :]
+                break
+        description = description.strip() or product.name
         include_uom = self.picking_id.picking_type_id.invoicexpress_include_uom
         uom_name = f", {self.product_uom_id.name}" if include_uom else ""
-        package = f"({self.result_package_id.name})" if self.result_package_id else ""
+        package = f" ({self.result_package_id.name})" if self.result_package_id else ""
         return {
-            "name": name,
-            "description": " ".join([description, uom_name, package]),
+            "name": code,
+            "description": f"{description}{uom_name}{package}",
             "unit_price": 0.0,
             "quantity": self.quantity_product_uom,
             "discount": self.move_id.sale_line_id.discount or 0.0,
