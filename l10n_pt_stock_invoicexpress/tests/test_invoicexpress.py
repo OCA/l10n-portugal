@@ -152,6 +152,22 @@ class TestInvoiceXpressStock(TestInvoiceXpress):
         return picking
 
     @patch("requests.request")
+    def test_105_picking_prepare_invx_vals_move_description(self, mock_request):
+        """The generated transport guide includes the stock.move picking description."""
+        mock_request.side_effect = mock_request_side_effect
+        product = self.productA
+        product.is_storable = True
+        picking = self._create_picking(product, quantity=1)
+        picking.move_ids.description_picking = "Custom stock move description"
+        vals = picking._prepare_invoicexpress_vals()
+        items = vals[picking.invoicexpress_doc_type]["items"]
+        self.assertEqual(len(items), 1)
+        self.assertEqual(
+            items[0]["description"],
+            "Custom stock move description",
+        )
+
+    @patch("requests.request")
     def test_110_picking_prepare_invoicexpress_vals_tax_exemption(self, mock_request):
         """A transport guide with exempt lines sends tax_exemption."""
         mock_request.side_effect = mock_request_side_effect

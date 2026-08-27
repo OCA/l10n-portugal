@@ -14,7 +14,7 @@ _logger = logging.getLogger(__name__)
 class StockPicking(models.Model):
     _inherit = "stock.picking"
 
-    @api.depends("picking_type_id", "company_id.has_invoicexpress")
+    @api.depends("invoicexpress_doc_type", "company_id.has_invoicexpress")
     def _compute_can_invoicexpress(self):
         for delivery in self:
             delivery.can_invoicexpress = (
@@ -64,17 +64,16 @@ class StockPicking(models.Model):
                 pick.invoicexpress_doc_type = pick_doc_type
 
     @api.depends(
-        "move_ids_without_package.quantity",
-        "move_ids_without_package.l10npt_invoicexpress_tax_id",
+        "move_line_ids.quantity_product_uom",
+        "move_line_ids.move_id.l10npt_invoicexpress_tax_id",
+        "move_line_ids.product_id.taxes_id",
     )
     def _compute_l10npt_has_tax_exempt_lines(self):
         for picking in self:
-            picking.l10npt_has_tax_exempt_lines = bool(
-                picking.move_ids_without_package.filtered(
-                    lambda m: m.quantity
-                    and m.l10npt_invoicexpress_tax_id
-                    and not m.l10npt_invoicexpress_tax_id.amount
-                )
+            picking.l10npt_has_tax_exempt_lines = any(
+                (tax := line._get_invoicexpress_tax()) and not tax.amount
+                for line in picking.move_line_ids
+                if line.quantity_product_uom
             )
 
     @api.depends(
@@ -166,10 +165,17 @@ class StockPicking(models.Model):
         }.get(doctype)
 
     def _prepare_invoicexpress_lines(self):
-        lines = self.move_ids_without_package.filtered("quantity")
+        # Build one API line per detailed operation, including products inside
+        # packages (package move lines may not have a related stock.move).
+        # Missing product or zero quantity move lines are kept and use filler
+        # values for the fields that are required by the InvoiceXpress API.
+        move_lines = self.move_line_ids
         # Ensure Taxes are created on InvoiceXpress
-        lines.l10npt_invoicexpress_tax_id.action_invoicexpress_tax_create()
-        return [line._prepare_invoicexpress_line_vals() for line in lines]
+        taxes = self.env["account.tax"].union(
+            *[line._get_invoicexpress_tax() for line in move_lines]
+        )
+        taxes.action_invoicexpress_tax_create()
+        return [line._prepare_invoicexpress_line_vals() for line in move_lines]
 
     def _prepare_invoicexpress_vals(self):
         self.ensure_one()
