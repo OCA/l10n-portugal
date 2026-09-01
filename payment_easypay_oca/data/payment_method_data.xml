@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+    <record id="payment_method_easypay_direct_debit" model="payment.method">
+        <field name="name">EasyPay Direct Debit</field>
+        <field name="code">dd</field>
+        <field name="sequence">12</field>
+        <field name="active">True</field>
+        <field name="is_primary">True</field>
+        <field
+            name="image"
+            type="base64"
+            file="payment_easypay_oca/static/img/dd.png"
+        />
+        <field name="support_tokenization">True</field>
+        <field name="support_express_checkout">False</field>
+        <field name="support_refund">none</field>
+    </record>
+
+    <record id="payment_method_virtual_iban" model="payment.method">
+        <field name="name">Virtual IBAN (Bank Transfer)</field>
+        <field name="code">vi</field>
+        <field name="sequence">13</field>
+        <field name="active">True</field>
+        <field name="is_primary">True</field>
+        <field
+            name="image"
+            type="base64"
+            file="payment_easypay_oca/static/img/vi.png"
+        />
+        <field name="support_tokenization">False</field>
+        <field name="support_express_checkout">False</field>
+        <field name="support_refund">none</field>
+    </record>
+
+    <record id="payment_method_apple_pay" model="payment.method">
+        <field name="name">Apple Pay</field>
+        <field name="code">ap</field>
+        <field name="sequence">14</field>
+        <field name="active">True</field>
+        <field name="is_primary">True</field>
+        <field
+            name="image"
+            type="base64"
+            file="payment_easypay_oca/static/img/ap.png"
+        />
+        <field name="support_tokenization">False</field>
+        <field name="support_express_checkout">False</field>
+        <field name="support_refund">none</field>
+    </record>
+
+    <record id="payment_method_google_pay" model="payment.method">
+        <field name="name">Google Pay</field>
+        <field name="code">gp</field>
+        <field name="sequence">15</field>
+        <field name="active">True</field>
+        <field name="is_primary">True</field>
+        <field
+            name="image"
+            type="base64"
+            file="payment_easypay_oca/static/img/gp.png"
+        />
+        <field name="support_tokenization">True</field>
+        <field name="support_express_checkout">False</field>
+        <field name="support_refund">none</field>
+    </record>
+
+    <record id="payment_method_samsung_pay" model="payment.method">
+        <field name="name">Samsung Pay</field>
+        <field name="code">sw</field>
+        <field name="sequence">16</field>
+        <field name="active">True</field>
+        <field name="is_primary">True</field>
+        <field
+            name="image"
+            type="base64"
+            file="payment_easypay_oca/static/img/easypay.png"
+        />
+        <field name="support_tokenization">False</field>
+        <field name="support_express_checkout">False</field>
+        <field name="support_refund">none</field>
+    </record>
+
+    <record id="payment_method_easypay" model="payment.method">
+        <field name="name">Other trusted payment methods</field>
+        <field name="code">easypay</field>
+        <field name="sequence">20</field>
+        <field name="active">True</field>
+        <field name="is_primary">True</field>
+        <field
+            name="image"
+            type="base64"
+            file="payment_easypay_oca/static/img/easypay.png"
+        />
+        <field name="support_tokenization">False</field>
+        <field name="support_express_checkout">False</field>
+        <field name="support_refund">partial</field>
+    </record>
+</odoo>

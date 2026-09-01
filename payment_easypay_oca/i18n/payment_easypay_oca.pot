@@ -1,0 +1,441 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* payment_easypay_oca
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-04-11 18:28+0000\n"
+"PO-Revision-Date: 2026-04-11 18:28+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: payment_easypay_oca
+#: model_terms:ir.ui.view,arch_db:payment_easypay_oca.mb_reference_page
+msgid ""
+"<small>\n"
+"                                            Your order will be confirmed\n"
+"                                            automatically once payment is received.\n"
+"                                        </small>"
+msgstr ""
+
+#. module: payment_easypay_oca
+#: model_terms:ir.ui.view,arch_db:payment_easypay_oca.checkout_page
+msgid "<span class=\"visually-hidden\">Loading payment form...</span>"
+msgstr ""
+
+#. module: payment_easypay_oca
+#: model:ir.model.fields,field_description:payment_easypay_oca.field_payment_provider__easypay_api_key
+msgid "API Key"
+msgstr ""
+
+#. module: payment_easypay_oca
+#: model:ir.model.fields,field_description:payment_easypay_oca.field_payment_provider__easypay_account_id
+msgid "Account ID"
+msgstr ""
+
+#. module: payment_easypay_oca
+#: model_terms:ir.ui.view,arch_db:payment_easypay_oca.mb_reference_page
+msgid "Amount:"
+msgstr ""
+
+#. module: payment_easypay_oca
+#: model_terms:ir.ui.view,arch_db:payment_easypay_oca.checkout_page
+msgid "An error occurred while loading the payment form. Please try again."
+msgstr ""
+
+#. module: payment_easypay_oca
+#: model:easypay.payment.method,name:payment_easypay_oca.payment_method_ap
+#: model:payment.method,name:payment_easypay_oca.payment_method_apple_pay
+msgid "Apple Pay"
+msgstr ""
+
+#. module: payment_easypay_oca
+#: model:ir.model.fields,help:payment_easypay_oca.field_payment_provider__easypay_webhook_base_url
+msgid "Base URL that will be used for webhook configuration in EasyPay"
+msgstr ""
+
+#. module: payment_easypay_oca
+#. odoo-python
+#: code:addons/payment_easypay_oca/models/payment_transaction.py:0
+msgid "Cannot capture: No EasyPay payment ID found for this transaction."
+msgstr ""
+
+#. module: payment_easypay_oca
+#. odoo-python
+#: code:addons/payment_easypay_oca/models/payment_transaction.py:0
+msgid "Cannot charge: No payment token found for this transaction."
+msgstr ""
+
+#. module: payment_easypay_oca
+#. odoo-python
+#: code:addons/payment_easypay_oca/models/payment_transaction.py:0
+msgid "Cannot charge: Payment token has no EasyPay reference."
+msgstr ""
+
+#. module: payment_easypay_oca
+#. odoo-python
+#: code:addons/payment_easypay_oca/models/payment_transaction.py:0
+msgid "Cannot refund: No capture transaction ID found."
+msgstr ""
+
+#. module: payment_easypay_oca
+#. odoo-python
+#: code:addons/payment_easypay_oca/models/payment_transaction.py:0
+msgid "Cannot void: No EasyPay payment ID found for this transaction."
+msgstr ""
+
+#. module: payment_easypay_oca
+#: model:ir.model.fields,field_description:payment_easypay_oca.field_payment_provider__code
+msgid "Code"
+msgstr ""
+
+#. module: payment_easypay_oca
+#: model_terms:ir.ui.view,arch_db:payment_easypay_oca.checkout_page
+msgid "Complete your payment securely through EasyPay"
+msgstr ""
+
+#. module: payment_easypay_oca
+#: model_terms:ir.ui.view,arch_db:payment_easypay_oca.payment_provider_form_easypay
+msgid "Configure Webhooks"
+msgstr ""
+
+#. module: payment_easypay_oca
+#: model_terms:ir.ui.view,arch_db:payment_easypay_oca.mb_reference_page
+msgid "Continue"
+msgstr ""
+
+#. module: payment_easypay_oca
+#: model:ir.model.fields,field_description:payment_easypay_oca.field_easypay_payment_method__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: payment_easypay_oca
+#: model:ir.model.fields,field_description:payment_easypay_oca.field_easypay_payment_method__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: payment_easypay_oca
+#: model:easypay.payment.method,name:payment_easypay_oca.payment_method_cc
+msgid "Credit/Debit Card"
+msgstr ""
+
+#. module: payment_easypay_oca
+#: model:ir.model.fields,field_description:payment_easypay_oca.field_easypay_payment_method__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: payment_easypay_oca
+#: model:ir.model.fields.selection,name:payment_easypay_oca.selection__payment_provider__code__easypay
+msgid "EasyPay"
+msgstr ""
+
+#. module: payment_easypay_oca
+#. odoo-python
+#: code:addons/payment_easypay_oca/models/payment_provider.py:0
+msgid "EasyPay %(label)s failed: %(msg)s"
+msgstr ""
+
+#. module: payment_easypay_oca
+#. odoo-python
+#: code:addons/payment_easypay_oca/models/payment_provider.py:0
+msgid "EasyPay API request failed: %s"
+msgstr ""
+
+#. module: payment_easypay_oca
+#: model:ir.model.fields,field_description:payment_easypay_oca.field_payment_transaction__easypay_capture_status
+msgid "EasyPay Capture Status"
+msgstr ""
+
+#. module: payment_easypay_oca
+#: model:ir.model.fields,field_description:payment_easypay_oca.field_payment_transaction__easypay_checkout_id
+msgid "EasyPay Checkout ID"
+msgstr ""
+
+#. module: payment_easypay_oca
+#: model:payment.provider,name:payment_easypay_oca.payment_provider_easypay
+msgid "EasyPay Demo"
+msgstr ""
+
+#. module: payment_easypay_oca
+#: model_terms:ir.ui.view,arch_db:payment_easypay_oca.payment_transaction_form_easypay
+msgid "EasyPay Details"
+msgstr ""
+
+#. module: payment_easypay_oca
+#: model:ir.model.fields,field_description:payment_easypay_oca.field_payment_provider__easypay_payment_method_ids
+#: model_terms:ir.ui.view,arch_db:payment_easypay_oca.payment_provider_form_easypay
+msgid "EasyPay Options"
+msgstr ""
+
+#. module: payment_easypay_oca
+#: model:ir.model.fields,field_description:payment_easypay_oca.field_payment_transaction__easypay_payment_details
+msgid "EasyPay Payment Details"
+msgstr ""
+
+#. module: payment_easypay_oca
+#: model:ir.model,name:payment_easypay_oca.model_easypay_payment_method
+#: model:ir.model.fields,field_description:payment_easypay_oca.field_payment_transaction__easypay_payment_method
+msgid "EasyPay Payment Method"
+msgstr ""
+
+#. module: payment_easypay_oca
+#: model:ir.model.fields,field_description:payment_easypay_oca.field_payment_transaction__easypay_transaction_id
+msgid "EasyPay Transaction ID"
+msgstr ""
+
+#. module: payment_easypay_oca
+#: model_terms:ir.ui.view,arch_db:payment_easypay_oca.mb_reference_page
+msgid "Entity:"
+msgstr ""
+
+#. module: payment_easypay_oca
+#: model:ir.model.fields,help:payment_easypay_oca.field_payment_transaction__easypay_mb_expiration
+msgid "Expiration date/time for the Multibanco reference"
+msgstr ""
+
+#. module: payment_easypay_oca
+#: model_terms:ir.ui.view,arch_db:payment_easypay_oca.mb_reference_page
+msgid "Expires:"
+msgstr ""
+
+#. module: payment_easypay_oca
+#. odoo-javascript
+#: code:addons/payment_easypay_oca/static/src/js/payment_form.esm.js:0
+msgid "Failed to create payment session. Please try again."
+msgstr ""
+
+#. module: payment_easypay_oca
+#: model:ir.model.fields,help:payment_easypay_oca.field_payment_transaction__easypay_payment_details
+msgid "Full payment details from EasyPay webhook"
+msgstr ""
+
+#. module: payment_easypay_oca
+#: model_terms:ir.ui.view,arch_db:payment_easypay_oca.checkout_page
+msgid "Go Back"
+msgstr ""
+
+#. module: payment_easypay_oca
+#: model:easypay.payment.method,name:payment_easypay_oca.payment_method_gp
+#: model:payment.method,name:payment_easypay_oca.payment_method_google_pay
+msgid "Google Pay"
+msgstr ""
+
+#. module: payment_easypay_oca
+#: model:ir.model.fields,field_description:payment_easypay_oca.field_easypay_payment_method__id
+msgid "ID"
+msgstr ""
+
+#. module: payment_easypay_oca
+#: model:ir.model.fields,help:payment_easypay_oca.field_easypay_payment_method__code
+msgid "Internal code used by EasyPay API"
+msgstr ""
+
+#. module: payment_easypay_oca
+#: model:ir.model.fields,field_description:payment_easypay_oca.field_easypay_payment_method__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: payment_easypay_oca
+#: model:ir.model.fields,field_description:payment_easypay_oca.field_easypay_payment_method__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: payment_easypay_oca
+#: model:ir.model.fields,field_description:payment_easypay_oca.field_payment_transaction__easypay_mb_entity
+msgid "MB Entity"
+msgstr ""
+
+#. module: payment_easypay_oca
+#: model:ir.model.fields,field_description:payment_easypay_oca.field_payment_transaction__easypay_mb_expiration
+msgid "MB Expiration"
+msgstr ""
+
+#. module: payment_easypay_oca
+#: model:ir.model.fields,field_description:payment_easypay_oca.field_payment_transaction__easypay_mb_reference
+msgid "MB Reference"
+msgstr ""
+
+#. module: payment_easypay_oca
+#: model:easypay.payment.method,name:payment_easypay_oca.payment_method_mbw
+msgid "MB WAY"
+msgstr ""
+
+#. module: payment_easypay_oca
+#: model:ir.model.fields,field_description:payment_easypay_oca.field_easypay_payment_method__code
+msgid "Method Code"
+msgstr ""
+
+#. module: payment_easypay_oca
+#: model:ir.model.fields,field_description:payment_easypay_oca.field_easypay_payment_method__name
+msgid "Method Name"
+msgstr ""
+
+#. module: payment_easypay_oca
+#: model:easypay.payment.method,name:payment_easypay_oca.payment_method_mb
+#: model_terms:ir.ui.view,arch_db:payment_easypay_oca.mb_reference_page
+msgid "Multibanco"
+msgstr ""
+
+#. module: payment_easypay_oca
+#: model_terms:ir.ui.view,arch_db:payment_easypay_oca.mb_reference_page
+msgid "Multibanco Payment Reference"
+msgstr ""
+
+#. module: payment_easypay_oca
+#: model:ir.model.fields,help:payment_easypay_oca.field_payment_transaction__easypay_mb_entity
+msgid "Multibanco entity number for the payment reference"
+msgstr ""
+
+#. module: payment_easypay_oca
+#: model:ir.model.fields,help:payment_easypay_oca.field_payment_transaction__easypay_mb_reference
+msgid "Multibanco reference number for the payment"
+msgstr ""
+
+#. module: payment_easypay_oca
+#: model:payment.method,name:payment_easypay_oca.payment_method_easypay
+msgid "Other payment methods (EasyPay)"
+msgstr ""
+
+#. module: payment_easypay_oca
+#. odoo-javascript
+#: code:addons/payment_easypay_oca/static/src/js/payment_form.esm.js:0
+#: model_terms:ir.ui.view,arch_db:payment_easypay_oca.checkout_page
+msgid "Payment Error"
+msgstr ""
+
+#. module: payment_easypay_oca
+#: model:ir.model,name:payment_easypay_oca.model_payment_provider
+msgid "Payment Provider"
+msgstr ""
+
+#. module: payment_easypay_oca
+#: model:ir.model,name:payment_easypay_oca.model_payment_transaction
+msgid "Payment Transaction"
+msgstr ""
+
+#. module: payment_easypay_oca
+#: model_terms:ir.ui.view,arch_db:payment_easypay_oca.mb_reference_page
+msgid ""
+"Please use the details below to complete\n"
+"                                        your payment at any Multibanco ATM or\n"
+"                                        through your home banking."
+msgstr ""
+
+#. module: payment_easypay_oca
+#: model_terms:ir.ui.view,arch_db:payment_easypay_oca.checkout_page
+msgid "Preparing secure payment form..."
+msgstr ""
+
+#. module: payment_easypay_oca
+#: model_terms:ir.ui.view,arch_db:payment_easypay_oca.mb_reference_page
+msgid "Reference:"
+msgstr ""
+
+#. module: payment_easypay_oca
+#: model:easypay.payment.method,name:payment_easypay_oca.payment_method_dd
+#: model:payment.method,name:payment_easypay_oca.payment_method_sepa_direct_debit
+msgid "SEPA Direct Debit"
+msgstr ""
+
+#. module: payment_easypay_oca
+#: model:easypay.payment.method,name:payment_easypay_oca.payment_method_sw
+#: model:payment.method,name:payment_easypay_oca.payment_method_samsung_pay
+msgid "Samsung Pay"
+msgstr ""
+
+#. module: payment_easypay_oca
+#: model_terms:ir.ui.view,arch_db:payment_easypay_oca.checkout_page
+msgid "Secure Payment"
+msgstr ""
+
+#. module: payment_easypay_oca
+#: model_terms:ir.ui.view,arch_db:payment_easypay_oca.checkout_page
+msgid "Secure Payment | EasyPay"
+msgstr ""
+
+#. module: payment_easypay_oca
+#: model:ir.model.fields,help:payment_easypay_oca.field_payment_provider__easypay_payment_method_ids
+msgid "Select the payment methods to enable for EasyPay"
+msgstr ""
+
+#. module: payment_easypay_oca
+#: model_terms:ir.ui.view,arch_db:payment_easypay_oca.payment_provider_form_easypay
+msgid "Test Connection"
+msgstr ""
+
+#. module: payment_easypay_oca
+#: model:ir.model.fields,help:payment_easypay_oca.field_payment_provider__easypay_api_key
+msgid "The API Key provided by EasyPay"
+msgstr ""
+
+#. module: payment_easypay_oca
+#: model:ir.model.fields,help:payment_easypay_oca.field_payment_provider__easypay_account_id
+msgid "The Account ID provided by EasyPay"
+msgstr ""
+
+#. module: payment_easypay_oca
+#: model:ir.model.fields,help:payment_easypay_oca.field_payment_transaction__easypay_capture_status
+msgid "The capture status (paid, pending, authorised, etc.)"
+msgstr ""
+
+#. module: payment_easypay_oca
+#: model:ir.model.fields,help:payment_easypay_oca.field_payment_transaction__easypay_checkout_id
+msgid "The checkout session ID returned by EasyPay"
+msgstr ""
+
+#. module: payment_easypay_oca
+#: model:ir.model.fields,help:payment_easypay_oca.field_payment_transaction__easypay_payment_method
+msgid "The payment method selected by customer (cc, mb, mbw, etc.)"
+msgstr ""
+
+#. module: payment_easypay_oca
+#: model:ir.model.fields,help:payment_easypay_oca.field_payment_provider__code
+msgid "The technical code of this payment provider."
+msgstr ""
+
+#. module: payment_easypay_oca
+#: model:ir.model.fields,help:payment_easypay_oca.field_payment_transaction__easypay_transaction_id
+msgid "The transaction ID returned by EasyPay"
+msgstr ""
+
+#. module: payment_easypay_oca
+#: model:easypay.payment.method,name:payment_easypay_oca.payment_method_vi
+msgid "Virtual IBAN"
+msgstr ""
+
+#. module: payment_easypay_oca
+#: model:payment.method,name:payment_easypay_oca.payment_method_virtual_iban
+msgid "Virtual IBAN (Bank Transfer)"
+msgstr ""
+
+#. module: payment_easypay_oca
+#: model:ir.model.fields,field_description:payment_easypay_oca.field_payment_provider__easypay_webhook_base_url
+msgid "Webhook Base URL"
+msgstr ""
+
+#. module: payment_easypay_oca
+#: model_terms:payment.provider,auth_msg:payment_easypay_oca.payment_provider_easypay
+msgid "Your payment has been authorized."
+msgstr ""
+
+#. module: payment_easypay_oca
+#: model_terms:payment.provider,cancel_msg:payment_easypay_oca.payment_provider_easypay
+msgid "Your payment has been cancelled."
+msgstr ""
+
+#. module: payment_easypay_oca
+#: model_terms:payment.provider,pending_msg:payment_easypay_oca.payment_provider_easypay
+msgid ""
+"Your payment has been successfully processed but is waiting for approval."
+msgstr ""
+
+#. module: payment_easypay_oca
+#: model_terms:payment.provider,done_msg:payment_easypay_oca.payment_provider_easypay
+msgid "Your payment has been successfully processed."
+msgstr ""

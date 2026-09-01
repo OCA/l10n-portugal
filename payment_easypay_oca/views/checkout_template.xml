@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!-- EasyPay Checkout Page Template -->
+    <template id="checkout_page" name="EasyPay Checkout Page">
+        <t t-call="web.layout">
+            <t t-set="title">Secure Payment | EasyPay</t>
+            <t t-set="head">
+                <meta name="viewport" content="width=device-width, initial-scale=1" />
+                <link
+                    href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+                    rel="stylesheet"
+                />
+                <style>
+                    #easypay-checkout, #easypay-checkout > * { width: 100% !important; max-width: 100% !important; }
+                </style>
+                <script>
+                    window.easyPayData = <t t-out="easypay_data_json" />;
+                </script>
+                <script
+                    src="https://cdn.easypay.pt/checkout/2.9.1/"
+                    onerror="document.getElementById('payment-loading').style.display='none';document.getElementById('payment-error').style.display='block';"
+                />
+            </t>
+            <body>
+                <div class="container-lg mt-5">
+                    <div class="row justify-content-center">
+                        <div class="col-12 col-lg-10">
+                            <div class="card shadow">
+                                <div class="card-body">
+                                    <h1 class="text-center mb-4">Secure Payment</h1>
+                                    <p
+                                        class="text-center text-muted mb-4"
+                                    >Complete your payment securely through EasyPay</p>
+
+                                    <div id="payment-loading" class="text-center py-5">
+                                        <div
+                                            class="spinner-border text-primary"
+                                            role="status"
+                                        >
+                                            <span
+                                                class="visually-hidden"
+                                            >Loading payment form...</span>
+                                        </div>
+                                        <p
+                                            class="mt-3 text-muted"
+                                        >Preparing secure payment form...</p>
+                                    </div>
+
+                                    <div
+                                        id="easypay-checkout-container"
+                                        style="display: none;"
+                                    >
+                                        <div id="easypay-checkout" />
+                                    </div>
+
+                                    <div
+                                        id="payment-error"
+                                        class="alert alert-danger"
+                                        style="display: none;"
+                                    >
+                                        <h5 class="alert-heading">Payment Error</h5>
+                                        <p
+                                            class="mb-0"
+                                        >An error occurred while loading the payment form. Please try again.</p>
+                                        <button
+                                            class="btn btn-outline-danger mt-2"
+                                            onclick="window.history.back()"
+                                        >Go Back</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center mt-4">
+                        <div class="col-12 col-lg-10 text-center">
+                            <a
+                                href="/shop/cart"
+                                style="background:#fff;color:#0070f3;border:2px solid #0070f3;border-radius:6px;padding:10px 28px;font-weight:400;font-size:1rem;text-decoration:none;display:inline-block;"
+                            >&#8592; Return to cart</a>
+                        </div>
+                    </div>
+                </div>
+
+                <script
+                    type="text/javascript"
+                    src="/payment_easypay_oca/static/src/js/checkout.js"
+                />
+            </body>
+        </t>
+    </template>
+</odoo>

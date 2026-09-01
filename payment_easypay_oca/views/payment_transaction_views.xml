@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!-- Add EasyPay fields to payment transaction form view -->
+    <record id="payment_transaction_form_easypay" model="ir.ui.view">
+        <field name="name">payment.transaction.form.easypay</field>
+        <field name="model">payment.transaction</field>
+        <field name="inherit_id" ref="payment.payment_transaction_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='transaction_partner']" position="after">
+                <group
+                    name="easypay_details"
+                    string="EasyPay Details"
+                    invisible="provider_code != 'easypay'"
+                >
+                    <group>
+                        <field name="easypay_checkout_id" />
+                        <field name="easypay_payment_method" />
+                        <field name="easypay_capture_status" />
+                    </group>
+                    <group>
+                        <field name="easypay_payment_details" widget="json" />
+                    </group>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

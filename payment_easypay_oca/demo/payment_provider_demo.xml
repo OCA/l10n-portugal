@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+    <record id="payment_provider_easypay" model="payment.provider">
+        <field name="name">EasyPay Demo</field>
+        <field name="code">easypay</field>
+        <field name="state">test</field>
+        <field
+            name="payment_method_ids"
+            eval="[
+                (4, ref('payment.payment_method_card')),
+                (4, ref('payment.payment_method_multibanco')),
+                (4, ref('payment.payment_method_mbway')),
+                (4, ref('payment_easypay_oca.payment_method_easypay_direct_debit')),
+                (4, ref('payment_easypay_oca.payment_method_virtual_iban')),
+                (4, ref('payment_easypay_oca.payment_method_apple_pay')),
+                (4, ref('payment_easypay_oca.payment_method_google_pay')),
+                (4, ref('payment_easypay_oca.payment_method_samsung_pay')),
+                (4, ref('payment_easypay_oca.payment_method_easypay')),
+            ]"
+        />
+    </record>
+</odoo>

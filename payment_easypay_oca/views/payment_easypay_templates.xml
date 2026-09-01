@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!-- Payment icon -->
+    <template id="easypay_icon" name="EasyPay">
+        <span class="payment_icon_easypay">
+            <i class="fa fa-credit-card" />
+        </span>
+    </template>
+</odoo>

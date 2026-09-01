@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template id="mb_reference_page" name="Multibanco Payment Reference">
+        <t t-call="web.frontend_layout">
+            <t t-set="title">Multibanco Payment Reference</t>
+            <div id="wrap">
+                <div class="container py-5">
+                    <div class="row justify-content-center">
+                        <div class="col-12 col-md-8 col-lg-6">
+                            <div class="card shadow">
+                                <div class="card-body text-center p-4">
+                                    <img
+                                        src="/payment/static/img/multibanco.png"
+                                        alt="Multibanco"
+                                        class="mb-3"
+                                        style="max-height: 60px;"
+                                    />
+                                    <h3 class="mb-4">Multibanco Payment Reference</h3>
+                                    <p class="text-muted mb-4">
+                                        Please use the details below to complete
+                                        your payment at any Multibanco ATM or
+                                        through your home banking.
+                                    </p>
+                                    <table class="table table-borderless mb-4">
+                                        <tbody>
+                                            <tr>
+                                                <td
+                                                    class="text-end fw-bold"
+                                                >Entity:</td>
+                                                <td
+                                                    class="text-start font-monospace fs-5"
+                                                    t-out="entity"
+                                                />
+                                            </tr>
+                                            <tr>
+                                                <td
+                                                    class="text-end fw-bold"
+                                                >Reference:</td>
+                                                <td
+                                                    class="text-start font-monospace fs-5"
+                                                    t-out="reference"
+                                                />
+                                            </tr>
+                                            <tr>
+                                                <td
+                                                    class="text-end fw-bold"
+                                                >Amount:</td>
+                                                <td class="text-start fs-5">
+                                                    <t
+                                                        t-out="amount"
+                                                        t-options="{'widget': 'monetary', 'display_currency': currency}"
+                                                    />
+                                                </td>
+                                            </tr>
+                                            <tr t-if="expiration">
+                                                <td
+                                                    class="text-end fw-bold"
+                                                >Expires:</td>
+                                                <td
+                                                    class="text-start text-danger"
+                                                    t-out="expiration"
+                                                />
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <div class="alert alert-info" role="alert">
+                                        <small>
+                                            Your order will be confirmed
+                                            automatically once payment is received.
+                                        </small>
+                                    </div>
+                                    <a
+                                        t-att-href="redirect_url"
+                                        class="btn btn-primary mt-2"
+                                    >Continue</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>

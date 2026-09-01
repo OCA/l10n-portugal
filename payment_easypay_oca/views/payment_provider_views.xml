@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="payment_provider_form_easypay" model="ir.ui.view">
+        <field name="name">payment.provider.form.easypay</field>
+        <field name="model">payment.provider</field>
+        <field name="inherit_id" ref="payment.payment_provider_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='provider_credentials']" position="after">
+                <group name="easypay_credentials" invisible="code != 'easypay'">
+                    <group>
+                        <field name="easypay_account_id" required="code == 'easypay'" />
+                        <field
+                            name="easypay_api_key"
+                            password="True"
+                            required="code == 'easypay'"
+                        />
+                        <button
+                            name="action_easypay_test_connection"
+                            type="object"
+                            string="Test Connection"
+                            class="oe_link"
+                        />
+                        <button
+                            name="action_easypay_configure_webhooks"
+                            type="object"
+                            string="Configure Webhooks"
+                            class="oe_link"
+                        />
+                        <field name="easypay_webhook_base_url" readonly="1" />
+                    </group>
+                </group>
+            </xpath>
+            <xpath expr="//a[@name='action_view_payment_methods']" position="after">
+                <div colspan="2" invisible="code != 'easypay'">
+                    <a
+                        type="object"
+                        name="action_easypay_sync_payment_methods"
+                        class="btn btn-link"
+                        role="button"
+                        invisible="state == 'disabled'"
+                    >
+                        <i class="oi oi-fw o_button_icon oi-refresh" />
+                        Sync Payment Methods from EasyPay
+                    </a>
+                </div>
+            </xpath>
+            <xpath expr="//group[@name='provider_config']" position="inside">
+                <group
+                    string="EasyPay Options"
+                    name="easypay_options"
+                    invisible="code != 'easypay'"
+                >
+                    <field name="easypay_hide_details" />
+                    <field name="easypay_mb_expiration_days" />
+                    <field name="easypay_mb_product" />
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>
