@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="account_payment_mode_form_easypay" model="ir.ui.view">
+        <field name="name">account.payment.mode.form.easypay</field>
+        <field name="model">account.payment.mode</field>
+        <field name="inherit_id" ref="account_payment_mode.account_payment_mode_form" />
+        <field name="arch" type="xml">
+            <form position="inside">
+                <field name="payment_method_code" invisible="1" />
+            </form>
+            <field name="payment_method_id" position="after">
+                <field
+                    name="easypay_provider_id"
+                    invisible="payment_method_code != 'easypay_direct_debit'"
+                    required="payment_method_code == 'easypay_direct_debit'"
+                    options="{'no_create': True}"
+                />
+            </field>
+            <field name="payment_type" position="after">
+                <button
+                    name="action_easypay_test_connection"
+                    type="object"
+                    string="Test EasyPay Connection"
+                    class="btn-link"
+                    invisible="payment_method_code != 'easypay_direct_debit'"
+                />
+            </field>
+        </field>
+    </record>
+</odoo>
