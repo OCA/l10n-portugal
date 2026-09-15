@@ -2,17 +2,16 @@
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl).
 
 {
-    "name": "Payment Provider: EasyPay",
+    "name": "Payment Provider: easypay",
     "version": "18.0.1.0.4",
     "category": "Accounting/Payment Providers",
-    "summary": "Payment Provider for EasyPay with multiple payment methods",
+    "summary": "Easypay payment gateway for Odoo — accept Credit Card, "
+    "Multibanco (MB) and MB WAY payments securely in Portugal",
     "author": "Open Source Integrators, Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-portugal",
     "license": "LGPL-3",
     "depends": ["payment", "phone_validation"],
     "data": [
-        "security/ir.model.access.csv",
-        "views/payment_easypay_oca_templates.xml",
         "views/payment_provider_views.xml",
         "views/payment_transaction_views.xml",
         "views/checkout_template.xml",

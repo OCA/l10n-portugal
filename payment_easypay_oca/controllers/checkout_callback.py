@@ -131,13 +131,17 @@ class EasyPayCheckoutCallbackController(http.Controller):
         save_session=False,
     )
     def easypay_checkout_cancel(self, **data):
-        """Handle checkout cancellation from EasyPay SDK."""
-        reference = data.get("key")
+        """Handle checkout cancellation from EasyPay SDK.
+
+        Only the opaque checkout session ID is accepted — never the
+        transaction reference, which is guessable and would let anyone
+        cancel another customer's pending transaction.
+        """
         session_id = data.get("session_id")
         tx_sudo = (
             request.env["payment.transaction"]
             .sudo()
-            ._find_easypay_transaction(session_id, reference)
+            ._find_easypay_transaction(session_id, None)
         )
         if tx_sudo:
             tx_sudo._set_canceled(state_message="Payment cancelled by customer")

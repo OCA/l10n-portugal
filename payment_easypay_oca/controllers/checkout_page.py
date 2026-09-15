@@ -39,11 +39,30 @@ class EasyPayCheckoutPageController(http.Controller):
             .sudo()
             ._find_easypay_transaction(session_id, None)
         )
-        api_url = tx_sudo.provider_id._easypay_get_api_url() if tx_sudo else ""
-        hide_details = tx_sudo.provider_id.easypay_hide_details if tx_sudo else False
+        if not tx_sudo:
+            _logger.warning(
+                "Checkout page requested for unknown session %s", session_id
+            )
+            return request.redirect("/payment/status")
+
+        # Bind the (client-supplied) manifest to the transaction: it must
+        # carry the same session ID and, when present, the same order key.
+        if (
+            manifest.get("id", session_id) != session_id
+            or manifest.get("order", {}).get("key", tx_sudo.reference)
+            != tx_sudo.reference
+        ):
+            _logger.warning(
+                "Checkout manifest does not match transaction %s",
+                tx_sudo.reference,
+            )
+            return request.redirect("/payment/status")
+
+        api_url = tx_sudo.provider_id._easypay_get_api_url()
+        hide_details = tx_sudo.provider_id.easypay_hide_details
 
         # EasyPay SDK accepts 'pt_PT', 'es_ES', or 'en' (default: browser lang).
-        odoo_lang = (tx_sudo.partner_id.lang or "en") if tx_sudo else "en"
+        odoo_lang = tx_sudo.partner_id.lang or "en"
         if odoo_lang.startswith("pt"):
             sdk_language = "pt_PT"
         elif odoo_lang.startswith("es"):

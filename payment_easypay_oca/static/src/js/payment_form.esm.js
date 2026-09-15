@@ -22,6 +22,7 @@ paymentForm.include({
                 "/payment/easypay/create_checkout_session",
                 {
                     reference: processingValues.reference,
+                    access_token: processingValues.access_token,
                 }
             );
 

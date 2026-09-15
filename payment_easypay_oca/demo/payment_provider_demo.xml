@@ -10,7 +10,6 @@
                 (4, ref('payment.payment_method_card')),
                 (4, ref('payment.payment_method_multibanco')),
                 (4, ref('payment.payment_method_mbway')),
-                (4, ref('payment_easypay_oca.payment_method_easypay_direct_debit')),
                 (4, ref('payment_easypay_oca.payment_method_virtual_iban')),
                 (4, ref('payment_easypay_oca.payment_method_apple_pay')),
                 (4, ref('payment_easypay_oca.payment_method_google_pay')),

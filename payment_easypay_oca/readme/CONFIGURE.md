@@ -23,8 +23,7 @@ the EasyPay dashboard.
       Multibanco, MB WAY, etc.)
     - **Allow Saving Payment Methods** — when enabled, logged-in customers
       can tick "Save my payment details" at checkout to tokenize their
-      card or SEPA Direct Debit mandate for future charges
-      (e.g. subscriptions). Enabled by default.
+      card for future charges (e.g. subscriptions). Enabled by default.
 4.  Set the provider **State**:
     - **Test Mode** → uses `https://api.test.easypay.pt` and enables the
       `testing` flag in the SDK automatically

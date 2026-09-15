@@ -6,6 +6,7 @@ import time
 
 from odoo import _, fields, models
 from odoo.exceptions import ValidationError
+from odoo.tools.misc import hmac as hmac_tool
 
 _logger = logging.getLogger(__name__)
 
@@ -80,6 +81,18 @@ class PaymentTransaction(models.Model):
             )
         return self.browse()
 
+    def _get_specific_processing_values(self, processing_values):
+        res = super()._get_specific_processing_values(processing_values)
+        if self.provider_code == "easypay":
+            # Access token verified by the checkout-session endpoint.
+            # Minted via hmac directly (same scope as
+            # payment_utils.generate_access_token) because the latter
+            # requires an active HTTP request, which is not guaranteed here.
+            res["access_token"] = hmac_tool(
+                self.env(su=True), "generate_access_token", str(self.id)
+            )
+        return res
+
     def _process_notification_data(self, notification_data):
         """Override of payment to process the notification data."""
         super()._process_notification_data(notification_data)
@@ -150,20 +163,13 @@ class PaymentTransaction(models.Model):
         ):
             try:
                 capture_response = self._easypay_capture(token_ref)
-                capture_status = capture_response.get("status", "")
                 _logger.debug(
                     "Capture response for %s: status=%r id=%s",
                     self.reference,
-                    capture_status,
+                    capture_response.get("status"),
                     self.easypay_transaction_id,
                 )
-                if capture_status in ("paid", "captured"):
-                    self._set_done()
-                elif capture_status in ("authorized", "authorised"):
-                    self._set_authorized()
-                else:
-                    # Status pending or unknown — poll the capture endpoint.
-                    self._poll_capture_status()
+                self._easypay_apply_capture_result(capture_response)
             except Exception as e:
                 _logger.exception(
                     "Immediate capture after tokenization failed for %s: %s",
@@ -311,8 +317,23 @@ class PaymentTransaction(models.Model):
             raise ValidationError(
                 _("Cannot capture: No EasyPay payment ID found for this transaction.")
             )
-        self._easypay_capture(self.provider_reference)
-        self._set_done()
+        response = self._easypay_capture(self.provider_reference)
+        self._easypay_apply_capture_result(response)
+
+    def _easypay_apply_capture_result(self, capture_response):
+        """Resolve the transaction state from a POST /capture response.
+
+        A final status settles the transaction immediately; anything else
+        (including the API envelope's plain 'ok') is polled, with the webhook
+        as the ultimate fallback.
+        """
+        capture_status = capture_response.get("status", "")
+        if capture_status in ("paid", "captured"):
+            self._set_done()
+        elif capture_status in ("authorized", "authorised"):
+            self._set_authorized()
+        else:
+            self._poll_capture_status()
 
     def _poll_capture_status(self, retries=3):
         """Poll GET /2.0/capture/{easypay_transaction_id} until a final status appears.
@@ -390,7 +411,8 @@ class PaymentTransaction(models.Model):
             raise ValidationError(
                 _("Cannot void: No EasyPay payment ID found for this transaction.")
             )
-        self.provider_id._easypay_make_request(
+        response = self.provider_id._easypay_make_request(
             f"/2.0/authorisation/{self.provider_reference}/void"
         )
+        self.provider_id._easypay_raise_for_status(response, "void")
         self._set_canceled()

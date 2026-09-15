@@ -16,15 +16,9 @@ ODOO_TO_EASYPAY = {v: k for k, v in EASYPAY_TO_ODOO.items()}
 # Payment types
 PAYMENT_TYPE_SALE = "sale"
 
-# Default payment method codes supported by EasyPay
-DEFAULT_PAYMENT_METHOD_CODES = {
-    "card",
-    "multibanco",
-    "mbway",
-    "dd",
-    "vi",
-    "ap",
-    "gp",
-    "sw",
-    "easypay",
-}
+# Payment method codes owned by this module — the sync action may toggle their
+# `active` flag. Shared core methods (card, multibanco, mbway) must never be
+# deactivated, as other providers use them too.
+# "dd" (SEPA Direct Debit) is reserved for a future implementation: its method
+# record exists but is inactive.
+OWNED_PAYMENT_METHOD_CODES = {"dd", "vi", "ap", "gp", "sw", "easypay"}

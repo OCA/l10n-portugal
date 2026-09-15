@@ -6,6 +6,8 @@ import logging
 from odoo import http
 from odoo.http import request
 
+from odoo.addons.payment import utils as payment_utils
+
 _logger = logging.getLogger(__name__)
 
 
@@ -18,8 +20,9 @@ class EasyPayCheckoutSessionController(http.Controller):
     )
     def create_checkout_session(self, **kwargs):
         """Create checkout session when user actually clicks Pay."""
-        # Extract reference from JSON-RPC params
+        # Extract reference and access token from JSON-RPC params
         reference = kwargs.get("reference")
+        access_token = kwargs.get("access_token")
 
         _logger.debug("Create checkout session for tx=%s", reference)
         if not reference:
@@ -35,6 +38,11 @@ class EasyPayCheckoutSessionController(http.Controller):
         if not tx_sudo:
             _logger.error("Transaction not found: %s", reference)
             return {"error": "Transaction not found"}
+        if not payment_utils.check_access_token(access_token, tx_sudo.id):
+            _logger.warning(
+                "Invalid access token for checkout session on tx %s", reference
+            )
+            return {"error": "Invalid access token"}
         _logger.debug(
             "Transaction found: ref=%s state=%s checkout_id=%s",
             tx_sudo.reference,

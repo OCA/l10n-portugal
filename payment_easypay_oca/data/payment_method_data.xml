@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo noupdate="1">
+    <!-- Pre-wired for a future SEPA Direct Debit implementation.
+         Kept inactive: not linked to any provider, excluded from the
+         default method codes, and skipped by the sync action (which only
+         searches active methods). -->
     <record id="payment_method_easypay_direct_debit" model="payment.method">
         <field name="name">EasyPay Direct Debit</field>
         <field name="code">dd</field>
         <field name="sequence">12</field>
-        <field name="active">True</field>
+        <field name="active">False</field>
         <field name="is_primary">True</field>
         <field
             name="image"
