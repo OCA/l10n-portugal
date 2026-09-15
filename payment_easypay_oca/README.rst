@@ -1,5 +1,5 @@
 =========================
-Payment Provider: EasyPay
+Payment Provider: easypay
 =========================
 
 .. 
@@ -28,26 +28,31 @@ Payment Provider: EasyPay
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
 
-This module integrates EasyPay as a payment provider in Odoo, allowing
-customers to pay via credit card and other payment methods using
-EasyPay's secure payment gateway.
+Accept payments from your Portuguese customers directly through Odoo
+with easypay, a leading Portuguese payment service provider. This module
+integrates easypay's secure payment gateway into Odoo's payment
+framework, letting customers pay using the methods they already know and
+trust.
 
-EasyPay is a Portuguese payment service provider that supports multiple
-payment methods including credit cards, Multibanco, MB WAY, and more.
+Fully supported and verified:
 
-Verified as supported:
+- Credit / Debit Card
+- Multibanco (MB) reference payments
+- MB WAY
 
-- Credit/Debit Card payments,
-- Multibanco (MB) reference payments,
-- MB WAY.
+Not yet implemented / not verified: SEPA Direct Debit, Pay by Link,
+Multibanco reference on invoices.
 
-Not yet implemented or verified:
+Why easypay? Easypay is one of Portugal's most widely used payment
+gateways, giving your customers access to the local payment methods they
+prefer, including Multibanco, the go-to reference-payment system in
+Portugal, and MB WAY, the country's most popular mobile payment app.
 
-- SEPA Direct Debit,
-- Pay by Link,
-- Multibanco reference on invoices.
+Key Features: Native integration with Odoo's payment provider framework
+\| Secure, PCI-compliant transaction processing via easypay \| Real-time
+payment status updates \| Compatible with Odoo eCommerce.
 
-Learn more about EasyPay at https://www.easypay.pt/
+Learn more about easypay at https://www.easypay.pt/
 
 **Table of contents**
 
