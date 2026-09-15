@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_mandate_form_easypay" model="ir.ui.view">
+        <field name="name">view.mandate.form.easypay</field>
+        <field name="model">account.banking.mandate</field>
+        <field name="inherit_id" ref="account_banking_mandate.view_mandate_form" />
+        <field name="arch" type="xml">
+            <field name="type" position="after">
+                <field
+                    name="easypay_token_id"
+                    invisible="format != 'easypay' or easypay_frequent_id"
+                    options="{'no_create': True}"
+                />
+                <field
+                    name="easypay_provider_id"
+                    invisible="format != 'easypay' or not easypay_provider_id"
+                />
+                <field
+                    name="easypay_frequent_id"
+                    invisible="format != 'easypay' or not easypay_frequent_id"
+                />
+                <field
+                    name="easypay_mandate_ref"
+                    invisible="format != 'easypay' or not easypay_mandate_ref"
+                />
+                <field
+                    name="easypay_mandate_state"
+                    invisible="format != 'easypay' or not easypay_mandate_state"
+                />
+            </field>
+        </field>
+    </record>
+</odoo>

@@ -1,6 +1,7 @@
 # Copyright 2025 Open Source Integrators
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl).
 
+import json
 from unittest.mock import MagicMock, patch
 
 import requests
@@ -9,6 +10,7 @@ from odoo.exceptions import ValidationError
 from odoo.tests import tagged
 from odoo.tests.common import HttpCase, TransactionCase
 from odoo.tools import mute_logger
+from odoo.tools.misc import hmac as hmac_tool
 
 
 @tagged("post_install", "-at_install")
@@ -201,6 +203,142 @@ class TestEasyPay(TransactionCase):
         with self.assertRaises(ValidationError):
             self.provider._easypay_create_checkout_session(tx.sudo())
 
+    @patch("odoo.addons.payment_easypay_oca.models.payment_provider.requests.request")
+    def test_sync_payment_methods_keeps_core_methods_active(self, mock_request):
+        """Sync must not deactivate shared core payment methods (card, mb, mbw)
+        used by other providers."""
+        mock_response = MagicMock()
+        mock_response.json.return_value = {"payment_methods": ["vi", "mbw"]}
+        mock_response.raise_for_status.return_value = None
+        mock_request.return_value = mock_response
+
+        card = self.env.ref("payment.payment_method_card")
+        mbway = self.env.ref("payment.payment_method_mbway")
+        vi = self.env.ref("payment_easypay_oca.payment_method_virtual_iban")
+        ap = self.env.ref("payment_easypay_oca.payment_method_apple_pay")
+        dd = self.env.ref("payment_easypay_oca.payment_method_easypay_direct_debit")
+        # Other enabled providers (e.g. the demo one) may have activated the
+        # shared core methods — pin the initial state for determinism.
+        card.active = False
+        mbway.active = False
+        ap.active = True
+
+        self.provider.action_easypay_sync_payment_methods()
+
+        # Shared core methods are never deactivated, but API-returned ones are
+        # activated (and linked) so the provider can offer them.
+        self.assertFalse(card.active)
+        self.assertTrue(mbway.active)
+        # Only API-returned methods are linked to the provider. Compare codes,
+        # not ids: other addons may register same-code methods (e.g.
+        # l10n_pt_payment duplicates core 'mbway').
+        self.assertEqual(
+            set(self.provider.payment_method_ids.mapped("code")), {"vi", "mbway"}
+        )
+        # Owned methods not returned are deactivated; dd stays inactive
+        self.assertTrue(vi.active)
+        self.assertFalse(ap.active)
+        self.assertFalse(dd.active)
+
+    def test_processing_values_include_access_token(self):
+        """The checkout-session endpoint token is added to processing values."""
+        tx = self.env["payment.transaction"].create(
+            {
+                "provider_id": self.provider.id,
+                "payment_method_id": self.payment_method.id,
+                "reference": "TEST-TOKEN-001",
+                "amount": 20.0,
+                "currency_id": self.currency.id,
+                "partner_id": self.partner.id,
+            }
+        )
+        values = tx._get_processing_values()
+        # check_access_token needs an HTTP request; verify the token directly
+        # with the same scope and secret used by generate_access_token.
+        expected = hmac_tool(self.env(su=True), "generate_access_token", str(tx.id))
+        self.assertEqual(values.get("access_token"), expected)
+
+    @patch("odoo.addons.payment_easypay_oca.models.payment_provider.requests.request")
+    def test_send_capture_request_polls_until_paid(self, mock_request):
+        """Capture resolves the real capture status, not just the API 'ok'."""
+
+        def _api(method, url, **kwargs):
+            resp = MagicMock()
+            resp.raise_for_status.return_value = None
+            if method == "GET":
+                resp.json.return_value = {"status": "paid"}
+            else:
+                resp.json.return_value = {"status": "ok", "id": "cap-1"}
+            return resp
+
+        mock_request.side_effect = _api
+
+        tx = self.env["payment.transaction"].create(
+            {
+                "provider_id": self.provider.id,
+                "payment_method_id": self.payment_method.id,
+                "reference": "TEST-CAPTURE-001",
+                "amount": 30.0,
+                "currency_id": self.currency.id,
+                "partner_id": self.partner.id,
+            }
+        )
+        tx.provider_reference = "pay-1"
+        tx._set_authorized()
+        tx._send_capture_request()
+        self.assertEqual(tx.state, "done")
+        self.assertEqual(tx.easypay_transaction_id, "cap-1")
+
+    @patch("odoo.addons.payment_easypay_oca.models.payment_provider.requests.request")
+    def test_send_void_request_success(self, mock_request):
+        """A successful void cancels the transaction."""
+        mock_response = MagicMock()
+        mock_response.json.return_value = {"status": "ok"}
+        mock_response.raise_for_status.return_value = None
+        mock_request.return_value = mock_response
+
+        tx = self.env["payment.transaction"].create(
+            {
+                "provider_id": self.provider.id,
+                "payment_method_id": self.payment_method.id,
+                "reference": "TEST-VOID-001",
+                "amount": 40.0,
+                "currency_id": self.currency.id,
+                "partner_id": self.partner.id,
+            }
+        )
+        tx.provider_reference = "pay-void-1"
+        tx._set_authorized()
+        tx._send_void_request()
+        self.assertEqual(tx.state, "cancel")
+
+    @patch("odoo.addons.payment_easypay_oca.models.payment_provider.requests.request")
+    def test_send_void_request_error_keeps_state(self, mock_request):
+        """A failed void must not mark the transaction as canceled."""
+        mock_response = MagicMock()
+        mock_response.json.return_value = {
+            "status": "error",
+            "message": ["Void not allowed"],
+        }
+        mock_response.raise_for_status.return_value = None
+        mock_request.return_value = mock_response
+
+        tx = self.env["payment.transaction"].create(
+            {
+                "provider_id": self.provider.id,
+                "payment_method_id": self.payment_method.id,
+                "reference": "TEST-VOID-002",
+                "amount": 40.0,
+                "currency_id": self.currency.id,
+                "partner_id": self.partner.id,
+            }
+        )
+        tx.provider_reference = "pay-void-2"
+        tx._set_authorized()
+        with self.assertRaises(ValidationError):
+            tx._send_void_request()
+        self.assertEqual(tx.state, "authorized")
+
 
 @tagged("post_install", "-at_install")
 class TestEasyPayController(HttpCase):
@@ -274,7 +412,8 @@ class TestEasyPayController(HttpCase):
         self.assertTrue(mock_request.called)
 
     def test_checkout_cancel_callback(self):
-        """Test checkout cancel callback sets transaction to canceled."""
+        """Checkout cancel works via the opaque session_id only — never via
+        the guessable transaction reference."""
         tx = self.env["payment.transaction"].create(
             {
                 "provider_id": self.provider.id,
@@ -283,15 +422,101 @@ class TestEasyPayController(HttpCase):
                 "amount": 50.0,
                 "currency_id": self.currency.id,
                 "partner_id": self.partner.id,
+                "easypay_checkout_id": "checkout-cancel-1",
             }
         )
 
-        # Simulate the cancel callback
-        response = self.url_open(f"/payment/easypay/checkout/cancel?key={tx.reference}")
+        # The guessable reference alone must not cancel the transaction
+        self.url_open(f"/payment/easypay/checkout/cancel?key={tx.reference}")
+        tx.invalidate_recordset()
+        self.assertEqual(tx.state, "draft")
 
-        # Verify redirect
-        self.assertEqual(response.status_code, 200)
-
-        # Verify transaction was canceled
+        # The opaque session ID cancels it
+        self.url_open("/payment/easypay/checkout/cancel?session_id=checkout-cancel-1")
         tx.invalidate_recordset()
         self.assertEqual(tx.state, "cancel")
+
+    @patch("odoo.addons.payment_easypay_oca.models.payment_provider.requests.request")
+    def test_webhook_prefers_fetched_status(self, mock_request):
+        """A forged 'capture success' webhook must not mark the transaction
+        done while the EasyPay API reports it still pending."""
+        mock_response = MagicMock()
+        mock_response.json.return_value = {"payment": {"status": "pending"}}
+        mock_response.raise_for_status.return_value = None
+        mock_request.return_value = mock_response
+
+        tx = self.env["payment.transaction"].create(
+            {
+                "provider_id": self.provider.id,
+                "payment_method_id": self.payment_method.id,
+                "reference": "TEST-WEBHOOK-001",
+                "amount": 60.0,
+                "currency_id": self.currency.id,
+                "partner_id": self.partner.id,
+                "easypay_checkout_id": "checkout-wh-1",
+            }
+        )
+
+        payload = {
+            "id": "pay-wh-1",
+            "key": tx.reference,
+            "type": "capture",
+            "status": "success",
+        }
+        self.url_open(
+            "/payment/easypay/webhook/generic",
+            data=json.dumps(payload),
+            headers={"Content-Type": "application/json"},
+        )
+        tx.invalidate_recordset()
+        self.assertEqual(tx.state, "pending")
+
+        # When the API confirms the payment, the same webhook marks it done
+        mock_response.json.return_value = {"payment": {"status": "paid"}}
+        self.url_open(
+            "/payment/easypay/webhook/generic",
+            data=json.dumps(payload),
+            headers={"Content-Type": "application/json"},
+        )
+        tx.invalidate_recordset()
+        self.assertEqual(tx.state, "done")
+
+    @patch("odoo.addons.payment_easypay_oca.models.payment_provider.requests.request")
+    @mute_logger("odoo.addons.payment_easypay_oca.controllers.checkout_session")
+    def test_checkout_session_requires_access_token(self, mock_request):
+        """The checkout-session endpoint rejects requests without a valid
+        access token and accepts a valid one."""
+        mock_response = MagicMock()
+        mock_response.json.return_value = {"id": "checkout-token-1"}
+        mock_response.raise_for_status.return_value = None
+        mock_request.return_value = mock_response
+
+        tx = self.env["payment.transaction"].create(
+            {
+                "provider_id": self.provider.id,
+                "payment_method_id": self.payment_method.id,
+                "reference": "TEST-SESSION-001",
+                "amount": 70.0,
+                "currency_id": self.currency.id,
+                "partner_id": self.partner.id,
+            }
+        )
+
+        # No token — rejected
+        result = self.make_jsonrpc_request(
+            "/payment/easypay/create_checkout_session",
+            params={"reference": tx.reference},
+        )
+        self.assertEqual(result.get("error"), "Invalid access token")
+        self.assertFalse(tx.easypay_checkout_id)
+
+        # Valid token bound to the transaction — accepted
+        token = hmac_tool(self.env(su=True), "generate_access_token", str(tx.id))
+        result = self.make_jsonrpc_request(
+            "/payment/easypay/create_checkout_session",
+            params={"reference": tx.reference, "access_token": token},
+        )
+        self.assertTrue(result.get("success"))
+        self.assertEqual(result.get("checkout_id"), "checkout-token-1")
+        tx.invalidate_recordset()
+        self.assertEqual(tx.easypay_checkout_id, "checkout-token-1")

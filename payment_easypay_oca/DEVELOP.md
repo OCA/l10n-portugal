@@ -6,8 +6,13 @@ This module integrates Odoo with EasyPay Checkout — a pre-built payment form t
 handles customer information collection, payment method selection, and payment
 processing.
 
-**Supported payment methods:** Credit/Debit Cards, MB WAY, Multibanco, SEPA Direct
-Debit, Virtual IBAN, Apple Pay, Google Pay, Samsung Pay
+**Supported payment methods:** Credit/Debit Cards, MB WAY, Multibanco, Virtual IBAN,
+Apple Pay, Google Pay, Samsung Pay
+
+> SEPA Direct Debit (`dd`) is reserved for a future implementation: the
+> `payment_method_easypay_direct_debit` record exists but is inactive — it is not linked
+> to the provider, not a default method, and the sync action only deactivates
+> module-owned methods it doesn't return.
 
 **Supported payment types:** Single (one-time), Frequent (tokenization for repeat
 charges)
@@ -48,11 +53,14 @@ charges)
 
 - Intercepts `_processRedirectFlow` for `providerCode === "easypay"`
 - POSTs to `/payment/easypay/create_checkout_session` (JSON-RPC) with `reference` (the
-  Odoo transaction reference)
+  Odoo transaction reference) and `access_token` (injected into `processingValues` by
+  `_get_specific_processing_values`)
 
 **Server (`checkout_session.py`):**
 
-- Looks up transaction by reference
+- Looks up transaction by reference and verifies `access_token` against the transaction
+  ID (`payment_utils.check_access_token`) — prevents session creation for
+  arbitrary/guessable references
 - Guard: if `easypay_checkout_id` already set and state is not `draft`, returns
   `{"error": "payment_in_progress", "message": "..."}` — prevents double-session for
   in-flight Multibanco payments
@@ -252,13 +260,12 @@ EasyPay sends POST notifications to:
 
 ## Capture Status After `onSuccess`
 
-| Method            | Immediate? | Status after `onSuccess` | Confirmed by                  |
-| ----------------- | ---------- | ------------------------ | ----------------------------- |
-| Card              | Yes        | `paid` or `authorised`   | `/checkout/success`           |
-| MB WAY            | Sometimes  | `paid` or `pending`      | `/checkout/success` + webhook |
-| Multibanco        | No         | `pending`                | Webhook only                  |
-| SEPA Direct Debit | No         | `pending`                | Webhook only                  |
-| Frequent (setup)  | Yes        | `tokenized`              | `/checkout/success`           |
+| Method           | Immediate? | Status after `onSuccess` | Confirmed by                  |
+| ---------------- | ---------- | ------------------------ | ----------------------------- |
+| Card             | Yes        | `paid` or `authorised`   | `/checkout/success`           |
+| MB WAY           | Sometimes  | `paid` or `pending`      | `/checkout/success` + webhook |
+| Multibanco       | No         | `pending`                | Webhook only                  |
+| Frequent (setup) | Yes        | `tokenized`              | `/checkout/success`           |
 
 ---
 
@@ -278,13 +285,13 @@ EasyPay sends POST notifications to:
 
 ### Provider Fields
 
-| Field                        | Description                                          |
-| ---------------------------- | ---------------------------------------------------- |
-| `easypay_account_id`         | EasyPay account identifier                           |
-| `easypay_api_key`            | API key (admin-only, encrypted)                      |
-| `easypay_payment_method_ids` | Enabled payment methods                              |
-| `allow_tokenization`         | `True` — enables the "Save payment details" checkbox |
-| `easypay_webhook_base_url`   | Computed — base URL shown in provider form           |
+| Field                      | Description                                          |
+| -------------------------- | ---------------------------------------------------- |
+| `easypay_account_id`       | EasyPay account identifier                           |
+| `easypay_api_key`          | API key (admin-only, encrypted)                      |
+| `payment_method_ids`       | Enabled payment methods (standard m2m)               |
+| `allow_tokenization`       | `True` — enables the "Save payment details" checkbox |
+| `easypay_webhook_base_url` | Computed — base URL shown in provider form           |
 
 ---
 
@@ -306,16 +313,16 @@ EasyPay sends POST notifications to:
 
 ### Odoo Controllers
 
-| Route                                      | Description                           |
-| ------------------------------------------ | ------------------------------------- |
-| `/payment/easypay/create_checkout_session` | JSON-RPC: create session on Pay click |
-| `/payment/easypay/checkout`                | Serves SDK page                       |
-| `/payment/easypay/checkout/success`        | Post-payment redirect (GET)           |
-| `/payment/easypay/checkout/cancel`         | SDK-triggered cancel (GET)            |
-| `/payment/easypay/mb_reference/<tx_id>`    | Multibanco reference display page     |
-| `/payment/easypay/webhook/generic`         | EasyPay generic webhook (POST)        |
-| `/payment/easypay/webhook/authorisation`   | EasyPay authorisation webhook (POST)  |
-| `/payment/easypay/webhook/transaction`     | EasyPay transaction webhook (POST)    |
+| Route                                      | Description                                                     |
+| ------------------------------------------ | --------------------------------------------------------------- |
+| `/payment/easypay/create_checkout_session` | JSON-RPC: create session on Pay click (requires `access_token`) |
+| `/payment/easypay/checkout`                | Serves SDK page                                                 |
+| `/payment/easypay/checkout/success`        | Post-payment redirect (GET)                                     |
+| `/payment/easypay/checkout/cancel`         | SDK-triggered cancel (GET, `session_id` only)                   |
+| `/payment/easypay/mb_reference/<tx_id>`    | Multibanco reference display page                               |
+| `/payment/easypay/webhook/generic`         | EasyPay generic webhook (POST)                                  |
+| `/payment/easypay/webhook/authorisation`   | EasyPay authorisation webhook (POST)                            |
+| `/payment/easypay/webhook/transaction`     | EasyPay transaction webhook (POST)                              |
 
 ---
 
@@ -330,16 +337,16 @@ EasyPay sends POST notifications to:
 
 ### Payment Method Codes
 
-| Code  | Method            |
-| ----- | ----------------- |
-| `cc`  | Credit/Debit Card |
-| `mb`  | Multibanco        |
-| `mbw` | MB WAY            |
-| `dd`  | SEPA Direct Debit |
-| `vi`  | Virtual IBAN      |
-| `ap`  | Apple Pay         |
-| `gp`  | Google Pay        |
-| `sw`  | Samsung Pay       |
+| Code  | Method                                            |
+| ----- | ------------------------------------------------- |
+| `cc`  | Credit/Debit Card                                 |
+| `mb`  | Multibanco                                        |
+| `mbw` | MB WAY                                            |
+| `dd`  | SEPA Direct Debit — reserved, not yet implemented |
+| `vi`  | Virtual IBAN                                      |
+| `ap`  | Apple Pay                                         |
+| `gp`  | Google Pay                                        |
+| `sw`  | Samsung Pay                                       |
 
 ---
 

@@ -95,18 +95,22 @@ class EasyPayWebhookController(http.Controller):
                 payment_id,
                 reference,
             )
-            return request.make_json_response({}, status=200)
+            return self._easypay_webhook_unmatched(data)
 
         if payment_id and not tx_sudo.provider_reference:
             tx_sudo.provider_reference = payment_id
 
         if event_type == "capture":
             payment_data = self._fetch_payment_data(tx_sudo)
-            payment_data["_resolved_status"] = "paid"
+            payment_data["_resolved_status"] = self._resolve_status(
+                payment_data, "paid"
+            )
             tx_sudo._handle_notification_data("easypay", payment_data)
         elif event_type == "void":
             payment_data = self._fetch_payment_data(tx_sudo)
-            payment_data["_resolved_status"] = "cancelled"
+            payment_data["_resolved_status"] = self._resolve_status(
+                payment_data, "cancelled"
+            )
             tx_sudo._handle_notification_data("easypay", payment_data)
         elif event_type == "refund":
             self._handle_refund_webhook(tx_sudo, tx_data)
@@ -136,12 +140,38 @@ class EasyPayWebhookController(http.Controller):
             ._find_easypay_transaction(payment_id, reference)
         )
         if not tx_sudo:
-            return request.make_json_response({}, status=200)
+            return self._easypay_webhook_unmatched(data)
         if payment_id and not tx_sudo.provider_reference:
             tx_sudo.provider_reference = payment_id
         payment_data = self._fetch_payment_data(tx_sudo)
-        payment_data["_resolved_status"] = resolved_status
+        payment_data["_resolved_status"] = self._resolve_status(
+            payment_data, resolved_status
+        )
         tx_sudo._handle_notification_data("easypay", payment_data)
+        return request.make_json_response({}, status=200)
+
+    @staticmethod
+    def _resolve_status(payment_data, fallback):
+        """Resolve the payment status for a webhook notification.
+
+        A concrete status fetched back from the EasyPay API is authoritative.
+        Ambiguous values ("success", "ok" — event/envelope-level semantics)
+        and missing data fall back to the status derived from the webhook
+        event, which already carries the event-type meaning.
+        """
+        fetched = payment_data.get("payment", {}).get("status") or payment_data.get(
+            "status"
+        )
+        if not fetched or fetched in ("success", "ok"):
+            return fallback
+        return fetched
+
+    def _easypay_webhook_unmatched(self, data):
+        """Handle a webhook payload that matched no ``payment.transaction``.
+
+        Extension point for modules tracking EasyPay payments outside
+        ``payment.transaction`` (e.g. direct debit collections).
+        """
         return request.make_json_response({}, status=200)
 
     def _handle_refund_webhook(self, source_tx, tx_data):

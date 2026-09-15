@@ -1,9 +1,5 @@
-.. image:: https://odoo-community.org/readme-banner-image
-   :target: https://odoo-community.org/get-involved?utm_source=readme
-   :alt: Odoo Community Association
-
 =========================
-Payment Provider: EasyPay
+Payment Provider: easypay
 =========================
 
 .. 
@@ -17,7 +13,7 @@ Payment Provider: EasyPay
 .. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
-.. |badge2| image:: https://img.shields.io/badge/license-LGPL--3-blue.png
+.. |badge2| image:: https://img.shields.io/badge/licence-LGPL--3-blue.png
     :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
     :alt: License: LGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fl10n--portugal-lightgray.png?logo=github
@@ -32,27 +28,31 @@ Payment Provider: EasyPay
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
 
-This module integrates EasyPay as a payment provider in Odoo, allowing
-customers to pay via credit card and other payment methods using
-EasyPay's secure payment gateway.
+Accept payments from your Portuguese customers directly through Odoo
+with easypay, a leading Portuguese payment service provider. This module
+integrates easypay's secure payment gateway into Odoo's payment
+framework, letting customers pay using the methods they already know and
+trust.
 
-EasyPay is a Portuguese payment service provider that supports multiple
-payment methods including credit cards, Multibanco, MB WAY, SEPA Direct
-Debit, and more.
+Fully supported and verified:
 
-Verified as supported:
+- Credit / Debit Card
+- Multibanco (MB) reference payments
+- MB WAY
 
-- Credit/Debit Card payments,
-- Multibanco (MB) reference payments,
-- MB WAY.
+Not yet implemented / not verified: SEPA Direct Debit, Pay by Link,
+Multibanco reference on invoices.
 
-Not yet implemented or verified:
+Why easypay? Easypay is one of Portugal's most widely used payment
+gateways, giving your customers access to the local payment methods they
+prefer, including Multibanco, the go-to reference-payment system in
+Portugal, and MB WAY, the country's most popular mobile payment app.
 
-- SEPA Direct Debit,
-- Pay by Link,
-- Multibanco reference on invoices.
+Key Features: Native integration with Odoo's payment provider framework
+\| Secure, PCI-compliant transaction processing via easypay \| Real-time
+payment status updates \| Compatible with Odoo eCommerce.
 
-Learn more about EasyPay at https://www.easypay.pt/
+Learn more about easypay at https://www.easypay.pt/
 
 **Table of contents**
 
@@ -90,8 +90,8 @@ format) from the EasyPay dashboard.
      Card, Multibanco, MB WAY, etc.)
    - **Allow Saving Payment Methods** — when enabled, logged-in
      customers can tick "Save my payment details" at checkout to
-     tokenize their card or SEPA Direct Debit mandate for future charges
-     (e.g. subscriptions). Enabled by default.
+     tokenize their card for future charges (e.g. subscriptions).
+     Enabled by default.
 
 4. Set the provider **State**:
 
@@ -164,18 +164,13 @@ Payment method behaviour
   order remains *Pending* until the payment is confirmed, which may take
   minutes to days. The customer should **not** close the confirmation
   page before noting down the reference.
-- **SEPA Direct Debit**: The customer enters their IBAN and accepts a
-  SEPA mandate authorizing EasyPay to debit their account. The order
-  remains *Pending* until the bank settles the debit (typically 2–5
-  business days). When used with tokenization, the mandate is saved and
-  subsequent charges are pulled automatically.
 - **Virtual IBAN**: A dedicated IBAN is displayed. The customer
   transfers the exact amount via online banking. The order remains
   *Pending* until the transfer is received and matched by EasyPay.
 - **Save payment details (tokenization)**: Logged-in customers can tick
   *Save my payment details* at checkout. The payment method is saved as
-  a token for future charges (e.g. subscriptions). This works with cards
-  and SEPA Direct Debit.
+  a token for future charges (e.g. subscriptions). This works with
+  cards.
 
 Refunds
 -------
