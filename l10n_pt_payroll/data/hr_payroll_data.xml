@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+    <!-- Salary Rule Categories -->
+    <!-- Codes mirror the payroll module defaults so the usual formulas -->
+    <!-- (categories.BASIC, categories.ALW, ...) work unchanged. -->
+    <record id="categ_pt_basic" model="hr.salary.rule.category">
+        <field name="company_id" eval="False" />
+        <field name="name">Base</field>
+        <field name="code">BASIC</field>
+    </record>
+    <record id="categ_pt_alw" model="hr.salary.rule.category">
+        <field name="company_id" eval="False" />
+        <field name="name">Abonos</field>
+        <field name="code">ALW</field>
+    </record>
+    <record id="categ_pt_gross" model="hr.salary.rule.category">
+        <field name="company_id" eval="False" />
+        <field name="name">Bruto</field>
+        <field name="code">GROSS</field>
+    </record>
+    <record id="categ_pt_ded" model="hr.salary.rule.category">
+        <field name="company_id" eval="False" />
+        <field name="name">Deduções</field>
+        <field name="code">DED</field>
+    </record>
+    <record id="categ_pt_net" model="hr.salary.rule.category">
+        <field name="company_id" eval="False" />
+        <field name="name">Líquido</field>
+        <field name="code">NET</field>
+    </record>
+    <record id="categ_pt_comp" model="hr.salary.rule.category">
+        <field name="company_id" eval="False" />
+        <field name="name">Contribuições da Entidade Patronal</field>
+        <field name="code">COMP</field>
+    </record>
+    <!-- Contribution Registers -->
+    <record id="register_pt_ss" model="hr.contribution.register">
+        <field name="company_id" eval="False" />
+        <field name="name">Segurança Social</field>
+    </record>
+    <record id="register_pt_at" model="hr.contribution.register">
+        <field name="company_id" eval="False" />
+        <field name="name">Autoridade Tributária e Aduaneira</field>
+    </record>
+    <!-- Salary Rules -->
+    <record id="hr_rule_pt_basic" model="hr.salary.rule">
+        <field name="company_id" eval="False" />
+        <field name="name">Vencimento Base</field>
+        <field name="sequence" eval="1" />
+        <field name="code">BASIC</field>
+        <field name="category_id" ref="categ_pt_basic" />
+        <field name="condition_select">none</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+result = contract.wage
+            </field>
+    </record>
+    <record id="hr_rule_pt_meal" model="hr.salary.rule">
+        <field name="company_id" eval="False" />
+        <field name="name">Subsídio de Alimentação</field>
+        <field name="sequence" eval="10" />
+        <field name="code">SA</field>
+        <field name="category_id" ref="categ_pt_alw" />
+        <field name="condition_select">none</field>
+        <field name="amount_select">fix</field>
+        <field eval="10.20" name="amount_fix" />
+        <field name="quantity">
+worked_days.WORK100 and worked_days.WORK100.number_of_days
+            </field>
+    </record>
+    <record id="hr_rule_pt_gross" model="hr.salary.rule">
+        <field name="company_id" eval="False" />
+        <field name="name">Remuneração Bruta</field>
+        <field name="sequence" eval="100" />
+        <field name="code">GROSS</field>
+        <field name="category_id" ref="categ_pt_gross" />
+        <field name="condition_select">none</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+result = categories.BASIC + categories.ALW
+            </field>
+    </record>
+    <record id="hr_rule_pt_ss" model="hr.salary.rule">
+        <field name="company_id" eval="False" />
+        <field name="name">Segurança Social (Trabalhador)</field>
+        <field name="sequence" eval="120" />
+        <field name="code">SS</field>
+        <field name="category_id" ref="categ_pt_ded" />
+        <field name="condition_select">none</field>
+        <field name="amount_select">percentage</field>
+        <field eval="-11.0" name="amount_percentage" />
+        <field name="amount_percentage_base">categories.BASIC</field>
+        <field name="register_id" ref="register_pt_ss" />
+    </record>
+    <record id="hr_rule_pt_irs" model="hr.salary.rule">
+        <field name="company_id" eval="False" />
+        <field name="name">Retenção na Fonte IRS</field>
+        <field name="sequence" eval="130" />
+        <field name="code">IRS</field>
+        <field name="category_id" ref="categ_pt_ded" />
+        <field name="condition_select">none</field>
+        <field name="amount_select">percentage</field>
+        <field eval="-15.0" name="amount_percentage" />
+        <field name="amount_percentage_base">categories.BASIC</field>
+        <field name="register_id" ref="register_pt_at" />
+        <field
+            name="note"
+        >Simplified flat withholding rate; real IRS tables are not implemented yet.</field>
+    </record>
+    <record id="hr_rule_pt_ss_company" model="hr.salary.rule">
+        <field name="company_id" eval="False" />
+        <field name="name">Segurança Social (Entidade Patronal)</field>
+        <field name="sequence" eval="300" />
+        <field name="code">SS_COMP</field>
+        <field name="category_id" ref="categ_pt_comp" />
+        <field name="condition_select">none</field>
+        <field name="amount_select">percentage</field>
+        <field eval="23.75" name="amount_percentage" />
+        <field name="amount_percentage_base">categories.BASIC</field>
+        <field name="register_id" ref="register_pt_ss" />
+    </record>
+    <record id="hr_rule_pt_net" model="hr.salary.rule">
+        <field name="company_id" eval="False" />
+        <field name="name">Líquido a Receber</field>
+        <field name="sequence" eval="500" />
+        <field name="code">NET</field>
+        <field name="category_id" ref="categ_pt_net" />
+        <field name="condition_select">none</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+result = categories.BASIC + categories.ALW + categories.DED
+            </field>
+    </record>
+    <!-- Salary Structure -->
+    <record id="structure_pt" model="hr.payroll.structure">
+        <field name="code">PT</field>
+        <field name="name">PT Payroll</field>
+        <field
+            eval="[(6, 0, [ref('hr_rule_pt_basic'), ref('hr_rule_pt_meal'),
+ref('hr_rule_pt_gross'), ref('hr_rule_pt_ss'), ref('hr_rule_pt_irs'),
+ref('hr_rule_pt_ss_company'), ref('hr_rule_pt_net')])]"
+            name="rule_ids"
+        />
+        <field name="company_id" ref="base.main_company" />
+    </record>
+</odoo>

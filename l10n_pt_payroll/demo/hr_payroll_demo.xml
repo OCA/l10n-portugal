@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+    <!-- Assign the PT structure to all PT Company employees -->
+    <function model="hr.employee" name="write">
+        <value
+            model="hr.employee"
+            eval="obj().env['hr.employee'].search([('company_id', '=', ref('base.demo_company_pt'))]).ids"
+        />
+        <value
+            eval="{'struct_id': ref('l10n_pt_payroll.structure_pt'), 'schedule_pay': 'monthly'}"
+        />
+    </function>
+    <!-- Payslip batches for the previous and current months -->
+    <record id="payslip_run_pt_previous" model="hr.payslip.run">
+        <field
+            name="name"
+            eval="'Processamento ' + (datetime.today() + relativedelta(months=-1)).strftime('%m/%Y')"
+        />
+        <field
+            name="date_start"
+            eval="datetime.today() + relativedelta(months=-1, day=1)"
+        />
+        <field
+            name="date_end"
+            eval="datetime.today() + relativedelta(months=-1, day=31)"
+        />
+        <field name="company_id" ref="base.demo_company_pt" />
+        <field name="struct_id" ref="structure_pt" />
+    </record>
+    <record id="payslip_run_pt_current" model="hr.payslip.run">
+        <field
+            name="name"
+            eval="'Processamento ' + datetime.today().strftime('%m/%Y')"
+        />
+        <field name="date_start" eval="datetime.today() + relativedelta(day=1)" />
+        <field name="date_end" eval="datetime.today() + relativedelta(day=31)" />
+        <field name="company_id" ref="base.demo_company_pt" />
+        <field name="struct_id" ref="structure_pt" />
+    </record>
+    <!-- Generate payslips for employees with a contract covering each period -->
+    <record id="payslip_employees_pt_previous" model="hr.payslip.employees">
+        <field
+            name="employee_ids"
+            model="hr.employee"
+            search="[
+                ('company_id', '=', ref('base.demo_company_pt')),
+                ('contract_date_start', '!=', False),
+                ('contract_date_start', '&lt;=', datetime.today() + relativedelta(months=-1, day=31)),
+                '|',
+                ('contract_date_end', '=', False),
+                ('contract_date_end', '&gt;=', datetime.today() + relativedelta(months=-1, day=1)),
+            ]"
+        />
+    </record>
+    <function
+        model="hr.payslip.employees"
+        name="compute_sheet"
+        eval="[ref('payslip_employees_pt_previous')]"
+        context="{'active_id': ref('payslip_run_pt_previous')}"
+    />
+    <!-- The previous month is already processed and closed -->
+    <function model="hr.payslip" name="write">
+        <value
+            model="hr.payslip"
+            eval="obj().env['hr.payslip'].search([('payslip_run_id', '=', ref('payslip_run_pt_previous'))]).ids"
+        />
+        <value eval="{'state': 'done'}" />
+    </function>
+    <function
+        model="hr.payslip.run"
+        name="close_payslip_run"
+        eval="[ref('payslip_run_pt_previous')]"
+    />
+    <record id="payslip_employees_pt_current" model="hr.payslip.employees">
+        <field
+            name="employee_ids"
+            model="hr.employee"
+            search="[
+                ('company_id', '=', ref('base.demo_company_pt')),
+                ('contract_date_start', '!=', False),
+                ('contract_date_start', '&lt;=', datetime.today() + relativedelta(day=31)),
+                '|',
+                ('contract_date_end', '=', False),
+                ('contract_date_end', '&gt;=', datetime.today() + relativedelta(day=1)),
+            ]"
+        />
+    </record>
+    <function
+        model="hr.payslip.employees"
+        name="compute_sheet"
+        eval="[ref('payslip_employees_pt_current')]"
+        context="{'active_id': ref('payslip_run_pt_current')}"
+    />
+</odoo>
