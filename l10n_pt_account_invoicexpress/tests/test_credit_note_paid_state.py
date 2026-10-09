@@ -87,6 +87,32 @@ class TestCreditNotePaidState(common.TransactionCase):
         ]
         self.assertTrue(check_calls)
 
+    @patch("requests.request")
+    def test_paid_state_update_disabled(self, mock_request):
+        """
+        The InvoiceXpress Paid state update can be disabled in the settings,
+        for companies not needing to report payments to InvoiceXpress.
+        """
+        mock_request.side_effect = mock_request_side_effect
+        # The sales journal is configured to use InvoiceXpress
+        self.sale_journal.invoicexpress_doc_type = "invoice_receipt"
+        # The InvoiceXpress paid state update is disabled
+        self.company.invoicexpress_update_paid_state = False
+        # An invoice is issued, transmitted to InvoiceXpress and paid
+        invoice = self._create_invoice()
+        self._flush_tracking()
+        payment = self._register_payment(invoice)
+        self._reconcile_statement_line(payment, invoice.amount_total)
+        self._flush_tracking()
+        self.assertEqual(invoice.payment_state, "paid")
+        # No Paid state update was sent to InvoiceXpress
+        settled_calls = [
+            c
+            for c in mock_request.call_args_list
+            if '"state": "settled"' in (c.kwargs.get("data") or "")
+        ]
+        self.assertFalse(settled_calls)
+
     def _create_invoice(self):
         move_form = Form(
             self.env["account.move"].with_context(default_move_type="out_invoice")

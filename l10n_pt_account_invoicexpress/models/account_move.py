@@ -332,6 +332,8 @@ class AccountMove(models.Model):
     def _mark_invoice_paid(self):
         InvoiceXpress = self.env["account.invoicexpress"]
         for invoice in self.filtered("can_invoicexpress"):
+            if not invoice.company_id.invoicexpress_update_paid_state:
+                continue
             doctype = invoice.invoicexpress_doc_type
             if not doctype:
                 raise exceptions.UserError(
