@@ -332,6 +332,8 @@ class AccountMove(models.Model):
     def _mark_invoice_paid(self):
         InvoiceXpress = self.env["account.invoicexpress"]
         for invoice in self.filtered("can_invoicexpress"):
+            if not invoice.company_id.invoicexpress_update_paid_state:
+                continue
             doctype = invoice.invoicexpress_doc_type
             if not doctype:
                 raise exceptions.UserError(
@@ -342,19 +344,47 @@ class AccountMove(models.Model):
                 f"{doctype}s/{invoice.invoicexpress_id}/change-state.json",
                 "PUT",
                 payload={"invoice": {"state": "settled"}},
-                raise_errors=True,
-            ).json()
-            values = response.get(doctype)
-            seqnum = values and values.get("inverted_sequence_number")
-            if not seqnum:
-                raise exceptions.UserError(
-                    self.env._(
-                        "Something went wrong: the InvoiceXpress response"
-                        " is missing a sequence number."
+                raise_errors=False,
+            )
+            if response.status_code in (200, 201):
+                values = response.json().get(doctype)
+                seqnum = values and values.get("inverted_sequence_number")
+                if not seqnum:
+                    raise exceptions.UserError(
+                        self.env._(
+                            "Something went wrong: the InvoiceXpress response"
+                            " is missing a sequence number."
+                        )
                     )
-                )
-            msg = self.env._("InvoiceXpress record has been modified to Paid.")
-            self.message_post(body=Markup(msg))
+                msg = self.env._("InvoiceXpress record has been modified to Paid.")
+            elif invoice._invoicexpress_is_settled():
+                # The document may already be settled on InvoiceXpress:
+                # Credit Notes are automatically settled as soon as issued,
+                # and the API refuses the settled to settled state change.
+                msg = self.env._("InvoiceXpress record is already set to Paid.")
+            else:
+                InvoiceXpress._check_http_status(response)
+            invoice.message_post(body=Markup(msg))
+
+    def _invoicexpress_is_settled(self):
+        """
+        Check if the InvoiceXpress document is already in the Paid state.
+        """
+        self.ensure_one()
+        doctype = self.invoicexpress_doc_type
+        response = self.env["account.invoicexpress"].call(
+            self.company_id,
+            f"{doctype}s/{self.invoicexpress_id}.json",
+            "GET",
+            raise_errors=False,
+        )
+        if response.status_code in (200, 201):
+            try:
+                values = response.json().get(doctype) or {}
+            except ValueError:
+                values = {}
+            return values.get("status") == "settled"
+        return False
 
 
 class AccountMoveLine(models.Model):
