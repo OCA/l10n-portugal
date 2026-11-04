@@ -64,6 +64,10 @@ class L10nPtInvoiceProvider(models.AbstractModel):
         """Mark the provider document as paid/settled."""
         raise NotImplementedError
 
+    def get_document_pdf(self, document):
+        """Return the legal document's PDF bytes, or None if unavailable."""
+        raise NotImplementedError
+
     def email_document(self, document, ignore_no_config=False):
         """Send the document by email through the provider."""
         raise NotImplementedError
