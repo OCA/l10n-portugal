@@ -16,7 +16,10 @@ _logger = logging.getLogger(__name__)
 
 class InvoiceXpress(models.AbstractModel):
     _name = "account.invoicexpress"
+    _inherit = "l10n_pt.invoice.provider"
     _description = "InvoiceXpress connector"
+
+    _provider_code = "invoicexpress"
 
     def _get_config(self, company):
         account_name = company.invoicexpress_account_name
@@ -129,3 +132,124 @@ class InvoiceXpress(models.AbstractModel):
         if raise_errors:
             self._check_http_status(response)
         return response
+
+    # l10n_pt.invoice.provider contract
+
+    def is_available(self, journal):
+        company = journal.company_id
+        return bool(
+            company.has_invoicexpress
+            and journal.invoicexpress_doc_type
+            and journal.invoicexpress_doc_type != "none"
+        )
+
+    def can_email_document(self, journal):
+        return bool(journal.company_id.invoicexpress_template_id)
+
+    def get_document_type(self, document):
+        doctype = document.journal_id.invoicexpress_doc_type
+        if not doctype or doctype == "none":
+            return
+        if document.move_type == "out_refund":
+            return "credit_note"
+        return doctype
+
+    def get_doc_prefix(self, doc_type):
+        return {
+            "invoice": "FT",
+            "invoice_receipt": "FR",
+            "simplified_invoice": "FS",
+            "vat_moss_invoice": "FVM",
+            # vat_moss_credit_note does not have a prefix!
+            "credit_note": "NC",
+            "debit_note": "ND",
+        }.get(doc_type)
+
+    def prepare_document_vals(self, document):
+        return document._prepare_invoicexpress_vals()
+
+    def create_document(self, document):
+        doctype = document.l10n_pt_doc_type
+        payload = document._prepare_invoicexpress_vals()
+        response = self.call(
+            document.company_id, f"{doctype}s.json", "POST", payload=payload
+        ).json()
+        values = response.get(doctype)
+        if not values:
+            raise exceptions.UserError(
+                self.env._(
+                    "Something went wrong: the InvoiceXpress response looks empty."
+                )
+            )
+        document.l10n_pt_doc_id = values.get("id")
+        document.l10n_pt_doc_permalink = values.get("permalink")
+        response1 = self.call(
+            document.company_id,
+            f"{doctype}s/{document.l10n_pt_doc_id}/change-state.json",
+            "PUT",
+            payload={"invoice": {"state": "finalized"}},
+            raise_errors=True,
+        ).json()
+        values1 = response1.get(doctype)
+        seqnum = values1 and values1.get("inverted_sequence_number")
+        if not seqnum:
+            raise exceptions.UserError(
+                self.env._(
+                    "Something went wrong: the InvoiceXpress response"
+                    " is missing a sequence number."
+                )
+            )
+        prefix = self.get_doc_prefix(doctype)
+        doc_number = f"{prefix} {seqnum}" if prefix else seqnum
+        document.l10n_pt_doc_number = doc_number
+        if document._name == "account.move":
+            if document.payment_reference == document.name:
+                document.payment_reference = doc_number
+            document.name = doc_number
+        document._l10n_pt_doc_post_message(self._description)
+
+    def settle_document(self, document):
+        doctype = document.l10n_pt_doc_type
+        response = self.call(
+            document.company_id,
+            f"{doctype}s/{document.l10n_pt_doc_id}/change-state.json",
+            "PUT",
+            payload={"invoice": {"state": "settled"}},
+            raise_errors=True,
+        ).json()
+        if not response.get(doctype, {}).get("inverted_sequence_number"):
+            raise exceptions.UserError(
+                self.env._(
+                    "Something went wrong: the InvoiceXpress response"
+                    " is missing a sequence number."
+                )
+            )
+        document.message_post(
+            body=self.env._("InvoiceXpress record has been modified to Paid.")
+        )
+
+    def email_document(self, document, ignore_no_config=False):
+        doctype = document.l10n_pt_doc_type
+        endpoint = f"{doctype}s/{document.l10n_pt_doc_id}/email-document.json"
+        payload = document._prepare_invoicexpress_email_vals(ignore_no_config)
+        if payload:
+            self.call(document.company_id, endpoint, "PUT", payload=payload)
+            document.message_post(
+                body=self.env._(
+                    "Email sent by InvoiceXpress:"
+                    "<ul><li>To: %(email)s</li><li>Cc: %(cc)s</li></ul>",
+                    email=payload["message"]["client"]["email"],
+                    cc=payload["message"].get("cc", ""),
+                )
+            )
+
+    def get_document_pdf(self, document):
+        doctype = document.l10n_pt_doc_type
+        response = self.call(
+            document.company_id,
+            f"{doctype}s/{document.l10n_pt_doc_id}.pdf",
+            "GET",
+            raise_errors=False,
+        )
+        if response.status_code == 200 and isinstance(response.content, bytes):
+            return response.content

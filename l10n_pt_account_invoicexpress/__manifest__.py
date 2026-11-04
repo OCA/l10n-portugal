@@ -4,14 +4,14 @@
 {
     "name": "Portugal InvoiceXpress Integration",
     "summary": "Portuguese certified invoices using InvoiceXpress",
-    "version": "19.0.2.1.0",
+    "version": "20.0.1.0.0",
     "author": "Open Source Integrators, Odoo Community Association (OCA)",
     "license": "AGPL-3",
     "website": "https://github.com/OCA/l10n-portugal",
     "category": "Accounting/Localizations/EDI",
     "maintainers": ["dreispt"],
     "development_status": "Production/Stable",
-    "depends": ["l10n_pt_vat", "account"],
+    "depends": ["l10n_pt_vat", "l10n_pt_invoice_provider", "account"],
     "data": [
         "views/res_config_settings.xml",
         "views/account_journal_view.xml",

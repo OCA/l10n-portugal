@@ -98,7 +98,12 @@ class TestInvoiceXpress(common.TransactionCase):
     def test_101_create_invoicexpress_invoice(self, mock_request):
         mock_request.side_effect = mock_request_side_effect
         # Ensure Journal is configured
-        self.sale_journals.write({"invoicexpress_doc_type": "invoice_receipt"})
+        self.sale_journals.write(
+            {
+                "l10n_pt_doc_provider": "invoicexpress",
+                "invoicexpress_doc_type": "invoice_receipt",
+            }
+        )
         # Create the Invoice
         move_form = Form(self.AccountMove.with_context(default_move_type="out_invoice"))
         move_form.invoice_date = fields.Date.today()
@@ -110,6 +115,6 @@ class TestInvoiceXpress(common.TransactionCase):
                 line_form.product_id = product
         invoice = move_form.save()
         invoice.action_post()
-        self.assertEqual(invoice.invoicexpress_doc_type, "invoice_receipt")
-        self.assertEqual(invoice.invoicexpress_id, "12345678")
+        self.assertEqual(invoice.l10n_pt_doc_type, "invoice_receipt")
+        self.assertEqual(invoice.l10n_pt_doc_id, "12345678")
         self.assertEqual(invoice.name, "FR MYSEQ/123")

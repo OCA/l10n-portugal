@@ -15,12 +15,7 @@ def mock_request_side_effect(method, url, **kwargs):
     Mock side effect for InvoiceXpress API requests.
     Returns appropriate mock responses for different endpoints.
     """
-    if "clients/find-by-code" in url:
-        return mock_response(
-            {"client": {"id": 999, "fiscal_id": "500000000", "name": "Customer A"}},
-            status_code=200,
-        )
-    elif "clients.json" in url and method == "POST":
+    if "clients/find-by-code" in url or "clients.json" in url and method == "POST":
         return mock_response(
             {"client": {"id": 999, "fiscal_id": "500000000", "name": "Customer A"}},
             status_code=200,
