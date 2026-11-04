@@ -15,6 +15,11 @@ class AccountMove(models.Model):
         ondelete="restrict",
         help="Fields 40/41 of the VAT Statement",
     )
+    vat_adjustment_norm_note = fields.Text(
+        related="vat_adjustment_norm_id.note",
+        string="VAT Adjustment Norm Details",
+        readonly=True,
+    )
     l10npt_has_tax_exempt_lines = fields.Boolean(
         compute="_compute_l10npt_has_tax_exempt_lines"
     )

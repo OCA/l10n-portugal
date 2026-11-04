@@ -303,6 +303,12 @@ msgid "VAT Adjustment Norm"
 msgstr "Norma de Regularização de IVA"
 
 #. module: l10n_pt_vat
+#: model:ir.model.fields,field_description:l10n_pt_vat.field_account_bank_statement_line__vat_adjustment_norm_note
+#: model:ir.model.fields,field_description:l10n_pt_vat.field_account_move__vat_adjustment_norm_note
+msgid "VAT Adjustment Norm Details"
+msgstr "Detalhes da Norma de Regularização de IVA"
+
+#. module: l10n_pt_vat
 #: model:ir.actions.act_window,name:l10n_pt_vat.vat_adjustment_norm_action
 #: model:ir.ui.menu,name:l10n_pt_vat.menu_action_vat_adjustment_norm
 msgid "VAT Adjustment Norms"
