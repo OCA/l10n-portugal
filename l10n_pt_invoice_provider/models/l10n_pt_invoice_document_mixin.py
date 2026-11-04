@@ -49,7 +49,9 @@ class L10nPtInvoiceDocumentMixin(models.AbstractModel):
     def _compute_l10n_pt_doc_type(self):
         for doc in self:
             provider = doc._l10n_pt_provider()
-            doc.l10n_pt_doc_type = provider and provider.get_document_type(doc)
+            doc.l10n_pt_doc_type = provider is not None and provider.get_document_type(
+                doc
+            )
 
     @api.depends("l10n_pt_doc_provider")
     def _compute_l10n_pt_doc_enabled(self):
@@ -74,6 +76,13 @@ class L10nPtInvoiceDocumentMixin(models.AbstractModel):
                     )
                 )
             provider = doc._l10n_pt_provider()
+            if provider is None:
+                raise exceptions.UserError(
+                    self.env._(
+                        "The legal document provider %(code)s is not installed.",
+                        code=doc.l10n_pt_doc_provider,
+                    )
+                )
             provider.create_document(doc)
 
     def action_l10n_pt_send_email(self, ignore_no_config=False):
@@ -85,9 +94,9 @@ class L10nPtInvoiceDocumentMixin(models.AbstractModel):
                         document=doc.display_name,
                     )
                 )
-            doc._l10n_pt_provider().email_document(
-                doc, ignore_no_config=ignore_no_config
-            )
+            provider = doc._l10n_pt_provider()
+            if provider is not None:
+                provider.email_document(doc, ignore_no_config=ignore_no_config)
 
     def action_l10n_pt_view_document(self):
         self.ensure_one()
