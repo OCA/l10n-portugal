@@ -37,7 +37,12 @@ class TestInvoiceXpressStock(TestInvoiceXpress):
             )
         # Setup defaults for Operation Types
         self.warehouse.company_id._update_default_doctype()
-        self.warehouse.out_type_id.invoicexpress_doc_type = "transport"
+        self.warehouse.out_type_id.write(
+            {
+                "l10n_pt_doc_provider": "invoicexpress",
+                "invoicexpress_doc_type": "transport",
+            }
+        )
 
     @patch("requests.request")
     def test_102_create_invoicexpress_picking(self, mock_request):
@@ -71,7 +76,7 @@ class TestInvoiceXpressStock(TestInvoiceXpress):
         )
 
         self.delivery_order.button_validate()
-        self.assertTrue(self.delivery_order.invoicexpress_id)
+        self.assertTrue(self.delivery_order.l10n_pt_doc_id)
 
     def _get_exempt_reason(self, code="M01"):
         reason = self.env["account.l10n_pt.vat.exempt.reason"].search(
@@ -160,8 +165,8 @@ class TestInvoiceXpressStock(TestInvoiceXpress):
         picking.l10npt_vat_exempt_reason = reason
 
         vals = picking._prepare_invoicexpress_vals()
-        self.assertIn("tax_exemption", vals[picking.invoicexpress_doc_type])
-        self.assertEqual(vals[picking.invoicexpress_doc_type]["tax_exemption"], "M01")
+        self.assertIn("tax_exemption", vals[picking.l10n_pt_doc_type])
+        self.assertEqual(vals[picking.l10n_pt_doc_type]["tax_exemption"], "M01")
 
     def test_120_sale_order_vat_exempt_reason_from_journal(self):
         """Sale order inherits VAT exempt reason from its sales journal."""

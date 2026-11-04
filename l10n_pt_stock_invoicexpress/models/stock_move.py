@@ -31,8 +31,10 @@ class StockMove(models.Model):
             tax = move.sale_line_id.tax_ids[:1]
             if not tax:
                 tax = move.product_id.taxes_id.filtered(
-                    lambda tax_rec, move=move: tax_rec.type_tax_use == "sale"
-                    and tax_rec.company_id == move.company_id
+                    lambda tax_rec, move=move: (
+                        tax_rec.type_tax_use == "sale"
+                        and tax_rec.company_id == move.company_id
+                    )
                 )[:1]
             if not tax:
                 tax = move.company_id.account_sale_tax_id

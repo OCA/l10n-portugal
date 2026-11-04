@@ -5,14 +5,18 @@
     "name": "Portugal InvoiceXpress Legal Transport Documents",
     "summary": "Portuguese legal transport and shipping documents"
     " (Guias de Transporte e Guias de Remessa) generated with InvoiceXpress",
-    "version": "19.0.1.1.0",
+    "version": "20.0.1.0.0",
     "author": "Open Source Integrators, Odoo Community Association (OCA)",
     "license": "AGPL-3",
     "website": "https://github.com/OCA/l10n-portugal",
     "category": "Accounting/Localizations/EDI",
     "maintainers": ["dreispt"],
     "development_status": "Production/Stable",
-    "depends": ["l10n_pt_account_invoicexpress", "sale_stock"],
+    "depends": [
+        "l10n_pt_transport_provider",
+        "l10n_pt_account_invoicexpress",
+        "sale_stock",
+    ],
     "data": [
         "views/res_company_view.xml",
         "views/res_config_settings.xml",
