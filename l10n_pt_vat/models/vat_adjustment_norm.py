@@ -10,6 +10,7 @@ class AccountVATAdjustmentNorm(models.Model):
 
     _name = "account.vat.adjustment_norm"
     _description = "VAT Adjustment Norm"
+    _rec_names_search = ("name", "note")
 
     name = fields.Char(required=True)
     active = fields.Boolean(

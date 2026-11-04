@@ -20,6 +20,12 @@
                         invisible="not is_l10npt_vat_enabled or move_type not in ['out_refund', 'in_refund']"
                         domain="[('move_type', '=', move_type)]"
                     />
+                    <field
+                        name="vat_adjustment_norm_note"
+                        nolabel="1"
+                        invisible="not vat_adjustment_norm_id"
+                        class="text-muted"
+                    />
                 </div>
             </data>
         </field>
