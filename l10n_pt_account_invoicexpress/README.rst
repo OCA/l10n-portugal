@@ -45,9 +45,10 @@ If the InvoiceXpress Invoice email template is configured, the
 InvoiceXpress service will also send the invoice by email, using the
 details in Odoo configured email template.
 
-This replaces the Odoo SEND & PRINT button, since only the InvoiceXpress
-generated document should be used. Having other print layouts for the
-invoice is not allowed by the Portuguese Tax Authority.
+The generated InvoiceXpress PDF is stored as the invoice's reference
+document, so the standard Odoo SEND & PRINT button mails the certified
+document — other print layouts are not allowed by the Portuguese Tax
+Authority.
 
 Legal transport documents ("Guias de Transporte" e "Guias de Remessa)
 are also supported through an extension module. For this please ensure
@@ -106,10 +107,13 @@ Usage
 =====
 
 On an Invoice, the CONFIRM button automatically generates an invoice on
-the InvoiceXpress service.
+the InvoiceXpress service, and downloads its PDF as the invoice's
+reference document. The standard Odoo **Send & Print** button sends this
+certified PDF by email — Odoo-generated invoice layouts are not used.
 
-The "Email InvoiceXpress" button requests the InvoiceXpress service to
-send an email with a copy of the legal document.
+The "View Document" button opens the document page on InvoiceXpress, and
+the "Email via Provider" button asks the InvoiceXpress service to send
+the email itself (requires the InvoiceXpress email template).
 
 The Invoice form shows an "InvoiceXpress" tab containing details for the
 corresponding InvoiceXpress document.

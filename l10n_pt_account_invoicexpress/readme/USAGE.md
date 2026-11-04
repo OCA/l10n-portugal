@@ -1,8 +1,11 @@
 On an Invoice, the CONFIRM button automatically generates an invoice on
-the InvoiceXpress service.
+the InvoiceXpress service, and downloads its PDF as the invoice's
+reference document. The standard Odoo **Send & Print** button sends this
+certified PDF by email — Odoo-generated invoice layouts are not used.
 
-The "Email InvoiceXpress" button requests the InvoiceXpress service to
-send an email with a copy of the legal document.
+The "View Document" button opens the document page on InvoiceXpress, and
+the "Email via Provider" button asks the InvoiceXpress service to send
+the email itself (requires the InvoiceXpress email template).
 
 The Invoice form shows an "InvoiceXpress" tab containing details for the
 corresponding InvoiceXpress document.
