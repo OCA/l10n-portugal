@@ -108,19 +108,22 @@ class L10nPtInvoiceDocumentMixin(models.AbstractModel):
             }
 
     def _l10n_pt_doc_post_message(self, provider_label):
-        doc_link = self.env._(
-            "<a class='btn btn-info mr-2' target='new' href=%(link)s>%(name)s</a>",
-            link=self.l10n_pt_doc_permalink,
-            name=self.env._("View Document"),
+        # Markup.format escapes interpolated values:
+        # provider data can't inject markup into the chatter
+        doc_link = Markup(
+            "<a class='btn btn-info mr-2' target='new' href={link}>{name}</a>"
+        ).format(
+            link=self.l10n_pt_doc_permalink or "", name=self.env._("View Document")
         )
         self.message_post(
             body=Markup(
                 self.env._(
-                    "%(provider)s record has been created for this document:"
-                    "<ul><li>Id: %(doc_id)s</li><li>%(doc_link)s</li></ul>",
-                    provider=provider_label,
-                    doc_id=self.l10n_pt_doc_id,
-                    doc_link=doc_link,
+                    "{provider} record has been created for this document:"
+                    "<ul><li>Id: {doc_id}</li><li>{doc_link}</li></ul>"
                 )
+            ).format(
+                provider=provider_label,
+                doc_id=self.l10n_pt_doc_id or "",
+                doc_link=doc_link,
             )
         )
