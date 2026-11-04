@@ -61,12 +61,30 @@ class AccountMove(models.Model):
         VAT Exemption reason is required if there are lines without tax
         """
         for invoice in self.filtered("is_l10npt_vat_enabled"):
-            exempt_lines = invoice.invoice_line_ids.filtered(
+            lines = invoice.invoice_line_ids.filtered(
                 lambda x: x.display_type not in ["line_section", "line_note"]
-                and not x.tax_ids.filtered("amount")
             )
+            exempt_lines = lines.filtered(lambda x: not x.tax_ids.filtered("amount"))
             if exempt_lines and not invoice.l10npt_vat_exempt_reason:
                 raise exceptions.ValidationError(
                     self.env._("A tax exemption reason must be provided.")
+                )
+            # Zero-rate PT taxes must carry an exemption reason code,
+            # also on lines mixing exempt and nonzero taxes.
+            # Enforced at posting time instead of on the tax record,
+            # to stay safe with legacy data.
+            missing_reason = lines.tax_ids.filtered(
+                lambda t: (
+                    t.country_code == "PT"
+                    and not t.amount
+                    and not t.l10n_pt_tax_exemption_reason
+                )
+            )
+            if missing_reason:
+                raise exceptions.ValidationError(
+                    self.env._(
+                        "Exempt taxes require an exemption reason: %(taxes)s",
+                        taxes=", ".join(missing_reason.mapped("name")),
+                    )
                 )
         return super().action_post()
