@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 {
-    "name": "Portugal - Legal Documents API",
+    "name": "Portugal - Legal Documents Provider",
     "summary": "Provider-agnostic framework for Portuguese certified documents",
     "version": "20.0.1.0.0",
     "license": "AGPL-3",
