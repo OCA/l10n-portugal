@@ -53,13 +53,11 @@ class L10nPtInvoiceDocumentMixin(models.AbstractModel):
 
     @api.depends("l10n_pt_doc_provider")
     def _compute_l10n_pt_doc_enabled(self):
+        # Base floor: a provider is selected. Extending models restrict
+        # this further — e.g. account.move requires the journal's
+        # provider to also be configured (journal.l10n_pt_doc_enabled).
         for doc in self:
-            provider = doc._l10n_pt_provider()
-            doc.l10n_pt_doc_enabled = bool(
-                doc.l10n_pt_doc_provider
-                and provider
-                and provider.is_available(doc.company_id)
-            )
+            doc.l10n_pt_doc_enabled = bool(doc.l10n_pt_doc_provider)
 
     def _l10n_pt_provider(self):
         self.ensure_one()

@@ -30,5 +30,5 @@ class AccountJournal(models.Model):
         for journal in self:
             provider = Provider._get_provider(journal.l10n_pt_doc_provider)
             journal.l10n_pt_doc_enabled = bool(
-                provider and provider.is_available(journal.company_id)
+                provider and provider.is_available(journal)
             )

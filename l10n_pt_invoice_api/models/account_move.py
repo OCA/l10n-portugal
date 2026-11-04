@@ -38,7 +38,7 @@ class AccountMove(models.Model):
             move.l10n_pt_doc_email_enabled = bool(
                 move.l10n_pt_doc_enabled
                 and provider
-                and provider.can_email_document(move.company_id)
+                and provider.can_email_document(move.journal_id)
             )
 
     @api.depends("restrict_mode_hash_table", "state")

@@ -36,8 +36,10 @@ class L10nPtInvoiceProvider(models.AbstractModel):
             if getattr(model, "_provider_code", None) == code:
                 return model
 
-    def is_available(self, company):
-        """Return True when the provider is configured for this company."""
+    def is_available(self, journal):
+        """Return True when the provider is configured and usable
+        for this journal — e.g. company credentials set, plus any
+        journal-scoped configuration the provider needs."""
         raise NotImplementedError
 
     def get_document_type(self, document):
@@ -80,9 +82,9 @@ class L10nPtInvoiceProvider(models.AbstractModel):
         """
         return
 
-    def can_email_document(self, company):
+    def can_email_document(self, journal):
         """Return True when the provider supports email sending
-        and is configured for it on this company.
+        and is configured for it on this journal's company.
 
         Default False — providers that send email override this.
         """
