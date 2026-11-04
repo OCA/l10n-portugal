@@ -65,7 +65,7 @@ class AccountMove(models.Model):
         # so the standard Send flow mails the legal document.
         for doc in self.filtered("l10n_pt_doc_id"):
             provider = doc._l10n_pt_provider()
-            pdf = provider.get_document_pdf(doc)
+            pdf = provider and provider.get_document_pdf(doc)
             if pdf:
                 doc.invoice_pdf_report_id = self.env["ir.attachment"].create(
                     {
@@ -91,5 +91,7 @@ class AccountMove(models.Model):
         res = super()._track_subtype(init_values)
         if "payment_state" in init_values and self.payment_state == "paid":
             for doc in self.filtered("l10n_pt_doc_id"):
-                doc._l10n_pt_provider().settle_document(doc)
+                provider = doc._l10n_pt_provider()
+                if provider:
+                    provider.settle_document(doc)
         return res

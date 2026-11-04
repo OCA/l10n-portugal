@@ -45,8 +45,12 @@ class L10nPtInvoiceProvider(models.AbstractModel):
         raise NotImplementedError
 
     def get_doc_prefix(self, doc_type):
-        """Return the legal series prefix for a document type."""
-        raise NotImplementedError
+        """Return the legal series prefix for a document type.
+
+        Optional — return None when the API provides complete
+        document numbers (series-first providers).
+        """
+        return
 
     def prepare_document_vals(self, document):
         """Return the provider API payload for this document."""
@@ -61,12 +65,20 @@ class L10nPtInvoiceProvider(models.AbstractModel):
         raise NotImplementedError
 
     def settle_document(self, document):
-        """Mark the provider document as paid/settled."""
-        raise NotImplementedError
+        """Mark the provider document as paid/settled.
+
+        Optional — providers that don't track payment state
+        (or settle via separate documents) may leave this out.
+        """
+        return
 
     def get_document_pdf(self, document):
-        """Return the legal document's PDF bytes, or None if unavailable."""
-        raise NotImplementedError
+        """Return the legal document's PDF bytes, or None if unavailable.
+
+        Optional — providers without a PDF endpoint leave it out;
+        no reference document is then stored on the record.
+        """
+        return
 
     def can_email_document(self, company):
         """Return True when the provider supports email sending
