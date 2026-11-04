@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_picking_form" model="ir.ui.view">
+        <field name="name">stock.picking.form.transport.provider</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form" />
+        <field name="arch" type="xml">
+            <field name="picking_type_id" position="after">
+                <field name="l10n_pt_doc_enabled" invisible="1" />
+                <field name="l10n_pt_doc_id" invisible="1" />
+                <field
+                    name="l10n_pt_doc_type"
+                    invisible="not l10n_pt_doc_enabled or state == 'done'"
+                />
+            </field>
+            <xpath expr="//header/button[@name='button_validate']" position="after">
+                <button
+                    name="action_l10n_pt_view_document"
+                    string="View Document"
+                    type="object"
+                    invisible="not l10n_pt_doc_id"
+                />
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_picking_type_form" model="ir.ui.view">
+        <field name="name">stock.picking.type.form.transport.provider</field>
+        <field name="model">stock.picking.type</field>
+        <field name="inherit_id" ref="stock.view_picking_type_form" />
+        <field name="arch" type="xml">
+            <field name="company_id" position="after">
+                <field name="l10n_pt_doc_provider" />
+            </field>
+        </field>
+    </record>
+</odoo>
