@@ -3,7 +3,7 @@
 
 import base64
 
-from odoo import api, fields, models
+from odoo import api, exceptions, fields, models
 
 
 class AccountMove(models.Model):
@@ -32,6 +32,10 @@ class AccountMove(models.Model):
             )
 
     @api.depends("l10n_pt_doc_enabled", "company_id")
+    @api.depends("l10n_pt_doc_provider", "move_type")
+    def _compute_l10n_pt_doc_type(self):
+        return super()._compute_l10n_pt_doc_type()
+
     def _compute_l10n_pt_doc_email_enabled(self):
         for move in self:
             provider = move._l10n_pt_provider()
@@ -79,9 +83,20 @@ class AccountMove(models.Model):
                     }
                 )
 
+    def button_draft(self):
+        # Provider documents are final; invoices linked to one
+        # cannot go back to draft, whatever the UI shows.
+        if self.filtered("l10n_pt_doc_id"):
+            raise exceptions.UserError(
+                self.env._("Invoices with a legal document cannot be reset to draft.")
+            )
+        return super().button_draft()
+
     def _post(self, soft=True):
         res = super()._post(soft=soft)
-        for doc in self:
+        # Only the records actually posted get a legal document:
+        # scheduled invoices are skipped until they post for real.
+        for doc in res:
             if doc.l10n_pt_doc_enabled and not doc.l10n_pt_doc_id:
                 doc.l10n_pt_create_document()
                 doc._l10n_pt_sync_document_pdf()
