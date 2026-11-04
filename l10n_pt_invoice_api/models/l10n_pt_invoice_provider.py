@@ -68,6 +68,14 @@ class L10nPtInvoiceProvider(models.AbstractModel):
         """Return the legal document's PDF bytes, or None if unavailable."""
         raise NotImplementedError
 
+    def can_email_document(self, company):
+        """Return True when the provider supports email sending
+        and is configured for it on this company.
+
+        Default False — providers that send email override this.
+        """
+        return False
+
     def email_document(self, document, ignore_no_config=False):
         """Send the document by email through the provider."""
         raise NotImplementedError

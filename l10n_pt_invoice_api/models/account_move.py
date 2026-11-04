@@ -31,10 +31,15 @@ class AccountMove(models.Model):
                 move.journal_id.l10n_pt_doc_enabled and move.is_sale_document()
             )
 
+    @api.depends("l10n_pt_doc_enabled", "company_id")
     def _compute_l10n_pt_doc_email_enabled(self):
-        # Providers override to signal email sending is configured
         for move in self:
-            move.l10n_pt_doc_email_enabled = move.l10n_pt_doc_enabled
+            provider = move._l10n_pt_provider()
+            move.l10n_pt_doc_email_enabled = bool(
+                move.l10n_pt_doc_enabled
+                and provider
+                and provider.can_email_document(move.company_id)
+            )
 
     @api.depends("restrict_mode_hash_table", "state")
     def _compute_show_reset_to_draft_button(self):

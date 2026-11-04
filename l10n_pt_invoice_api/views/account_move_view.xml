@@ -18,6 +18,12 @@
             </field>
             <header position="inside">
                 <button
+                    name="action_l10n_pt_send_email"
+                    string="Email via Provider"
+                    type="object"
+                    invisible="not l10n_pt_doc_id or not l10n_pt_doc_email_enabled"
+                />
+                <button
                     name="action_l10n_pt_view_document"
                     string="View Document"
                     type="object"
