@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!--
+    VAT Adjustment Norm (Fields 40/41 of the VAT Statement)
+    -->
+    <record id="vat_adjustment_norm_a78n2" model="account.vat.adjustment_norm">
+        <field name="name">Art. 78º, nº 2</field>
+        <field name="out_refunds" eval="True" />
+
+        <field
+            name="note"
+        >Regularização a favor do fornecedor — anulação ou redução do valor tributável por invalidade, resolução, rescisão ou redução do contrato, devolução de mercadorias, abatimentos ou descontos.</field>
+    </record>
+    <record id="vat_adjustment_norm_a78n3" model="account.vat.adjustment_norm">
+        <field name="name">Art. 78º, nº 3</field>
+        <field name="out_refunds" eval="True" />
+        <field name="in_refunds" eval="True" />
+
+        <field
+            name="note"
+        >Retificação de fatura inexata já registada — obrigatória quando há imposto liquidado a menos; facultativa, no prazo de dois anos, quando há imposto liquidado a mais.</field>
+    </record>
+    <record id="vat_adjustment_norm_a78n4" model="account.vat.adjustment_norm">
+        <field name="name">Art. 78º, nº 4</field>
+        <field name="in_refunds" eval="True" />
+
+        <field
+            name="note"
+        >Regularização pelo adquirente — correção da dedução quando o fornecedor anulou, reduziu ou retificou para menos o valor da operação já registada.</field>
+    </record>
+    <record id="vat_adjustment_norm_a78n6" model="account.vat.adjustment_norm">
+        <field name="name">Art. 78º, nº 6</field>
+        <field name="out_refunds" eval="True" />
+        <field name="in_refunds" eval="True" />
+
+        <field
+            name="note"
+        >Retificação facultativa de faturas que ainda não deram lugar ao registo do artigo 45.º do CIVA.</field>
+    </record>
+    <record id="vat_adjustment_norm_a78n7a" model="account.vat.adjustment_norm">
+        <field name="name">Art. 78º, nº 7, alínea a)</field>
+        <field name="out_refunds" eval="True" />
+        <field name="in_refunds" eval="True" />
+
+        <field
+            name="note"
+        >Crédito de cobrança duvidosa ou incobrável (regime anterior a 2013) — situação da alínea a) do n.º 7.</field>
+    </record>
+    <record id="vat_adjustment_norm_a78n7b" model="account.vat.adjustment_norm">
+        <field name="name">Art. 78º, nº 7, alínea b)</field>
+        <field name="out_refunds" eval="True" />
+        <field name="in_refunds" eval="True" />
+
+        <field
+            name="note"
+        >Crédito de cobrança duvidosa ou incobrável (regime anterior a 2013) — situação da alínea b) do n.º 7.</field>
+    </record>
+    <record id="vat_adjustment_norm_a78n7c" model="account.vat.adjustment_norm">
+        <field name="name">Art. 78º, nº 7, alínea c)</field>
+        <field name="out_refunds" eval="True" />
+        <field name="in_refunds" eval="True" />
+
+        <field
+            name="note"
+        >Crédito de cobrança duvidosa ou incobrável (regime anterior a 2013) — situação da alínea c) do n.º 7.</field>
+    </record>
+    <record id="vat_adjustment_norm_a78n7d" model="account.vat.adjustment_norm">
+        <field name="name">Art. 78º, nº 7, alínea d)</field>
+        <field name="out_refunds" eval="True" />
+        <field name="in_refunds" eval="True" />
+
+        <field
+            name="note"
+        >Crédito de cobrança duvidosa ou incobrável (regime anterior a 2013) — situação da alínea d) do n.º 7.</field>
+    </record>
+    <record id="vat_adjustment_norm_a78n8b" model="account.vat.adjustment_norm">
+        <field name="name">Art. 78º, nº 8, alínea b)</field>
+        <field name="out_refunds" eval="True" />
+
+        <field
+            name="note"
+        >Crédito incobrável ou em mora (regime anterior a 2013) — complemento do n.º 7, situação da alínea b) do n.º 8.</field>
+    </record>
+    <record id="vat_adjustment_norm_a78n8c" model="account.vat.adjustment_norm">
+        <field name="name">Art. 78º, nº 8, alínea c)</field>
+        <field name="out_refunds" eval="True" />
+
+        <field
+            name="note"
+        >Crédito incobrável ou em mora (regime anterior a 2013) — complemento do n.º 7, situação da alínea c) do n.º 8.</field>
+    </record>
+    <record id="vat_adjustment_norm_a78n8d" model="account.vat.adjustment_norm">
+        <field name="name">Art. 78º, nº 8, alínea d)</field>
+        <field name="out_refunds" eval="True" />
+        <field name="in_refunds" eval="True" />
+
+        <field
+            name="note"
+        >Crédito incobrável ou em mora (regime anterior a 2013) — complemento do n.º 7, situação da alínea d) do n.º 8.</field>
+    </record>
+    <record id="vat_adjustment_norm_a78n8e" model="account.vat.adjustment_norm">
+        <field name="name">Art. 78º, nº 8, alínea e)</field>
+        <field name="out_refunds" eval="True" />
+
+        <field
+            name="note"
+        >Crédito incobrável ou em mora (regime anterior a 2013) — complemento do n.º 7, situação da alínea e) do n.º 8.</field>
+    </record>
+    <record id="vat_adjustment_norm_a78n12" model="account.vat.adjustment_norm">
+        <field name="name">Art. 78º, nº 12</field>
+        <field name="in_refunds" eval="True" />
+
+        <field
+            name="note"
+        >Outras regularizações nos termos do n.º 12 do artigo 78.º do CIVA — consultar o texto legal aplicável.</field>
+    </record>
+    <record id="vat_adjustment_norm_a78An2a" model="account.vat.adjustment_norm">
+        <field name="name">Art. 78º-A, nº 2, alínea a)</field>
+        <field name="out_refunds" eval="True" />
+
+        <field
+            name="note"
+        >Crédito de cobrança duvidosa — em mora há mais de 12 meses, com provas objetivas de imparidade e de diligências de cobrança. Requer pedido de autorização prévia à AT.</field>
+    </record>
+    <record id="vat_adjustment_norm_a78An4a" model="account.vat.adjustment_norm">
+        <field name="name">Art. 78º-A, nº 4, alínea a)</field>
+        <field name="out_refunds" eval="True" />
+
+        <field
+            name="note"
+        >Crédito incobrável — processo de execução, após o registo da alínea b) do n.º 2 do artigo 717.º do Código de Processo Civil.</field>
+    </record>
+    <record id="vat_adjustment_norm_a78An4b" model="account.vat.adjustment_norm">
+        <field name="name">Art. 78º-A, nº 4, alínea b)</field>
+        <field name="out_refunds" eval="True" />
+
+        <field
+            name="note"
+        >Crédito incobrável — insolvência ou situação equiparada do devedor, nos termos da alínea b) do n.º 4 do artigo 78.º-A.</field>
+    </record>
+    <record id="vat_adjustment_norm_a78An4c" model="account.vat.adjustment_norm">
+        <field name="name">Art. 78º-A, nº 4, alínea c)</field>
+        <field name="out_refunds" eval="True" />
+
+        <field
+            name="note"
+        >Crédito incobrável — situação da alínea c) do n.º 4 do artigo 78.º-A do CIVA.</field>
+    </record>
+    <record id="vat_adjustment_norm_a78An4d" model="account.vat.adjustment_norm">
+        <field name="name">Art. 78º-A, nº 4, alínea d)</field>
+        <field name="out_refunds" eval="True" />
+
+        <field
+            name="note"
+        >Crédito incobrável — situação da alínea d) do n.º 4 do artigo 78.º-A do CIVA.</field>
+    </record>
+    <record id="vat_adjustment_norm_a78Bn4" model="account.vat.adjustment_norm">
+        <field name="name">Art. 78º-B, nº 4</field>
+        <field name="out_refunds" eval="True" />
+
+        <field
+            name="note"
+        >Regularização de crédito de cobrança duvidosa — dedução efetuada após o procedimento de autorização prévia à AT (artigo 78.º-B).</field>
+    </record>
+    <record id="vat_adjustment_norm_a78Cn1" model="account.vat.adjustment_norm">
+        <field name="name">Art. 78º-C, nº 1</field>
+        <field name="in_refunds" eval="True" />
+
+        <field
+            name="note"
+        >Retificação a favor do Estado pelo adquirente — devolução da dedução do imposto quando o fornecedor regularizou o crédito como duvidoso ou incobrável, após notificação da AT.</field>
+    </record>
+    <record id="vat_adjustment_norm_a78Cn3" model="account.vat.adjustment_norm">
+        <field name="name">Art. 78º-C, nº 3</field>
+        <field name="in_refunds" eval="True" />
+
+        <field
+            name="note"
+        >Prazo e forma da retificação do n.º 1 — declaração periódica do período da notificação, com identificação das faturas respetivas.</field>
+    </record>
+</odoo>
