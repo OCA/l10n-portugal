@@ -1,6 +1,6 @@
 # Copyright (C) 2014 Sossia, Lda. (<http://www.sossia.pt>)
 # Copyright (C) 2021 Open SOurce Integrators (<http://www.opensourceintegrators.com>)
-# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+# License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl).
 
 from odoo import api, exceptions, fields, models
 

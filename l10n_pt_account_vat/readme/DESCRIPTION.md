@@ -1,3 +1,7 @@
+This module replaces ``l10n_pt_vat`` and migrates databases
+from it automatically (module data, xmlids and the legacy
+``account.tax`` fiscal zone column).
+
 This modules extends the base localization modules with a few VAT
 specific functions that are required by the Portuguese Tax Authorities,
 including:
