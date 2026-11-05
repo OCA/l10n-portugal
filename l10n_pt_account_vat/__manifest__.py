@@ -1,12 +1,11 @@
 # Copyright (C) 2021 Open Source Integrators (<http://www.opensourceintegrators.com>)
 # Copyright (C) 2014 Sossia, Lda. (<http://www.sossia.pt>)
-# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+# License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl).
 {
     "name": "Portugal - IVA",
     "version": "20.0.1.0.0",
-    "license": "AGPL-3",
-    "author": "Open Source Integrators, Daniel Reis, Sossia,"
-    " Odoo Community Association (OCA)",
+    "license": "LGPL-3",
+    "author": "Daniel Reis, Odoo S.A., Odoo Community Association (OCA)",
     "summary": "Portuguese VAT requirements extensions",
     "website": "https://github.com/OCA/l10n-portugal",
     "category": "Accounting/Localizations",
@@ -24,6 +23,7 @@
         "views/l10n_pt_vat_exempt_reason_view.xml",
         "views/vat_adjustment_norm_view.xml",
     ],
+    "pre_init_hook": "pre_init_hook",
     "post_init_hook": "post_init_hook",
     "installable": True,
     "auto_install": False,

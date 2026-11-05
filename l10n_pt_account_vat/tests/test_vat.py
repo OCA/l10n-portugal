@@ -82,7 +82,7 @@ class TestVATPT(common.TransactionCase):
         self.env.company.account_fiscal_country_id = self.pt_country
         exempt_tax = self._new_pt_tax(0.0)
         invoice = self._new_invoice(exempt_tax)
-        invoice.l10npt_vat_exempt_reason = self.env.ref("l10n_pt_vat.M07")
+        invoice.l10npt_vat_exempt_reason = self.env.ref("l10n_pt_account_vat.M07")
         with self.assertRaises(exceptions.ValidationError):
             invoice.action_post()
         exempt_tax.l10n_pt_tax_exemption_reason = "M07"
