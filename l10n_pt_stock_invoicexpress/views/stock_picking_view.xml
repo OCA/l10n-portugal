@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_picking_form_invoicexpress" model="ir.ui.view">
+        <field name="name">stock.picking.form.invoicexpress</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form" />
+        <field name="arch" type="xml">
+            <field name="l10n_pt_doc_type" position="after">
+                <field name="l10n_pt_doc_provider" invisible="1" />
+                <field name="l10n_pt_doc_email_enabled" invisible="1" />
+                <field
+                    name="invoicexpress_send_email"
+                    invisible="not l10n_pt_doc_email_enabled"
+                />
+                <field
+                    name="license_plate"
+                    invisible="l10n_pt_doc_provider != 'invoicexpress'"
+                />
+            </field>
+            <xpath expr="//notebook" position="inside">
+                <page
+                    name="invoicexpress"
+                    string="InvoiceXpress"
+                    invisible="l10n_pt_doc_provider != 'invoicexpress'"
+                >
+                    <group>
+                        <field name="l10n_pt_doc_id" />
+                        <field name="l10n_pt_doc_number" />
+                        <field name="l10n_pt_doc_permalink" widget="url" />
+                        <field name="invoicexpress_transport_date" />
+                        <field name="l10npt_transport_doc_due_date" />
+                        <field name="l10npt_vat_exempt_reason" />
+                    </group>
+                </page>
+            </xpath>
+            <xpath expr="//header/button[@name='button_validate']" position="after">
+                <button
+                    name="action_l10n_pt_send_email"
+                    string="Email via Provider"
+                    type="object"
+                    invisible="not l10n_pt_doc_email_enabled or not l10n_pt_doc_id"
+                />
+            </xpath>
+        </field>
+    </record>
+</odoo>

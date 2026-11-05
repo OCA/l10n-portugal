@@ -1,0 +1,36 @@
+Odoo country list was mapped to the InvoiceXpress names as documented at
+https://invoicexpress.com/api-v2/documentation/appendix
+
+The InvoiceXpress country list carries legacy and alternate names.
+Most modern names are also accepted (e.g. both "Timor-Leste" and
+"East Timor"), so Odoo names are used where InvoiceXpress lists them.
+
+These InvoiceXpress country names have no Odoo counterpart:
+
+Burma (Myanmar is used instead)
+Canton and Enderbury Islands
+Dronning Maud Land
+East Timor (Timor-Leste is used instead)
+International Monetary Fund
+Johnston Island
+Kampuchea (Cambodia is used instead)
+Midway Islands
+Netherlands Antilles (dissolved; Odoo uses successor codes
+Bonaire/Curaçao/Aruba/Sint Maarten - verify against InvoiceXpress
+if invoicing to these territories)
+Samoa (America) (American Samoa is used instead)
+Tahiti (French Polynesia is used instead)
+Upper Volta (Burkina Faso is used instead)
+Wake Island
+Western Samoa (Samoa (Western) is used instead)
+Zaïre (Congo, Democratic Republic is used instead)
+
+These Odoo countries have no match in the InvoiceXpress list:
+
+id,name
+base.aq,Antarctica
+base.bv,Bouvet Island
+base.tf,French Southern Territories
+base.um,United States Minor Outlying Islands
+  (InvoiceXpress lists Johnston/Midway/Wake separately;
+  no single 1:1 mapping possible)
