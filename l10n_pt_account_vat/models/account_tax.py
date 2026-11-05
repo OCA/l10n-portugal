@@ -1,9 +1,12 @@
 # Copyright (C) 2026 Daniel Reis <dreis.pt@gmail.com>
+# Copyright (C) 2026 Odoo S.A.
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl).
 
 from odoo import fields, models
 
 # https://info.portaldasfinancas.gov.pt/pt/apoio_contribuinte/Faturacao/Fatcorews/Documents/Tabela_Codigos_Motivo_Isencao.pdf
+# Mirrors l10n_pt_certification (Odoo WIP, PR odoo/odoo#196102);
+# drop when the core module lands.
 L10N_PT_TAX_EXEMPTION_REASONS = [
     ("M01", "M01 - Artigo 16.º, n.º 6 do CIVA ou similar"),
     ("M02", "M02 - Artigo 6.º do Decreto-Lei n.º 198/90, de 19 de Junho"),

@@ -1,8 +1,11 @@
 # Copyright (C) 2026 Daniel Reis <dreis.pt@gmail.com>
+# Copyright (C) 2026 Odoo S.A.
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl).
 
 from odoo import fields, models
 
+# Region/category selections mirror l10n_pt_certification
+# (Odoo WIP, PR odoo/odoo#196102); drop when the core module lands.
 L10N_PT_TAX_REGIONS = [
     ("PT-ALL", "All Regions"),
     ("PT", "Mainland Portugal"),
