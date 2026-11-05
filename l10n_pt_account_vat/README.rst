@@ -88,11 +88,7 @@ Authors
 Contributors
 ------------
 
-- Pedro Castro Silva (`Sossia <http://www.sossia.pt>`__)
-
-- `Open Source Integrators <https://www.opensourceintegrators.com>`__
-
-     - Daniel Reis (dreis@opensourceintegrators.com)
+- Daniel Reis (dreis.pt@gmail.com)
 
 Maintainers
 -----------

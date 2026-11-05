@@ -1,5 +1,4 @@
-# Copyright (C) 2021 Open Source Integrators (<http://www.opensourceintegrators.com>)
-# Copyright (C) 2014 Sossia, Lda. (<http://www.sossia.pt>)
+# Copyright (C) 2026 Daniel Reis <dreis.pt@gmail.com>
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl).
 {
     "name": "Portugal - IVA",
