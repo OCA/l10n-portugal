@@ -11,5 +11,5 @@ The tax-level exemption reason on `account.tax` and the tax group
 region/category fields are provided by the ``l10n_pt_account_vat``
 dependency, which mirrors the data model of Odoo's
 `l10n_pt_certification` WIP
-(<https://github.com/odoo/odoo/pull/196102>) so that those fields can
+(<https://github.com/odoo/odoo/pull/296355>) so that those fields can
 be dropped once the core module lands.
