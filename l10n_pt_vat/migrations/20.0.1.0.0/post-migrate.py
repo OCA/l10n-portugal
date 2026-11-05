@@ -5,7 +5,7 @@ import logging
 
 from odoo import SUPERUSER_ID, api
 
-from odoo.addons.l10n_pt_vat.hooks import _fill_tax_groups
+from odoo.addons.l10n_pt_account_vat.hooks import _fill_tax_groups
 
 _logger = logging.getLogger(__name__)
 
