@@ -3,6 +3,17 @@
 
 
 def migrate(cr, version):
+    # The adjustment norm records were created under noupdate="1";
+    # the data file no longer sets it, so clear the stored flag to let
+    # the new legal notes be written on this upgrade.
+    cr.execute(
+        """
+        UPDATE ir_model_data
+           SET noupdate = false
+         WHERE module = 'l10n_pt_vat'
+           AND model = 'account.vat.adjustment_norm'
+        """
+    )
     # Preserve the legacy account.tax fiscal zone values;
     # they are mapped to account.tax.group.l10n_pt_tax_region post-migration.
     cr.execute(
