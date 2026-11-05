@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_account_journal_form" model="ir.ui.view">
+        <field name="name">Journal Form: add Invoicexpress</field>
+        <field name="model">account.journal</field>
+        <field name="inherit_id" ref="account.view_account_journal_form" />
+        <field name="arch" type="xml">
+            <field name="l10n_pt_doc_provider" position="after">
+                <field
+                    name="invoicexpress_doc_type"
+                    invisible="l10n_pt_doc_provider != 'invoicexpress'"
+                />
+            </field>
+        </field>
+    </record>
+</odoo>
