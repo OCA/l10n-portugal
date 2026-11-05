@@ -20,3 +20,10 @@ mirrors the projected data model — same field names and values on
 module should mean dropping duplicated fields rather than migrating
 data. What has no core counterpart — the VAT adjustment norms and the
 document-level VAT exemption reason — is expected to remain here.
+
+Authorship: the tax exemption reason and tax group region/category
+fields mirror Odoo's ``l10n_pt_certification`` WIP
+(<https://github.com/odoo/odoo/pull/196102>) and carry Odoo S.A.
+copyright; they will be dropped when that module reaches core. The
+VAT adjustment norms, document-level exemption reason and all
+migration code are OCA extensions copyrighted by Daniel Reis only.
