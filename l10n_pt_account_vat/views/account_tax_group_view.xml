@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_account_tax_group_form" model="ir.ui.view">
+        <field name="name">Account Tax Group: add PT fields</field>
+        <field name="model">account.tax.group</field>
+        <field name="inherit_id" ref="account.view_tax_group_form" />
+        <field name="arch" type="xml">
+            <field name="preceding_subtotal" position="after">
+                <field name="l10n_pt_tax_region" invisible="country_code != 'PT'" />
+                <field name="l10n_pt_tax_category" invisible="country_code != 'PT'" />
+            </field>
+        </field>
+    </record>
+</odoo>
