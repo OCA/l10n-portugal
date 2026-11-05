@@ -4,21 +4,10 @@
 
 from odoo import fields, models
 
-# Region/category selections mirror l10n_pt_certification
-# (Odoo WIP, PR odoo/odoo#196102); drop when the core module lands.
-L10N_PT_TAX_REGIONS = [
-    ("PT-ALL", "All Regions"),
-    ("PT", "Mainland Portugal"),
-    ("PT-MA", "Madeira"),
-    ("PT-AC", "Azores"),
-]
-
-L10N_PT_TAX_CATEGORIES = [
-    ("N", "Normal"),
-    ("I", "Intermediate"),
-    ("R", "Reduced"),
-    ("E", "Exempt"),
-]
+from .account_tax import (
+    L10N_PT_TAX_CATEGORIES_SELECTION,
+    L10N_PT_TAX_REGIONS_SELECTION,
+)
 
 # Standard PT rates uniquely identify region and SAF-T tax category.
 # Used to seed tax groups, both on install and on migration.
@@ -40,12 +29,12 @@ class AccountTaxGroup(models.Model):
     _inherit = "account.tax.group"
 
     l10n_pt_tax_region = fields.Selection(
-        selection=L10N_PT_TAX_REGIONS,
+        selection=L10N_PT_TAX_REGIONS_SELECTION,
         string="Region (PT)",
         default="PT",
     )
     l10n_pt_tax_category = fields.Selection(
-        selection=L10N_PT_TAX_CATEGORIES,
+        selection=L10N_PT_TAX_CATEGORIES_SELECTION,
         string="Tax Category (PT)",
         default="N",
     )

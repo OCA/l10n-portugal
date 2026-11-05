@@ -148,9 +148,15 @@ msgstr "Isento"
 
 #. module: l10n_pt_account_vat
 #. odoo-python
+#: code:addons/l10n_pt_account_vat/models/account_tax.py:0
+msgid "Exempt taxes require an exemption reason: set one on %(taxes)s."
+msgstr "Impostos isentos requerem motivo de isenção: defina um em %(taxes)s."
+
+#. module: l10n_pt_account_vat
+#. odoo-python
 #: code:addons/l10n_pt_account_vat/models/account_move.py:0
-msgid "Exempt taxes require an exemption reason: %(taxes)s"
-msgstr "Impostos isentos requerem motivo de isenção: %(taxes)s"
+msgid "A tax that charges nothing needs a VAT exemption reason: set one on %(taxes)s."
+msgstr "Um imposto que não cobra nada precisa de motivo de isenção de IVA: defina um em %(taxes)s."
 
 #. module: l10n_pt_account_vat
 #: model:ir.model.fields.selection,name:l10n_pt_account_vat.selection__account_tax_group__l10n_pt_tax_category__i
@@ -159,153 +165,201 @@ msgstr "Intermédio"
 
 #. module: l10n_pt_account_vat
 #: model:ir.model.fields.selection,name:l10n_pt_account_vat.selection__account_tax__l10n_pt_tax_exemption_reason__m01
-msgid "M01 - Artigo 16.º, n.º 6 do CIVA ou similar"
+msgid "M01 - Artigo 16.º n.º 6 do CIVA"
 msgstr ""
+
 
 #. module: l10n_pt_account_vat
 #: model:ir.model.fields.selection,name:l10n_pt_account_vat.selection__account_tax__l10n_pt_tax_exemption_reason__m02
-msgid "M02 - Artigo 6.º do Decreto-Lei n.º 198/90, de 19 de Junho"
+msgid "M02 - Artigo 6.º do Decreto-Lei n.º 198/90, de 19 de junho"
 msgstr ""
 
-#. module: l10n_pt_account_vat
-#: model:ir.model.fields.selection,name:l10n_pt_account_vat.selection__account_tax__l10n_pt_tax_exemption_reason__m03
-msgid "M03 - Exigibilidade de caixa (revogado)"
-msgstr ""
 
 #. module: l10n_pt_account_vat
 #: model:ir.model.fields.selection,name:l10n_pt_account_vat.selection__account_tax__l10n_pt_tax_exemption_reason__m04
-msgid "M04 - Artigo 13.º do CIVA ou similar"
+msgid "M04 - Isento artigo 13.º do CIVA"
 msgstr ""
+
 
 #. module: l10n_pt_account_vat
 #: model:ir.model.fields.selection,name:l10n_pt_account_vat.selection__account_tax__l10n_pt_tax_exemption_reason__m05
-msgid "M05 - Artigo 14.º do CIVA ou similar"
+msgid "M05 - Isento artigo 14.º do CIVA"
 msgstr ""
+
 
 #. module: l10n_pt_account_vat
 #: model:ir.model.fields.selection,name:l10n_pt_account_vat.selection__account_tax__l10n_pt_tax_exemption_reason__m06
-msgid "M06 - Artigo 15.º do CIVA ou similar"
+msgid "M06 - Isento artigo 15.º do CIVA"
 msgstr ""
+
 
 #. module: l10n_pt_account_vat
 #: model:ir.model.fields.selection,name:l10n_pt_account_vat.selection__account_tax__l10n_pt_tax_exemption_reason__m07
-msgid "M07 - Artigo 9.º do CIVA ou similar"
+msgid "M07 - Isento artigo 9.º do CIVA"
 msgstr ""
 
-#. module: l10n_pt_account_vat
-#: model:ir.model.fields.selection,name:l10n_pt_account_vat.selection__account_tax__l10n_pt_tax_exemption_reason__m08
-msgid "M08 - IVA - autoliquidação (revogado)"
-msgstr ""
 
 #. module: l10n_pt_account_vat
 #: model:ir.model.fields.selection,name:l10n_pt_account_vat.selection__account_tax__l10n_pt_tax_exemption_reason__m09
-msgid "M09 - IVA - não confere direito a dedução"
+msgid "M09 - IVA – não confere direito a dedução"
 msgstr ""
+
 
 #. module: l10n_pt_account_vat
 #: model:ir.model.fields.selection,name:l10n_pt_account_vat.selection__account_tax__l10n_pt_tax_exemption_reason__m10
-msgid "M10 - IVA - Regime de isenção (Artigo 53.º do CIVA)"
+msgid "M10 - IVA – regime de isenção"
 msgstr ""
+
 
 #. module: l10n_pt_account_vat
 #: model:ir.model.fields.selection,name:l10n_pt_account_vat.selection__account_tax__l10n_pt_tax_exemption_reason__m11
 msgid "M11 - Regime particular do tabaco"
 msgstr ""
 
+
 #. module: l10n_pt_account_vat
 #: model:ir.model.fields.selection,name:l10n_pt_account_vat.selection__account_tax__l10n_pt_tax_exemption_reason__m12
-msgid "M12 - Regime da margem de lucro - Agências de viagens"
+msgid "M12 - Regime da margem de lucro – Agências de viagens"
 msgstr ""
+
 
 #. module: l10n_pt_account_vat
 #: model:ir.model.fields.selection,name:l10n_pt_account_vat.selection__account_tax__l10n_pt_tax_exemption_reason__m13
-msgid "M13 - Regime da margem de lucro - Bens em segunda mão"
+msgid "M13 - Regime da margem de lucro – Bens em segunda mão"
 msgstr ""
+
 
 #. module: l10n_pt_account_vat
 #: model:ir.model.fields.selection,name:l10n_pt_account_vat.selection__account_tax__l10n_pt_tax_exemption_reason__m14
-msgid "M14 - Regime da margem de lucro - Objetos de arte"
+msgid "M14 - Regime da margem de lucro – Objetos de arte"
 msgstr ""
+
 
 #. module: l10n_pt_account_vat
 #: model:ir.model.fields.selection,name:l10n_pt_account_vat.selection__account_tax__l10n_pt_tax_exemption_reason__m15
-msgid "M15 - Regime da margem de lucro - Objetos de coleção e antiguidades"
+msgid "M15 - Regime da margem de lucro–Objetos de coleção e antiguidades"
 msgstr ""
+
 
 #. module: l10n_pt_account_vat
 #: model:ir.model.fields.selection,name:l10n_pt_account_vat.selection__account_tax__l10n_pt_tax_exemption_reason__m16
-msgid "M16 - Artigo 14.º do RITI ou similar"
+msgid "M16 - Isento artigo 14.º do RITI"
 msgstr ""
+
 
 #. module: l10n_pt_account_vat
 #: model:ir.model.fields.selection,name:l10n_pt_account_vat.selection__account_tax__l10n_pt_tax_exemption_reason__m19
 msgid "M19 - Outras isenções"
 msgstr ""
 
+
 #. module: l10n_pt_account_vat
 #: model:ir.model.fields.selection,name:l10n_pt_account_vat.selection__account_tax__l10n_pt_tax_exemption_reason__m20
-msgid "M20 - IVA - regime forfetário"
+msgid "M20 - IVA – regime forfetário"
 msgstr ""
+
 
 #. module: l10n_pt_account_vat
 #: model:ir.model.fields.selection,name:l10n_pt_account_vat.selection__account_tax__l10n_pt_tax_exemption_reason__m21
 msgid "M21 - IVA – não confere direito à dedução"
 msgstr ""
 
-#. module: l10n_pt_account_vat
-#: model:ir.model.fields.selection,name:l10n_pt_account_vat.selection__account_tax__l10n_pt_tax_exemption_reason__m22
-msgid "M22 - IVA – não confere direito à dedução"
-msgstr ""
 
 #. module: l10n_pt_account_vat
 #: model:ir.model.fields.selection,name:l10n_pt_account_vat.selection__account_tax__l10n_pt_tax_exemption_reason__m25
 msgid "M25 - Mercadorias à consignação"
 msgstr ""
 
+
+#. module: l10n_pt_account_vat
+#: model:ir.model.fields.selection,name:l10n_pt_account_vat.selection__account_tax__l10n_pt_tax_exemption_reason__m26
+msgid "M26 - Isenção de IVA com direito à dedução no cabaz alimentar"
+msgstr ""
+
+
 #. module: l10n_pt_account_vat
 #: model:ir.model.fields.selection,name:l10n_pt_account_vat.selection__account_tax__l10n_pt_tax_exemption_reason__m30
-msgid "M30 - IVA - autoliquidação (2.1.i)"
+msgid "M30 - IVA – autoliquidação (art. 2.º n.º 1 i) CIVA)"
 msgstr ""
+
 
 #. module: l10n_pt_account_vat
 #: model:ir.model.fields.selection,name:l10n_pt_account_vat.selection__account_tax__l10n_pt_tax_exemption_reason__m31
-msgid "M31 - IVA - autoliquidação (2.1.j)"
+msgid "M31 - IVA – autoliquidação (art. 2.º n.º 1 j) CIVA)"
 msgstr ""
+
 
 #. module: l10n_pt_account_vat
 #: model:ir.model.fields.selection,name:l10n_pt_account_vat.selection__account_tax__l10n_pt_tax_exemption_reason__m32
-msgid "M32 - IVA - autoliquidação (2.1.l)"
+msgid "M32 - IVA – autoliquidação (art. 2.º n.º 1 l) CIVA)"
 msgstr ""
+
 
 #. module: l10n_pt_account_vat
 #: model:ir.model.fields.selection,name:l10n_pt_account_vat.selection__account_tax__l10n_pt_tax_exemption_reason__m33
-msgid "M33 - IVA - autoliquidação (2.1.m)"
+msgid "M33 - IVA – autoliquidação (art. 2.º n.º 1 m) CIVA)"
 msgstr ""
+
+
+#. module: l10n_pt_account_vat
+#: model:ir.model.fields.selection,name:l10n_pt_account_vat.selection__account_tax__l10n_pt_tax_exemption_reason__m34
+msgid "M34 - IVA – autoliquidação (art. 2.º n.º 1 n) CIVA)"
+msgstr ""
+
+
+#. module: l10n_pt_account_vat
+#: model:ir.model.fields.selection,name:l10n_pt_account_vat.selection__account_tax__l10n_pt_tax_exemption_reason__m35
+msgid "M35 - IVA – autoliquidação (art. 2.º n.º 1 j) CIVA, verba 2.42 da lista I, from 2026-07-01)"
+msgstr ""
+
 
 #. module: l10n_pt_account_vat
 #: model:ir.model.fields.selection,name:l10n_pt_account_vat.selection__account_tax__l10n_pt_tax_exemption_reason__m40
-msgid "M40 - IVA - autoliquidação (6.6.a)"
+msgid "M40 - IVA – autoliquidação (art. 6.º n.º 6 a) CIVA)"
 msgstr ""
+
 
 #. module: l10n_pt_account_vat
 #: model:ir.model.fields.selection,name:l10n_pt_account_vat.selection__account_tax__l10n_pt_tax_exemption_reason__m41
-msgid "M41 - IVA - autoliquidação (8.3.R)"
+msgid "M41 - IVA – autoliquidação (art. 8.º n.º 3 RITI)"
 msgstr ""
+
 
 #. module: l10n_pt_account_vat
 #: model:ir.model.fields.selection,name:l10n_pt_account_vat.selection__account_tax__l10n_pt_tax_exemption_reason__m42
-msgid "M42 - IVA - autoliquidação (21.2007)"
+msgid "M42 - IVA – autoliquidação (DL 21/2007)"
 msgstr ""
+
 
 #. module: l10n_pt_account_vat
 #: model:ir.model.fields.selection,name:l10n_pt_account_vat.selection__account_tax__l10n_pt_tax_exemption_reason__m43
-msgid "M43 - IVA - autoliquidação (362.99)"
+msgid "M43 - IVA – autoliquidação (DL 362/99)"
 msgstr ""
+
+
+#. module: l10n_pt_account_vat
+#: model:ir.model.fields.selection,name:l10n_pt_account_vat.selection__account_tax__l10n_pt_tax_exemption_reason__m44
+msgid "M44 - IVA – Regras específicas – artigo 6.º"
+msgstr ""
+
+
+#. module: l10n_pt_account_vat
+#: model:ir.model.fields.selection,name:l10n_pt_account_vat.selection__account_tax__l10n_pt_tax_exemption_reason__m45
+msgid "M45 - IVA – regime transfronteiriço de isenção"
+msgstr ""
+
+
+#. module: l10n_pt_account_vat
+#: model:ir.model.fields.selection,name:l10n_pt_account_vat.selection__account_tax__l10n_pt_tax_exemption_reason__m46
+msgid "M46 - IVA – e-TaxFree"
+msgstr ""
+
 
 #. module: l10n_pt_account_vat
 #: model:ir.model.fields.selection,name:l10n_pt_account_vat.selection__account_tax__l10n_pt_tax_exemption_reason__m99
-msgid "M99 - Não sujeito; não tributado ou similar"
+msgid "M99 - Não sujeito ou não tributado"
 msgstr ""
+
 
 #. module: l10n_pt_account_vat
 #: model:ir.model.fields.selection,name:l10n_pt_account_vat.selection__account_tax_group__l10n_pt_tax_region__pt-ma
@@ -349,5 +403,5 @@ msgstr "Categoria de Imposto (PT)"
 
 #. module: l10n_pt_account_vat
 #: model:ir.model.fields,field_description:l10n_pt_account_vat.field_account_tax__l10n_pt_tax_exemption_reason
-msgid "Tax Exemption Reason (PT)"
+msgid "Tax Exemption Reason"
 msgstr "Motivo de Isenção de IVA"

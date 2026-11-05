@@ -29,7 +29,7 @@ class TestVATPT(common.TransactionCase):
             }
         )
 
-    def _new_pt_tax(self, amount):
+    def _new_pt_tax(self, amount, exemption_reason=None):
         tax_group = self.env["account.tax.group"].create(
             {"name": f"IVA {amount}%", "country_id": self.pt_country.id}
         )
@@ -40,6 +40,7 @@ class TestVATPT(common.TransactionCase):
                 "type_tax_use": "sale",
                 "country_id": self.pt_country.id,
                 "tax_group_id": tax_group.id,
+                "l10n_pt_tax_exemption_reason": exemption_reason,
             }
         )
 
@@ -73,10 +74,41 @@ class TestVATPT(common.TransactionCase):
             )
         return invoice
 
-    def test_post_exempt_tax_requires_reason(self):
-        """Posting a PT invoice requires an exemption reason on exempt taxes."""
+    def _make_legacy_exempt_tax(self):
+        # Simulate a PT tax stored before the exemption reason rule:
+        # the tax-level constraint only guards writes, so clear the
+        # reason directly to leave a reason-less 0% tax behind.
+        tax = self._new_pt_tax(0.0, exemption_reason="M07")
+        self.env.cr.execute(
+            "UPDATE account_tax SET l10n_pt_tax_exemption_reason = NULL WHERE id = %s",
+            [tax.id],
+        )
+        tax.invalidate_recordset()
+        return tax
+
+    def test_exempt_tax_requires_reason(self):
+        """A PT tax charging 0% cannot be saved without an exemption reason."""
         self.env.company.account_fiscal_country_id = self.pt_country
-        exempt_tax = self._new_pt_tax(0.0)
+        with self.assertRaises(exceptions.ValidationError):
+            self._new_pt_tax(0.0)
+        exempt_tax = self._new_pt_tax(0.0, exemption_reason="M07")
+        self.assertEqual(exempt_tax.l10n_pt_tax_exemption_reason, "M07")
+
+    def test_exempt_tax_reason_change_validated(self):
+        """Zeroing a PT tax's rate or clearing its reason is refused."""
+        self.env.company.account_fiscal_country_id = self.pt_country
+        tax = self._new_pt_tax(23.0)
+        with self.assertRaises(exceptions.ValidationError):
+            tax.amount = 0.0
+        tax.l10n_pt_tax_exemption_reason = "M07"
+        tax.amount = 0.0
+        with self.assertRaises(exceptions.ValidationError):
+            tax.l10n_pt_tax_exemption_reason = False
+
+    def test_post_legacy_exempt_tax_requires_reason(self):
+        """Posting a PT invoice fails while a legacy exempt tax lacks a reason."""
+        self.env.company.account_fiscal_country_id = self.pt_country
+        exempt_tax = self._make_legacy_exempt_tax()
         invoice = self._new_invoice(exempt_tax)
         with self.assertRaises(exceptions.ValidationError):
             invoice.action_post()
@@ -87,7 +119,7 @@ class TestVATPT(common.TransactionCase):
     def test_post_mixed_tax_requires_reason(self):
         """A line mixing a 0% tax with a nonzero tax cannot bypass the check."""
         self.env.company.account_fiscal_country_id = self.pt_country
-        exempt_tax = self._new_pt_tax(0.0)
+        exempt_tax = self._make_legacy_exempt_tax()
         reduced_tax = self._new_pt_tax(6.0)
         invoice = self._new_invoice(exempt_tax + reduced_tax)
         with self.assertRaises(exceptions.ValidationError):

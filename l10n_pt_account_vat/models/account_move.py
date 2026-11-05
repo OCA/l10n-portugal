@@ -8,10 +8,9 @@ class AccountMove(models.Model):
     _inherit = "account.move"
 
     def action_post(self):
-        # Zero-rate PT taxes must carry an exemption reason code,
-        # also on lines mixing exempt and nonzero taxes.
-        # Enforced at posting time instead of on the tax record,
-        # to stay safe with legacy data.
+        # PT requirement: a reason must be given whenever tax is not
+        # charged. The tax itself requires one, but a tax stored before
+        # that rule may still lack it; this catches those at posting.
         for invoice in self.filtered(
             lambda m: m.country_code == "PT" and m.is_sale_document()
         ):
@@ -19,16 +18,13 @@ class AccountMove(models.Model):
                 lambda x: x.display_type not in ["line_section", "line_note"]
             )
             missing_reason = lines.tax_ids.filtered(
-                lambda t: (
-                    t.country_code == "PT"
-                    and not t.amount
-                    and not t.l10n_pt_tax_exemption_reason
-                )
+                lambda t: t._l10n_pt_lacks_exemption_reason()
             )
             if missing_reason:
                 raise exceptions.ValidationError(
                     self.env._(
-                        "Exempt taxes require an exemption reason: %(taxes)s",
+                        "A tax that charges nothing needs a VAT exemption "
+                        "reason: set one on %(taxes)s.",
                         taxes=", ".join(missing_reason.mapped("name")),
                     )
                 )

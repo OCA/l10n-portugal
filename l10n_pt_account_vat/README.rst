@@ -34,7 +34,7 @@ Portugal - VAT
 
 Add the Portuguese VAT data model that mirrors the Odoo work in progress
 for the native Portuguese certification, ``l10n_pt_certification``
-(https://github.com/odoo/odoo/pull/196102):
+(https://github.com/odoo/odoo/pull/296355):
 
 - ``account.tax.l10n_pt_tax_exemption_reason``: the legally accepted VAT
   exemption reason codes, required on Portuguese taxes with a 0% amount.
