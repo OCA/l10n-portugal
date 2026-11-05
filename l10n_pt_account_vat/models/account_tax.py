@@ -1,4 +1,4 @@
-# Copyright (C) 2021 Open SOurce Integrators (<http://www.opensourceintegrators.com>)
+# Copyright (C) 2026 Daniel Reis <dreis.pt@gmail.com>
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl).
 
 from odoo import fields, models

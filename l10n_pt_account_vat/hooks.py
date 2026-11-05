@@ -1,5 +1,4 @@
 # Copyright (C) 2026 Daniel Reis <dreis.pt@gmail.com>
-# Copyright (C) 2026 Odoo S.A.
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl).
 
 import logging
