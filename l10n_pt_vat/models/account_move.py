@@ -66,10 +66,10 @@ class AccountMove(models.Model):
         VAT Exemption reason is required if there are lines without tax
         """
         for invoice in self.filtered("is_l10npt_vat_enabled"):
-            exempt_lines = invoice.invoice_line_ids.filtered(
+            lines = invoice.invoice_line_ids.filtered(
                 lambda x: x.display_type not in ["line_section", "line_note"]
-                and not x.tax_ids.filtered("amount")
             )
+            exempt_lines = lines.filtered(lambda x: not x.tax_ids.filtered("amount"))
             if exempt_lines and not invoice.l10npt_vat_exempt_reason:
                 raise exceptions.ValidationError(
                     self.env._("A tax exemption reason must be provided.")

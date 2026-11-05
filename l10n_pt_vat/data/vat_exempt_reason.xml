@@ -154,6 +154,12 @@
     </record>
     <record id="M22" model="account.l10n_pt.vat.exempt.reason">
         <field name="code">M22</field>
+        <field name="name">IVA - não confere direito à dedução</field>
+        <field name="note">Regime de tributação dos combustíveis líquidos aplicáveis aos
+            revendedores - N.º 4 do art.º 72 do CIVA</field>
+    </record>
+    <record id="M25" model="account.l10n_pt.vat.exempt.reason">
+        <field name="code">M25</field>
         <field name="name">Mercadorias à Consignação</field>
         <field
             name="note"
