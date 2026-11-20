@@ -6,6 +6,7 @@ import time
 
 from odoo import _, fields, models
 from odoo.exceptions import ValidationError
+from odoo.tools.misc import hmac as hmac_tool
 
 _logger = logging.getLogger(__name__)
 
@@ -80,6 +81,18 @@ class PaymentTransaction(models.Model):
             )
         return self.browse()
 
+    def _get_specific_processing_values(self, processing_values):
+        res = super()._get_specific_processing_values(processing_values)
+        if self.provider_code == "easypay":
+            # Access token verified by the checkout-session endpoint.
+            # Minted via hmac directly (same scope as
+            # payment_utils.generate_access_token) because the latter
+            # requires an active HTTP request, which is not guaranteed here.
+            res["access_token"] = hmac_tool(
+                self.env(su=True), "generate_access_token", str(self.id)
+            )
+        return res
+
     def _process_notification_data(self, notification_data):
         """Override of payment to process the notification data."""
         super()._process_notification_data(notification_data)
@@ -107,8 +120,13 @@ class PaymentTransaction(models.Model):
             payment_method,
         )
 
-        # Update transaction with EasyPay data
-        if payment_id and not self.provider_reference:
+        # Update transaction with EasyPay data. A provider_reference equal
+        # to the checkout id is legacy bad data: the verified payment id may
+        # replace it (all binding checks already passed upstream).
+        if payment_id and (
+            not self.provider_reference
+            or self.provider_reference == self.easypay_checkout_id
+        ):
             self.provider_reference = payment_id
 
         # Capture transaction ID — needed for refunds and manual capture.
@@ -150,20 +168,13 @@ class PaymentTransaction(models.Model):
         ):
             try:
                 capture_response = self._easypay_capture(token_ref)
-                capture_status = capture_response.get("status", "")
                 _logger.debug(
                     "Capture response for %s: status=%r id=%s",
                     self.reference,
-                    capture_status,
+                    capture_response.get("status"),
                     self.easypay_transaction_id,
                 )
-                if capture_status in ("paid", "captured"):
-                    self._set_done()
-                elif capture_status in ("authorized", "authorised"):
-                    self._set_authorized()
-                else:
-                    # Status pending or unknown — poll the capture endpoint.
-                    self._poll_capture_status()
+                self._easypay_apply_capture_result(capture_response)
             except Exception as e:
                 _logger.exception(
                     "Immediate capture after tokenization failed for %s: %s",
@@ -311,14 +322,31 @@ class PaymentTransaction(models.Model):
             raise ValidationError(
                 _("Cannot capture: No EasyPay payment ID found for this transaction.")
             )
-        self._easypay_capture(self.provider_reference)
-        self._set_done()
+        response = self._easypay_capture(self.provider_reference)
+        self._easypay_apply_capture_result(response)
+
+    def _easypay_apply_capture_result(self, capture_response):
+        """Resolve the transaction state from a POST /capture response.
+
+        The POST only acknowledges the request with an 'ok' envelope — the
+        capture state itself must be read back from the API, so the result
+        is always resolved through ``_poll_capture_status``.
+        """
+        _logger.debug(
+            "Capture request acknowledged for %s (capture id=%s); polling status",
+            self.reference,
+            capture_response.get("id"),
+        )
+        self._poll_capture_status()
 
     def _poll_capture_status(self, retries=3):
         """Poll GET /2.0/capture/{easypay_transaction_id} until a final status appears.
 
-        Called after a tokenized capture returns a non-final status.
-        Applies the resolved state directly; webhook remains the fallback.
+        Called after a capture is submitted. Applies the resolved state
+        directly; the webhook remains the fallback for unresolved states.
+        Authorisation is never treated as capture success: an authorised
+        transaction that stays unresolved is moved to pending so it is not
+        offered for capture again.
 
         :param int retries: Number of attempts (back-off: 2s, 4s, 6s).
         """
@@ -327,7 +355,7 @@ class PaymentTransaction(models.Model):
             _logger.warning(
                 "Cannot poll capture: no easypay_transaction_id on %s", self.reference
             )
-            self._set_pending()
+            self._set_pending(extra_allowed_states=("authorized",))
             return
 
         for attempt in range(1, retries + 1):
@@ -342,7 +370,8 @@ class PaymentTransaction(models.Model):
                     self.reference,
                     e,
                 )
-                time.sleep(attempt * 2)
+                if attempt < retries:
+                    time.sleep(attempt * 2)
                 continue
 
             capture_status = data.get("status", "")
@@ -352,20 +381,21 @@ class PaymentTransaction(models.Model):
                 self.reference,
                 capture_status,
             )
-            if capture_status in ("paid", "captured"):
+            if capture_status in ("success", "paid", "captured"):
                 self._set_done()
                 return
-            elif capture_status in ("authorized", "authorised"):
-                self._set_authorized()
+            elif capture_status == "failed":
+                self._set_error(_("EasyPay capture failed."))
                 return
-            time.sleep(attempt * 2)
+            if attempt < retries:
+                time.sleep(attempt * 2)
 
         _logger.warning(
             "Capture status not final after %d retries for %s — webhook will confirm.",
             retries,
             self.reference,
         )
-        self._set_pending()
+        self._set_pending(extra_allowed_states=("authorized",))
 
     def _easypay_capture(self, capture_ref):
         """POST /2.0/capture/{capture_ref}, store transaction ID, return response"""
@@ -390,7 +420,8 @@ class PaymentTransaction(models.Model):
             raise ValidationError(
                 _("Cannot void: No EasyPay payment ID found for this transaction.")
             )
-        self.provider_id._easypay_make_request(
+        response = self.provider_id._easypay_make_request(
             f"/2.0/authorisation/{self.provider_reference}/void"
         )
+        self.provider_id._easypay_raise_for_status(response, "void")
         self._set_canceled()

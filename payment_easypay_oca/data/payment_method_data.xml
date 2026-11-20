@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo noupdate="1">
+    <!-- Unused placeholder kept for a possible future Direct Debit
+         implementation. It is inactive, not linked to any provider by
+         default, and excluded from checkout: the sync action never links
+         Direct Debit methods and the post-migration unlinks any that were
+         attached to EasyPay providers. -->
     <record id="payment_method_easypay_direct_debit" model="payment.method">
         <field name="name">EasyPay Direct Debit</field>
         <field name="code">dd</field>
         <field name="sequence">12</field>
-        <field name="active">True</field>
+        <field name="active">False</field>
         <field name="is_primary">True</field>
         <field
             name="image"

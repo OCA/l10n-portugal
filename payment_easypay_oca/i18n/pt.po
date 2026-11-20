@@ -54,7 +54,6 @@ msgid "An error occurred while loading the payment form. Please try again."
 msgstr "Ocorreu um erro ao carregar o formulário de pagamento. Por favor tente novamente."
 
 #. module: payment_easypay_oca
-#: model:easypay.payment.method,name:payment_easypay_oca.payment_method_ap
 #: model:payment.method,name:payment_easypay_oca.payment_method_apple_pay
 msgid "Apple Pay"
 msgstr "Apple Pay"
@@ -115,26 +114,6 @@ msgid "Continue"
 msgstr "Continuar"
 
 #. module: payment_easypay_oca
-#: model:ir.model.fields,field_description:payment_easypay_oca.field_easypay_payment_method__create_uid
-msgid "Created by"
-msgstr "Criado por"
-
-#. module: payment_easypay_oca
-#: model:ir.model.fields,field_description:payment_easypay_oca.field_easypay_payment_method__create_date
-msgid "Created on"
-msgstr "Criado em"
-
-#. module: payment_easypay_oca
-#: model:easypay.payment.method,name:payment_easypay_oca.payment_method_cc
-msgid "Credit/Debit Card"
-msgstr "Cartão de Crédito/Débito"
-
-#. module: payment_easypay_oca
-#: model:ir.model.fields,field_description:payment_easypay_oca.field_easypay_payment_method__display_name
-msgid "Display Name"
-msgstr "Nome a Apresentar"
-
-#. module: payment_easypay_oca
 #: model:ir.model.fields.selection,name:payment_easypay_oca.selection__payment_provider__code__easypay
 msgid "EasyPay"
 msgstr "EasyPay"
@@ -172,7 +151,6 @@ msgid "EasyPay Details"
 msgstr "Detalhes EasyPay"
 
 #. module: payment_easypay_oca
-#: model:ir.model.fields,field_description:payment_easypay_oca.field_payment_provider__easypay_payment_method_ids
 #: model_terms:ir.ui.view,arch_db:payment_easypay_oca.payment_provider_form_easypay
 msgid "EasyPay Options"
 msgstr "Opções EasyPay"
@@ -183,7 +161,6 @@ msgid "EasyPay Payment Details"
 msgstr "Detalhes de Pagamento EasyPay"
 
 #. module: payment_easypay_oca
-#: model:ir.model,name:payment_easypay_oca.model_easypay_payment_method
 #: model:ir.model.fields,field_description:payment_easypay_oca.field_payment_transaction__easypay_payment_method
 msgid "EasyPay Payment Method"
 msgstr "Método de Pagamento EasyPay"
@@ -225,30 +202,9 @@ msgid "Go Back"
 msgstr "Voltar"
 
 #. module: payment_easypay_oca
-#: model:easypay.payment.method,name:payment_easypay_oca.payment_method_gp
 #: model:payment.method,name:payment_easypay_oca.payment_method_google_pay
 msgid "Google Pay"
 msgstr "Google Pay"
-
-#. module: payment_easypay_oca
-#: model:ir.model.fields,field_description:payment_easypay_oca.field_easypay_payment_method__id
-msgid "ID"
-msgstr "ID"
-
-#. module: payment_easypay_oca
-#: model:ir.model.fields,help:payment_easypay_oca.field_easypay_payment_method__code
-msgid "Internal code used by EasyPay API"
-msgstr "Código interno utilizado pela API EasyPay"
-
-#. module: payment_easypay_oca
-#: model:ir.model.fields,field_description:payment_easypay_oca.field_easypay_payment_method__write_uid
-msgid "Last Updated by"
-msgstr "Última Atualização por"
-
-#. module: payment_easypay_oca
-#: model:ir.model.fields,field_description:payment_easypay_oca.field_easypay_payment_method__write_date
-msgid "Last Updated on"
-msgstr "Última Atualização em"
 
 #. module: payment_easypay_oca
 #: model:ir.model.fields,field_description:payment_easypay_oca.field_payment_transaction__easypay_mb_entity
@@ -266,22 +222,6 @@ msgid "MB Reference"
 msgstr "Referência MB"
 
 #. module: payment_easypay_oca
-#: model:easypay.payment.method,name:payment_easypay_oca.payment_method_mbw
-msgid "MB WAY"
-msgstr "MB WAY"
-
-#. module: payment_easypay_oca
-#: model:ir.model.fields,field_description:payment_easypay_oca.field_easypay_payment_method__code
-msgid "Method Code"
-msgstr "Código do Método"
-
-#. module: payment_easypay_oca
-#: model:ir.model.fields,field_description:payment_easypay_oca.field_easypay_payment_method__name
-msgid "Method Name"
-msgstr "Nome do Método"
-
-#. module: payment_easypay_oca
-#: model:easypay.payment.method,name:payment_easypay_oca.payment_method_mb
 #: model_terms:ir.ui.view,arch_db:payment_easypay_oca.mb_reference_page
 msgid "Multibanco"
 msgstr "Multibanco"
@@ -345,13 +285,6 @@ msgid "Reference:"
 msgstr "Referência:"
 
 #. module: payment_easypay_oca
-#: model:easypay.payment.method,name:payment_easypay_oca.payment_method_dd
-#: model:payment.method,name:payment_easypay_oca.payment_method_sepa_direct_debit
-msgid "SEPA Direct Debit"
-msgstr "Débito Direto SEPA"
-
-#. module: payment_easypay_oca
-#: model:easypay.payment.method,name:payment_easypay_oca.payment_method_sw
 #: model:payment.method,name:payment_easypay_oca.payment_method_samsung_pay
 msgid "Samsung Pay"
 msgstr "Samsung Pay"
@@ -365,11 +298,6 @@ msgstr "Pagamento Seguro"
 #: model_terms:ir.ui.view,arch_db:payment_easypay_oca.checkout_page
 msgid "Secure Payment | EasyPay"
 msgstr "Pagamento Seguro | EasyPay"
-
-#. module: payment_easypay_oca
-#: model:ir.model.fields,help:payment_easypay_oca.field_payment_provider__easypay_payment_method_ids
-msgid "Select the payment methods to enable for EasyPay"
-msgstr "Selecione os métodos de pagamento a ativar para o EasyPay"
 
 #. module: payment_easypay_oca
 #: model_terms:ir.ui.view,arch_db:payment_easypay_oca.payment_provider_form_easypay
@@ -410,11 +338,6 @@ msgstr "O código técnico deste provedor de pagamento."
 #: model:ir.model.fields,help:payment_easypay_oca.field_payment_transaction__easypay_transaction_id
 msgid "The transaction ID returned by EasyPay"
 msgstr "O ID da transação devolvido pelo EasyPay"
-
-#. module: payment_easypay_oca
-#: model:easypay.payment.method,name:payment_easypay_oca.payment_method_vi
-msgid "Virtual IBAN"
-msgstr "IBAN Virtual"
 
 #. module: payment_easypay_oca
 #: model:payment.method,name:payment_easypay_oca.payment_method_virtual_iban

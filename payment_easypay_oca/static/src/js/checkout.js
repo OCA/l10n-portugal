@@ -1,7 +1,16 @@
 (function () {
     "use strict";
 
-    var data = window.easyPayData;
+    var checkoutEl = document.getElementById("easypay-checkout");
+    var data = null;
+    try {
+        data =
+            checkoutEl && checkoutEl.dataset.easypay
+                ? JSON.parse(checkoutEl.dataset.easypay)
+                : null;
+    } catch {
+        data = null;
+    }
     var loadingEl = document.getElementById("payment-loading");
     var containerEl = document.getElementById("easypay-checkout-container");
     var errorEl = document.getElementById("payment-error");

@@ -80,6 +80,13 @@ class EasyPayCheckoutCallbackController(http.Controller):
             return werkzeug.utils.redirect("/payment/status", code=303)
 
         try:
+            # The checkout response top-level 'id' is the checkout id; the
+            # payment id lives under payment.id. Expose it as the
+            # notification id so provider_reference stores the payment
+            # reference, not the checkout session.
+            payment = payment_data.get("payment")
+            if isinstance(payment, dict) and payment.get("id"):
+                payment_data["id"] = payment["id"]
             tx_sudo._handle_notification_data("easypay", payment_data)
         except Exception as e:
             _logger.exception(
@@ -131,13 +138,17 @@ class EasyPayCheckoutCallbackController(http.Controller):
         save_session=False,
     )
     def easypay_checkout_cancel(self, **data):
-        """Handle checkout cancellation from EasyPay SDK."""
-        reference = data.get("key")
+        """Handle checkout cancellation from EasyPay SDK.
+
+        Only the opaque checkout session ID is accepted — never the
+        transaction reference, which is guessable and would let anyone
+        cancel another customer's pending transaction.
+        """
         session_id = data.get("session_id")
         tx_sudo = (
             request.env["payment.transaction"]
             .sudo()
-            ._find_easypay_transaction(session_id, reference)
+            ._find_easypay_transaction(session_id, None)
         )
         if tx_sudo:
             tx_sudo._set_canceled(state_message="Payment cancelled by customer")

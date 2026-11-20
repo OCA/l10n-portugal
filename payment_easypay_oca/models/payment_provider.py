@@ -99,7 +99,6 @@ class PaymentProvider(models.Model):
             "card",  # Credit Card (pre-existing Odoo method)
             "multibanco",  # Multibanco (pre-existing Odoo method)
             "mbway",  # MBWAY (pre-existing Odoo method)
-            "dd",  # EasyPay Direct Debit
             "vi",  # Virtual IBAN
             "ap",  # Apple Pay
             "gp",  # Google Pay
@@ -112,13 +111,19 @@ class PaymentProvider(models.Model):
 
     # === BUSINESS METHODS - PAYMENT FLOW ===#
 
-    def _easypay_make_request(self, endpoint, payload=None, method="POST"):
+    def _easypay_make_request(
+        self, endpoint, payload=None, method="POST", idempotency_key=None
+    ):
         url = f"{self._easypay_get_api_url()}{endpoint}"
         headers = {
             "AccountId": self.easypay_account_id,
             "ApiKey": self.easypay_api_key,
             "Content-Type": "application/json",
         }
+        # Optional EasyPay idempotency: retrying a request with the same key
+        # replays the stored response instead of processing it again.
+        if idempotency_key:
+            headers["Idempotency-Key"] = idempotency_key
 
         try:
             response = requests.request(
@@ -154,23 +159,40 @@ class PaymentProvider(models.Model):
         items = self._easypay_build_order_items(tx_sudo)
 
         # Map Odoo payment method code → EasyPay API method code(s).
-        # When a specific method is selected, restrict the checkout to that
-        # method only. The catch-all "easypay" (Other payment methods) sends
-        # no filter so EasyPay shows all methods enabled on the account.
+        # Checkout must always send a nonempty allowlisted payment.methods:
+        # an explicit selection maps to its EasyPay code, while the catch-all
+        # "easypay" (Other payment methods) derives the explicit codes from
+        # the provider's active linked payment methods.
         odoo_pm_code = tx_sudo.payment_method_code
         easypay_code = const.ODOO_TO_EASYPAY.get(odoo_pm_code, odoo_pm_code)
-        method_codes = [easypay_code] if easypay_code != "easypay" else []
-        # SEPA DD mandates are always frequent — the mandate itself is the token.
-        # For other methods, follow the tokenize flag.
-        is_dd = odoo_pm_code == "sepa_direct_debit"
-        is_frequent = is_dd or tx_sudo.tokenize
+        if easypay_code == "easypay":
+            method_codes = self._easypay_checkout_method_codes()
+            if not method_codes:
+                raise ValidationError(
+                    _(
+                        "EasyPay checkout requires at least one supported "
+                        "payment method linked to this provider."
+                    )
+                )
+        elif easypay_code in const.CHECKOUT_PAYMENT_METHOD_CODES:
+            method_codes = [easypay_code]
+        else:
+            raise ValidationError(
+                _(
+                    "The '%(method)s' payment method is not supported by "
+                    "EasyPay checkout.",
+                    method=odoo_pm_code,
+                )
+            )
+        is_frequent = tx_sudo.tokenize
 
-        # Build base payload
+        # Build base payload — payment.methods is always a nonempty
+        # allowlisted set derived above.
         payload = {
             "type": ["frequent" if is_frequent else "single"],
             "payment": {
                 "currency": tx_sudo.currency_id.name,
-                **({"methods": method_codes} if method_codes else {}),
+                "methods": method_codes,
             },
             "order": {
                 "key": tx_sudo.reference,
@@ -200,10 +222,28 @@ class PaymentProvider(models.Model):
 
         return self._easypay_make_request("/2.0/checkout", payload)
 
+    def _easypay_checkout_method_codes(self):
+        """EasyPay codes for this provider's active linked payment methods.
+
+        Only codes in ``CHECKOUT_PAYMENT_METHOD_CODES`` are returned, in
+        link order and without duplicates.
+        """
+        codes = []
+        for method in self.payment_method_ids.filtered("active"):
+            code = const.ODOO_TO_EASYPAY.get(method.code, method.code)
+            if code in const.CHECKOUT_PAYMENT_METHOD_CODES and code not in codes:
+                codes.append(code)
+        return codes
+
     def _easypay_build_order_items(self, tx_sudo):
         """Extract order items from transaction."""
-        # Try to get items from sale order
-        if tx_sudo.sale_order_ids:
+        # sale_order_ids and invoice_ids are provided by sale and
+        # account_payment respectively — neither is a dependency of this
+        # module, so guard the lookups.
+        sale_orders = (
+            tx_sudo.sale_order_ids if "sale_order_ids" in tx_sudo._fields else None
+        )
+        if sale_orders:
             return [
                 {
                     "description": line.product_id.name or line.name,
@@ -211,10 +251,11 @@ class PaymentProvider(models.Model):
                     "key": str(line.id),
                     "value": float(line.price_total),
                 }
-                for line in tx_sudo.sale_order_ids[0].order_line
+                for line in sale_orders[0].order_line
             ]
 
-        if tx_sudo.invoice_ids:
+        invoices = tx_sudo.invoice_ids if "invoice_ids" in tx_sudo._fields else None
+        if invoices:
             return [
                 {
                     "description": line.product_id.name or line.name,
@@ -222,7 +263,7 @@ class PaymentProvider(models.Model):
                     "key": str(line.id),
                     "value": float(line.price_total),
                 }
-                for line in tx_sudo.invoice_ids[0].invoice_line_ids
+                for line in invoices[0].invoice_line_ids
             ]
 
         # Fallback to generic payment item
@@ -279,8 +320,8 @@ class PaymentProvider(models.Model):
                 },
             }
         config = self._easypay_make_request("/2.0/config", method="GET")
-        api_codes = config.get("payment_methods") or []
-        if not api_codes:
+        raw_codes = config.get("payment_methods") or []
+        if not raw_codes:
             return {
                 "type": "ir.actions.client",
                 "tag": "display_notification",
@@ -290,23 +331,34 @@ class PaymentProvider(models.Model):
                     "sticky": False,
                 },
             }
-        # Translate EasyPay codes that need mapping, use others directly
+        # Unsupported codes (e.g. Direct Debit) are filtered out; when every
+        # returned code is unsupported the provider's links are still
+        # updated below, removing the unsupported ones.
+        api_codes = [
+            code
+            for code in raw_codes
+            if code not in const.UNSUPPORTED_CHECKOUT_METHOD_CODES
+        ]
+        # Translate EasyPay codes that need mapping, use others directly.
+        # active_test=False so that inactive methods (e.g. one deactivated by a
+        # previous sync) can be found and reactivated.
         odoo_codes = [const.EASYPAY_TO_ODOO.get(code, code) for code in api_codes]
-        api_methods = self.env["payment.method"].search([("code", "in", odoo_codes)])
+        methods = self.env["payment.method"].with_context(active_test=False)
+        api_methods = methods.search([("code", "in", odoo_codes)])
 
-        # Activate returned methods, deactivate all other EasyPay methods
-        all_easypay_methods = self.env["payment.method"].search(
-            [("code", "in", list(const.DEFAULT_PAYMENT_METHOD_CODES))]
-        )
-
-        # Deactivate all EasyPay methods first
-        all_easypay_methods.write({"active": False})
-
-        # Activate only the API returned methods
-        api_methods.write({"active": True})
-
-        # Set provider to use only active methods
+        # Link the provider first: payment.method.write refuses to activate a
+        # method that isn't linked to a non-disabled provider.
         self.payment_method_ids = api_methods
+        # Shared core methods (card, multibanco, mbway) returned by the API are
+        # activated so they can actually be offered — mirroring core's
+        # _activate_default_pms. But they are never deactivated: other
+        # providers may depend on them.
+        if self.state != "disabled":
+            api_methods.active = True
+        owned_methods = methods.search(
+            [("code", "in", list(const.OWNED_PAYMENT_METHOD_CODES))]
+        )
+        (owned_methods - api_methods).write({"active": False})
         return {
             "type": "ir.actions.client",
             "tag": "display_notification",
