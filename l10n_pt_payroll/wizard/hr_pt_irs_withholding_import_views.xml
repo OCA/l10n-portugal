@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_hr_pt_irs_withholding_import_form" model="ir.ui.view">
+        <field name="name">hr.pt.irs.withholding.import.form</field>
+        <field name="model">hr.pt.irs.withholding.import</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="csv_file" filename="filename" />
+                        <field name="filename" invisible="1" />
+                    </group>
+                    <footer>
+                        <button
+                            name="action_import"
+                            type="object"
+                            string="Import"
+                            class="btn-primary"
+                        />
+                        <button
+                            name="action_load_bundled"
+                            type="object"
+                            string="Load bundled tables"
+                        />
+                        <button string="Cancel" special="cancel" />
+                    </footer>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="action_hr_pt_irs_withholding_import" model="ir.actions.act_window">
+        <field name="name">Import IRS Withholding Tables</field>
+        <field name="res_model">hr.pt.irs.withholding.import</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+    <menuitem
+        id="menu_hr_pt_irs_withholding_import"
+        name="Import IRS Tables"
+        parent="payroll.payroll_menu_configuration"
+        action="action_hr_pt_irs_withholding_import"
+        sequence="91"
+    />
+</odoo>

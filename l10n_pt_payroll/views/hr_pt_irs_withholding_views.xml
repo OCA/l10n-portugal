@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_hr_pt_irs_withholding_table_list" model="ir.ui.view">
+        <field name="name">hr.pt.irs.withholding.table.list</field>
+        <field name="model">hr.pt.irs.withholding.table</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name" />
+                <field name="date_start" />
+                <field name="date_end" />
+                <field name="region" />
+                <field name="ias" />
+            </list>
+        </field>
+    </record>
+    <record id="view_hr_pt_irs_withholding_table_form" model="ir.ui.view">
+        <field name="name">hr.pt.irs.withholding.table.form</field>
+        <field name="model">hr.pt.irs.withholding.table</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="date_start" />
+                            <field name="date_end" />
+                            <field name="region" />
+                        </group>
+                        <group>
+                            <field name="table_id" />
+                            <field name="ias" />
+                        </group>
+                    </group>
+                    <group string="Despacho constants">
+                        <group>
+                            <field name="disabled_dep_parcela_single" />
+                            <field name="disabled_dep_parcela_joint" />
+                            <field name="spouse_disabled_parcela" />
+                        </group>
+                        <group>
+                            <field name="pension_dep_parcela_single" />
+                            <field name="pension_dep_parcela_joint" />
+                            <field name="pension_dep_parcela_single_income" />
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="brackets" string="Brackets">
+                            <field name="line_ids">
+                                <list editable="bottom">
+                                    <field name="lower_bound" />
+                                    <field name="upper_bound" />
+                                    <field name="marginal_rate" />
+                                    <field name="parcela_abater" />
+                                    <field name="dependent_parcela" />
+                                    <field name="forces_disabled_parcela" />
+                                    <field name="effective_rate_limit" />
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="action_hr_pt_irs_withholding_table" model="ir.actions.act_window">
+        <field name="name">IRS Withholding Tables</field>
+        <field name="res_model">hr.pt.irs.withholding.table</field>
+        <field name="view_mode">list,form</field>
+    </record>
+    <menuitem
+        id="menu_hr_pt_irs_withholding_table"
+        name="IRS Withholding Tables"
+        parent="payroll.payroll_menu_configuration"
+        action="action_hr_pt_irs_withholding_table"
+        sequence="90"
+    />
+</odoo>
