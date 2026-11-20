@@ -1,0 +1,4 @@
+id,name,model_id,group_id/id,operation,domain
+access_account_vat_adjustment_norm_read,l10n.pt.vat.adjustment.norm read,l10n.pt.vat.adjustment.norm,account.group_account_invoice,r,
+access_account_vat_adjustment_norm_readonly,l10n.pt.vat.adjustment.norm readonly,l10n.pt.vat.adjustment.norm,account.group_account_readonly,r,
+access_account_vat_adjustment_norm_manager,l10n.pt.vat.adjustment.norm manager,l10n.pt.vat.adjustment.norm,account.group_account_manager,crud,
