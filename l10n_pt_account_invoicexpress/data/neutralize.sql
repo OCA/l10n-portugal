@@ -1,4 +1,4 @@
 -- disable InvoiceXpress connection
-UPDATE res_company
-   SET invoicexpress_account_name = NULL
- WHERE invoicexpress_account_name IS NOT NULL;
+UPDATE account_journal
+   SET invoicexpress_api_key = NULL
+ WHERE invoicexpress_api_key IS NOT NULL;

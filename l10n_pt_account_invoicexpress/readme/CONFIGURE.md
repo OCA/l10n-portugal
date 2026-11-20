@@ -1,15 +1,20 @@
 To configure:
 
-- Navigate to Settings/General Settings.
-- In the "Invoicing" configuration section, locate the
-  "InvoiceXpress" subsection: There you can set:
-  - InvoiceXpress Account Name
-  - InvoiceXpress API Key
-  - InvoiceXpress Invoice Email Template
-
 - In "Invoicing/Accounting" configuration section, locate the
-  Sales Journals, and set the "InvoiceXpress Doc Type".
-  This is required before invoices before any invoice can be created.
+  Sales Journals. On each sales journal that must issue documents through
+  InvoiceXpress, select "InvoiceXpress" as the legal document provider —
+  the selector lists only providers whose adapter is installed — then fill
+  in the "InvoiceXpress Account Name", "InvoiceXpress API Key" and
+  "InvoiceXpress Doc Type". These are required before any invoice can be
+  created on that journal. Optionally select an "InvoiceXpress Email
+  Template" — the shipped default template can be selected explicitly if
+  desired.
+
+The InvoiceXpress Account Name identifies the InvoiceXpress account used
+for API requests and the API key authenticates them; both are configured
+per journal, not per company. To issue documents for a different
+InvoiceXpress account, use a separate sales journal instead of changing
+the settings of a journal that was already used to issue documents.
 
 The email template is used to prepare the details for the email the
 InvoiceXpress service sends with the invoice:
@@ -21,9 +26,6 @@ InvoiceXpress service sends with the invoice:
 
 Translations are supported, and the customer language is used to render
 the email details.
-
-The InvoiceXpress configuration is per company, and can also be modified
-directly on the Company form, if the Developer Mode is enabled.
 
 On the Journal form, for sales journals, a flag is available to allow
 disabling the InvoiceXpress integration. This can be useful for a

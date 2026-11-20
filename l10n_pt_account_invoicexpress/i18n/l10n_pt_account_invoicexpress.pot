@@ -266,7 +266,7 @@ msgid "InvoiceXpress Invoice Email Template"
 msgstr ""
 
 #. module: l10n_pt_account_invoicexpress
-#: model:ir.model,name:l10n_pt_account_invoicexpress.model_account_invoicexpress
+#: model:ir.model,name:l10n_pt_account_invoicexpress.model_account_provider_invoicexpress
 msgid "InvoiceXpress connector"
 msgstr ""
 

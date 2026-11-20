@@ -46,7 +46,7 @@ class ResPartner(models.Model):
             vals["language"] = "en"
         return {k: v for k, v in vals.items() if v}
 
-    def set_invoicexpress_contact(self, company=False):
+    def set_invoicexpress_contact(self, journal):
         self.ensure_one()
         if self.vat and self.country_id:
             # Double check VAT is right
@@ -54,8 +54,8 @@ class ResPartner(models.Model):
             self._check_vat_number(
                 vat_prefix or self.country_id.code.lower(), vat_number
             )
-        InvoiceXpress = self.env["account.invoicexpress"]
-        company = company or self.company_id or self.env.company
+        InvoiceXpress = self.env["account.provider.invoicexpress"]
+        company = journal.company_id
         partner = self.with_company(company)
         doctype = "client"
 
@@ -64,8 +64,8 @@ class ResPartner(models.Model):
         vals = partner._prepare_invoicexpress_vals()
 
         # Find existing client by code
-        response = InvoiceXpress.call(
-            company,
+        response = InvoiceXpress._call(
+            journal,
             f"{doctype}s/find-by-code.json",
             "GET",
             params={"client_code": vals["code"]},
@@ -73,8 +73,8 @@ class ResPartner(models.Model):
         )
         # Create if missing: POST /clients.json
         if response.status_code == 404:
-            response = InvoiceXpress.call(
-                company,
+            response = InvoiceXpress._call(
+                journal,
                 f"{doctype}s.json",
                 "POST",
                 payload={"client": vals},
@@ -88,12 +88,12 @@ class ResPartner(models.Model):
                 new_code = f"ODOO-{partner.ref or partner.id}-{partner.vat or ''}"
                 if code != new_code:
                     partner.invoicexpress_code = new_code
-                    return partner.set_invoicexpress_contact(company=company)
+                    return partner.set_invoicexpress_contact(journal=journal)
 
             # Update: PUT /clients/$(client-id).json
             client_id = values.get("id")
-            response = InvoiceXpress.call(
-                company,
+            response = InvoiceXpress._call(
+                journal,
                 f"{doctype}s/{client_id}.json",
                 "PUT",
                 payload={"client": vals},

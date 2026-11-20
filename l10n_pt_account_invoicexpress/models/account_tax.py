@@ -10,16 +10,19 @@ class AccountTax(models.Model):
     invoicexpress_id = fields.Char("InvoiceXpress ID", copy=False, readonly=True)
 
     @api.model
-    def _map_invoicexpress_taxes(self, company):
+    def _map_invoicexpress_taxes(self, journal):
         """
         Retrieves all InvoiceXpress taxes, an maps them
         to the existing Odoo taxes
         """
-        InvoiceXpress = self.env["account.invoicexpress"]
-        response = InvoiceXpress.call(company, "taxes.json", "GET")
+        InvoiceXpress = self.env["account.provider.invoicexpress"]
+        response = InvoiceXpress._call(journal, "taxes.json", "GET")
         invx_taxes_dict = {x["name"]: x for x in response.json().get("taxes", [])}
         odoo_taxes = self.search(
-            [("type_tax_use", "=", "sale"), ("company_id", "=", company.id)]
+            [
+                ("type_tax_use", "=", "sale"),
+                ("company_id", "=", journal.company_id.id),
+            ]
         )
         for odoo_tax in odoo_taxes:
             invx_tax_vals = invx_taxes_dict.get(odoo_tax.name)
@@ -32,7 +35,7 @@ class AccountTax(models.Model):
             "tax": {
                 "name": self.name,
                 "value": str(self.amount),
-                "region": self.l10n_pt_fiscal_zone or "",
+                "region": self.tax_group_id.l10n_pt_tax_region or "",
             }
         }
         return tax_data
@@ -40,18 +43,18 @@ class AccountTax(models.Model):
     def _update_invoicexpress_status(self, result):
         self.invoicexpress_id = result.get("id")
 
-    def action_invoicexpress_tax_create(self):
-        InvoiceXpress = self.env["account.invoicexpress"]
+    def action_invoicexpress_tax_create(self, journal):
+        InvoiceXpress = self.env["account.provider.invoicexpress"]
         verb = "POST"
         endpoint = "taxes.json"
         for tax in self.filtered(lambda x: not x.invoicexpress_id):
             payload = tax._prepare_invoicexpress_vals()
-            response = InvoiceXpress.call(
-                tax.company_id, endpoint, verb, payload=payload, raise_errors=False
+            response = InvoiceXpress._call(
+                journal, endpoint, verb, payload=payload, raise_errors=False
             )
             if response.status_code == 422:
                 # Tax name already exists, map missing invoicexpress_ids
-                self._map_invoicexpress_taxes(tax.company_id)
+                self._map_invoicexpress_taxes(journal)
             else:
                 InvoiceXpress._check_http_status(response)
                 response_json = response.json()

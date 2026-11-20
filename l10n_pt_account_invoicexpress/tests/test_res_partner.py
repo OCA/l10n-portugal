@@ -24,9 +24,17 @@ class TestResPartnerInvoiceXpress(common.TransactionCase):
         other_company = self.env["res.company"].create(
             {
                 "name": "Other Company",
+                "country_id": self.env.ref("base.pt").id,
+            }
+        )
+        journal = self.env["account.journal"].create(
+            {
+                "name": "Sales",
+                "code": "INVX",
+                "type": "sale",
+                "company_id": other_company.id,
                 "invoicexpress_account_name": "ACCOUNT",
                 "invoicexpress_api_key": "APIKEY",
-                "country_id": self.env.ref("base.pt").id,
             }
         )
         partner = self.env["res.partner"].create(
@@ -40,7 +48,7 @@ class TestResPartnerInvoiceXpress(common.TransactionCase):
             "requests.request",
             side_effect=_mock_set_invoicexpress_contact_request,
         ):
-            partner.set_invoicexpress_contact(company=other_company)
+            partner.set_invoicexpress_contact(journal=journal)
 
         self.assertEqual(
             partner.with_company(other_company).invoicexpress_code,
