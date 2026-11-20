@@ -2,7 +2,7 @@
 # Copyright (C) 2021 Open SOurce Integrators (<http://www.opensourceintegrators.com>)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-from odoo import api, fields, models
+from odoo import fields, models
 
 
 class AccountVATAdjustmentNorm(models.Model):
@@ -33,16 +33,5 @@ class AccountVATAdjustmentNorm(models.Model):
             ("out_refund", "Customer Credit Note"),
             ("in_refund", "Vendor Credit Note"),
         ],
-        compute="_compute_move_type",
-        store=True,
+        readonly=True,
     )
-
-    @api.depends("out_refunds", "in_refunds")
-    def _compute_move_type(self):
-        for norm in self:
-            if norm.out_refunds:
-                norm.move_type = "out_refund"
-            elif norm.in_refunds:
-                norm.move_type = "in_refund"
-            else:
-                norm.move_type = False
