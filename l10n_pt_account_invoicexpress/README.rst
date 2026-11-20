@@ -21,13 +21,13 @@ Portugal InvoiceXpress Integration
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fl10n--portugal-lightgray.png?logo=github
-    :target: https://github.com/OCA/l10n-portugal/tree/19.0/l10n_pt_account_invoicexpress
+    :target: https://github.com/OCA/l10n-portugal/tree/20.0/l10n_pt_account_invoicexpress
     :alt: OCA/l10n-portugal
 .. |badge4| image:: https://img.shields.io/badge/weblate-Translate%20me-F47D42.png
-    :target: https://translation.odoo-community.org/projects/l10n-portugal-19-0/l10n-portugal-19-0-l10n_pt_account_invoicexpress
+    :target: https://translation.odoo-community.org/projects/l10n-portugal-20-0/l10n-portugal-20-0-l10n_pt_account_invoicexpress
     :alt: Translate me on Weblate
 .. |badge5| image:: https://img.shields.io/badge/runboat-Try%20me-875A7B.png
-    :target: https://runboat.odoo-community.org/builds?repo=OCA/l10n-portugal&target_branch=19.0
+    :target: https://runboat.odoo-community.org/builds?repo=OCA/l10n-portugal&target_branch=20.0
     :alt: Try me on Runboat
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
@@ -45,9 +45,10 @@ If the InvoiceXpress Invoice email template is configured, the
 InvoiceXpress service will also send the invoice by email, using the
 details in Odoo configured email template.
 
-This replaces the Odoo SEND & PRINT button, since only the InvoiceXpress
-generated document should be used. Having other print layouts for the
-invoice is not allowed by the Portuguese Tax Authority.
+The generated InvoiceXpress PDF is stored as the invoice's reference
+document, so the standard Odoo SEND & PRINT button mails the certified
+document — other print layouts are not allowed by the Portuguese Tax
+Authority.
 
 Legal transport documents ("Guias de Transporte" e "Guias de Remessa)
 are also supported through an extension module. For this please ensure
@@ -106,10 +107,13 @@ Usage
 =====
 
 On an Invoice, the CONFIRM button automatically generates an invoice on
-the InvoiceXpress service.
+the InvoiceXpress service, and downloads its PDF as the invoice's
+reference document. The standard Odoo **Send & Print** button sends this
+certified PDF by email — Odoo-generated invoice layouts are not used.
 
-The "Email InvoiceXpress" button requests the InvoiceXpress service to
-send an email with a copy of the legal document.
+The "View Document" button opens the document page on InvoiceXpress, and
+the "Email via Provider" button asks the InvoiceXpress service to send
+the email itself (requires the InvoiceXpress email template).
 
 The Invoice form shows an "InvoiceXpress" tab containing details for the
 corresponding InvoiceXpress document.
@@ -126,6 +130,12 @@ Invoices:
 - For standalone credit notes (invoices created outside InvoiceXpress),
   fill the Reference field with the invoice series/number (e.g., "FT
   A/1") before posting
+- Each invoice line must have exactly one tax configured; InvoiceXpress
+  accepts a single tax per item.
+- A 0% tax needs a VAT exemption reason configured on the tax itself;
+  the reason is sent once for the whole document.
+- Invoices whose lines use different exemption reasons are rejected
+  before sending — split them into one invoice per reason.
 
 The monthly SAF-T file should be downloaded from the InvoiceXpress
 website.
@@ -136,7 +146,7 @@ Bug Tracker
 Bugs are tracked on `GitHub Issues <https://github.com/OCA/l10n-portugal/issues>`_.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us to smash it by providing a detailed and welcomed
-`feedback <https://github.com/OCA/l10n-portugal/issues/new?body=module:%20l10n_pt_account_invoicexpress%0Aversion:%2019.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
+`feedback <https://github.com/OCA/l10n-portugal/issues/new?body=module:%20l10n_pt_account_invoicexpress%0Aversion:%2020.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
 
 Do not contact contributors directly about support or help with technical issues.
 
@@ -175,6 +185,6 @@ Current `maintainer <https://odoo-community.org/page/maintainer-role>`__:
 
 |maintainer-dreispt| 
 
-This module is part of the `OCA/l10n-portugal <https://github.com/OCA/l10n-portugal/tree/19.0/l10n_pt_account_invoicexpress>`_ project on GitHub.
+This module is part of the `OCA/l10n-portugal <https://github.com/OCA/l10n-portugal/tree/20.0/l10n_pt_account_invoicexpress>`_ project on GitHub.
 
 You are welcome to contribute. To learn how please visit https://odoo-community.org/page/Contribute.

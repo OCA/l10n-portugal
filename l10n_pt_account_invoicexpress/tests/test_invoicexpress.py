@@ -1,8 +1,10 @@
+import json
 from unittest.mock import patch
 
 import requests
 
 from odoo import fields
+from odoo.exceptions import UserError
 from odoo.tests import Form, common
 
 from .invoicexpress_mock import mock_request_side_effect, mock_response
@@ -97,19 +99,70 @@ class TestInvoiceXpress(common.TransactionCase):
     @patch("requests.request")
     def test_101_create_invoicexpress_invoice(self, mock_request):
         mock_request.side_effect = mock_request_side_effect
-        # Ensure Journal is configured
-        self.sale_journals.write({"invoicexpress_doc_type": "invoice_receipt"})
-        # Create the Invoice
+        tax = self._make_invoice_tax("IVA23", 23)
+        invoice = self._make_invoice_with_taxes(tax, tax)
+        invoice.action_post()
+        self.assertEqual(invoice.l10n_pt_doc_type, "invoice_receipt")
+        self.assertEqual(invoice.l10n_pt_doc_id, "12345678")
+        self.assertEqual(invoice.name, "FR MYSEQ/123")
+        self.assertNotIn("tax_exemption", self._get_sent_invoice(mock_request))
+
+    @patch("requests.request")
+    def test_same_exemption_sent_at_document_level(self, mock_request):
+        mock_request.side_effect = mock_request_side_effect
+        tax_a = self._make_invoice_tax("Exempt A", 0, reason="M07")
+        tax_b = self._make_invoice_tax("Exempt B", 0, reason="M07")
+        taxable = self._make_invoice_tax("IVA23", 23)
+        invoice = self._make_invoice_with_taxes(tax_a, tax_b, taxable)
+        self.assertEqual(invoice.invoicexpress_tax_exemption, "M07")
+        invoice.action_post()
+        payload = self._get_sent_invoice(mock_request)
+        self.assertEqual(payload["tax_exemption"], "M07")
+        self.assertEqual(len(payload["items"]), 3)
+
+    @patch("requests.request")
+    def test_mixed_exemptions_block_before_provider_request(self, mock_request):
+        mock_request.side_effect = mock_request_side_effect
+        tax_a = self._make_invoice_tax("Exempt A", 0, reason="M07")
+        tax_b = self._make_invoice_tax("Exempt B", 0, reason="M16")
+        taxable = self._make_invoice_tax("IVA23", 23)
+        invoice = self._make_invoice_with_taxes(tax_a, tax_b, taxable)
+        with self.assertRaisesRegex(UserError, "M07, M16"):
+            invoice.action_post()
+        mock_request.assert_not_called()
+
+    def _make_invoice_with_taxes(self, *taxes):
+        self.sale_journals.write(
+            {
+                "l10n_pt_doc_provider": "invoicexpress",
+                "invoicexpress_doc_type": "invoice_receipt",
+            }
+        )
         move_form = Form(self.AccountMove.with_context(default_move_type="out_invoice"))
         move_form.invoice_date = fields.Date.today()
         move_form.partner_id = self.partnerA
-        products = [self.productA, self.productB]
+        for tax in taxes:
+            with move_form.invoice_line_ids.new() as line:
+                line.product_id = self.productA
+                line.tax_ids.clear()
+                line.tax_ids.add(tax)
+        return move_form.save()
 
-        for product in products:
-            with move_form.invoice_line_ids.new() as line_form:
-                line_form.product_id = product
-        invoice = move_form.save()
-        invoice.action_post()
-        self.assertEqual(invoice.invoicexpress_doc_type, "invoice_receipt")
-        self.assertEqual(invoice.invoicexpress_id, "12345678")
-        self.assertEqual(invoice.name, "FR MYSEQ/123")
+    def _make_invoice_tax(self, name, amount, reason=False):
+        return self.AccountTax.create(
+            {
+                "name": name,
+                "type_tax_use": "sale",
+                "amount": amount,
+                "amount_type": "percent",
+                "l10n_pt_tax_exemption_reason": reason,
+            }
+        )
+
+    def _get_sent_invoice(self, mock_request):
+        return next(
+            json.loads(call.kwargs["data"])["invoice"]
+            for call in mock_request.call_args_list
+            if call.args[0] == "POST"
+            and call.args[1].endswith("/invoice_receipts.json")
+        )

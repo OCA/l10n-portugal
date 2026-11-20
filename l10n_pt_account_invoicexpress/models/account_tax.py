@@ -32,7 +32,7 @@ class AccountTax(models.Model):
             "tax": {
                 "name": self.name,
                 "value": str(self.amount),
-                "region": self.l10n_pt_fiscal_zone or "",
+                "region": self.tax_group_id.l10n_pt_tax_region or "",
             }
         }
         return tax_data
