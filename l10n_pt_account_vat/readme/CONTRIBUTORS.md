@@ -1,0 +1,2 @@
+- Daniel Reis (<dreis.pt@gmail.com>)
+- Odoo S.A.
