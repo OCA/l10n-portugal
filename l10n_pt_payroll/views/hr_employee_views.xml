@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_employee_form_l10n_pt_payroll" model="ir.ui.view">
+        <field name="name">hr.employee.form.l10n.pt.payroll</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='l10n_pt_disability_degree']" position="after">
+                <field name="l10n_pt_irs_family_status" />
+                <field name="l10n_pt_irs_dependents" />
+                <field name="l10n_pt_irs_disabled_dependents" />
+                <field
+                    name="l10n_pt_irs_disabled_dep_factor"
+                    invisible="not l10n_pt_irs_disabled_dependents"
+                />
+                <field
+                    name="l10n_pt_irs_spouse_disabled"
+                    invisible="l10n_pt_irs_family_status != 'married_single_income'"
+                />
+                <field name="l10n_pt_irs_region" />
+                <field name="l10n_pt_irs_pensioner" />
+                <field
+                    name="l10n_pt_military_disabled"
+                    invisible="not l10n_pt_irs_pensioner"
+                />
+                <field name="l10n_pt_irs_non_resident" />
+                <field name="l10n_pt_irs_preferred_rate" />
+                <field name="l10n_pt_irs_jovem" />
+                <field
+                    name="l10n_pt_irs_income_years"
+                    invisible="not l10n_pt_irs_jovem"
+                />
+                <field name="l10n_pt_irs_table_id" />
+            </xpath>
+        </field>
+    </record>
+</odoo>

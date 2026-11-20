@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!-- Official withholding tables approved each year by Despacho:
+         I-VII for dependent work income, VIII-XI for pensions (except
+         alimony). l10n_pt_payroll maps each code to the brackets of the
+         fiscal year. -->
+    <record id="l10n_pt_irs_table_1" model="l10n.pt.irs.withholding.table">
+        <field name="name">Single without dependents or married — both filers</field>
+        <field name="code">I</field>
+        <field name="sequence">10</field>
+    </record>
+    <record id="l10n_pt_irs_table_2" model="l10n.pt.irs.withholding.table">
+        <field name="name">Single with one or more dependents</field>
+        <field name="code">II</field>
+        <field name="sequence">20</field>
+    </record>
+    <record id="l10n_pt_irs_table_3" model="l10n.pt.irs.withholding.table">
+        <field name="name">Married — single income</field>
+        <field name="code">III</field>
+        <field name="sequence">30</field>
+    </record>
+    <record id="l10n_pt_irs_table_4" model="l10n.pt.irs.withholding.table">
+        <field
+            name="name"
+        >Single or married — both filers — without dependents — disabled</field>
+        <field name="code">IV</field>
+        <field name="sequence">40</field>
+    </record>
+    <record id="l10n_pt_irs_table_5" model="l10n.pt.irs.withholding.table">
+        <field name="name">Single with one or more dependents — disabled</field>
+        <field name="code">V</field>
+        <field name="sequence">50</field>
+    </record>
+    <record id="l10n_pt_irs_table_6" model="l10n.pt.irs.withholding.table">
+        <field
+            name="name"
+        >Married — both filers, with one or more dependents — disabled</field>
+        <field name="code">VI</field>
+        <field name="sequence">60</field>
+    </record>
+    <record id="l10n_pt_irs_table_7" model="l10n.pt.irs.withholding.table">
+        <field name="name">Married — single income — disabled</field>
+        <field name="code">VII</field>
+        <field name="sequence">70</field>
+    </record>
+    <record id="l10n_pt_irs_table_8" model="l10n.pt.irs.withholding.table">
+        <field name="name">Pension — single or married — both filers</field>
+        <field name="code">VIII</field>
+        <field name="sequence">80</field>
+    </record>
+    <record id="l10n_pt_irs_table_9" model="l10n.pt.irs.withholding.table">
+        <field name="name">Pension — married — single income</field>
+        <field name="code">IX</field>
+        <field name="sequence">90</field>
+    </record>
+    <record id="l10n_pt_irs_table_10" model="l10n.pt.irs.withholding.table">
+        <field name="name">Pension — single or married — both filers — disabled</field>
+        <field name="code">X</field>
+        <field name="sequence">100</field>
+    </record>
+    <record id="l10n_pt_irs_table_11" model="l10n.pt.irs.withholding.table">
+        <field name="name">Pension — married — single income — disabled</field>
+        <field name="code">XI</field>
+        <field name="sequence">110</field>
+    </record>
+</odoo>

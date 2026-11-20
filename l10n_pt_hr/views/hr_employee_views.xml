@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_employee_form_l10n_pt_hr" model="ir.ui.view">
+        <field name="name">hr.employee.form.l10n.pt.hr</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//div[@id='o_work_information']/group[1]" position="after">
+                <group string="Portugal" name="l10n_pt_hr" groups="hr.group_hr_user">
+                    <field name="l10n_pt_irct_id" />
+                    <field
+                        name="l10n_pt_professional_category_id"
+                        domain="['|', ('irct_id', '=', l10n_pt_irct_id), ('irct_id', '=', False)]"
+                    />
+                    <field name="l10n_pt_union_id" />
+                    <field name="l10n_pt_profession_id" />
+                    <field name="l10n_pt_pay_grade_id" />
+                    <field name="l10n_pt_ss_regime_id" />
+                    <field name="l10n_pt_disability_degree" />
+                    <separator string="Education &amp; Insurance" />
+                    <field name="l10n_pt_qualification_level" />
+                    <field name="l10n_pt_work_insurance_id" />
+                </group>
+            </xpath>
+            <xpath
+                expr="//group[@name='citizenship']/field[@name='identification_id']"
+                position="before"
+            >
+                <field name="l10n_pt_id_doc_type" />
+            </xpath>
+            <xpath
+                expr="//group[@name='citizenship']/field[@name='identification_id']"
+                position="after"
+            >
+                <field
+                    name="l10n_pt_id_doc_expiry"
+                    invisible="not l10n_pt_id_doc_type"
+                />
+            </xpath>
+        </field>
+    </record>
+</odoo>

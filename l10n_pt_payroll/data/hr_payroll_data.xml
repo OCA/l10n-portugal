@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+    <!-- Salary Rule Categories -->
+    <!-- Codes mirror the payroll module defaults so the usual formulas -->
+    <!-- (categories.BASIC, categories.ALW, ...) work unchanged. -->
+    <record id="categ_pt_basic" model="hr.salary.rule.category">
+        <field name="name">Base</field>
+        <field name="code">BASIC</field>
+    </record>
+    <record id="categ_pt_alw" model="hr.salary.rule.category">
+        <field name="name">Abonos</field>
+        <field name="code">ALW</field>
+    </record>
+    <record id="categ_pt_gross" model="hr.salary.rule.category">
+        <field name="name">Bruto</field>
+        <field name="code">GROSS</field>
+    </record>
+    <record id="categ_pt_ded" model="hr.salary.rule.category">
+        <field name="name">Deduções</field>
+        <field name="code">DED</field>
+    </record>
+    <record id="categ_pt_net" model="hr.salary.rule.category">
+        <field name="name">Líquido</field>
+        <field name="code">NET</field>
+    </record>
+    <record id="categ_pt_comp" model="hr.salary.rule.category">
+        <field name="name">Contribuições da Entidade Patronal</field>
+        <field name="code">COMP</field>
+    </record>
+    <!-- Salary Rules: attached to the structure through rule_ids. -->
+    <record id="hr_rule_pt_basic" model="hr.salary.rule">
+        <field name="name">Vencimento Base</field>
+        <field name="sequence" eval="1" />
+        <field name="code">BASIC</field>
+        <field name="category_id" ref="categ_pt_basic" />
+        <field name="l10n_pt_irs_taxable" eval="1.0" />
+        <field name="condition_select">none</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+result = contract.wage
+            </field>
+    </record>
+    <record id="hr_rule_pt_meal" model="hr.salary.rule">
+        <field name="name">Subsídio de Alimentação</field>
+        <field name="sequence" eval="10" />
+        <field name="code">SA</field>
+        <field name="category_id" ref="categ_pt_alw" />
+        <field name="condition_select">none</field>
+        <field name="amount_select">fix</field>
+        <field eval="10.20" name="amount_fix" />
+        <field name="quantity">
+worked_days.WORK100.number_of_days
+            </field>
+        <field name="note">Meal allowance; exempt from IRS within the legal limit; flag
+l10n_pt_irs_taxable holds the taxable share (e.g. 0.5 for half-taxable
+allowances); the exempt portion needs no entry.</field>
+    </record>
+    <record id="hr_rule_pt_gross" model="hr.salary.rule">
+        <field name="name">Remuneração Bruta</field>
+        <field name="sequence" eval="100" />
+        <field name="code">GROSS</field>
+        <field name="category_id" ref="categ_pt_gross" />
+        <field name="condition_select">none</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+result = categories.BASIC + categories.ALW
+            </field>
+    </record>
+    <record id="hr_rule_pt_ss" model="hr.salary.rule">
+        <field name="name">Segurança Social (Trabalhador)</field>
+        <field name="sequence" eval="120" />
+        <field name="code">SS</field>
+        <field name="category_id" ref="categ_pt_ded" />
+        <field name="condition_select">none</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+result = -categories.BASIC * (contract.l10n_pt_ss_regime_id or contract.env.ref('l10n_pt_hr.l10n_pt_ss_regime_geral', raise_if_not_found=False)).l10n_pt_employee_rate / 100
+            </field>
+    </record>
+    <record id="hr_rule_pt_irs" model="hr.salary.rule">
+        <field name="name">Retenção na Fonte IRS</field>
+        <field name="sequence" eval="130" />
+        <field name="code">IRS</field>
+        <field name="category_id" ref="categ_pt_ded" />
+        <field name="condition_select">none</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+result = -payslip._l10n_pt_irs_retention(result_rules)
+            </field>
+    </record>
+    <record id="hr_rule_pt_ss_company" model="hr.salary.rule">
+        <field name="name">Segurança Social (Entidade Patronal)</field>
+        <field name="sequence" eval="300" />
+        <field name="code">SS_COMP</field>
+        <field name="category_id" ref="categ_pt_comp" />
+        <field name="condition_select">none</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+result = categories.BASIC * (contract.l10n_pt_ss_regime_id or contract.env.ref('l10n_pt_hr.l10n_pt_ss_regime_geral', raise_if_not_found=False)).l10n_pt_employer_rate / 100
+            </field>
+    </record>
+    <record id="hr_rule_pt_sat" model="hr.salary.rule">
+        <field name="name">Seguro de Acidentes de Trabalho (SAT)</field>
+        <field name="sequence" eval="320" />
+        <field name="code">SAT_COMP</field>
+        <field name="category_id" ref="categ_pt_comp" />
+        <field name="condition_select">none</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+result = categories.BASIC * (contract.l10n_pt_work_insurance_id.rate or 0) / 100
+            </field>
+    </record>
+    <record id="hr_rule_pt_net" model="hr.salary.rule">
+        <field name="name">Líquido a Receber</field>
+        <field name="sequence" eval="500" />
+        <field name="code">NET</field>
+        <field name="category_id" ref="categ_pt_net" />
+        <field name="condition_select">none</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+result = categories.BASIC + categories.ALW + categories.DED
+            </field>
+    </record>
+    <!-- Salary Structure: contracts pick it through struct_id. -->
+    <record id="structure_pt" model="hr.payroll.structure">
+        <field name="code">PT</field>
+        <field name="name">PT Payroll</field>
+        <field
+            name="rule_ids"
+            eval="[(6, 0, [ref('hr_rule_pt_basic'), ref('hr_rule_pt_meal'), ref('hr_rule_pt_gross'), ref('hr_rule_pt_ss'), ref('hr_rule_pt_irs'), ref('hr_rule_pt_ss_company'), ref('hr_rule_pt_sat'), ref('hr_rule_pt_net')])]"
+        />
+    </record>
+</odoo>

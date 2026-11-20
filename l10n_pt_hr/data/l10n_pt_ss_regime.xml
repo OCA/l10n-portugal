@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!-- Regimes per the Codigo dos Regimes Contributivos do Sistema
+         Previdencial de Seguranca Social (Lei n. 110/2009), one record
+         per situacao contributiva of the official Seguranca Social
+         contribution-rate table, with the official rates and DR rate
+         codes. Rates not yet transcribed keep the general-regime
+         field defaults until their official values are added. -->
+    <record id="l10n_pt_ss_regime_geral" model="l10n.pt.ss.regime">
+        <field name="name">Dependent worker - general regime</field>
+        <field name="code">geral</field>
+        <field name="sequence">10</field>
+        <field name="l10n_pt_employee_rate">11.0</field>
+        <field name="l10n_pt_employer_rate">23.75</field>
+        <field name="l10n_pt_dr_code">000</field>
+    </record>
+    <record id="l10n_pt_ss_regime_pre_reforma" model="l10n.pt.ss.regime">
+        <field name="name">
+            Pre-retirement with reduced working time (general regime)
+        </field>
+        <field name="code">pre_reforma</field>
+        <field name="sequence">15</field>
+        <field name="l10n_pt_employee_rate">11.0</field>
+        <field name="l10n_pt_employer_rate">23.75</field>
+        <field name="l10n_pt_dr_code">123</field>
+    </record>
+    <record id="l10n_pt_ss_regime_moe_gerencia" model="l10n.pt.ss.regime">
+        <field name="name">
+            MOE - management or administration (commercial companies)
+        </field>
+        <field name="code">moe_gerencia</field>
+        <field name="sequence">20</field>
+        <field name="l10n_pt_employee_rate">11.0</field>
+        <field name="l10n_pt_employer_rate">23.75</field>
+        <field name="l10n_pt_dr_code">142</field>
+    </record>
+    <record id="l10n_pt_ss_regime_moe_geral" model="l10n.pt.ss.regime">
+        <field name="name">MOE - general</field>
+        <field name="code">moe_geral</field>
+        <field name="sequence">30</field>
+        <field name="l10n_pt_employee_rate">9.3</field>
+        <field name="l10n_pt_employer_rate">20.3</field>
+        <field name="l10n_pt_dr_code">669</field>
+    </record>
+    <record id="l10n_pt_ss_regime_moe_ipss" model="l10n.pt.ss.regime">
+        <field name="name">MOE - IPSS staff</field>
+        <field name="code">moe_ipss</field>
+        <field name="sequence">40</field>
+        <field name="l10n_pt_employee_rate">9.9</field>
+        <field name="l10n_pt_employer_rate">22.3</field>
+        <field name="l10n_pt_dr_code">183</field>
+    </record>
+    <record id="l10n_pt_ss_regime_ti" model="l10n.pt.ss.regime">
+        <field name="name">Independent workers</field>
+        <field name="code">ti</field>
+        <field name="sequence">50</field>
+    </record>
+    <record id="l10n_pt_ss_regime_mar" model="l10n.pt.ss.regime">
+        <field name="name">Maritime workers</field>
+        <field name="code">mar</field>
+        <field name="sequence">60</field>
+    </record>
+    <record id="l10n_pt_ss_regime_agricola" model="l10n.pt.ss.regime">
+        <field name="name">Agricultural producers</field>
+        <field name="code">agricola</field>
+        <field name="sequence">70</field>
+    </record>
+    <record id="l10n_pt_ss_regime_domestico" model="l10n.pt.ss.regime">
+        <field name="name">Domestic work</field>
+        <field name="code">domestico</field>
+        <field name="sequence">80</field>
+    </record>
+    <record id="l10n_pt_ss_regime_igrejas" model="l10n.pt.ss.regime">
+        <field name="name">Members of churches and religious confessions</field>
+        <field name="code">igrejas</field>
+        <field name="sequence">90</field>
+    </record>
+    <record id="l10n_pt_ss_regime_facultativo" model="l10n.pt.ss.regime">
+        <field name="name">Voluntary social insurance</field>
+        <field name="code">facultativo</field>
+        <field name="sequence">100</field>
+    </record>
+    <record id="l10n_pt_ss_regime_convergente" model="l10n.pt.ss.regime">
+        <field name="name">Convergent regime (public service)</field>
+        <field name="code">convergente</field>
+        <field name="sequence">110</field>
+    </record>
+</odoo>

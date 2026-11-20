@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="hr_salary_rule_view_form_l10n_pt" model="ir.ui.view">
+        <field name="name">hr.salary.rule.form.l10n.pt</field>
+        <field name="model">hr.salary.rule</field>
+        <field name="inherit_id" ref="payroll.hr_salary_rule_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Portugal" name="l10n_pt">
+                    <group>
+                        <field name="l10n_pt_irs_taxable" />
+                        <field name="l10n_pt_dmr_code" />
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>
