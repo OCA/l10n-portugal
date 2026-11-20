@@ -1,0 +1,348 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_pt_vat
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 15.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-11-18 15:02+0000\n"
+"PO-Revision-Date: 2021-09-24 13:34+0000\n"
+"Last-Translator: Daniel Reis <dgreis@sapo.pt>\n"
+"Language-Team: \n"
+"Language: pt\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 4.3.2\n"
+
+#. module: l10n_pt_vat
+#. odoo-python
+#: code:addons/l10n_pt_vat/models/account_move.py:0
+#, python-format
+msgid "A tax exemption reason must be provided."
+msgstr "O motivo de isenção é obrigatório."
+
+#. module: l10n_pt_vat
+#: model:ir.model.fields,field_description:l10n_pt_vat.field_account_l10n_pt_vat_exempt_reason__active
+#: model:ir.model.fields,field_description:l10n_pt_vat.field_account_vat_adjustment_norm__active
+msgid "Active"
+msgstr "Ativo"
+
+#. module: l10n_pt_vat
+#: model:ir.model.fields.selection,name:l10n_pt_vat.selection__account_tax__l10n_pt_fiscal_zone__pt-ac
+msgid "Açores"
+msgstr "Açores"
+
+#. module: l10n_pt_vat
+#: model:ir.model.fields,field_description:l10n_pt_vat.field_account_l10n_pt_vat_exempt_reason__code
+msgid "Code"
+msgstr "Código"
+
+#. module: l10n_pt_vat
+#: model:account.l10n_pt.vat.exempt.reason,name:l10n_pt_vat.M16
+msgid "Colocar qual a alínea do artigo 14.º do RITI aplicável a isenção"
+msgstr ""
+
+#. module: l10n_pt_vat
+#: model:ir.model.fields,field_description:l10n_pt_vat.field_account_l10n_pt_vat_exempt_reason__create_uid
+#: model:ir.model.fields,field_description:l10n_pt_vat.field_account_vat_adjustment_norm__create_uid
+msgid "Created by"
+msgstr "Criado por"
+
+#. module: l10n_pt_vat
+#: model:ir.model.fields,field_description:l10n_pt_vat.field_account_l10n_pt_vat_exempt_reason__create_date
+#: model:ir.model.fields,field_description:l10n_pt_vat.field_account_vat_adjustment_norm__create_date
+msgid "Created on"
+msgstr "Criado em"
+
+#. module: l10n_pt_vat
+#: model:ir.model.fields.selection,name:l10n_pt_vat.selection__account_vat_adjustment_norm__move_type__out_refund
+msgid "Customer Credit Note"
+msgstr "Nota de Crédito de Cliente"
+
+#. module: l10n_pt_vat
+#: model:ir.model.fields,field_description:l10n_pt_vat.field_account_l10n_pt_vat_exempt_reason__note
+#: model:ir.model.fields,field_description:l10n_pt_vat.field_account_vat_adjustment_norm__note
+msgid "Description"
+msgstr "Descrição"
+
+#. module: l10n_pt_vat
+#: model:ir.model.fields,field_description:l10n_pt_vat.field_account_l10n_pt_vat_exempt_reason__display_name
+#: model:ir.model.fields,field_description:l10n_pt_vat.field_account_vat_adjustment_norm__display_name
+msgid "Display Name"
+msgstr "Nome a Exibir"
+
+#. module: l10n_pt_vat
+#: model:ir.model.fields,help:l10n_pt_vat.field_account_bank_statement_line__vat_adjustment_norm_id
+#: model:ir.model.fields,help:l10n_pt_vat.field_account_move__vat_adjustment_norm_id
+#: model:ir.model.fields,help:l10n_pt_vat.field_account_payment__vat_adjustment_norm_id
+msgid "Fields 40/41 of the VAT Statement"
+msgstr "Campo 40/41 da Declaração de IVA"
+
+#. module: l10n_pt_vat
+#: model:ir.model.fields,field_description:l10n_pt_vat.field_account_tax__l10n_pt_fiscal_zone
+msgid "Fiscal Zone"
+msgstr "Zona Fiscal"
+
+#. module: l10n_pt_vat
+#: model:ir.model.fields,field_description:l10n_pt_vat.field_account_l10n_pt_vat_exempt_reason__id
+#: model:ir.model.fields,field_description:l10n_pt_vat.field_account_vat_adjustment_norm__id
+msgid "ID"
+msgstr "ID"
+
+#. module: l10n_pt_vat
+#: model:account.l10n_pt.vat.exempt.reason,name:l10n_pt_vat.M20
+msgid "IVA - Regime forfetário"
+msgstr ""
+
+#. module: l10n_pt_vat
+#: model:account.l10n_pt.vat.exempt.reason,name:l10n_pt_vat.M30
+#: model:account.l10n_pt.vat.exempt.reason,name:l10n_pt_vat.M31
+#: model:account.l10n_pt.vat.exempt.reason,name:l10n_pt_vat.M32
+#: model:account.l10n_pt.vat.exempt.reason,name:l10n_pt_vat.M33
+#: model:account.l10n_pt.vat.exempt.reason,name:l10n_pt_vat.M40
+#: model:account.l10n_pt.vat.exempt.reason,name:l10n_pt_vat.M41
+#: model:account.l10n_pt.vat.exempt.reason,name:l10n_pt_vat.M42
+#: model:account.l10n_pt.vat.exempt.reason,name:l10n_pt_vat.M43
+msgid "IVA - autoliquidação"
+msgstr ""
+
+#. module: l10n_pt_vat
+#: model:account.l10n_pt.vat.exempt.reason,name:l10n_pt_vat.M09
+#: model:account.l10n_pt.vat.exempt.reason,name:l10n_pt_vat.M21
+msgid "IVA - não confere direito à dedução"
+msgstr ""
+
+#. module: l10n_pt_vat
+#: model:account.l10n_pt.vat.exempt.reason,name:l10n_pt_vat.M10
+msgid "IVA - regime de isenção"
+msgstr ""
+
+#. module: l10n_pt_vat
+#: model:ir.model.fields,help:l10n_pt_vat.field_account_vat_adjustment_norm__in_refunds
+msgid ""
+"If True, it will allow you to apply the adjustment norm to third party "
+"companies refunds."
+msgstr ""
+"Se assinalado, poderá aplicar a norma de regularização a notas de crédito de "
+"terceiros."
+
+#. module: l10n_pt_vat
+#: model:ir.model.fields,help:l10n_pt_vat.field_account_vat_adjustment_norm__out_refunds
+msgid ""
+"If True, it will allow you to apply the adjustment norm to your company "
+"refunds."
+msgstr ""
+"Se assinalado, poderá aplicar a norma de regularização às suas notas de "
+"crédito."
+
+#. module: l10n_pt_vat
+#: model:ir.model.fields,help:l10n_pt_vat.field_account_vat_adjustment_norm__active
+msgid ""
+"If the active field is set to False, it will allow you to hide the "
+"adjustment norm without removing it."
+msgstr ""
+"Se o campo Ativo não estiver assinalado, poderá esconder a norma de "
+"regularização sem a remover."
+
+#. module: l10n_pt_vat
+#: model:account.l10n_pt.vat.exempt.reason,name:l10n_pt_vat.M04
+msgid "Isento IVA - Artigo 13º CIVA"
+msgstr ""
+
+#. module: l10n_pt_vat
+#: model:account.l10n_pt.vat.exempt.reason,name:l10n_pt_vat.M02
+msgid "Isento IVA - Artigo 6.º do decreto-lei n.º 198/90 de 19 de junho"
+msgstr ""
+
+#. module: l10n_pt_vat
+#: model:account.l10n_pt.vat.exempt.reason,name:l10n_pt_vat.M06
+msgid ""
+"Isento de IVA - n.º x  do artigo 15.º do CIVA, colocar qual o n.º e\n"
+"            alínea aplicável à isenção"
+msgstr ""
+
+#. module: l10n_pt_vat
+#: model:account.l10n_pt.vat.exempt.reason,name:l10n_pt_vat.M05
+msgid ""
+"Isento de IVA - n.º x do artigo 14 do CIVA, Colocar qual o n.º do artigo\n"
+"            14.º do CIVA aplicável a isenção"
+msgstr ""
+
+#. module: l10n_pt_vat
+#: model:account.l10n_pt.vat.exempt.reason,name:l10n_pt_vat.M07
+msgid ""
+"Isento de IVA - n.º x do artigo 9.º do CIVA, colocar qual o n.º do\n"
+"            artigo 9.º do CIVA aplicável a isenção"
+msgstr ""
+
+#. module: l10n_pt_vat
+#: model:account.l10n_pt.vat.exempt.reason,name:l10n_pt_vat.M19
+msgid "Isenção do diploma xxxx"
+msgstr ""
+
+#. module: l10n_pt_vat
+#: model:ir.model,name:l10n_pt_vat.model_account_journal
+msgid "Journal"
+msgstr "Diário"
+
+#. module: l10n_pt_vat
+#: model:ir.model,name:l10n_pt_vat.model_account_move
+msgid "Journal Entry"
+msgstr "Lançamento de Diário"
+
+#. module: l10n_pt_vat
+#: model:ir.model.fields,field_description:l10n_pt_vat.field_account_bank_statement_line__l10npt_has_tax_exempt_lines
+#: model:ir.model.fields,field_description:l10n_pt_vat.field_account_move__l10npt_has_tax_exempt_lines
+#: model:ir.model.fields,field_description:l10n_pt_vat.field_account_payment__l10npt_has_tax_exempt_lines
+msgid "L10Npt Has Tax Exempt Lines"
+msgstr ""
+
+#. module: l10n_pt_vat
+#: model:ir.model.fields,field_description:l10n_pt_vat.field_account_l10n_pt_vat_exempt_reason__write_uid
+#: model:ir.model.fields,field_description:l10n_pt_vat.field_account_vat_adjustment_norm__write_uid
+msgid "Last Updated by"
+msgstr "Atualizado pela últ. vez por"
+
+#. module: l10n_pt_vat
+#: model:ir.model.fields,field_description:l10n_pt_vat.field_account_l10n_pt_vat_exempt_reason__write_date
+#: model:ir.model.fields,field_description:l10n_pt_vat.field_account_vat_adjustment_norm__write_date
+msgid "Last Updated on"
+msgstr "Atualizado pela últ. vez em"
+
+#. module: l10n_pt_vat
+#: model_terms:ir.ui.view,arch_db:l10n_pt_vat.vat_adjustment_norm_view_form
+msgid "Legal Norm (ex: Art. 78º, nº 8, alínea b)) ..."
+msgstr "Norma de Regularização Legal (ex: Art. 78º, nº 8, alínea b)) ..."
+
+#. module: l10n_pt_vat
+#: model:ir.model.fields.selection,name:l10n_pt_vat.selection__account_tax__l10n_pt_fiscal_zone__pt-ma
+msgid "Madeira"
+msgstr ""
+
+#. module: l10n_pt_vat
+#: model:account.l10n_pt.vat.exempt.reason,name:l10n_pt_vat.M22
+msgid "Mercadorias à Consignação"
+msgstr ""
+
+#. module: l10n_pt_vat
+#: model:ir.model.fields,field_description:l10n_pt_vat.field_account_vat_adjustment_norm__move_type
+msgid "Move Type"
+msgstr "Tipo de Lançamento"
+
+#. module: l10n_pt_vat
+#: model:ir.model.fields,field_description:l10n_pt_vat.field_account_l10n_pt_vat_exempt_reason__name
+#: model:ir.model.fields,field_description:l10n_pt_vat.field_account_vat_adjustment_norm__name
+msgid "Name"
+msgstr "Nome"
+
+#. module: l10n_pt_vat
+#: model:account.l10n_pt.vat.exempt.reason,name:l10n_pt_vat.M01
+msgid "Não sujeito - alínea c) do n.º 6 do art.º 16.º do CIVA"
+msgstr ""
+
+#. module: l10n_pt_vat
+#: model:account.l10n_pt.vat.exempt.reason,name:l10n_pt_vat.M99
+msgid "Não sujeito; não tributado (Ou similar)"
+msgstr ""
+
+#. module: l10n_pt_vat
+#: model:account.l10n_pt.vat.exempt.reason,name:l10n_pt_vat.M11
+msgid "Não tributado"
+msgstr ""
+
+#. module: l10n_pt_vat
+#: model:ir.model.fields.selection,name:l10n_pt_vat.selection__account_tax__l10n_pt_fiscal_zone__pt
+msgid "Portugal Continental"
+msgstr "Portugal Continental"
+
+#. module: l10n_pt_vat
+#: model:account.l10n_pt.vat.exempt.reason,name:l10n_pt_vat.M12
+msgid "Regime da margem de lucro - Agências de viagens"
+msgstr ""
+
+#. module: l10n_pt_vat
+#: model:account.l10n_pt.vat.exempt.reason,name:l10n_pt_vat.M13
+msgid "Regime da margem de lucro - Bens em segunda mão"
+msgstr ""
+
+#. module: l10n_pt_vat
+#: model:account.l10n_pt.vat.exempt.reason,name:l10n_pt_vat.M14
+msgid "Regime da margem de lucro - Objetos de arte"
+msgstr ""
+
+#. module: l10n_pt_vat
+#: model:account.l10n_pt.vat.exempt.reason,name:l10n_pt_vat.M15
+msgid "Regime da margem de lucro - Objetos de coleção e antiguidades"
+msgstr ""
+
+#. module: l10n_pt_vat
+#: model:ir.model,name:l10n_pt_vat.model_account_tax
+msgid "Tax"
+msgstr "Imposto"
+
+#. module: l10n_pt_vat
+#: model:ir.model.fields,field_description:l10n_pt_vat.field_account_vat_adjustment_norm__out_refunds
+msgid "Use on company refunds"
+msgstr "Utilizar em notas de crédito próprias"
+
+#. module: l10n_pt_vat
+#: model:ir.model.fields,field_description:l10n_pt_vat.field_account_vat_adjustment_norm__in_refunds
+msgid "Use on third party refunds"
+msgstr "Utilizar em notas de crédito de terceiros"
+
+#. module: l10n_pt_vat
+#: model:ir.model,name:l10n_pt_vat.model_account_vat_adjustment_norm
+#: model:ir.model.fields,field_description:l10n_pt_vat.field_account_bank_statement_line__vat_adjustment_norm_id
+#: model:ir.model.fields,field_description:l10n_pt_vat.field_account_move__vat_adjustment_norm_id
+#: model:ir.model.fields,field_description:l10n_pt_vat.field_account_payment__vat_adjustment_norm_id
+#: model_terms:ir.ui.view,arch_db:l10n_pt_vat.vat_adjustment_norm_view_search
+msgid "VAT Adjustment Norm"
+msgstr "Norma de Regularização de IVA"
+
+#. module: l10n_pt_vat
+#: model:ir.actions.act_window,name:l10n_pt_vat.vat_adjustment_norm_action
+#: model:ir.ui.menu,name:l10n_pt_vat.menu_action_vat_adjustment_norm
+msgid "VAT Adjustment Norms"
+msgstr "Normas de Regularização de IVA"
+
+#. module: l10n_pt_vat
+#: model:ir.actions.act_window,name:l10n_pt_vat.vat_exempt_reason_action
+#: model:ir.model.fields,field_description:l10n_pt_vat.field_account_bank_statement_line__l10npt_vat_exempt_reason
+#: model:ir.model.fields,field_description:l10n_pt_vat.field_account_journal__l10npt_vat_exempt_reason
+#: model:ir.model.fields,field_description:l10n_pt_vat.field_account_move__l10npt_vat_exempt_reason
+#: model:ir.model.fields,field_description:l10n_pt_vat.field_account_payment__l10npt_vat_exempt_reason
+#: model:ir.ui.menu,name:l10n_pt_vat.menu_action_vat_exempt_reason
+msgid "VAT Exempt Reason"
+msgstr "Motivo de Isenção de IVA"
+
+#. module: l10n_pt_vat
+#: model:ir.model,name:l10n_pt_vat.model_account_l10n_pt_vat_exempt_reason
+msgid "VAT Exemption Reason"
+msgstr "Motivo de Isenção de IVA"
+
+#. module: l10n_pt_vat
+#: model:ir.model.fields.selection,name:l10n_pt_vat.selection__account_vat_adjustment_norm__move_type__in_refund
+msgid "Vendor Credit Note"
+msgstr "Nota de Crédito de Fornecedor"
+
+#~ msgid "Last Modified on"
+#~ msgstr "Última Modificação em"
+
+#, fuzzy
+#~ msgid "Artigo 16.º n.º 6 do CIVA"
+#~ msgstr "Artigo 16.º n.º 6 do CIVA"
+
+#~ msgid "Artigo 6.º do Decreto-Lei n.º 198/90, de 19 de Junho "
+#~ msgstr "Artigo 6.º do Decreto-Lei n.º 198/90, de 19 de Junho "
+
+#~ msgid "Exigibilidade de caixa"
+#~ msgstr "Exigibilidade de caixa"
+
+#~ msgid "IVA - Autoliquidação"
+#~ msgstr "IVA - Autoliquidação"
+
+#~ msgid "Invoice"
+#~ msgstr "Fatura"
