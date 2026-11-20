@@ -1,0 +1,51 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_pt_hr
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-01 12:32+0000\n"
+"PO-Revision-Date: 2026-10-01 12:32+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_pt_hr
+#: model:hr.department,name:l10n_pt_hr.dep_pt_administration
+msgid "Administração"
+msgstr ""
+
+#. module: l10n_pt_hr
+#: model:hr.department,name:l10n_pt_hr.dep_pt_sales
+msgid "Comercial"
+msgstr ""
+
+#. module: l10n_pt_hr
+#: model:hr.department,name:l10n_pt_hr.dep_pt_management
+msgid "Direção"
+msgstr ""
+
+#. module: l10n_pt_hr
+#: model:hr.department,name:l10n_pt_hr.dep_pt_rd_pto
+msgid "I&D Porto"
+msgstr ""
+
+#. module: l10n_pt_hr
+#: model:hr.department,name:l10n_pt_hr.dep_pt_rd
+msgid "Investigação e Desenvolvimento"
+msgstr ""
+
+#. module: l10n_pt_hr
+#: model:hr.department,name:l10n_pt_hr.dep_pt_rd_ltp
+msgid "Projetos de Longo Prazo"
+msgstr ""
+
+#. module: l10n_pt_hr
+#: model:hr.department,name:l10n_pt_hr.dep_pt_ps
+msgid "Serviços Profissionais"
+msgstr ""
