@@ -77,6 +77,16 @@ class AccountMove(models.Model):
             raise exceptions.UserError(
                 self.env._("Kindly add the invoice date and invoice due date.")
             )
+        debit_origin = (
+            self.debit_origin_id
+            if self.move_type == "out_invoice"
+            else self.env["account.move"]
+        )
+        debit_reference = (
+            self._prepare_invoicexpress_debit_reference(debit_origin)
+            if debit_origin or self.l10n_pt_doc_type == "debit_note"
+            else {}
+        )
         customer = self._get_invoicexpress_partner()
         customer_vals = customer.set_invoicexpress_contact(journal=self.journal_id)
         items = self._prepare_invoicexpress_lines()
@@ -86,6 +96,7 @@ class AccountMove(models.Model):
                 "date": self.invoice_date.strftime("%d/%m/%Y"),
                 "due_date": self.invoice_date_due.strftime("%d/%m/%Y"),
                 "reference": self.ref or "",
+                **debit_reference,
                 "client": customer_vals,
                 "observations": self.narration or "",
                 "items": items,
@@ -104,8 +115,7 @@ class AccountMove(models.Model):
             invoice_data["invoice"].update(
                 {"currency_code": self.currency_id.name, "rate": str(currency_rate)}
             )
-        doctype = self.l10n_pt_doc_type
-        if doctype in ("credit_note", "debit_note"):
+        if self.l10n_pt_doc_type == "credit_note":
             # For standalone credit notes (invoices created outside InvoiceXpress)
             # Use ref field for it contains the invoice series/number
             if self.ref and not self.reversed_entry_id.l10n_pt_doc_id:
@@ -116,6 +126,39 @@ class AccountMove(models.Model):
                 if owner_invoice_num:
                     invoice_data["invoice"]["owner_invoice_id"] = owner_invoice_num
         return invoice_data
+
+    def _prepare_invoicexpress_debit_reference(self, origin):
+        if not origin or origin.state != "posted":
+            raise exceptions.UserError(
+                self.env._(
+                    "An InvoiceXpress debit note must be linked to a posted "
+                    "original document."
+                )
+            )
+        if self.l10n_pt_doc_type != "debit_note":
+            raise exceptions.UserError(
+                self.env._(
+                    "Set the legal document type to debit_note for an "
+                    "InvoiceXpress debit note."
+                )
+            )
+        if origin.l10n_pt_doc_provider_id.code == "invoicexpress":
+            if (
+                not origin.l10n_pt_doc_id
+                or not origin.journal_id.invoicexpress_account_name
+                or (
+                    origin.journal_id.invoicexpress_account_name.lower()
+                    != self.journal_id.invoicexpress_account_name.lower()
+                )
+            ):
+                raise exceptions.UserError(
+                    self.env._(
+                        "The original document must have been issued by the "
+                        "same InvoiceXpress account."
+                    )
+                )
+            return {"owner_invoice_id": origin.l10n_pt_doc_id}
+        return {"raw_owner_invoice": origin.l10n_pt_doc_number or origin.name}
 
     def _validate_invoicexpress_nonnegative_lines(self):
         for line in self._get_invoicexpress_product_lines():

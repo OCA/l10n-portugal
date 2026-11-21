@@ -11,7 +11,11 @@
     "category": "Accounting/Localizations/EDI",
     "maintainers": ["dreispt"],
     "development_status": "Production/Stable",
-    "depends": ["l10n_pt_account_vat", "l10n_pt_invoice_provider", "account"],
+    "depends": [
+        "l10n_pt_account_vat",
+        "l10n_pt_invoice_provider",
+        "account_debit_note",
+    ],
     "data": [
         "views/account_journal_view.xml",
         "views/account_tax_view.xml",

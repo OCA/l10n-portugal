@@ -217,6 +217,137 @@ class TestInvoiceXpress(common.TransactionCase):
                 self.assertEqual(invoice.state, "draft")
         mock_request.assert_not_called()
 
+    @patch("requests.request")
+    def test_debit_note_links_invoicexpress_original(self, mock_request):
+        mock_request.side_effect = mock_request_side_effect
+        tax = self._make_invoice_tax("IVA23", 23)
+        origin = self._make_invoice_with_taxes(tax)
+        origin.action_post()
+        origin_doc_id = origin.l10n_pt_doc_id
+        mock_request.reset_mock()
+
+        wizard = (
+            self.env["account.debit.note"]
+            .with_context(active_model="account.move", active_ids=origin.ids)
+            .create({"copy_lines": True, "reason": "Adjustment"})
+        )
+        action = wizard.create_debit()
+        debit = self.env["account.move"].browse(action["res_id"])
+        debit.action_post()
+
+        self.assertEqual(debit.l10n_pt_doc_type, "debit_note")
+        self.assertEqual(debit.l10n_pt_doc_id, "87654321")
+        self.assertEqual(debit.name, "ND MYSEQ/456")
+        create_call = next(
+            call
+            for call in mock_request.call_args_list
+            if call.args[0] == "POST" and call.args[1].endswith("/debit_notes.json")
+        )
+        data = json.loads(create_call.kwargs["data"])
+        self.assertEqual(data["invoice"]["owner_invoice_id"], origin_doc_id)
+        self.assertNotIn("raw_owner_invoice", data["invoice"])
+        self.assertNotIn("raw_owner_invoice", data)
+        finalize_call = next(
+            call
+            for call in mock_request.call_args_list
+            if call.args[0] == "PUT"
+            and "/debit_notes/87654321/change-state.json" in call.args[1]
+        )
+        self.assertEqual(
+            json.loads(finalize_call.kwargs["data"]),
+            {"invoice": {"state": "finalized"}},
+        )
+
+    @patch("requests.request")
+    def test_debit_note_external_original_uses_raw_reference(self, mock_request):
+        mock_request.side_effect = mock_request_side_effect
+        move_form = Form(self.AccountMove.with_context(default_move_type="out_invoice"))
+        move_form.invoice_date = fields.Date.today()
+        move_form.partner_id = self.partnerA
+        tax = self._make_invoice_tax("IVA23", 23)
+        with move_form.invoice_line_ids.new() as line:
+            line.product_id = self.productA
+            line.tax_ids.clear()
+            line.tax_ids.add(tax)
+        origin = move_form.save()
+        origin.action_post()
+        origin_name = origin.name
+        self.assertFalse(origin.l10n_pt_doc_id)
+
+        journal = origin.journal_id
+        journal.write(
+            {
+                "l10n_pt_doc_provider_id": self.env["l10n_pt.invoice.provider.record"]
+                .search([("code", "=", "invoicexpress")], limit=1)
+                .id,
+                "invoicexpress_doc_type": "invoice_receipt",
+            }
+        )
+        mock_request.reset_mock()
+        wizard = (
+            self.env["account.debit.note"]
+            .with_context(active_model="account.move", active_ids=origin.ids)
+            .create(
+                {
+                    "copy_lines": True,
+                    "reason": "Adjustment",
+                    "journal_id": journal.id,
+                }
+            )
+        )
+        action = wizard.create_debit()
+        debit = self.env["account.move"].browse(action["res_id"])
+        debit.action_post()
+
+        self.assertEqual(debit.l10n_pt_doc_type, "debit_note")
+        create_call = next(
+            call
+            for call in mock_request.call_args_list
+            if call.args[0] == "POST" and call.args[1].endswith("/debit_notes.json")
+        )
+        data = json.loads(create_call.kwargs["data"])
+        self.assertEqual(data["invoice"]["raw_owner_invoice"], origin_name)
+        self.assertNotEqual(data["invoice"]["raw_owner_invoice"], debit.ref)
+        self.assertNotIn("owner_invoice_id", data["invoice"])
+
+    @patch("requests.request")
+    def test_debit_note_rejects_different_invoicexpress_account(self, mock_request):
+        mock_request.side_effect = mock_request_side_effect
+        tax = self._make_invoice_tax("IVA23", 23)
+        origin = self._make_invoice_with_taxes(tax)
+        origin.action_post()
+        mock_request.reset_mock()
+
+        other_journal = self.env["account.journal"].create(
+            {
+                "name": "Other InvoiceXpress Sales",
+                "type": "sale",
+                "company_id": self.company.id,
+                "invoicexpress_account_name": "OTHER",
+                "invoicexpress_api_key": "OTHER-KEY",
+                "l10n_pt_doc_provider_id": self.env["l10n_pt.invoice.provider.record"]
+                .search([("code", "=", "invoicexpress")], limit=1)
+                .id,
+                "invoicexpress_doc_type": "invoice_receipt",
+            }
+        )
+        wizard = (
+            self.env["account.debit.note"]
+            .with_context(active_model="account.move", active_ids=origin.ids)
+            .create(
+                {
+                    "copy_lines": True,
+                    "reason": "Adjustment",
+                    "journal_id": other_journal.id,
+                }
+            )
+        )
+        action = wizard.create_debit()
+        debit = self.env["account.move"].browse(action["res_id"])
+        with self.assertRaisesRegex(UserError, "same InvoiceXpress account"):
+            debit.action_post()
+        mock_request.assert_not_called()
+
     def _make_invoice_with_taxes(self, *taxes):
         provider = self.env["l10n_pt.invoice.provider.record"].search(
             [("code", "=", "invoicexpress")], limit=1

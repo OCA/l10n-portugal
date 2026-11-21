@@ -166,6 +166,8 @@ class InvoiceXpress(models.AbstractModel):
             return
         if document.move_type == "out_refund":
             return "credit_note"
+        if document.move_type == "out_invoice" and document.debit_origin_id:
+            return "debit_note"
         return doctype
 
     def get_doc_prefix(self, doc_type):

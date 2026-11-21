@@ -49,6 +49,12 @@ document reference automatically. For a standalone credit note against
 an invoice issued outside InvoiceXpress, fill **Reference** with the
 full legal series/number (e.g. `FT A/1`) before posting.
 
+To increase an issued amount, open the original customer invoice and
+use Odoo's Debit Note action. Choose a sales journal connected to the
+same InvoiceXpress account for InvoiceXpress-issued originals, enter
+the adjustment lines, and confirm. InvoiceXpress issues an ND and keeps
+the original document reference.
+
 If you report these invoices via SAF-T, download the export from
 InvoiceXpress.
 

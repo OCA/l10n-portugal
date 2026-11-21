@@ -96,6 +96,23 @@ derived from the invoice lines' taxes instead.
   view conditions compare the related `invoicexpress_provider_code`
   (`l10n_pt_doc_provider_id.code`) instead of the old selection string.
 
+### Debit notes
+
+- Customer debit notes come from Odoo's standard Debit Note wizard on a
+  posted invoice; the resulting `out_invoice` carries
+  `debit_origin_id`, and the adapter reports the `debit_note` document
+  type so documents post to `debit_notes.json` and finalize through the
+  same change-state call.
+- An original issued by the same InvoiceXpress account sends
+  `invoice.owner_invoice_id` with the remote document ID; any other
+  posted original sends `invoice.raw_owner_invoice` with the original
+  document number or local name — never the wizard reference, which
+  may include the reason text.
+- A debit note whose original was issued by a different InvoiceXpress
+  account is rejected before any provider request.
+- Debit notes are only created for new documents; already-posted
+  invoices are not remapped or reissued.
+
 ### Document PDF
 
 - Printing or sending an issued invoice asks InvoiceXpress for the
