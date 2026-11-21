@@ -210,15 +210,13 @@ class PaymentProvider(models.Model):
                 "descriptive": tx_sudo.reference,
                 "transaction_key": tx_sudo.reference,
             }
-
-        # Multibanco: inject expiration_time and product into the payload
-        if "mb" in method_codes:
-            days = self.easypay_mb_expiration_days or 3
-            expiry = date.today() + timedelta(days=days)
-            payload["multibanco"] = {
-                "expiration_time": f"{expiry.strftime('%Y-%m-%d')}T23:59:59Z",
-                "product": self.easypay_mb_product or "CHECKDIGIT",
-            }
+            if "mb" in method_codes:
+                days = self.easypay_mb_expiration_days or 3
+                expiry = date.today() + timedelta(days=days)
+                payload["payment"]["multibanco"] = {
+                    "expiration_time": f"{expiry:%Y-%m-%d}T23:59:59Z",
+                    "product": self.easypay_mb_product or "CHECKDIGIT",
+                }
 
         return self._easypay_make_request("/2.0/checkout", payload)
 

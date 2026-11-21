@@ -67,7 +67,12 @@ charges)
 - Calls `_easypay_create_checkout_session()`:
   - `POST https://api.test.easypay.pt/2.0/checkout` (test) or `…api.prod.easypay.pt`
   - Payload includes `type`, `payment.methods`, `order`, `customer`
-  - Single payments: adds `payment.type = "sale"` and `payment.capture`
+  - Single payments: adds `payment.type = "sale"` and `payment.capture`; a Multibanco
+    method also adds `payment.multibanco.expiration_time` (RFC3339, from
+    `easypay_mb_expiration_days`, default 3) and `payment.multibanco.product` (from
+    `easypay_mb_product`, default `CHECKDIGIT`). The API docs ambiguously duplicate the
+    nested `multibanco` properties including `product`; that sibling placement still
+    needs live verification.
   - Frequent payments: omits those fields (required by EasyPay API)
 - Stores `easypay_checkout_id` on transaction
 - Returns `{"checkout_manifest": {...}, "checkout_id": "...", "success": true}`
