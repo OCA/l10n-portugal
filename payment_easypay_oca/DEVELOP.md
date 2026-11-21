@@ -378,13 +378,216 @@ unresolved captures pending for webhook confirmation.
 
 ---
 
+## Running Local Tests
+
+Run from an Odoo 18 `osh` workspace with this checkout on the addons path. Set `TEST_DB`
+to a dedicated test database, not a development or production database. If the module is
+not installed there, install it once without enabling tests:
+
+```bash
+TEST_DB=easypay-test
+osh odoo -d "$TEST_DB" -i payment_easypay_oca --stop
+```
+
+Run the standard mocked suite without credentials, a tunnel, or network access to
+EasyPay:
+
+```bash
+osh odoo -d "$TEST_DB" -u payment_easypay_oca \
+  --test-tags /payment_easypay_oca --stop
+```
+
+If another Odoo process is already running, choose a free port with `--http-port`.
+
+### Live sandbox tests
+
+The live tests are excluded from the standard suite. They require the explicit
+`easypay_live` tag and both `EASYPAY_TEST_ACCOUNT_ID` and `EASYPAY_TEST_API_KEY`. If
+either credential is missing, the suite skips before making a request. It only uses the
+EasyPay sandbox (`api.test.easypay.pt`). No public tunnel is needed.
+
+Use a local secret store to set the environment variables. For example, with single-line
+entries in `pass`, use a subshell so the exports do not persist:
+
+```bash
+(
+  set +x
+  unset EASYPAY_TEST_ALLOW_WRITES
+  EASYPAY_TEST_ACCOUNT_ID="$(pass show easypay/sandbox/account-id)" &&
+  EASYPAY_TEST_API_KEY="$(pass show easypay/sandbox/api-key)" &&
+  export EASYPAY_TEST_ACCOUNT_ID EASYPAY_TEST_API_KEY &&
+  osh odoo -d "$TEST_DB" -u payment_easypay_oca \
+    --test-tags easypay_live/payment_easypay_oca --stop
+)
+```
+
+Never commit credentials or enable HTTP/SQL debug logging with credentials loaded. The
+command above only runs Odoo's Test Connection action (GET `/2.0/system/ping` and GET
+`/2.0/config`). To also run the Multibanco checkout smoke test, prefix the `osh` command
+inside the subshell with `EASYPAY_TEST_ALLOW_WRITES=1`. This creates one unsubmitted
+checkout that stays in the sandbox; it does not run the SDK, verify the reference
+expiry, settle a payment, or exercise webhook delivery.
+
+### Verify webhook registration
+
+Webhook registration is a separate, opt-in sandbox test of the provider's **Configure
+Webhooks** action. Use a dedicated sandbox account with `config:read` and
+`config:update` scopes and a verified public HTTPS webhook-only endpoint as described
+below. Save the current three notification URLs from the sandbox backoffice before
+running the test.
+
+By default the test expects the payment account UUID to equal the API Account ID. If the
+backoffice shows a separate beneficiary/payment account UUID for these credentials, set
+`EASYPAY_TEST_CONFIG_ACCOUNT_UUID` to that independently verified value. Do not copy an
+unexpected UUID from the API response itself. Both the update and restoration check the
+expected payment account before proceeding.
+
+Inside the secret-loading subshell above, replace the `osh` invocation with:
+
+```bash
+EASYPAY_TEST_ALLOW_WRITES=1 \
+EASYPAY_TEST_WEBHOOK_BASE_URL=https://your-node.your-tailnet.ts.net \
+osh odoo -d "$TEST_DB" -u payment_easypay_oca \
+  --test-tags easypay_live/payment_easypay_oca:TestEasyPaySandboxWebhooks.test_sandbox_configures_webhooks \
+  --stop
+```
+
+The test temporarily replaces the account's three notification URLs, checks them via GET
+`/2.0/config`, and restores the previous URLs during cleanup. It stops before writing if
+the account UUID does not match or any original URL is missing. Do not run it alongside
+another webhook configuration change. If the process is interrupted or cleanup fails,
+restore the saved URLs manually. This verifies registration, not webhook delivery, and
+does not create a payment.
+
+### Run the Multibanco end-to-end check
+
+The [sandbox runner](tests/run_multibanco_sandbox.py) automates reference issuance and
+settlement checks. Use the loopback Odoo server and webhook-only proxy below, and run
+Odoo with `--max-cron-threads=0` so the transaction cannot settle via a scheduled job.
+Use a dedicated database ending in `-test` and a sandbox account that no one else is
+testing against. The provider must be published in **Test** mode with Multibanco enabled
+and a seven-day expiry. Use an English (US) synthetic customer in Portugal with a test
+email and phone number so the SDK can prefill the contact form. Keep EUR active.
+
+Install Playwright and its Chromium browser in the `osh` environment, outside any
+production environment. With a local venv runtime:
+
+```bash
+osh exec python -m pip install playwright
+osh exec python -m playwright install chromium
+```
+
+Run from the Odoo workspace. Use the provider and synthetic customer's record IDs from
+your isolated database and substitute the actual proxy-only HTTPS origin:
+
+```bash
+(
+  set +x
+  EASYPAY_TEST_ACCOUNT_ID="$(pass show easypay/sandbox/account-id)" &&
+  EASYPAY_TEST_API_KEY="$(pass show easypay/sandbox/api-key)" &&
+  EASYPAY_TEST_CONFIG_ACCOUNT_UUID="$(pass show easypay/sandbox/config-account-uuid)" &&
+  export EASYPAY_TEST_ACCOUNT_ID EASYPAY_TEST_API_KEY EASYPAY_TEST_CONFIG_ACCOUNT_UUID &&
+  export EASYPAY_TEST_ALLOW_WRITES=1 &&
+  export EASYPAY_TEST_E2E_DB=easypay-test &&
+  export EASYPAY_TEST_PROVIDER_ID=1 EASYPAY_TEST_PARTNER_ID=55 &&
+  export EASYPAY_TEST_WEBHOOK_BASE_URL=https://your-node.your-tailnet.ts.net &&
+  osh odoo shell --no-http -d "$EASYPAY_TEST_E2E_DB" \
+    < /path/to/payment_easypay_oca/tests/run_multibanco_sandbox.py
+)
+```
+
+The loopback server defaults to port `8177`; override it with `EASYPAY_TEST_ODOO_PORT`.
+The runner prints a fresh numeric reference when the checkout is ready. Enter it at
+[EasyPay Test Payments](https://backoffice.test.easypay.pt/developers/payments) within
+five minutes. Do not pay the reference via a bank. The browser is already closed by this
+point, and the runner waits for the matching payment and capture to settle in EasyPay
+and for Odoo to move from **Pending** to **Done**. If it times out, check **Developers >
+Notifications API 2.0** in the sandbox backoffice.
+
+The runner saves the original three URLs in a private local JSON file before changing
+them and verifies restoration on exit, including Ctrl+C. If the process is forcibly
+killed or the settings change concurrently, use that backup to check and restore them
+manually. The remote checkout remains in the sandbox.
+
 ## Manual Testing Guide
 
-### Prerequisites
+Use a dedicated Odoo test database and configure the provider in **Test** mode with
+sandbox credentials. A real webhook delivery test needs a public HTTPS URL.
 
-- Provider configured with test credentials (`api.test.easypay.pt`)
-- Webhooks registered and reachable (use ngrok or similar if local)
-- Provider state set to **Test**
+### Expose only webhook routes with Tailscale Funnel
+
+[Tailscale Funnel](https://tailscale.com/docs/features/tailscale-funnel) is public;
+Tailscale Serve is private to the tailnet and won't receive EasyPay callbacks. Funnel
+requires MagicDNS, tailnet HTTPS certificates, and a tailnet policy that allows Funnel
+on the test node. Have the tailnet admin approve it if needed. Check
+`tailscale funnel status` first and don't replace an existing listener.
+
+1. Keep Odoo on loopback with database listing disabled. Use a simple test database name
+   (letters, digits, hyphens) for the database filter. Run in its own terminal:
+
+   ```bash
+   TEST_DB=easypay-test
+   osh odoo --no-dev -d "$TEST_DB" --http-interface=127.0.0.1 --http-port=8177 \
+     --db-filter="^${TEST_DB}$" --no-database-list
+   ```
+
+2. Run a loopback reverse proxy on port `8178` that forwards only POST to the three
+   exact paths, without stripping their prefixes. For example, with Caddy, use this
+   `Caddyfile` and run `caddy run --config Caddyfile --adapter caddyfile` in a separate
+   terminal:
+
+   ```caddyfile
+   {
+       admin off
+   }
+
+   http://:8178 {
+       bind 127.0.0.1
+       @easypay {
+           method POST
+           path /payment/easypay/webhook/generic /payment/easypay/webhook/authorisation /payment/easypay/webhook/transaction
+       }
+       handle @easypay {
+           reverse_proxy 127.0.0.1:8177
+       }
+       handle {
+           respond 404
+       }
+   }
+   ```
+
+3. Publish the **proxy**, not Odoo, with `tailscale funnel http://127.0.0.1:8178`. Copy
+   the printed HTTPS URL into `WEBHOOK_BASE`. From outside the tailnet, verify that `/`,
+   `/web/database/manager`, and GET on a webhook route return `404`:
+
+   ```bash
+   WEBHOOK_BASE=https://your-node.your-tailnet.ts.net
+   curl -i "$WEBHOOK_BASE/"
+   curl -i "$WEBHOOK_BASE/web/database/manager"
+   curl -i "$WEBHOOK_BASE/payment/easypay/webhook/generic"
+   curl -i -H 'Content-Type: application/json' --data '[]' \
+     "$WEBHOOK_BASE/payment/easypay/webhook/generic"
+   ```
+
+   The POST must return Odoo's JSON `400` with `malformed payload`. This confirms
+   routing without matching or changing a transaction. Repeat for `authorisation` and
+   `transaction`. A successful probe does not prove EasyPay delivery.
+
+4. In the EasyPay **sandbox** backoffice, open **Developers > Configuration API 2.0 >
+   [payment account] > Notifications**. Verify which account owns the API key and notification
+   settings there. The API Account ID used to authenticate may differ from the beneficiary/payment
+   account UUID returned by `GET /2.0/config`. Verify that UUID against the sandbox backoffice
+   before making changes. Save the existing `generic`, `authorisation`, and `transaction`
+   URLs (the **Generic**, **Authorisation**, and **Payment** fields respectively) before
+   replacing them with the corresponding paths under `WEBHOOK_BASE`. The change affects the
+   whole sandbox account. Do not point Odoo's own base URL at this webhook-only proxy.
+
+5. Complete a fresh Multibanco checkout from the local Odoo UI. Compare the issued
+   reference expiry with the configured value. In the EasyPay sandbox backoffice, open
+   the single payment and select **Test Payment**. Confirm that Odoo receives the
+   webhook and moves the transaction from **Pending** to **Done**. Restore the original
+   sandbox URLs, then stop the foreground Funnel with Ctrl+C and stop the dedicated
+   proxy and Odoo server.
 
 ### Test Case 1 — Card payment (checkout flow, immediate)
 
@@ -459,14 +662,14 @@ unresolved captures pending for webhook confirmation.
 
 ## Troubleshooting
 
-| Issue                                  | Solution                                                                           |
-| -------------------------------------- | ---------------------------------------------------------------------------------- |
-| SDK not loading                        | Check CDN availability; `onerror` on the `<script>` tag shows `#payment-error` div |
-| `testing` flag mismatch                | Provider state **Test** → `api.test.easypay.pt` → `testing: true` auto-set         |
-| `checkout-expired`                     | User hit 30-min limit; `history.back()` lets them restart                          |
-| Multibanco not confirmed               | Check webhook delivery; test with ngrok if running locally                         |
-| _"Payment already in progress"_        | An earlier Multibanco/MB WAY session is open; pay it or wait for expiry            |
-| Payment status stuck on Pending        | Webhook not reachable; check URLs in EasyPay backoffice match Odoo base URL        |
-| No `easypay_transaction_id` on Done tx | Webhook payload lacked `capture.id`; refund will fail with validation error        |
-| `reference` missing in session         | `processingValues.reference` not passed from JS form                               |
-| Refund stuck on Pending                | Transaction webhook not received; check webhook config and delivery                |
+| Issue                                  | Solution                                                                                                               |
+| -------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| SDK not loading                        | Check CDN availability; `onerror` on the `<script>` tag shows `#payment-error` div                                     |
+| `testing` flag mismatch                | Provider state **Test** → `api.test.easypay.pt` → `testing: true` auto-set                                             |
+| `checkout-expired`                     | User hit 30-min limit; `history.back()` lets them restart                                                              |
+| Multibanco not confirmed               | Check webhook delivery to the public webhook URL; verify the notification URLs saved in the EasyPay sandbox backoffice |
+| _"Payment already in progress"_        | An earlier Multibanco/MB WAY session is open; pay it or wait for expiry                                                |
+| Payment status stuck on Pending        | Webhook not reachable at the public URL; check the EasyPay sandbox notification URLs point at the `WEBHOOK_BASE` paths |
+| No `easypay_transaction_id` on Done tx | Webhook payload lacked `capture.id`; refund will fail with validation error                                            |
+| `reference` missing in session         | `processingValues.reference` not passed from JS form                                                                   |
+| Refund stuck on Pending                | Transaction webhook not received; check webhook config and delivery                                                    |

@@ -3,10 +3,13 @@
 
 import html
 import json
+import os
 import re
 from datetime import date, timedelta
+from unittest import SkipTest
 from unittest.mock import MagicMock, patch
-from urllib.parse import quote
+from urllib.parse import quote, urlsplit
+from uuid import uuid4
 
 import requests
 
@@ -1627,3 +1630,197 @@ class TestEasyPayController(HttpCase):
         self.assertEqual(result.get("checkout_id"), "checkout-token-1")
         tx.invalidate_recordset()
         self.assertEqual(tx.easypay_checkout_id, "checkout-token-1")
+
+
+class EasyPaySandboxSetup:
+    """Opt-in live tests against the EasyPay sandbox (api.test.easypay.pt).
+
+    These run only when explicitly selected with the ``easypay_live`` tag
+    and the ``EASYPAY_TEST_ACCOUNT_ID``/``EASYPAY_TEST_API_KEY`` environment
+    variables are set; the normal test run never reaches the network.
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        account_id = os.getenv("EASYPAY_TEST_ACCOUNT_ID", "").strip()
+        api_key = os.getenv("EASYPAY_TEST_API_KEY", "").strip()
+        if not account_id or not api_key:
+            raise SkipTest(
+                "Set EASYPAY_TEST_ACCOUNT_ID and EASYPAY_TEST_API_KEY "
+                "to run EasyPay sandbox tests."
+            )
+        super().setUpClass()
+        cls.provider = cls.env["payment.provider"].create(
+            {
+                "name": "EasyPay Sandbox",
+                "code": "easypay",
+                "state": "test",
+                "easypay_account_id": account_id,
+                "easypay_api_key": api_key,
+            }
+        )
+
+    def setUp(self):
+        super().setUp()
+        self.assertEqual(
+            self.provider._easypay_get_api_url(),
+            "https://api.test.easypay.pt",
+        )
+
+
+@tagged("post_install", "-at_install", "-standard", "easypay_live")
+class TestEasyPaySandbox(EasyPaySandboxSetup, HttpCase):
+    """Live EasyPay sandbox smoke tests over HTTP."""
+
+    def test_sandbox_connection_succeeds(self):
+        """An administrator can check connectivity with sandbox credentials."""
+        result = self.provider.action_easypay_test_connection()
+        self.assertTrue(
+            result["params"]["type"] in ("success", "warning")
+            and result["params"]["message"].startswith("Connection successful!"),
+            "Odoo did not confirm the EasyPay sandbox connection",
+        )
+
+    def test_sandbox_creates_multibanco_checkout(self):
+        """A customer can open an unsubmitted Multibanco checkout in the
+        sandbox."""
+        if os.getenv("EASYPAY_TEST_ALLOW_WRITES") != "1":
+            self.skipTest(
+                "Set EASYPAY_TEST_ALLOW_WRITES=1 to create a checkout "
+                "in the EasyPay sandbox."
+            )
+        self.provider.easypay_mb_expiration_days = 7
+        partner = self.env["res.partner"].create(
+            {
+                "name": "EasyPay Sandbox Test",
+                "email": "easypay-test@example.com",
+            }
+        )
+        tx = self.env["payment.transaction"].create(
+            {
+                "provider_id": self.provider.id,
+                "payment_method_id": self.env.ref(
+                    "payment.payment_method_multibanco"
+                ).id,
+                "reference": f"SANDBOX-{uuid4().hex}",
+                "amount": 10.0,
+                "currency_id": self.env.ref("base.EUR").id,
+                "partner_id": partner.id,
+            }
+        )
+
+        result = self.make_jsonrpc_request(
+            "/payment/easypay/create_checkout_session",
+            params={
+                "reference": tx.reference,
+                "access_token": tx._get_processing_values()["access_token"],
+            },
+        )
+        self.assertTrue(
+            isinstance(result, dict) and result.get("success") is True,
+            "EasyPay checkout creation failed",
+        )
+        checkout_id = result.get("checkout_id")
+        self.assertTrue(
+            isinstance(checkout_id, str) and bool(checkout_id),
+            "EasyPay checkout response has no checkout ID",
+        )
+        page = self.url_open(
+            "/payment/easypay/checkout?session_id=" + quote(checkout_id, safe="")
+        )
+        self.assertEqual(page.status_code, 200)
+        self.assertTrue("data-easypay=" in page.text, "The checkout page did not load")
+
+
+@tagged("post_install", "-at_install", "-standard", "easypay_live")
+class TestEasyPaySandboxWebhooks(EasyPaySandboxSetup, TransactionCase):
+    """Live EasyPay sandbox webhook registration test."""
+
+    def test_sandbox_configures_webhooks(self):
+        """An administrator can register all three sandbox notifications."""
+        base_url = os.getenv("EASYPAY_TEST_WEBHOOK_BASE_URL", "").strip().rstrip("/")
+        if os.getenv("EASYPAY_TEST_ALLOW_WRITES") != "1" or not base_url:
+            self.skipTest(
+                "Set EASYPAY_TEST_ALLOW_WRITES=1 and EASYPAY_TEST_WEBHOOK_BASE_URL "
+                "to test EasyPay sandbox webhook registration."
+            )
+        try:
+            url = urlsplit(base_url)
+            valid = (
+                url.scheme == "https"
+                and url.hostname
+                and "." in url.hostname
+                and url.hostname != "localhost"
+                and not url.hostname.endswith((".localhost", ".local"))
+                and url.username is None
+                and (url.port is None or url.port > 0)
+                and not (url.path or url.query or url.fragment)
+                and base_url == f"https://{url.netloc}"
+                and not any(char.isspace() for char in base_url)
+            )
+        except ValueError:
+            valid = False
+        self.assertTrue(
+            bool(valid), "Set the webhook base URL to a public HTTPS origin"
+        )
+        self.env["ir.config_parameter"].set_param("web.base.url", base_url)
+        self.assertTrue(
+            self.provider.get_base_url() == base_url,
+            "The test provider did not resolve to the requested webhook base URL",
+        )
+        before = self._read_sandbox_webhooks()
+        self.assertTrue(
+            all(before.values()),
+            "The test needs three existing webhook URLs that can be restored",
+        )
+        expected = {key: f"{base_url}/payment/easypay/webhook/{key}" for key in before}
+        self.assertTrue(before != expected, "Use a different URL to test registration")
+        self.addCleanup(self._restore_sandbox_webhooks, before, expected)
+        result = self.provider.action_easypay_configure_webhooks()
+        self.assertTrue(
+            result["params"]["type"] == "success",
+            "Odoo could not register the sandbox webhooks; check config:update scope",
+        )
+        self.assertTrue(
+            self._read_sandbox_webhooks() == expected,
+            "EasyPay did not store all three sandbox webhook URLs",
+        )
+
+    def _read_sandbox_webhooks(self):
+        expected_account = (
+            os.getenv("EASYPAY_TEST_CONFIG_ACCOUNT_UUID", "").strip()
+            or self.provider.easypay_account_id
+        )
+        config = self.provider._easypay_make_request("/2.0/config", method="GET")
+        account = config.get("account") if isinstance(config, dict) else None
+        self.assertTrue(
+            isinstance(account, str)
+            and account.strip().lower() == expected_account.lower(),
+            "EasyPay returned an unexpected payment account UUID; "
+            "refusing to update webhooks",
+        )
+        values = {
+            key: config.get(key) for key in ("generic", "authorisation", "transaction")
+        }
+        self.assertTrue(
+            all(isinstance(value, str) for value in values.values()),
+            "EasyPay did not return the three sandbox webhook URLs",
+        )
+        return values
+
+    def _restore_sandbox_webhooks(self, before, expected):
+        current = self._read_sandbox_webhooks()
+        if current == before:
+            return
+        self.assertTrue(
+            all(current[key] in (before[key], expected[key]) for key in before),
+            "Sandbox webhook settings changed externally; "
+            "restore them in the backoffice",
+        )
+        self.provider._easypay_make_request(
+            "/2.0/config", payload=before, method="PATCH"
+        )
+        self.assertTrue(
+            self._read_sandbox_webhooks() == before,
+            "Could not restore the sandbox webhook settings; check the backoffice",
+        )
