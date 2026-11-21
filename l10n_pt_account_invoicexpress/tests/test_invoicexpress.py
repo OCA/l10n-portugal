@@ -1,3 +1,4 @@
+import json
 from unittest.mock import patch
 
 import requests
@@ -113,3 +114,95 @@ class TestInvoiceXpress(common.TransactionCase):
         self.assertEqual(invoice.invoicexpress_doc_type, "invoice_receipt")
         self.assertEqual(invoice.invoicexpress_id, "12345678")
         self.assertEqual(invoice.name, "FR MYSEQ/123")
+
+    @patch("requests.request")
+    def test_debit_note_links_invoicexpress_original(self, mock_request):
+        mock_request.side_effect = mock_request_side_effect
+        # Ensure Journal is configured
+        self.sale_journals.write({"invoicexpress_doc_type": "invoice_receipt"})
+        move_form = Form(self.AccountMove.with_context(default_move_type="out_invoice"))
+        move_form.invoice_date = fields.Date.today()
+        move_form.partner_id = self.partnerA
+        with move_form.invoice_line_ids.new() as line_form:
+            line_form.product_id = self.productA
+        origin = move_form.save()
+        origin.action_post()
+        origin_invx_id = origin.invoicexpress_id
+        self.assertTrue(origin_invx_id)
+        mock_request.reset_mock()
+
+        wizard = (
+            self.env["account.debit.note"]
+            .with_context(active_model="account.move", active_ids=origin.ids)
+            .create({"copy_lines": True, "reason": "Adjustment"})
+        )
+        action = wizard.create_debit()
+        debit = self.env["account.move"].browse(action["res_id"])
+        debit.action_post()
+
+        self.assertEqual(debit.invoicexpress_doc_type, "debit_note")
+        self.assertEqual(debit.invoicexpress_id, "87654321")
+        self.assertEqual(debit.name, "ND MYSEQ/456")
+        create_call = next(
+            call
+            for call in mock_request.call_args_list
+            if call.args[0] == "POST" and call.args[1].endswith("/debit_notes.json")
+        )
+        data = json.loads(create_call.kwargs["data"])
+        self.assertEqual(data["invoice"]["owner_invoice_id"], origin_invx_id)
+        self.assertNotIn("raw_owner_invoice", data["invoice"])
+        self.assertNotIn("raw_owner_invoice", data)
+        finalize_call = next(
+            call
+            for call in mock_request.call_args_list
+            if call.args[0] == "PUT"
+            and "/debit_notes/87654321/change-state.json" in call.args[1]
+        )
+        self.assertEqual(
+            json.loads(finalize_call.kwargs["data"]),
+            {"invoice": {"state": "finalized"}},
+        )
+
+    @patch("requests.request")
+    def test_debit_note_external_original_uses_raw_reference(self, mock_request):
+        mock_request.side_effect = mock_request_side_effect
+        # Post the original before enabling InvoiceXpress on its journal
+        self.sale_journals.write({"invoicexpress_doc_type": "none"})
+        move_form = Form(self.AccountMove.with_context(default_move_type="out_invoice"))
+        move_form.invoice_date = fields.Date.today()
+        move_form.partner_id = self.partnerA
+        with move_form.invoice_line_ids.new() as line_form:
+            line_form.product_id = self.productA
+        origin = move_form.save()
+        origin.action_post()
+        origin_name = origin.name
+        self.assertFalse(origin.invoicexpress_id)
+
+        journal = origin.journal_id
+        journal.write({"invoicexpress_doc_type": "invoice_receipt"})
+        mock_request.reset_mock()
+        wizard = (
+            self.env["account.debit.note"]
+            .with_context(active_model="account.move", active_ids=origin.ids)
+            .create(
+                {
+                    "copy_lines": True,
+                    "reason": "Adjustment",
+                    "journal_id": journal.id,
+                }
+            )
+        )
+        action = wizard.create_debit()
+        debit = self.env["account.move"].browse(action["res_id"])
+        debit.action_post()
+
+        self.assertEqual(debit.invoicexpress_doc_type, "debit_note")
+        create_call = next(
+            call
+            for call in mock_request.call_args_list
+            if call.args[0] == "POST" and call.args[1].endswith("/debit_notes.json")
+        )
+        data = json.loads(create_call.kwargs["data"])
+        self.assertEqual(data["invoice"]["raw_owner_invoice"], origin_name)
+        self.assertNotEqual(data["invoice"]["raw_owner_invoice"], debit.ref)
+        self.assertNotIn("owner_invoice_id", data["invoice"])
