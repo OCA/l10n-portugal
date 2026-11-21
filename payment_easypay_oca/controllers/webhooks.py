@@ -14,16 +14,7 @@ from .. import const
 _logger = logging.getLogger(__name__)
 
 # Authenticated EasyPay statuses mapped to the vocabulary consumed by
-# payment.transaction._apply_payment_state.
-_CAPTURE_STATUS_MAP = {
-    "success": "paid",
-    "paid": "paid",
-    "captured": "captured",
-    "pending": "pending",
-    "waiting": "waiting",
-    "delayed": "pending",
-    "failed": "failed",
-}
+# payment.transaction._apply_payment_state live in const.CAPTURE_STATUS_MAP.
 _AUTHORISATION_STATUS_MAP = {
     "success": "authorised",
     "canceled": "cancelled",
@@ -171,6 +162,9 @@ class EasyPayWebhookController(http.Controller):
             None,
         )
         transaction_id = tx_data.get("id")
+        if event_type in _CAPTURE_EVENT_TYPES and not transaction_id:
+            # Flat capture events carry the capture id at top level.
+            transaction_id = data.get("id")
         return {
             "type": event_type,
             "keys": _strings(data.get("key"), tx_data.get("key")),
@@ -256,9 +250,15 @@ class EasyPayWebhookController(http.Controller):
         if payment["method_details"].get("status") not in ("active", "success"):
             return _READ_RETRY
         status = "authorized" if tx_sudo.amount else "tokenized"
-        tx_sudo._handle_notification_data(
-            "easypay", self._build_notification(payment, status)
-        )
+        notification = self._build_notification(payment, status)
+        notification["_verified_token_method"] = payment["method_details"]
+        try:
+            with tx_sudo.env.cr.savepoint():
+                tx_sudo._handle_notification_data("easypay", notification)
+        except const.EasyPayTransportError:
+            # Uncertain capture submission: roll back and ask EasyPay to
+            # redeliver; the retry reuses the same idempotency key.
+            return _READ_RETRY
         return _READ_OK
 
     def _process_payment_event(self, tx_sudo, event):
@@ -482,7 +482,7 @@ class EasyPayWebhookController(http.Controller):
                 return _READ_RETRY, None
             if cap["payment_id"] != verified["payment_id"]:
                 return _READ_CONFLICT, None
-            status = _CAPTURE_STATUS_MAP.get(cap["status"])
+            status = const.CAPTURE_STATUS_MAP.get(cap["status"])
             if status is None:
                 return _READ_RETRY, None
             return _READ_OK, self._build_notification(
@@ -510,7 +510,7 @@ class EasyPayWebhookController(http.Controller):
         kind, verified = self._bind_payment(tx_sudo, cap["payment_id"])
         if kind != _READ_OK:
             return kind, None
-        status = _CAPTURE_STATUS_MAP.get(cap["status"])
+        status = const.CAPTURE_STATUS_MAP.get(cap["status"])
         if status is None:
             return _READ_RETRY, None
         return _READ_OK, self._build_notification(
@@ -551,7 +551,7 @@ class EasyPayWebhookController(http.Controller):
         locally known payment id."""
         if tx_sudo.easypay_checkout_id:
             return self._read_checkout(tx_sudo)
-        payment_id = self._stored_payment_id(tx_sudo)
+        payment_id = tx_sudo._easypay_payment_reference()
         if not payment_id:
             return _READ_RETRY, None
         return self._read_single(tx_sudo, payment_id)
@@ -671,33 +671,10 @@ class EasyPayWebhookController(http.Controller):
         return _READ_OK, verified
 
     def _read_capture(self, tx_sudo, capture_id):
-        """GET /2.0/capture/{id} bound by id, transaction_key and value."""
+        """Check capture identity, merchant reference and amount; callers
+        bind the returned payment id."""
         data = self._easypay_get(tx_sudo.provider_id, "capture", capture_id)
-        if not data:
-            return _READ_RETRY, None
-
-        resp_id = data.get("id")
-        if resp_id is None:
-            return _READ_RETRY, None
-        if resp_id != capture_id:
-            return _READ_CONFLICT, None
-        transaction_key = data.get("transaction_key")
-        if transaction_key is None:
-            return _READ_RETRY, None
-        if transaction_key != tx_sudo.reference:
-            return _READ_CONFLICT, None
-        if not data.get("payment_id"):
-            return _READ_RETRY, None
-        amounts_equal = self._amounts_equal(tx_sudo, data.get("value"), tx_sudo.amount)
-        if amounts_equal is False:
-            return _READ_CONFLICT, None
-        if amounts_equal is None:
-            return _READ_RETRY, None
-
-        return _READ_OK, {
-            "status": data.get("status"),
-            "payment_id": data["payment_id"],
-        }
+        return tx_sudo._easypay_verify_capture(data, capture_id)
 
     def _read_authorisation(self, tx_sudo, payment_id):
         """GET /2.0/authorisation/{payment_id} for authorisation/void events."""
@@ -724,18 +701,6 @@ class EasyPayWebhookController(http.Controller):
         return _READ_OK, {"data": data}
 
     # ── Helpers ───────────────────────────────────────────────────────
-
-    @staticmethod
-    def _stored_payment_id(tx_sudo):
-        """Payment id from local trusted data only — never caller-supplied.
-        A provider_reference equal to the checkout id is legacy bad data,
-        not a payment id."""
-        ref = tx_sudo.provider_reference
-        if ref and ref != tx_sudo.easypay_checkout_id:
-            return ref
-        if tx_sudo.token_id and tx_sudo.token_id.provider_ref:
-            return tx_sudo.token_id.provider_ref
-        return None
 
     @staticmethod
     def _amounts_equal(tx_sudo, amount1, amount2):

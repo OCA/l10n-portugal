@@ -137,7 +137,9 @@ class PaymentProvider(models.Model):
             return response.json()
         except requests.exceptions.RequestException as e:
             _logger.error("EasyPay API request failed: %s", e)
-            raise ValidationError(_("EasyPay API request failed: %s", str(e))) from None
+            raise const.EasyPayTransportError(
+                _("EasyPay API request failed: %s", str(e))
+            ) from None
 
     def _easypay_raise_for_status(self, response, label="Request"):
         """Raise ValidationError if EasyPay response status is not 'ok'.
@@ -222,7 +224,11 @@ class PaymentProvider(models.Model):
                     "product": self.easypay_mb_product or "CHECKDIGIT",
                 }
 
-        return self._easypay_make_request("/2.0/checkout", payload)
+        return self._easypay_make_request(
+            "/2.0/checkout",
+            payload,
+            idempotency_key=tx_sudo._easypay_operation_key("checkout"),
+        )
 
     def _easypay_checkout_method_codes(self):
         """EasyPay codes for this provider's active linked payment methods.
@@ -360,7 +366,13 @@ class PaymentProvider(models.Model):
         owned_methods = methods.search(
             [("code", "in", list(const.OWNED_PAYMENT_METHOD_CODES))]
         )
-        (owned_methods - api_methods).write({"active": False})
+        # An owned method still linked to another non-disabled provider
+        # stays active — sync only retires methods nobody else uses.
+        (owned_methods - api_methods).filtered(
+            lambda method: not any(
+                provider.state != "disabled" for provider in method.provider_ids
+            )
+        ).write({"active": False})
         return {
             "type": "ir.actions.client",
             "tag": "display_notification",

@@ -11,6 +11,7 @@ from odoo.http import request
 from odoo.addons.payment import utils as payment_utils
 
 from . import webhooks as easypay_webhooks
+from .checkout_session import find_owned_checkout_transaction
 
 _logger = logging.getLogger(__name__)
 
@@ -52,7 +53,7 @@ class EasyPayCheckoutCallbackController(http.Controller):
     )
     def easypay_checkout_success(self, **data):
         session_id = data.get("session_id")
-        tx_sudo = self._get_checkout_transaction(session_id)
+        tx_sudo = find_owned_checkout_transaction(session_id)
         if not tx_sudo:
             _logger.debug("Checkout success callback without an owned session")
             return werkzeug.utils.redirect("/payment/status", code=303)
@@ -157,48 +158,10 @@ class EasyPayCheckoutCallbackController(http.Controller):
         save_session=False,
     )
     def easypay_checkout_cancel(self, **data):
-        """Handle checkout cancellation from the EasyPay SDK.
-
-        Only the opaque checkout session stored in this browser session is
-        honoured, and only while the transaction is still a draft — a
-        pending transfer may settle later (cancel -> done is impossible)
-        and an authorized or done payment is never cancelled here.
-        """
-        session_id = data.get("session_id")
-        tx_sudo = self._get_checkout_transaction(session_id)
-        if tx_sudo and tx_sudo.state == "draft":
-            tx_sudo._set_canceled(state_message="Payment cancelled by customer")
+        # Browser abandonment is not an EasyPay payment cancellation.
         return werkzeug.utils.redirect("/payment/status", code=303)
 
     # ── Private helpers ───────────────────────────────────────────────
-
-    def _get_checkout_transaction(self, session_id):
-        """Return the transaction owning this browser session's checkout.
-
-        The callback is honoured only when ``session_id`` matches the
-        checkout id stored server-side in this browser session; the lookup
-        is exact on ``easypay_checkout_id`` and never falls back to payment
-        ids or transaction references.
-        """
-        manifest = request.session.get("easypay_checkout_manifest")
-        if (
-            not isinstance(session_id, str)
-            or not session_id
-            or not isinstance(manifest, dict)
-            or manifest.get("id") != session_id
-        ):
-            return request.env["payment.transaction"].sudo().browse()
-        return (
-            request.env["payment.transaction"]
-            .sudo()
-            .search(
-                [
-                    ("easypay_checkout_id", "=", session_id),
-                    ("provider_code", "=", "easypay"),
-                ],
-                limit=1,
-            )
-        )
 
     @staticmethod
     def _verified_mb_details(payment):

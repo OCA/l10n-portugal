@@ -1,7 +1,6 @@
 # Saved-card webhook fallback
 
-**Status:** in progress — implementation and regression coverage done; live replay
-pending
+**Status:** implemented and verified in the EasyPay sandbox
 
 ## Context
 
@@ -43,5 +42,28 @@ below confirms the real shape.
 - [x] Implementation: send `payment.key` on checkout creation; handle `frequent_create`
       generic webhook events through the authenticated checkout + frequent reads with
       the same verification rules as the browser success path.
-- [ ] Live sandbox replay of the saved-card flow to confirm webhook-driven tokenization
+- [x] Live sandbox replay of the saved-card flow to confirm webhook-driven tokenization
       and capture end to end.
+
+## Live replay attempt
+
+The sandbox accepted a new EUR 10 frequent checkout and returned the Odoo reference as
+the payment key. The SDK iframe loaded, but the browser automation timed out waiting for
+the card form before submitting any card data. The checkout stayed pending and Odoo
+stayed draft, with no token or capture. No webhook or success callback was observed. All
+three original sandbox notification URLs were restored and verified through the API.
+
+## Successful live replay
+
+Waiting for either the customer details step or the card form let the next checkout
+complete. Playwright blocked the success POST, and Odoo did not receive it. EasyPay sent
+a matching `frequent_create` event to the generic webhook. Odoo created one token and
+moved the transaction to Done. The authenticated frequent payment showed exactly one
+successful EUR 10 capture, matching the capture recorded in Odoo. Replaying
+`frequent_create` and `capture` left the token, capture, and transaction state
+unchanged.
+
+The generic webhook arrived about 4 minutes 46 seconds after card submission. Keep the
+tunnel registered until the matching delivery arrives, with a bounded timeout and
+guaranteed restoration. All three original notification URLs were restored and verified
+through an independent API read.

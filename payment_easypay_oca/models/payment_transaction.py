@@ -2,12 +2,15 @@
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl).
 
 import logging
+import math
 import time
 from uuid import NAMESPACE_URL, uuid5
 
 from odoo import _, fields, models
 from odoo.exceptions import ValidationError
 from odoo.tools.misc import hmac as hmac_tool
+
+from .. import const
 
 _logger = logging.getLogger(__name__)
 
@@ -61,6 +64,12 @@ class PaymentTransaction(models.Model):
         readonly=True,
         copy=False,
         index=True,
+    )
+    easypay_void_attempt = fields.Integer(
+        string="EasyPay Void Attempt",
+        help="Verified failed void attempts; keys the next void request",
+        readonly=True,
+        copy=False,
     )
 
     def _find_easypay_transaction(self, payment_id, reference):
@@ -152,7 +161,13 @@ class PaymentTransaction(models.Model):
             self.easypay_payment_method = payment_method
         if status:
             self.easypay_capture_status = status
-        self.easypay_payment_details = notification_data
+        # _verified_token_method is a private hand-off for token creation —
+        # never persist the raw method details in the audit payload.
+        self.easypay_payment_details = {
+            key: value
+            for key, value in notification_data.items()
+            if key != "_verified_token_method"
+        }
 
         # Create token for frequent (tokenized) payments.
         # The token references the EasyPay payment ID (payment.id in checkout,
@@ -162,8 +177,11 @@ class PaymentTransaction(models.Model):
         if self.tokenize and token_ref and not self.token_id:
             # The checkout GET only returns payment.method as a string
             # (e.g. "cc"); card details (last_four, card_type) are only
-            # available from the single/frequent GET endpoint.
-            method_data = self._easypay_fetch_method_data(token_ref)
+            # available from the single/frequent GET endpoint — or from the
+            # verified method the webhook already read for this payment.
+            method_data = notification_data.get(
+                "_verified_token_method"
+            ) or self._easypay_fetch_method_data(token_ref)
             self._easypay_create_token(token_ref, method_data=method_data)
             just_tokenized = True
 
@@ -202,7 +220,12 @@ class PaymentTransaction(models.Model):
                     self.easypay_transaction_id,
                 )
                 self._easypay_apply_capture_result(capture_response)
-            except Exception as e:
+            except const.EasyPayTransportError:
+                # Uncertain submission: propagate so the surrounding
+                # savepoint/request rolls back and the same idempotency
+                # key can be retried.
+                raise
+            except ValidationError as e:
                 _logger.exception(
                     "Immediate capture after tokenization failed for %s: %s",
                     self.reference,
@@ -345,6 +368,9 @@ class PaymentTransaction(models.Model):
         """Send capture request to EasyPay for an authorised payment."""
         if self.provider_code != "easypay":
             return super()._send_capture_request()
+        self._easypay_lock_operation()
+        if self.easypay_transaction_id or self.state != "authorized":
+            return
         if self.easypay_void_id:
             raise ValidationError(
                 _(
@@ -356,7 +382,10 @@ class PaymentTransaction(models.Model):
             raise ValidationError(
                 _("Cannot capture: No EasyPay payment ID found for this transaction.")
             )
-        response = self._easypay_capture(self.provider_reference)
+        response = self._easypay_capture(
+            self.provider_reference,
+            idempotency_key=self._easypay_operation_key("capture"),
+        )
         self._easypay_apply_capture_result(response)
 
     def _easypay_apply_capture_result(self, capture_response):
@@ -397,7 +426,7 @@ class PaymentTransaction(models.Model):
                 data = self.provider_id._easypay_make_request(
                     f"/2.0/capture/{capture_id}", method="GET"
                 )
-            except Exception as e:
+            except ValidationError as e:
                 _logger.warning(
                     "Capture poll attempt %d for %s failed: %s",
                     attempt,
@@ -408,19 +437,16 @@ class PaymentTransaction(models.Model):
                     time.sleep(attempt * 2)
                 continue
 
-            capture_status = data.get("status", "")
-            _logger.debug(
-                "Capture poll attempt %d for %s: status=%r",
-                attempt,
-                self.reference,
-                capture_status,
-            )
-            if capture_status in ("success", "paid", "captured"):
-                self._set_done()
-                return
-            elif capture_status == "failed":
-                self._set_error(_("EasyPay capture failed."))
-                return
+            kind, capture = self._easypay_verify_capture(data, capture_id)
+            if kind == "ok" and capture["payment_id"] == (
+                self._easypay_payment_reference()
+            ):
+                status = const.CAPTURE_STATUS_MAP.get(capture["status"])
+                if status:
+                    self.easypay_capture_status = status
+                if status in ("paid", "captured", "failed"):
+                    self._apply_payment_state(status, {})
+                    return
             if attempt < retries:
                 time.sleep(attempt * 2)
 
@@ -447,14 +473,99 @@ class PaymentTransaction(models.Model):
             idempotency_key=idempotency_key,
         )
         self.provider_id._easypay_raise_for_status(response, "capture")
-        self.easypay_transaction_id = response.get("id")
+        capture_id = response.get("id")
+        if not isinstance(capture_id, str) or not capture_id:
+            raise const.EasyPayTransportError(
+                _("EasyPay capture acknowledgement did not include an ID.")
+            )
+        self.easypay_transaction_id = capture_id
         return response
+
+    def _easypay_operation_key(self, operation, attempt=0):
+        """Deterministic EasyPay Idempotency-Key for a local operation.
+
+        Same key on every retry of the same attempt so EasyPay replays the
+        stored response instead of processing the request twice.
+        """
+        return hmac_tool(
+            self.env(su=True),
+            "easypay_operation",
+            f"{self.id}|{self.reference}|{operation}|{attempt}",
+        )[:50]
+
+    def _easypay_lock_operation(self):
+        """Row-lock this transaction for the duration of the request.
+
+        Serializes concurrent capture/void/session submissions; a racing
+        writer raises a serialization error that Odoo's request retry
+        resolves.
+        """
+        self.ensure_one()
+        self.env.cr.execute(
+            "SELECT id FROM payment_transaction WHERE id = %s FOR UPDATE",
+            [self.id],
+        )
+
+    def _easypay_verify_capture(self, data, capture_id):
+        """Verify an authenticated capture read against this transaction.
+
+        Returns ("ok", {"status", "payment_id"}), ("retry", None) when the
+        read is inconclusive, or ("conflict", None) when it belongs to a
+        different capture, reference or amount.
+        """
+        if not isinstance(data, dict):
+            return "retry", None
+        remote_id = data.get("id")
+        key = data.get("transaction_key")
+        payment_id = data.get("payment_id")
+        if (
+            not remote_id
+            or key is None
+            or not isinstance(payment_id, str)
+            or not payment_id
+        ):
+            return "retry", None
+        if remote_id != capture_id or key != self.reference:
+            return "conflict", None
+        try:
+            value = float(data.get("value"))
+        except (TypeError, ValueError, OverflowError):
+            return "retry", None
+        if not math.isfinite(value):
+            return "retry", None
+        if self.currency_id.compare_amounts(value, self.amount):
+            return "conflict", None
+        status = data.get("status")
+        return "ok", {
+            "status": status if isinstance(status, str) else None,
+            "payment_id": payment_id,
+        }
+
+    def _easypay_payment_reference(self):
+        """Locally stored EasyPay payment id used to bind capture reads.
+
+        A ``provider_reference`` equal to the checkout or capture id is
+        legacy bad data — including a token-backed offline transaction that
+        stored its capture UUID there — and never counts as a payment id;
+        fall back to the token's provider reference instead.
+        """
+        ref = self.provider_reference
+        if (
+            ref
+            and ref != self.easypay_checkout_id
+            and ref != self.easypay_transaction_id
+        ):
+            return ref
+        return self.token_id.provider_ref
 
     def _send_void_request(self, amount_to_void=None):
         """Send void request to EasyPay."""
         if self.provider_code != "easypay":
             return super()._send_void_request(amount_to_void=amount_to_void)
 
+        self._easypay_lock_operation()
+        if self.easypay_transaction_id or self.state != "authorized":
+            return
         if self.easypay_void_id:
             # A submitted void is resolved asynchronously; a repeat Void
             # click refreshes its status instead of resubmitting — this
@@ -471,6 +582,9 @@ class PaymentTransaction(models.Model):
         response = self.provider_id._easypay_make_request(
             f"/2.0/void/{self.provider_reference}",
             {"descriptive": self.reference[:255]},
+            idempotency_key=self._easypay_operation_key(
+                "void", self.easypay_void_attempt
+            ),
         )
         self.provider_id._easypay_raise_for_status(response, "void")
         void_id = response.get("id")
@@ -503,7 +617,10 @@ class PaymentTransaction(models.Model):
             return "ok"
         if status == "failed":
             # The void failed: release the guard so staff can retry while
-            # the authorisation stays valid.
+            # the authorisation stays valid. A new attempt key is minted
+            # only now that the failure is verified — uncertain responses
+            # keep reusing the same key.
             self.easypay_void_id = False
+            self.easypay_void_attempt += 1
             return "ok"
         return "retry"
