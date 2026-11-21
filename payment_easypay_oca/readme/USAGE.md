@@ -18,18 +18,13 @@ Once configured, customers can use EasyPay to make payments:
   order remains *Pending* until the payment is confirmed, which may
   take minutes to days. The customer should **not** close the
   confirmation page before noting down the reference.
-- **SEPA Direct Debit**: The customer enters their IBAN and accepts a
-  SEPA mandate authorizing EasyPay to debit their account. The order
-  remains *Pending* until the bank settles the debit (typically 2–5
-  business days). When used with tokenization, the mandate is saved
-  and subsequent charges are pulled automatically.
 - **Virtual IBAN**: A dedicated IBAN is displayed. The customer
   transfers the exact amount via online banking. The order remains
   *Pending* until the transfer is received and matched by EasyPay.
 - **Save payment details (tokenization)**: Logged-in customers can
   tick *Save my payment details* at checkout. The payment method is
   saved as a token for future charges (e.g. subscriptions). This
-  works with cards and SEPA Direct Debit.
+  works with cards.
 
 ## Refunds
 
