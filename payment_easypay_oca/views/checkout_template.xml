@@ -13,9 +13,6 @@
                 <style>
                     #easypay-checkout, #easypay-checkout > * { width: 100% !important; max-width: 100% !important; }
                 </style>
-                <script>
-                    window.easyPayData = <t t-out="easypay_data_json" />;
-                </script>
                 <script
                     src="https://cdn.easypay.pt/checkout/2.9.1/"
                     onerror="document.getElementById('payment-loading').style.display='none';document.getElementById('payment-error').style.display='block';"
@@ -50,7 +47,10 @@
                                         id="easypay-checkout-container"
                                         style="display: none;"
                                     >
-                                        <div id="easypay-checkout" />
+                                        <div
+                                            id="easypay-checkout"
+                                            t-att-data-easypay="easypay_data_json"
+                                        />
                                     </div>
 
                                     <div

@@ -5,6 +5,7 @@ import logging
 
 from odoo import http
 from odoo.http import request
+from odoo.tools import consteq
 
 _logger = logging.getLogger(__name__)
 
@@ -18,12 +19,12 @@ class EasyPayCheckoutSessionController(http.Controller):
     )
     def create_checkout_session(self, **kwargs):
         """Create checkout session when user actually clicks Pay."""
-        # Extract reference from JSON-RPC params
+        # Extract reference and access token from JSON-RPC params
         reference = kwargs.get("reference")
+        access_token = kwargs.get("access_token")
 
-        _logger.debug("Create checkout session for tx=%s", reference)
-        if not reference:
-            _logger.error("Missing reference in request. Params: %s", kwargs)
+        if not isinstance(reference, str) or not reference:
+            _logger.error("Missing reference in checkout session request")
             return {"error": "Missing reference"}
 
         tx_sudo = (
@@ -35,6 +36,15 @@ class EasyPayCheckoutSessionController(http.Controller):
         if not tx_sudo:
             _logger.error("Transaction not found: %s", reference)
             return {"error": "Transaction not found"}
+        if (
+            not isinstance(access_token, str)
+            or not access_token.isascii()
+            or not consteq(access_token, tx_sudo._easypay_checkout_access_token())
+        ):
+            _logger.warning(
+                "Invalid access token for checkout session on tx %s", reference
+            )
+            return {"error": "Invalid access token"}
         _logger.debug(
             "Transaction found: ref=%s state=%s checkout_id=%s",
             tx_sudo.reference,
@@ -77,6 +87,10 @@ class EasyPayCheckoutSessionController(http.Controller):
             return {"error": "Invalid session response: missing checkout ID"}
 
         tx_sudo.easypay_checkout_id = checkout_id
+        # Keep the server-originated manifest in the session so the checkout
+        # page never has to trust a client-supplied copy. Only the latest
+        # checkout is kept per browser session.
+        request.session["easypay_checkout_manifest"] = response
         _logger.debug(
             "Checkout session created: checkout_id=%s for %s",
             checkout_id,

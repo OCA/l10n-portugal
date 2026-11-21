@@ -22,6 +22,7 @@ paymentForm.include({
                 "/payment/easypay/create_checkout_session",
                 {
                     reference: processingValues.reference,
+                    access_token: processingValues.access_token,
                 }
             );
 
@@ -34,10 +35,10 @@ paymentForm.include({
                 return;
             }
 
-            // Redirect to dedicated payment page with session data
+            // Redirect to dedicated payment page; the checkout manifest stays
+            // server-side in the session and is never sent through the query.
             const params = new URLSearchParams({
                 session_id: response_data.checkout_id,
-                manifest: JSON.stringify(response_data.checkout_manifest),
             });
             window.location.href = "/payment/easypay/checkout?" + params.toString();
         } catch (error) {
