@@ -4,6 +4,7 @@
 import html
 import json
 import re
+from datetime import date, timedelta
 from unittest.mock import MagicMock, patch
 from urllib.parse import quote
 
@@ -659,6 +660,50 @@ class TestEasyPayController(HttpCase):
         return self.env["payment.transaction"].create(
             {"reference": reference, "amount": amount, **values}
         )
+
+    @patch("odoo.addons.payment_easypay_oca.models.payment_provider.requests.request")
+    def test_multibanco_checkout_uses_configured_expiry(self, mock_request):
+        """A Multibanco checkout carries the merchant's reference deadline."""
+        self.provider.easypay_mb_expiration_days = 7
+        multibanco = self.env.ref("payment.payment_method_multibanco")
+        tx = self._checkout_tx("TEST-MB-EXPIRY", payment_method_id=multibanco.id)
+        checkout_id = "checkout-mb-expiry"
+        mock_request.side_effect = self._api_router(
+            post_reads={"/2.0/checkout": {"id": checkout_id, "session": "manifest"}},
+        )
+        day_before = date.today()
+        self._start_checkout_session(tx, checkout_id)
+        day_after = date.today()
+        payload = mock_request.call_args.kwargs["json"]
+        self.assertNotIn("multibanco", payload)
+        self.assertEqual(payload["payment"]["methods"], ["mb"])
+        self.assertIn(
+            payload["payment"]["multibanco"]["expiration_time"],
+            {
+                f"{day + timedelta(days=7):%Y-%m-%d}T23:59:59Z"
+                for day in (day_before, day_after)
+            },
+        )
+
+    @patch("odoo.addons.payment_easypay_oca.models.payment_provider.requests.request")
+    def test_frequent_multibanco_checkout_omits_single_payment_settings(
+        self, mock_request
+    ):
+        """Frequent checkout sends the method without single-payment expiry settings."""
+        multibanco = self.env.ref("payment.payment_method_multibanco")
+        tx = self._checkout_tx(
+            "TEST-MB-FREQUENT", payment_method_id=multibanco.id, tokenize=True
+        )
+        checkout_id = "checkout-mb-frequent"
+        mock_request.side_effect = self._api_router(
+            post_reads={"/2.0/checkout": {"id": checkout_id, "session": "manifest"}},
+        )
+        self._start_checkout_session(tx, checkout_id)
+        payload = mock_request.call_args.kwargs["json"]
+        self.assertEqual(payload["type"], ["frequent"])
+        self.assertEqual(payload["payment"]["methods"], ["mb"])
+        self.assertNotIn("multibanco", payload)
+        self.assertNotIn("multibanco", payload["payment"])
 
     @patch("odoo.addons.payment_easypay_oca.models.payment_provider.requests.request")
     def test_checkout_success_callback(self, mock_request):
