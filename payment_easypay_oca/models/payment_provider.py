@@ -111,13 +111,19 @@ class PaymentProvider(models.Model):
 
     # === BUSINESS METHODS - PAYMENT FLOW ===#
 
-    def _easypay_make_request(self, endpoint, payload=None, method="POST"):
+    def _easypay_make_request(
+        self, endpoint, payload=None, method="POST", idempotency_key=None
+    ):
         url = f"{self._easypay_get_api_url()}{endpoint}"
         headers = {
             "AccountId": self.easypay_account_id,
             "ApiKey": self.easypay_api_key,
             "Content-Type": "application/json",
         }
+        # Optional EasyPay idempotency: retrying a request with the same key
+        # replays the stored response instead of processing it again.
+        if idempotency_key:
+            headers["Idempotency-Key"] = idempotency_key
 
         try:
             response = requests.request(
