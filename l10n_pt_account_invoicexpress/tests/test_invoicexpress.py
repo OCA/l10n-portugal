@@ -1,4 +1,5 @@
 import json
+import os
 from unittest.mock import patch
 
 import requests
@@ -6,6 +7,7 @@ import requests
 from odoo import fields
 from odoo.exceptions import UserError
 from odoo.tests import Form, common
+from odoo.tools import mute_logger
 
 from .invoicexpress_mock import mock_request_side_effect, mock_response
 
@@ -224,4 +226,50 @@ class TestInvoiceXpress(common.TransactionCase):
             for call in mock_request.call_args_list
             if call.args[0] == "POST"
             and call.args[1].endswith("/invoice_receipts.json")
+        )
+
+
+@common.tagged("-standard", "-at_install", "post_install", "invoicexpress_live")
+class TestInvoiceXpressLive(common.TransactionCase):
+    @mute_logger(
+        "odoo.addons.l10n_pt_account_invoicexpress.models.account_invoicexpress",
+        "urllib3.connectionpool",
+    )
+    def test_list_taxes(self):
+        """A configured journal can authenticate and read the remote tax list."""
+        account_name = os.environ.get("INVOICEXPRESS_ACCOUNT_NAME")
+        api_key = os.environ.get("INVOICEXPRESS_API_KEY")
+        company_vat = os.environ.get("INVOICEXPRESS_COMPANY_VAT")
+        if not account_name or not api_key or not company_vat:
+            self.skipTest(
+                "Set INVOICEXPRESS_ACCOUNT_NAME, INVOICEXPRESS_API_KEY "
+                "and INVOICEXPRESS_COMPANY_VAT to run this live test."
+            )
+        company = self.env.company
+        company.write({"country_id": self.env.ref("base.pt").id, "vat": company_vat})
+        journal = self.env["account.journal"].create(
+            {
+                "name": "InvoiceXpress Live Test",
+                "type": "sale",
+                "company_id": company.id,
+                "invoicexpress_account_name": account_name,
+                "invoicexpress_api_key": api_key,
+            }
+        )
+        provider = self.env["account.provider.invoicexpress"]
+        try:
+            response = provider._call(journal, "taxes.json", raise_errors=False)
+        except ValueError:
+            raise AssertionError("InvoiceXpress did not return valid JSON.") from None
+        except requests.RequestException:
+            raise AssertionError("Could not connect to InvoiceXpress.") from None
+        self.assertEqual(
+            response.status_code, 200, "InvoiceXpress tax list request failed."
+        )
+        try:
+            payload = response.json()
+        except ValueError:
+            raise AssertionError("InvoiceXpress did not return valid JSON.") from None
+        self.assertIsInstance(
+            payload.get("taxes") if isinstance(payload, dict) else None, list
         )

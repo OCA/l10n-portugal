@@ -33,3 +33,26 @@ Invoices:
 
 
 The monthly SAF-T file should be downloaded from the InvoiceXpress website.
+
+## Live API test
+
+`TestInvoiceXpressLive` is an opt-in smoke test that performs a real,
+read-only `GET taxes.json` request against InvoiceXpress. It carries the
+`-standard` tag, so the ordinary test suite never runs it, and it only
+executes when all three environment variables are set — take them from
+your secret store or shell, never hardcode them:
+
+- `INVOICEXPRESS_ACCOUNT_NAME`
+- `INVOICEXPRESS_API_KEY`
+- `INVOICEXPRESS_COMPANY_VAT`
+
+`INVOICEXPRESS_COMPANY_VAT` configures the VAT of the local Portuguese
+test company; the `GET taxes.json` request does not send it and does not
+verify the remote tax identity. If any variable is missing, the test
+skips. Run it against a disposable installed Odoo 20 database with:
+
+```
+odoo-bin -d <test-database> -u l10n_pt_account_invoicexpress \
+    --test-tags invoicexpress_live/l10n_pt_account_invoicexpress \
+    --stop-after-init
+```
