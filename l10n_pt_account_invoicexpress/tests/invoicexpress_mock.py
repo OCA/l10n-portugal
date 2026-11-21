@@ -50,6 +50,16 @@ def mock_request_side_effect(method, url, **kwargs):
             {"devolution": {"id": 12345678, "inverted_sequence_number": "MYSEQ/123"}},
             status_code=200,
         )
+    elif "debit_notes.json" in url and method == "POST":
+        return mock_response(
+            {
+                "debit_note": {
+                    "id": 87654321,
+                    "inverted_sequence_number": "MYSEQ/456",
+                }
+            },
+            status_code=200,
+        )
     elif "change-state.json" in url and method == "PUT":
         # Detect document type from URL and return appropriate response
         if "transports" in url:
@@ -73,6 +83,16 @@ def mock_request_side_effect(method, url, **kwargs):
                     "devolution": {
                         "id": 12345678,
                         "inverted_sequence_number": "MYSEQ/123",
+                    }
+                },
+                status_code=200,
+            )
+        elif "debit_notes" in url:
+            return mock_response(
+                {
+                    "debit_note": {
+                        "id": 87654321,
+                        "inverted_sequence_number": "MYSEQ/456",
                     }
                 },
                 status_code=200,

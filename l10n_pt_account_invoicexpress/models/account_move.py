@@ -33,19 +33,24 @@ class AccountMove(models.Model):
                 and invoice.company_id.invoicexpress_template_id
             )
 
-    @api.depends("move_type", "journal_id", "partner_shipping_id")
+    @api.depends("move_type", "journal_id", "partner_shipping_id", "debit_origin_id")
     def _compute_invoicexpress_doc_type(self):
         """
         The type of document to create: invoices, invoice_receipts,
         simplified_invoices, vat_moss_invoices, credit_notes or debit_notes.
         """
-        invoices = self.filtered("journal_id.use_invoicexpress")
+        invoices = self.filtered(
+            lambda invoice: invoice.journal_id.use_invoicexpress
+            and not invoice.invoicexpress_id
+        )
         for invoice in invoices:
             doctype = invoice.journal_id.invoicexpress_doc_type
             if not doctype or doctype == "none":
                 res = None
             elif invoice.move_type == "out_refund":
                 res = "credit_note"
+            elif invoice.move_type == "out_invoice" and invoice.debit_origin_id:
+                res = "debit_note"
             else:
                 res = doctype
             invoice.invoicexpress_doc_type = res
@@ -159,6 +164,12 @@ class AccountMove(models.Model):
             raise exceptions.UserError(
                 self.env._("Kindly add the invoice date and invoice due date.")
             )
+        debit_reference = (
+            self._prepare_invoicexpress_debit_reference()
+            if self.invoicexpress_doc_type == "debit_note"
+            or (self.move_type == "out_invoice" and self.debit_origin_id)
+            else {}
+        )
         customer = self._get_invoicexpress_partner()
         customer_vals = customer.set_invoicexpress_contact(company=self.company_id)
         items = self._prepare_invoicexpress_lines()
@@ -168,6 +179,7 @@ class AccountMove(models.Model):
                 "date": self.invoice_date.strftime("%d/%m/%Y"),
                 "due_date": self.invoice_date_due.strftime("%d/%m/%Y"),
                 "reference": self.ref or "",
+                **debit_reference,
                 "client": customer_vals,
                 "observations": self.narration or "",
                 "items": items,
@@ -188,7 +200,7 @@ class AccountMove(models.Model):
                 {"currency_code": self.currency_id.name, "rate": str(currency_rate)}
             )
         doctype = self.invoicexpress_doc_type
-        if doctype in ("credit_note", "debit_note"):
+        if doctype == "credit_note":
             # For standalone credit notes (invoices created outside InvoiceXpress)
             # Use ref field for it contains the invoice series/number
             if self.ref and not self.reversed_entry_id.invoicexpress_id:
@@ -199,6 +211,39 @@ class AccountMove(models.Model):
                 if owner_invoice_num:
                     invoice_data["invoice"]["owner_invoice_id"] = owner_invoice_num
         return invoice_data
+
+    def _prepare_invoicexpress_debit_reference(self):
+        origin = self.debit_origin_id
+        if not origin or origin.state != "posted":
+            raise exceptions.UserError(
+                self.env._(
+                    "An InvoiceXpress debit note must be linked to a posted "
+                    "original document."
+                )
+            )
+        if self.invoicexpress_doc_type != "debit_note":
+            raise exceptions.UserError(
+                self.env._(
+                    "Set the legal document type to debit_note for an "
+                    "InvoiceXpress debit note."
+                )
+            )
+        if origin.invoicexpress_id:
+            origin_account = origin.company_id.invoicexpress_account_name
+            account_name = self.company_id.invoicexpress_account_name
+            if (
+                not origin_account
+                or not account_name
+                or origin_account.lower() != account_name.lower()
+            ):
+                raise exceptions.UserError(
+                    self.env._(
+                        "The original document must have been issued by the "
+                        "same InvoiceXpress account."
+                    )
+                )
+            return {"owner_invoice_id": origin.invoicexpress_id}
+        return {"raw_owner_invoice": origin.name}
 
     def _update_invoicexpress_status(self):
         inv_xpress_link_name = self.env._("View Document")

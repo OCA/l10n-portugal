@@ -17,6 +17,10 @@ Invoices:
 - Added support for the Terms and Conditions/Observations field
 - Added to Credit Notes the link to the source Invoice
 - For standalone credit notes (invoices created outside InvoiceXpress), fill the Reference field with the invoice series/number (e.g., "FT A/1") before posting
+- Debit Notes created with Odoo's Debit Note action on a posted invoice
+  are issued by InvoiceXpress as ND documents linked to the original
+  invoice. If InvoiceXpress issued the original, use the same account.
+  For originals issued elsewhere, Odoo sends the original document number.
 
 
 The monthly SAF-T file should be downloaded from the InvoiceXpress website.
