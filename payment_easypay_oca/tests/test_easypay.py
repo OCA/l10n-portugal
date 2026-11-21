@@ -927,6 +927,79 @@ class TestEasyPayController(HttpCase):
         self.assertEqual(tx.easypay_transaction_id, "cap-freq-1")
 
     @patch("odoo.addons.payment_easypay_oca.models.payment_provider.requests.request")
+    def test_saved_card_webhook_completes_without_browser_return(self, mock_request):
+        """A customer can save a card and pay even if the browser never returns."""
+        tx = self._checkout_tx("TEST-FREQUENT-NO-RETURN", tokenize=True)
+        checkout_id, payment_id, capture_id = (
+            "chk-web-freq",
+            "pay-web-freq",
+            "cap-web-freq",
+        )
+        mock_request.side_effect = self._api_router(
+            post_reads={
+                "/2.0/checkout": {"id": checkout_id, "session": "manifest"},
+                "/capture/": {"status": "ok", "id": capture_id},
+            },
+            get_reads={
+                "/checkout/": self._checkout_read(
+                    checkout_id,
+                    payment_id=payment_id,
+                    payment_type="frequent",
+                    payment_status="tokenized",
+                ),
+                "/frequent/": self._frequent_read(payment_id),
+                "/capture/": self._capture_read(
+                    capture_id, tx.reference, payment_id=payment_id
+                ),
+            },
+        )
+        self._start_checkout_session(tx, checkout_id)
+        csrf_token = self._checkout_page_csrf(checkout_id)
+        event = {
+            "id": payment_id,
+            "key": tx.reference,
+            "type": "frequent_create",
+            "status": "success",
+        }
+        response = self._post_webhook(dict(event, id="unrelated-payment"))
+        self.assertEqual(response.status_code, 200)
+        tx.invalidate_recordset()
+        self.assertFalse(tx.token_id)
+        self.assertFalse(tx.easypay_transaction_id)
+        response = self._post_webhook(event)
+        self.assertEqual(response.status_code, 200)
+        tx.invalidate_recordset()
+        self.assertEqual(tx.state, "done")
+        self.assertTrue(tx.token_id)
+        self.assertEqual(tx.easypay_transaction_id, capture_id)
+        saved_token = tx.token_id
+        self.assertEqual(self._post_webhook(event).status_code, 200)
+        self.assertEqual(
+            self._post_checkout(
+                "/payment/easypay/checkout/success", checkout_id, csrf_token
+            ).status_code,
+            200,
+        )
+        tx.invalidate_recordset()
+        self.assertEqual(tx.state, "done")
+        self.assertEqual(tx.token_id, saved_token)
+        self.assertEqual(tx.easypay_transaction_id, capture_id)
+        captures = [
+            c
+            for c in mock_request.call_args_list
+            if c.args[:2]
+            == ("POST", f"https://api.test.easypay.pt/2.0/capture/{payment_id}")
+        ]
+        self.assertEqual(len(captures), 1)
+        self.assertTrue(captures[0].kwargs["headers"].get("Idempotency-Key"))
+        [checkout_call] = [
+            c
+            for c in mock_request.call_args_list
+            if c.args[0] == "POST" and c.args[1].endswith("/2.0/checkout")
+        ]
+        self.assertEqual(checkout_call.kwargs["json"]["payment"]["key"], tx.reference)
+
+    @patch("odoo.addons.payment_easypay_oca.models.payment_provider.requests.request")
     def test_checkout_success_frequent_inactive_method_is_ignored(self, mock_request):
         """A completed frequent checkout whose method is not active yet
         (e.g. pending confirmation) must not create a token or capture —
