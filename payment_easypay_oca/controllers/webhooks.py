@@ -9,6 +9,8 @@ from odoo import _, http
 from odoo.exceptions import ValidationError
 from odoo.http import request
 
+from .. import const
+
 _logger = logging.getLogger(__name__)
 
 # Authenticated EasyPay statuses mapped to the vocabulary consumed by
@@ -141,6 +143,8 @@ class EasyPayWebhookController(http.Controller):
             return self._easypay_webhook_unmatched(data)
 
         event_type = event["type"]
+        if event_type == "frequent_create":
+            return self._process_frequent_create_event(tx_sudo, event)
         if event_type == "refund":
             return self._process_refund_event(tx_sudo, event)
         if event_type == "authorisation":
@@ -195,6 +199,67 @@ class EasyPayWebhookController(http.Controller):
         return request.make_json_response({}, status=200)
 
     # ── Event processors ──────────────────────────────────────────────
+
+    def _process_frequent_create_event(self, tx_sudo, event):
+        """Complete a frequent checkout whose browser callback never ran.
+
+        The event's key and payment id are untrusted hints: the transaction
+        is located by them, then the stored checkout and the frequent
+        payment are read back with provider credentials before any token or
+        capture is created.
+        """
+        if not (tx_sudo.tokenize and tx_sudo.easypay_checkout_id and event["ids"]):
+            return request.make_json_response({}, status=200)
+        kind, checkout = self._read_checkout(tx_sudo)
+        if kind == _READ_OK:
+            if checkout["payment_id"] not in event["ids"]:
+                return request.make_json_response({}, status=200)
+            kind = self._complete_frequent_checkout(tx_sudo, checkout)
+        return request.make_json_response(
+            {}, status=503 if kind == _READ_RETRY else 200
+        )
+
+    def _complete_frequent_checkout(self, tx_sudo, checkout):
+        """Tokenize and capture a verified frequent checkout.
+
+        Shared by the generic ``frequent_create`` webhook and the browser
+        success callback. Returns a ``_READ_*`` kind; state changes come
+        only from authenticated reads and unexpected errors propagate so
+        the caller can retry.
+        """
+        if not tx_sudo.tokenize or checkout.get("payment_type") != "frequent":
+            return _READ_CONFLICT
+        if (
+            tx_sudo.token_id
+            or tx_sudo.easypay_transaction_id
+            or tx_sudo.state not in ("draft", "pending")
+        ):
+            return _READ_OK
+        if checkout.get("checkout_status") != "complete" or checkout.get(
+            "payment_status"
+        ) not in ("active", "tokenized"):
+            return _READ_RETRY
+        kind, payment = self._read_single(
+            tx_sudo, checkout["payment_id"], frequent=True
+        )
+        if kind != _READ_OK:
+            return kind
+        method = payment.get("method")
+        local_method = tx_sudo.payment_method_code
+        expected = const.ODOO_TO_EASYPAY.get(local_method, local_method)
+        if not method:
+            return _READ_RETRY
+        if (checkout.get("methods") and method not in checkout["methods"]) or (
+            expected != "easypay" and method != expected
+        ):
+            return _READ_CONFLICT
+        if payment["method_details"].get("status") not in ("active", "success"):
+            return _READ_RETRY
+        status = "authorized" if tx_sudo.amount else "tokenized"
+        tx_sudo._handle_notification_data(
+            "easypay", self._build_notification(payment, status)
+        )
+        return _READ_OK
 
     def _process_payment_event(self, tx_sudo, event):
         has_capture_ref = bool(
@@ -547,14 +612,18 @@ class EasyPayWebhookController(http.Controller):
             else None,
         }
 
-    def _read_single(self, tx_sudo, payment_id):
-        """GET /2.0/single/{id} (frequent fallback) bound by id, currency,
-        and value for single payments."""
-        data = self._easypay_get(tx_sudo.provider_id, "single", payment_id)
-        resource = "single"
-        if not data:
-            data = self._easypay_get(tx_sudo.provider_id, "frequent", payment_id)
+    def _read_single(self, tx_sudo, payment_id, *, frequent=False):
+        """GET /2.0/{single,frequent}/{id} bound by id and currency.
+
+        Reads the single resource with a frequent fallback unless
+        ``frequent`` forces the frequent resource; the value is bound for
+        single payments only.
+        """
+        resource = "frequent" if frequent else "single"
+        data = self._easypay_get(tx_sudo.provider_id, resource, payment_id)
+        if not data and not frequent:
             resource = "frequent"
+            data = self._easypay_get(tx_sudo.provider_id, resource, payment_id)
         if not data:
             return _READ_RETRY, None
 

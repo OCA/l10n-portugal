@@ -204,7 +204,11 @@ class PaymentProvider(models.Model):
 
         # Single payments require explicit capture config and payment type
         # Frequent payments must NOT include these fields per EasyPay API docs
-        if not is_frequent:
+        if is_frequent:
+            # payment.key is the documented merchant payment key — distinct
+            # from order.key — used to correlate frequent payments.
+            payload["payment"]["key"] = tx_sudo.reference
+        else:
             payload["payment"]["type"] = const.PAYMENT_TYPE_SALE
             payload["payment"]["capture"] = {
                 "descriptive": tx_sudo.reference,

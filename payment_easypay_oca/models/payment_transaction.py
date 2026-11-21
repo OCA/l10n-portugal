@@ -3,6 +3,7 @@
 
 import logging
 import time
+from uuid import NAMESPACE_URL, uuid5
 
 from odoo import _, fields, models
 from odoo.exceptions import ValidationError
@@ -175,8 +176,25 @@ class PaymentTransaction(models.Model):
             and self.amount
             and status in ("tokenized", "authorized", "authorised")
         ):
+            # Serialize the token write before the external capture. A
+            # concurrent Odoo request will retry on a conflicting
+            # transaction update.
+            self.flush_recordset(["token_id"])
+            capture_key = (
+                str(
+                    uuid5(
+                        NAMESPACE_URL,
+                        "easypay:initial-capture:"
+                        f"{self.easypay_checkout_id}:{token_ref}",
+                    )
+                )
+                if self.easypay_checkout_id
+                else None
+            )
             try:
-                capture_response = self._easypay_capture(token_ref)
+                capture_response = self._easypay_capture(
+                    token_ref, idempotency_key=capture_key
+                )
                 _logger.debug(
                     "Capture response for %s: status=%r id=%s",
                     self.reference,
@@ -413,8 +431,12 @@ class PaymentTransaction(models.Model):
         )
         self._set_pending(extra_allowed_states=("authorized",))
 
-    def _easypay_capture(self, capture_ref):
-        """POST /2.0/capture/{capture_ref}, store transaction ID, return response"""
+    def _easypay_capture(self, capture_ref, *, idempotency_key=None):
+        """POST /2.0/capture/{capture_ref}, store transaction ID, return response
+
+        :param str idempotency_key: Optional EasyPay Idempotency-Key header
+            value; EasyPay replays the stored response for a repeated key.
+        """
         response = self.provider_id._easypay_make_request(
             f"/2.0/capture/{capture_ref}",
             {
@@ -422,6 +444,7 @@ class PaymentTransaction(models.Model):
                 "transaction_key": self.reference,
                 "value": self.amount,
             },
+            idempotency_key=idempotency_key,
         )
         self.provider_id._easypay_raise_for_status(response, "capture")
         self.easypay_transaction_id = response.get("id")

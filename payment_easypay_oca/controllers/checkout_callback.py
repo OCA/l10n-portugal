@@ -64,11 +64,14 @@ class EasyPayCheckoutCallbackController(http.Controller):
             # webhooks will resolve it.
             return werkzeug.utils.redirect("/payment/status", code=303)
 
-        kind, payment = verifier._read_single(tx_sudo, checkout["payment_id"])
-        if kind != easypay_webhooks._READ_OK:
+        if tx_sudo.tokenize and checkout["payment_type"] == "frequent":
+            # Frequent checkouts tokenize and capture through the shared
+            # verifier; errors propagate so the request can be retried.
+            verifier._complete_frequent_checkout(tx_sudo, checkout)
             return werkzeug.utils.redirect("/payment/status", code=303)
 
-        if self._process_frequent_checkout(tx_sudo, checkout, payment, verifier):
+        kind, payment = verifier._read_single(tx_sudo, checkout["payment_id"])
+        if kind != easypay_webhooks._READ_OK:
             return werkzeug.utils.redirect("/payment/status", code=303)
 
         kind, notification = verifier._resolve_capture_notification(
@@ -196,36 +199,6 @@ class EasyPayCheckoutCallbackController(http.Controller):
                 limit=1,
             )
         )
-
-    def _process_frequent_checkout(self, tx_sudo, checkout, payment, verifier):
-        """Tokenize and capture a verified frequent checkout.
-
-        Returns True when the frequent flow was handled (token setup plus
-        the initial capture through the regular notification path).
-        """
-        method_details = payment.get("method_details")
-        if not (
-            tx_sudo.tokenize
-            and checkout.get("payment_type") == "frequent"
-            and checkout.get("checkout_status") == "complete"
-            and checkout.get("payment_status") in ("active", "tokenized")
-            and isinstance(method_details, dict)
-            and method_details.get("status") in ("active", "success")
-            and not tx_sudo.easypay_transaction_id
-        ):
-            return False
-        status = "authorized" if tx_sudo.amount else "tokenized"
-        notification = verifier._build_notification(payment, status)
-        try:
-            tx_sudo._handle_notification_data("easypay", notification)
-        except Exception as e:
-            _logger.exception(
-                "Error processing frequent checkout data for %s: %s",
-                tx_sudo.reference,
-                e,
-            )
-            tx_sudo._set_error(str(e))
-        return True
 
     @staticmethod
     def _verified_mb_details(payment):
