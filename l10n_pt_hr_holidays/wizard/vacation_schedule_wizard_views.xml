@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="vacation_schedule_wizard_view_form" model="ir.ui.view">
+        <field name="name">l10n.pt.vacation.schedule.wizard.form</field>
+        <field name="model">l10n.pt.vacation.schedule.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Vacation Schedule">
+                <group>
+                    <field name="year" />
+                    <field name="company_id" readonly="1" />
+                </group>
+                <footer>
+                    <button
+                        name="action_print"
+                        type="object"
+                        string="Print"
+                        class="btn-primary"
+                    />
+                    <button string="Cancel" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="vacation_schedule_wizard_action" model="ir.actions.act_window">
+        <field name="name">Vacation Schedule</field>
+        <field name="res_model">l10n.pt.vacation.schedule.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem
+        id="vacation_schedule_menu"
+        name="Vacation Schedule"
+        parent="hr_holidays.menu_hr_holidays_report"
+        action="vacation_schedule_wizard_action"
+        groups="hr_holidays.group_hr_holidays_manager"
+        sequence="5"
+    />
+</odoo>

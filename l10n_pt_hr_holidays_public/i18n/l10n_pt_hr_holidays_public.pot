@@ -1,0 +1,310 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_pt_hr_holidays_public
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-21 19:16+0000\n"
+"PO-Revision-Date: 2026-11-21 19:16+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_pt_hr_holidays_public
+#. odoo-python
+#: code:addons/l10n_pt_hr_holidays_public/wizard/l10n_pt_generate_public_holidays.py:0
+msgid "%(date)s | %(holiday)s | %(status)s"
+msgstr ""
+
+#. module: l10n_pt_hr_holidays_public
+#: model:ir.model.fields,field_description:l10n_pt_hr_holidays_public.field_l10n_pt_public_holiday_rule__active
+msgid "Active"
+msgstr ""
+
+#. module: l10n_pt_hr_holidays_public
+#. odoo-python
+#: code:addons/l10n_pt_hr_holidays_public/wizard/l10n_pt_generate_public_holidays.py:0
+msgid ""
+"Added: %(added)s. Already covered: %(covered)s. Regional overlaps: "
+"%(regional)s."
+msgstr ""
+
+#. module: l10n_pt_hr_holidays_public
+#: model:ir.model.fields,field_description:l10n_pt_hr_holidays_public.field_l10n_pt_generate_public_holidays__optional_rule_ids
+msgid "Additional Optional Rules"
+msgstr ""
+
+#. module: l10n_pt_hr_holidays_public
+#: model:l10n.pt.public.holiday.rule,name:l10n_pt_hr_holidays_public.public_holiday_rule_all_saints
+msgid "All Saints' Day"
+msgstr ""
+
+#. module: l10n_pt_hr_holidays_public
+#. odoo-python
+#: code:addons/l10n_pt_hr_holidays_public/wizard/l10n_pt_generate_public_holidays.py:0
+msgid "Already covered"
+msgstr ""
+
+#. module: l10n_pt_hr_holidays_public
+#: model_terms:ir.ui.view,arch_db:l10n_pt_hr_holidays_public.l10n_pt_generate_public_holidays_view_form
+msgid "Apply"
+msgstr ""
+
+#. module: l10n_pt_hr_holidays_public
+#: model:l10n.pt.public.holiday.rule,name:l10n_pt_hr_holidays_public.public_holiday_rule_assumption_day
+msgid "Assumption Day"
+msgstr ""
+
+#. module: l10n_pt_hr_holidays_public
+#: model:ir.model,name:l10n_pt_hr_holidays_public.model_calendar_public_holiday_line
+msgid "Calendar Public Holiday Line"
+msgstr ""
+
+#. module: l10n_pt_hr_holidays_public
+#: model_terms:ir.ui.view,arch_db:l10n_pt_hr_holidays_public.l10n_pt_generate_public_holidays_view_form
+msgid "Cancel"
+msgstr ""
+
+#. module: l10n_pt_hr_holidays_public
+#: model:l10n.pt.public.holiday.rule,name:l10n_pt_hr_holidays_public.public_holiday_rule_carnival
+msgid "Carnival Tuesday"
+msgstr ""
+
+#. module: l10n_pt_hr_holidays_public
+#: model:ir.model.fields,help:l10n_pt_hr_holidays_public.field_l10n_pt_generate_public_holidays__use_previous_year
+msgid "Carry linked optional rules forward, but not one-off holidays."
+msgstr ""
+
+#. module: l10n_pt_hr_holidays_public
+#. odoo-python
+#: code:addons/l10n_pt_hr_holidays_public/wizard/l10n_pt_generate_public_holidays.py:0
+msgid "Choose a year from 2017 to 2099 and only active optional rules."
+msgstr ""
+
+#. module: l10n_pt_hr_holidays_public
+#: model:l10n.pt.public.holiday.rule,name:l10n_pt_hr_holidays_public.public_holiday_rule_christmas
+msgid "Christmas Day"
+msgstr ""
+
+#. module: l10n_pt_hr_holidays_public
+#: model:l10n.pt.public.holiday.rule,name:l10n_pt_hr_holidays_public.public_holiday_rule_corpus_christi
+msgid "Corpus Christi"
+msgstr ""
+
+#. module: l10n_pt_hr_holidays_public
+#: model:ir.model.fields,field_description:l10n_pt_hr_holidays_public.field_l10n_pt_generate_public_holidays__create_uid
+#: model:ir.model.fields,field_description:l10n_pt_hr_holidays_public.field_l10n_pt_public_holiday_rule__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: l10n_pt_hr_holidays_public
+#: model:ir.model.fields,field_description:l10n_pt_hr_holidays_public.field_l10n_pt_generate_public_holidays__create_date
+#: model:ir.model.fields,field_description:l10n_pt_hr_holidays_public.field_l10n_pt_public_holiday_rule__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: l10n_pt_hr_holidays_public
+#: model:ir.model.fields,field_description:l10n_pt_hr_holidays_public.field_l10n_pt_public_holiday_rule__day
+msgid "Day"
+msgstr ""
+
+#. module: l10n_pt_hr_holidays_public
+#: model:ir.model.fields,field_description:l10n_pt_hr_holidays_public.field_l10n_pt_public_holiday_rule__easter_offset
+msgid "Days from Easter Sunday"
+msgstr ""
+
+#. module: l10n_pt_hr_holidays_public
+#: model:ir.model.fields,field_description:l10n_pt_hr_holidays_public.field_calendar_public_holiday_line__display_name
+#: model:ir.model.fields,field_description:l10n_pt_hr_holidays_public.field_l10n_pt_generate_public_holidays__display_name
+#: model:ir.model.fields,field_description:l10n_pt_hr_holidays_public.field_l10n_pt_public_holiday_rule__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_pt_hr_holidays_public
+#: model:l10n.pt.public.holiday.rule,name:l10n_pt_hr_holidays_public.public_holiday_rule_easter_sunday
+msgid "Easter Sunday"
+msgstr ""
+
+#. module: l10n_pt_hr_holidays_public
+#. odoo-python
+#: code:addons/l10n_pt_hr_holidays_public/models/l10n_pt_public_holiday_rule.py:0
+msgid "Enter a valid month and day for a fixed holiday."
+msgstr ""
+
+#. module: l10n_pt_hr_holidays_public
+#. odoo-python
+#: code:addons/l10n_pt_hr_holidays_public/models/l10n_pt_public_holiday_rule.py:0
+msgid "Enter an Easter offset between -70 and 70 days."
+msgstr ""
+
+#. module: l10n_pt_hr_holidays_public
+#: model:ir.model.fields.selection,name:l10n_pt_hr_holidays_public.selection__l10n_pt_public_holiday_rule__rule_type__fixed
+msgid "Fixed Date"
+msgstr ""
+
+#. module: l10n_pt_hr_holidays_public
+#: model:l10n.pt.public.holiday.rule,name:l10n_pt_hr_holidays_public.public_holiday_rule_freedom_day
+msgid "Freedom Day"
+msgstr ""
+
+#. module: l10n_pt_hr_holidays_public
+#: model:ir.actions.act_window,name:l10n_pt_hr_holidays_public.l10n_pt_generate_public_holidays_action
+#: model:ir.model,name:l10n_pt_hr_holidays_public.model_l10n_pt_generate_public_holidays
+#: model:ir.ui.menu,name:l10n_pt_hr_holidays_public.l10n_pt_generate_public_holidays_menu
+#: model_terms:ir.ui.view,arch_db:l10n_pt_hr_holidays_public.l10n_pt_generate_public_holidays_view_form
+msgid "Generate Portuguese Public Holidays"
+msgstr ""
+
+#. module: l10n_pt_hr_holidays_public
+#: model_terms:ir.ui.view,arch_db:l10n_pt_hr_holidays_public.l10n_pt_generate_public_holidays_view_form
+msgid ""
+"Generated holidays apply throughout Portugal in the OCA\n"
+"                    calendar. Company-only closures are managed separately."
+msgstr ""
+
+#. module: l10n_pt_hr_holidays_public
+#: model:l10n.pt.public.holiday.rule,name:l10n_pt_hr_holidays_public.public_holiday_rule_good_friday
+msgid "Good Friday"
+msgstr ""
+
+#. module: l10n_pt_hr_holidays_public
+#: model:ir.model.fields,field_description:l10n_pt_hr_holidays_public.field_calendar_public_holiday_line__id
+#: model:ir.model.fields,field_description:l10n_pt_hr_holidays_public.field_l10n_pt_generate_public_holidays__id
+#: model:ir.model.fields,field_description:l10n_pt_hr_holidays_public.field_l10n_pt_public_holiday_rule__id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_pt_hr_holidays_public
+#: model:l10n.pt.public.holiday.rule,name:l10n_pt_hr_holidays_public.public_holiday_rule_immaculate_conception
+msgid "Immaculate Conception"
+msgstr ""
+
+#. module: l10n_pt_hr_holidays_public
+#: model:l10n.pt.public.holiday.rule,name:l10n_pt_hr_holidays_public.public_holiday_rule_labour_day
+msgid "Labour Day"
+msgstr ""
+
+#. module: l10n_pt_hr_holidays_public
+#: model:ir.model.fields,field_description:l10n_pt_hr_holidays_public.field_l10n_pt_generate_public_holidays__write_uid
+#: model:ir.model.fields,field_description:l10n_pt_hr_holidays_public.field_l10n_pt_public_holiday_rule__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: l10n_pt_hr_holidays_public
+#: model:ir.model.fields,field_description:l10n_pt_hr_holidays_public.field_l10n_pt_generate_public_holidays__write_date
+#: model:ir.model.fields,field_description:l10n_pt_hr_holidays_public.field_l10n_pt_public_holiday_rule__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: l10n_pt_hr_holidays_public
+#: model:ir.model.fields,field_description:l10n_pt_hr_holidays_public.field_l10n_pt_public_holiday_rule__mandatory
+msgid "Mandatory"
+msgstr ""
+
+#. module: l10n_pt_hr_holidays_public
+#: model:ir.model.fields,field_description:l10n_pt_hr_holidays_public.field_l10n_pt_public_holiday_rule__month
+msgid "Month"
+msgstr ""
+
+#. module: l10n_pt_hr_holidays_public
+#: model:ir.model.fields,field_description:l10n_pt_hr_holidays_public.field_l10n_pt_public_holiday_rule__name
+msgid "Name"
+msgstr ""
+
+#. module: l10n_pt_hr_holidays_public
+#: model:l10n.pt.public.holiday.rule,name:l10n_pt_hr_holidays_public.public_holiday_rule_new_year
+msgid "New Year's Day"
+msgstr ""
+
+#. module: l10n_pt_hr_holidays_public
+#. odoo-python
+#: code:addons/l10n_pt_hr_holidays_public/wizard/l10n_pt_generate_public_holidays.py:0
+msgid "Only Time Off Administrators can generate public holidays."
+msgstr ""
+
+#. module: l10n_pt_hr_holidays_public
+#: model:l10n.pt.public.holiday.rule,name:l10n_pt_hr_holidays_public.public_holiday_rule_portugal_day
+msgid "Portugal Day"
+msgstr ""
+
+#. module: l10n_pt_hr_holidays_public
+#: model:ir.actions.act_window,name:l10n_pt_hr_holidays_public.l10n_pt_public_holiday_rule_action
+#: model:ir.model.fields,field_description:l10n_pt_hr_holidays_public.field_calendar_public_holiday_line__l10n_pt_holiday_rule_ids
+#: model:ir.ui.menu,name:l10n_pt_hr_holidays_public.l10n_pt_public_holiday_rule_menu
+msgid "Portuguese Holiday Rules"
+msgstr ""
+
+#. module: l10n_pt_hr_holidays_public
+#: model:ir.model,name:l10n_pt_hr_holidays_public.model_l10n_pt_public_holiday_rule
+msgid "Portuguese Public Holiday Rule"
+msgstr ""
+
+#. module: l10n_pt_hr_holidays_public
+#. odoo-python
+#: code:addons/l10n_pt_hr_holidays_public/wizard/l10n_pt_generate_public_holidays.py:0
+msgid "Portuguese Public Holidays"
+msgstr ""
+
+#. module: l10n_pt_hr_holidays_public
+#: model:ir.model.fields,field_description:l10n_pt_hr_holidays_public.field_l10n_pt_generate_public_holidays__preview
+msgid "Preview"
+msgstr ""
+
+#. module: l10n_pt_hr_holidays_public
+#. odoo-python
+#: code:addons/l10n_pt_hr_holidays_public/wizard/l10n_pt_generate_public_holidays.py:0
+msgid "Regional overlap: review manually"
+msgstr ""
+
+#. module: l10n_pt_hr_holidays_public
+#: model:ir.model.fields.selection,name:l10n_pt_hr_holidays_public.selection__l10n_pt_public_holiday_rule__rule_type__easter
+msgid "Relative to Easter"
+msgstr ""
+
+#. module: l10n_pt_hr_holidays_public
+#: model:l10n.pt.public.holiday.rule,name:l10n_pt_hr_holidays_public.public_holiday_rule_republic_day
+msgid "Republic Day"
+msgstr ""
+
+#. module: l10n_pt_hr_holidays_public
+#: model:l10n.pt.public.holiday.rule,name:l10n_pt_hr_holidays_public.public_holiday_rule_restoration
+msgid "Restoration of Independence"
+msgstr ""
+
+#. module: l10n_pt_hr_holidays_public
+#: model:ir.model.fields,field_description:l10n_pt_hr_holidays_public.field_l10n_pt_public_holiday_rule__rule_type
+msgid "Rule Type"
+msgstr ""
+
+#. module: l10n_pt_hr_holidays_public
+#: model:ir.model.fields,field_description:l10n_pt_hr_holidays_public.field_l10n_pt_public_holiday_rule__sequence
+msgid "Sequence"
+msgstr ""
+
+#. module: l10n_pt_hr_holidays_public
+#. odoo-python
+#: code:addons/l10n_pt_hr_holidays_public/wizard/l10n_pt_generate_public_holidays.py:0
+msgid "To add"
+msgstr ""
+
+#. module: l10n_pt_hr_holidays_public
+#: model:ir.model.fields,help:l10n_pt_hr_holidays_public.field_calendar_public_holiday_line__l10n_pt_holiday_rule_ids
+msgid ""
+"Unlinked holidays are one-offs and are not carried forward by the Portuguese"
+" wizard."
+msgstr ""
+
+#. module: l10n_pt_hr_holidays_public
+#: model:ir.model.fields,field_description:l10n_pt_hr_holidays_public.field_l10n_pt_generate_public_holidays__use_previous_year
+msgid "Use Last Year's Optional Rules"
+msgstr ""
+
+#. module: l10n_pt_hr_holidays_public
+#: model:ir.model.fields,field_description:l10n_pt_hr_holidays_public.field_l10n_pt_generate_public_holidays__year
+msgid "Year"
+msgstr ""

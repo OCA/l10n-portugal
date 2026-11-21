@@ -1,0 +1,1 @@
+Generates Portuguese nationwide public holidays in the OCA holiday catalog using editable fixed-date and Easter-relative rules. It is independent of Portuguese Time Off and Payroll addons. It does not create native work calendar closures.

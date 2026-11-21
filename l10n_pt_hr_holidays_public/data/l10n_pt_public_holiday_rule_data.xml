@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo noupdate="1">
+    <record id="public_holiday_rule_new_year" model="l10n.pt.public.holiday.rule">
+        <field name="name">New Year's Day</field>
+        <field name="mandatory" eval="True" />
+        <field name="sequence" eval="10" />
+        <field name="rule_type">fixed</field>
+        <field name="month" eval="1" />
+        <field name="day" eval="1" />
+    </record>
+    <record id="public_holiday_rule_good_friday" model="l10n.pt.public.holiday.rule">
+        <field name="name">Good Friday</field>
+        <field name="mandatory" eval="True" />
+        <field name="sequence" eval="20" />
+        <field name="rule_type">easter</field>
+        <field name="easter_offset" eval="-2" />
+    </record>
+    <record id="public_holiday_rule_easter_sunday" model="l10n.pt.public.holiday.rule">
+        <field name="name">Easter Sunday</field>
+        <field name="mandatory" eval="True" />
+        <field name="sequence" eval="30" />
+        <field name="rule_type">easter</field>
+        <field name="easter_offset" eval="0" />
+    </record>
+    <record id="public_holiday_rule_freedom_day" model="l10n.pt.public.holiday.rule">
+        <field name="name">Freedom Day</field>
+        <field name="mandatory" eval="True" />
+        <field name="sequence" eval="40" />
+        <field name="rule_type">fixed</field>
+        <field name="month" eval="4" />
+        <field name="day" eval="25" />
+    </record>
+    <record id="public_holiday_rule_labour_day" model="l10n.pt.public.holiday.rule">
+        <field name="name">Labour Day</field>
+        <field name="mandatory" eval="True" />
+        <field name="sequence" eval="50" />
+        <field name="rule_type">fixed</field>
+        <field name="month" eval="5" />
+        <field name="day" eval="1" />
+    </record>
+    <record id="public_holiday_rule_corpus_christi" model="l10n.pt.public.holiday.rule">
+        <field name="name">Corpus Christi</field>
+        <field name="mandatory" eval="True" />
+        <field name="sequence" eval="60" />
+        <field name="rule_type">easter</field>
+        <field name="easter_offset" eval="60" />
+    </record>
+    <record id="public_holiday_rule_portugal_day" model="l10n.pt.public.holiday.rule">
+        <field name="name">Portugal Day</field>
+        <field name="mandatory" eval="True" />
+        <field name="sequence" eval="70" />
+        <field name="rule_type">fixed</field>
+        <field name="month" eval="6" />
+        <field name="day" eval="10" />
+    </record>
+    <record id="public_holiday_rule_assumption_day" model="l10n.pt.public.holiday.rule">
+        <field name="name">Assumption Day</field>
+        <field name="mandatory" eval="True" />
+        <field name="sequence" eval="80" />
+        <field name="rule_type">fixed</field>
+        <field name="month" eval="8" />
+        <field name="day" eval="15" />
+    </record>
+    <record id="public_holiday_rule_republic_day" model="l10n.pt.public.holiday.rule">
+        <field name="name">Republic Day</field>
+        <field name="mandatory" eval="True" />
+        <field name="sequence" eval="90" />
+        <field name="rule_type">fixed</field>
+        <field name="month" eval="10" />
+        <field name="day" eval="5" />
+    </record>
+    <record id="public_holiday_rule_all_saints" model="l10n.pt.public.holiday.rule">
+        <field name="name">All Saints' Day</field>
+        <field name="mandatory" eval="True" />
+        <field name="sequence" eval="100" />
+        <field name="rule_type">fixed</field>
+        <field name="month" eval="11" />
+        <field name="day" eval="1" />
+    </record>
+    <record id="public_holiday_rule_restoration" model="l10n.pt.public.holiday.rule">
+        <field name="name">Restoration of Independence</field>
+        <field name="mandatory" eval="True" />
+        <field name="sequence" eval="110" />
+        <field name="rule_type">fixed</field>
+        <field name="month" eval="12" />
+        <field name="day" eval="1" />
+    </record>
+    <record
+        id="public_holiday_rule_immaculate_conception"
+        model="l10n.pt.public.holiday.rule"
+    >
+        <field name="name">Immaculate Conception</field>
+        <field name="mandatory" eval="True" />
+        <field name="sequence" eval="120" />
+        <field name="rule_type">fixed</field>
+        <field name="month" eval="12" />
+        <field name="day" eval="8" />
+    </record>
+    <record id="public_holiday_rule_christmas" model="l10n.pt.public.holiday.rule">
+        <field name="name">Christmas Day</field>
+        <field name="mandatory" eval="True" />
+        <field name="sequence" eval="130" />
+        <field name="rule_type">fixed</field>
+        <field name="month" eval="12" />
+        <field name="day" eval="25" />
+    </record>
+    <record id="public_holiday_rule_carnival" model="l10n.pt.public.holiday.rule">
+        <field name="name">Carnival Tuesday</field>
+        <field name="mandatory" eval="False" />
+        <field name="sequence" eval="140" />
+        <field name="rule_type">easter</field>
+        <field name="easter_offset" eval="-47" />
+    </record>
+</odoo>

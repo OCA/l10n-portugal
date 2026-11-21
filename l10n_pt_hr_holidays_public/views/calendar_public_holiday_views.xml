@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="calendar_public_holiday_view_form_l10n_pt" model="ir.ui.view">
+        <field name="name">
+            calendar.public.holiday.form.l10n.pt.inherit
+        </field>
+        <field name="model">calendar.public.holiday</field>
+        <field
+            name="inherit_id"
+            ref="calendar_public_holiday.view_calendar_public_holiday_form"
+        />
+        <field name="arch" type="xml">
+            <xpath
+                expr="//field[@name='line_ids']/list/field[@name='variable_date']"
+                position="after"
+            >
+                <field
+                    name="l10n_pt_holiday_rule_ids"
+                    widget="many2many_tags"
+                    readonly="1"
+                    optional="hide"
+                />
+            </xpath>
+        </field>
+    </record>
+</odoo>

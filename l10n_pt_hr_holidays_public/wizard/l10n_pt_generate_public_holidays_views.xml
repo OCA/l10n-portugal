@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="l10n_pt_generate_public_holidays_view_form" model="ir.ui.view">
+        <field name="name">l10n.pt.generate.public.holidays.form</field>
+        <field name="model">l10n.pt.generate.public.holidays</field>
+        <field name="arch" type="xml">
+            <form string="Generate Portuguese Public Holidays">
+                <div class="alert alert-info" role="alert">
+                    Generated holidays apply throughout Portugal in the OCA
+                    calendar. Company-only closures are managed separately.
+                </div>
+                <group>
+                    <field name="year" />
+                    <field name="use_previous_year" />
+                    <field
+                        name="optional_rule_ids"
+                        widget="many2many_tags"
+                        options="{'no_create': True, 'no_open': True}"
+                    />
+                </group>
+                <field name="preview" nolabel="1" readonly="1" />
+                <footer>
+                    <button
+                        name="action_apply"
+                        type="object"
+                        string="Apply"
+                        class="btn-primary"
+                        invisible="not preview"
+                    />
+                    <button string="Cancel" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="l10n_pt_generate_public_holidays_action" model="ir.actions.act_window">
+        <field name="name">Generate Portuguese Public Holidays</field>
+        <field name="res_model">l10n.pt.generate.public.holidays</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+    <menuitem
+        id="l10n_pt_generate_public_holidays_menu"
+        name="Generate Portuguese Public Holidays"
+        parent="hr_holidays_public.menu_hr_public_holidays"
+        action="l10n_pt_generate_public_holidays_action"
+        groups="hr_holidays.group_hr_holidays_manager"
+        sequence="35"
+    />
+</odoo>

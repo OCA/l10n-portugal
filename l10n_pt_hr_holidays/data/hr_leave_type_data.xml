@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+    <record id="leave_type_annual_leave" model="hr.leave.type">
+        <field name="name">Annual Leave</field>
+        <field name="company_id" eval="False" />
+        <field name="country_id" ref="base.pt" />
+        <field name="request_unit">day</field>
+        <field name="requires_allocation" eval="True" />
+        <field name="employee_requests" eval="False" />
+        <field name="leave_validation_type">hr</field>
+        <field name="allocation_validation_type">hr</field>
+        <field name="include_public_holidays_in_duration" eval="False" />
+        <field name="leave_notif_subtype_id" ref="hr_holidays.mt_leave" />
+        <field
+            name="allocation_notif_subtype_id"
+            ref="hr_holidays.mt_leave_allocation"
+        />
+    </record>
+    <record id="leave_type_work_accident" model="hr.leave.type">
+        <field name="name">Work Accident</field>
+        <field name="company_id" eval="False" />
+        <field name="country_id" ref="base.pt" />
+        <field name="request_unit">hour</field>
+        <field name="requires_allocation" eval="False" />
+        <field name="leave_validation_type">hr</field>
+        <field name="leave_notif_subtype_id" ref="hr_holidays.mt_leave" />
+    </record>
+    <record id="leave_type_certified_occupational_disease" model="hr.leave.type">
+        <field name="name">Certified Occupational Disease</field>
+        <field name="company_id" eval="False" />
+        <field name="country_id" ref="base.pt" />
+        <field name="request_unit">hour</field>
+        <field name="requires_allocation" eval="False" />
+        <field name="leave_validation_type">hr</field>
+        <field name="leave_notif_subtype_id" ref="hr_holidays.mt_leave" />
+    </record>
+    <record id="leave_type_uncertified_occupational_disease" model="hr.leave.type">
+        <field name="name">Uncertified Occupational Disease</field>
+        <field name="company_id" eval="False" />
+        <field name="country_id" ref="base.pt" />
+        <field name="request_unit">hour</field>
+        <field name="requires_allocation" eval="False" />
+        <field name="leave_validation_type">hr</field>
+        <field name="leave_notif_subtype_id" ref="hr_holidays.mt_leave" />
+    </record>
+    <record id="leave_type_non_occupational_illness" model="hr.leave.type">
+        <field name="name">Non-Occupational Illness</field>
+        <field name="company_id" eval="False" />
+        <field name="country_id" ref="base.pt" />
+        <field name="request_unit">hour</field>
+        <field name="requires_allocation" eval="False" />
+        <field name="leave_validation_type">hr</field>
+        <field name="leave_notif_subtype_id" ref="hr_holidays.mt_leave" />
+    </record>
+    <record id="leave_type_urgent_family_care" model="hr.leave.type">
+        <field name="name">Urgent Family Care</field>
+        <field name="company_id" eval="False" />
+        <field name="country_id" ref="base.pt" />
+        <field name="request_unit">hour</field>
+        <field name="requires_allocation" eval="False" />
+        <field name="leave_validation_type">hr</field>
+        <field name="leave_notif_subtype_id" ref="hr_holidays.mt_leave" />
+    </record>
+    <record id="leave_type_working_student" model="hr.leave.type">
+        <field name="name">Working Student Absence</field>
+        <field name="company_id" eval="False" />
+        <field name="country_id" ref="base.pt" />
+        <field name="request_unit">hour</field>
+        <field name="requires_allocation" eval="False" />
+        <field name="leave_validation_type">hr</field>
+        <field name="leave_notif_subtype_id" ref="hr_holidays.mt_leave" />
+    </record>
+    <record id="leave_type_bereavement" model="hr.leave.type">
+        <field name="name">Bereavement</field>
+        <field name="company_id" eval="False" />
+        <field name="country_id" ref="base.pt" />
+        <field name="request_unit">hour</field>
+        <field name="requires_allocation" eval="False" />
+        <field name="leave_validation_type">hr</field>
+        <field name="leave_notif_subtype_id" ref="hr_holidays.mt_leave" />
+    </record>
+    <record id="leave_type_maternity" model="hr.leave.type">
+        <field name="name">Maternity Leave</field>
+        <field name="company_id" eval="False" />
+        <field name="country_id" ref="base.pt" />
+        <field name="request_unit">day</field>
+        <field name="requires_allocation" eval="False" />
+        <field name="leave_validation_type">hr</field>
+        <field name="leave_notif_subtype_id" ref="hr_holidays.mt_leave" />
+    </record>
+    <record id="leave_type_paternity" model="hr.leave.type">
+        <field name="name">Paternity Leave</field>
+        <field name="company_id" eval="False" />
+        <field name="country_id" ref="base.pt" />
+        <field name="request_unit">day</field>
+        <field name="requires_allocation" eval="False" />
+        <field name="leave_validation_type">hr</field>
+        <field name="leave_notif_subtype_id" ref="hr_holidays.mt_leave" />
+    </record>
+    <record id="leave_type_electoral_duties" model="hr.leave.type">
+        <field name="name">Electoral Campaign or Polling Duties</field>
+        <field name="company_id" eval="False" />
+        <field name="country_id" ref="base.pt" />
+        <field name="request_unit">hour</field>
+        <field name="requires_allocation" eval="False" />
+        <field name="leave_validation_type">hr</field>
+        <field name="leave_notif_subtype_id" ref="hr_holidays.mt_leave" />
+    </record>
+    <record id="leave_type_strike" model="hr.leave.type">
+        <field name="name">Strike</field>
+        <field name="company_id" eval="False" />
+        <field name="country_id" ref="base.pt" />
+        <field name="request_unit">hour</field>
+        <field name="requires_allocation" eval="False" />
+        <field name="leave_validation_type">hr</field>
+        <field name="leave_notif_subtype_id" ref="hr_holidays.mt_leave" />
+    </record>
+    <record id="leave_type_worker_representation" model="hr.leave.type">
+        <field name="name">Worker Representation Duties</field>
+        <field name="company_id" eval="False" />
+        <field name="country_id" ref="base.pt" />
+        <field name="request_unit">hour</field>
+        <field name="requires_allocation" eval="False" />
+        <field name="leave_validation_type">hr</field>
+        <field name="leave_notif_subtype_id" ref="hr_holidays.mt_leave" />
+    </record>
+    <record id="leave_type_employer_authorized" model="hr.leave.type">
+        <field name="name">Employer-Authorized Absence</field>
+        <field name="company_id" eval="False" />
+        <field name="country_id" ref="base.pt" />
+        <field name="request_unit">hour</field>
+        <field name="requires_allocation" eval="False" />
+        <field name="leave_validation_type">hr</field>
+        <field name="leave_notif_subtype_id" ref="hr_holidays.mt_leave" />
+    </record>
+    <record id="leave_type_other_justified" model="hr.leave.type">
+        <field name="name">Other Justified Absence</field>
+        <field name="company_id" eval="False" />
+        <field name="country_id" ref="base.pt" />
+        <field name="request_unit">hour</field>
+        <field name="requires_allocation" eval="False" />
+        <field name="leave_validation_type">hr</field>
+        <field name="leave_notif_subtype_id" ref="hr_holidays.mt_leave" />
+    </record>
+    <record id="leave_type_unjustified" model="hr.leave.type">
+        <field name="name">Unjustified Absence</field>
+        <field name="company_id" eval="False" />
+        <field name="country_id" ref="base.pt" />
+        <field name="request_unit">hour</field>
+        <field name="requires_allocation" eval="False" />
+        <field name="leave_validation_type">hr</field>
+        <field name="leave_notif_subtype_id" ref="hr_holidays.mt_leave" />
+    </record>
+</odoo>
