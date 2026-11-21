@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="l10n_pt_public_holiday_rule_view_list" model="ir.ui.view">
+        <field name="name">l10n.pt.public.holiday.rule.list</field>
+        <field name="model">l10n.pt.public.holiday.rule</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="sequence" widget="handle" />
+                <field name="name" />
+                <field name="mandatory" />
+                <field name="rule_type" />
+            </list>
+        </field>
+    </record>
+    <record id="l10n_pt_public_holiday_rule_view_form" model="ir.ui.view">
+        <field name="name">l10n.pt.public.holiday.rule.form</field>
+        <field name="model">l10n.pt.public.holiday.rule</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name" />
+                        <field name="active" />
+                        <field name="sequence" />
+                        <field name="mandatory" />
+                        <field name="rule_type" />
+                        <field name="month" invisible="rule_type != 'fixed'" />
+                        <field name="day" invisible="rule_type != 'fixed'" />
+                        <field name="easter_offset" invisible="rule_type != 'easter'" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="l10n_pt_public_holiday_rule_action" model="ir.actions.act_window">
+        <field name="name">Portuguese Holiday Rules</field>
+        <field name="res_model">l10n.pt.public.holiday.rule</field>
+        <field name="view_mode">list,form</field>
+    </record>
+    <menuitem
+        id="l10n_pt_public_holiday_rule_menu"
+        name="Portuguese Holiday Rules"
+        parent="hr_holidays_public.menu_hr_public_holidays"
+        action="l10n_pt_public_holiday_rule_action"
+        groups="hr_holidays.group_hr_holidays_manager"
+        sequence="40"
+    />
+</odoo>
