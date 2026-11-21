@@ -12,6 +12,10 @@
    still generating it, printing again later simply retries — do not
    repost the invoice.
 
+InvoiceXpress does not accept negative unit prices or quantities. Use
+a percentage discount on the affected line instead of a negative
+discount line where appropriate.
+
 The invoice form shows an "InvoiceXpress" tab with the provider
 document details. **View Document** opens the document page on
 InvoiceXpress when a link is available, and otherwise fetches the PDF.

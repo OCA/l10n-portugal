@@ -38,6 +38,9 @@ derived from the invoice lines' taxes instead.
   tax; there is no fallback to an unconfigured taxless item.
 - A line with no tax, multiple taxes, or a tax group is rejected
   rather than silently reduced to the first tax.
+- Reject any product line with a negative unit price or quantity
+  before customer or tax synchronization, even if the document total
+  is positive.
 - The form shows the computed exemption as a read-only, non-stored
   field derived from the lines — never from the historical snapshot.
   Posted/archived invoices are not modified, and no journal defaults
@@ -108,6 +111,12 @@ derived from the invoice lines' taxes instead.
   starting with `%PDF-` is accepted.
 - The first successful download is stored as the invoice's reference
   document; later prints reuse it without further provider requests.
+
+## Roadmap
+
+- Consider mapping eligible negative discount lines to InvoiceXpress's
+  fixed document discount. Only do so if the tax bases, VAT, currency
+  rounding and document totals are unchanged.
 
 ## Non-goals
 

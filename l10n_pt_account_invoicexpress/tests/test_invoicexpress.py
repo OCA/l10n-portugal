@@ -188,6 +188,35 @@ class TestInvoiceXpress(common.TransactionCase):
             invoice.action_post()
         mock_request.assert_not_called()
 
+    @patch("requests.request")
+    def test_invoice_rejects_negative_lines_before_http(self, mock_request):
+        mock_request.side_effect = mock_request_side_effect
+        tax = self._make_invoice_tax("IVA23", 23)
+        invoice = self._make_invoice_with_taxes(tax, tax)
+        lines = invoice.invoice_line_ids.filtered(
+            lambda line: line.display_type == "product"
+        )
+        lines[0].price_unit = 10
+        second_line = lines[1]
+        for negative in (
+            {"price_unit": -1, "quantity": 1},
+            {"price_unit": 1, "quantity": -1},
+        ):
+            with self.subTest(negative=negative):
+                second_line.write(negative)
+                self.assertGreater(invoice.amount_total, 0)
+                with (
+                    self.assertRaisesRegex(
+                        UserError,
+                        "InvoiceXpress does not accept a negative unit price "
+                        "or quantity",
+                    ),
+                    self.env.cr.savepoint(),
+                ):
+                    invoice.action_post()
+                self.assertEqual(invoice.state, "draft")
+        mock_request.assert_not_called()
+
     def _make_invoice_with_taxes(self, *taxes):
         provider = self.env["l10n_pt.invoice.provider.record"].search(
             [("code", "=", "invoicexpress")], limit=1

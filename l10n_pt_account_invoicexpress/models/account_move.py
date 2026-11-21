@@ -71,6 +71,7 @@ class AccountMove(models.Model):
 
     def _prepare_invoicexpress_vals(self):
         self.ensure_one()
+        self._validate_invoicexpress_nonnegative_lines()
         exempt_code = self._validate_invoicexpress_tax_exemption()
         if not self.invoice_date and self.invoice_date_due:
             raise exceptions.UserError(
@@ -115,6 +116,17 @@ class AccountMove(models.Model):
                 if owner_invoice_num:
                     invoice_data["invoice"]["owner_invoice_id"] = owner_invoice_num
         return invoice_data
+
+    def _validate_invoicexpress_nonnegative_lines(self):
+        for line in self._get_invoicexpress_product_lines():
+            if line.price_unit < 0 or line.quantity < 0:
+                raise exceptions.UserError(
+                    self.env._(
+                        "InvoiceXpress does not accept a negative unit price or "
+                        "quantity on line %(line)s.",
+                        line=line.name,
+                    )
+                )
 
     def _validate_invoicexpress_tax_exemption(self):
         codes = self._get_invoicexpress_exemption_codes()
