@@ -1,38 +1,52 @@
-On an Invoice, the CONFIRM button automatically generates an invoice on
-the InvoiceXpress service, and downloads its PDF as the invoice's
-reference document. The standard Odoo **Send & Print** button sends this
-certified PDF by email — Odoo-generated invoice layouts are not used.
+## Issue an invoice
 
-The "View Document" button opens the document page on InvoiceXpress.
+1. Open the customer invoice and make sure it uses a sales journal
+   configured for InvoiceXpress.
+2. Check each product line has exactly one tax. A 0% tax needs its VAT
+   exemption reason configured on the tax itself, and all zero-rated
+   lines on the invoice must share a single exemption code — split
+   invoices that mix different exemption reasons.
+3. Confirm the invoice. Odoo posts it, InvoiceXpress issues and numbers
+   the legal document, and its number is used on the invoice.
+4. Odoo then tries to fetch the certified PDF. If InvoiceXpress is
+   still generating it, printing again later simply retries — do not
+   repost the invoice.
 
-Use **Send & Print** for normal delivery from Odoo. If the sales journal
-has an **InvoiceXpress Email Template**, **Email via Provider** is also
-available on the issued invoice. Use that action instead of **Send &
-Print** when you want InvoiceXpress to send the email. Posting alone does
-not send an email.
+The invoice form shows an "InvoiceXpress" tab with the provider
+document details. **View Document** opens the document page on
+InvoiceXpress when a link is available, and otherwise fetches the PDF.
 
-The Invoice form shows an "InvoiceXpress" tab containing details for the
-corresponding InvoiceXpress document.
+## Print or backfill a certified PDF
 
-Invoices:
+To backfill a PDF, open a posted InvoiceXpress invoice migrated from
+before Odoo 20 and choose **Print**. The invoice needs its original
+InvoiceXpress document ID, and its journal must still point to the
+InvoiceXpress account that issued it.
 
-- Added support to the different documents types: Invoice, Invoice
-  Receipt, Simplified Invoice. The default document type is set on the
-  Journal, and can be changed on the Invoice form.
-- Use the invoice commercial partner for the name and address, instead
-  of the invoice contact.
-- Added support for the Terms and Conditions/Observations field
-- Added to Credit Notes the link to the source Invoice
-- For standalone credit notes (invoices created outside InvoiceXpress), fill the Reference field with the invoice series/number (e.g., "FT A/1") before posting
-- Each invoice line must have exactly one tax configured;
-  InvoiceXpress accepts a single tax per item.
-- A 0% tax needs a VAT exemption reason configured on the tax
-  itself; the reason is sent once for the whole document.
-- Invoices whose lines use different exemption reasons are rejected
-  before sending — split them into one invoice per reason.
+The certified PDF is fetched and cached on demand: printing accepts
+only the verified provider document — it never reissues the invoice,
+sends email, or falls back to an Odoo layout. There is no dedicated
+bulk backfill action. If the PDF is unavailable, retry later or check
+the journal's InvoiceXpress credentials.
 
+## Send an invoice
 
-The monthly SAF-T file should be downloaded from the InvoiceXpress website.
+Use the standard **Send & Print** for normal delivery — it mails the
+certified InvoiceXpress PDF. If the sales journal has an
+**InvoiceXpress Email Template** and the document is issued,
+**Email via Provider** is also available; use it instead when you want
+InvoiceXpress itself to send the email. Posting never sends email
+automatically — pick one path per invoice.
+
+## Credit notes and reporting
+
+Credit notes linked to an InvoiceXpress invoice carry the original
+document reference automatically. For a standalone credit note against
+an invoice issued outside InvoiceXpress, fill **Reference** with the
+full legal series/number (e.g. `FT A/1`) before posting.
+
+If you report these invoices via SAF-T, download the export from
+InvoiceXpress.
 
 ## Live API test
 
