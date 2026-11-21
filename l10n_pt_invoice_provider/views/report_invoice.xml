@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template id="report_invoice_document" inherit_id="account.report_invoice_document">
+        <xpath expr="//t[@t-set='layout_document_title']" position="before">
+            <!-- Keep explicit proforma requests and label posted Portuguese
+                 customer invoices without a provider as proforma, not fiscal invoices. -->
+            <t t-set="proforma" t-value="proforma or o._l10n_pt_print_as_proforma()" />
+        </xpath>
+    </template>
+</odoo>
