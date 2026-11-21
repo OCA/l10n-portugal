@@ -1,6 +1,6 @@
 # Multibanco sandbox end-to-end test
 
-**Status:** in progress **Date:** 2026-11-21
+**Status:** implemented and verified in the EasyPay sandbox **Date:** 2026-11-21
 
 ## Contract
 
@@ -24,10 +24,21 @@
   simulation API. Do not automate a backoffice login.
 - Reuse the documented loopback server and proxy setup rather than installing or
   starting tunnel infrastructure from the test itself.
+- Resolve the SDK frame by its navigated origin. The iframe `src` attribute does not
+  reliably reflect that URL. With only Multibanco offered, the SDK needs one Continue
+  click to issue the reference.
+
+## Live verification
+
+The runner issued an EUR 10 reference and verified the seven-day expiry. It closed the
+browser with Odoo Pending. After the operator used Test Payment, EasyPay reported a
+successful capture, Odoo returned HTTP 200 for the matching webhook and moved to Done,
+and an independent API read confirmed that all three original notification URLs were
+restored.
 
 ## Tasks
 
 - [x] Specify the safety gates and acceptance criteria.
 - [x] Add the opt-in runner and document the operator workflow.
 - [x] Check the write gate, URL restoration, and concurrent-edit protection offline.
-- [ ] Verify the runner with a real sandbox settlement.
+- [x] Verify the runner with a real sandbox settlement.

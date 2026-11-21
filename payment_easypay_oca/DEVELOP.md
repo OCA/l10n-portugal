@@ -61,11 +61,16 @@ charges)
 - Looks up transaction by reference and verifies `access_token` — a domain-separated
   HMAC capability minted by `_easypay_checkout_access_token()` and compared with
   `consteq` — prevents session creation for arbitrary/guessable references
-- Guard: if `easypay_checkout_id` already set and state is not `draft`, returns
-  `{"error": "payment_in_progress", "message": "..."}` — prevents double-session for
-  in-flight Multibanco payments
+- At most one checkout per transaction: the row is locked (`SELECT … FOR UPDATE`) before
+  the guard so concurrent session requests serialize. A draft transaction whose stored
+  checkout matches this browser session's manifest is reused — a retry can never start a
+  second payable session. Any other existing checkout or non-draft state returns
+  `{"error": "payment_in_progress", "message": "..."}`; a stored checkout is never
+  replaced because its payment may still settle
 - Calls `_easypay_create_checkout_session()`:
   - `POST https://api.test.easypay.pt/2.0/checkout` (test) or `…api.prod.easypay.pt`
+    with a deterministic `Idempotency-Key` (`_easypay_operation_key("checkout")`) so an
+    uncertain response can be retried safely
   - Payload includes `type`, `payment.methods`, `order`, `customer`
   - Single payments: adds `payment.type = "sale"` and `payment.capture`; a Multibanco
     method also adds `payment.multibanco.expiration_time` (RFC3339, from
@@ -73,9 +78,12 @@ charges)
     `easypay_mb_product`, default `CHECKDIGIT`). The API docs ambiguously duplicate the
     nested `multibanco` properties including `product`; that sibling placement still
     needs live verification.
-  - Frequent payments: omits those fields (required by EasyPay API)
+  - Frequent payments: omits those fields (required by EasyPay API) and sends
+    `payment.key` = the Odoo transaction reference — the documented merchant payment
+    key, distinct from `order.key`
 - Stores `easypay_checkout_id` on transaction
-- Returns `{"checkout_manifest": {...}, "checkout_id": "...", "success": true}`
+- Returns `{"checkout_id": "...", "success": true}` — the manifest stays server-side in
+  the browser session only
 
 **Browser:**
 
@@ -129,8 +137,9 @@ charges)
 - Transaction set to `pending`
 - User pays at ATM (may be hours/days later)
 - Webhook fires when ATM payment confirmed → transaction → `done`
-- ⚠️ If user navigates back and clicks Pay again, the in-progress guard (Step 2) blocks
-  a new session and shows: _"A payment is already in progress…"_
+- ⚠️ If user navigates back and clicks Pay again, the same browser session reuses the
+  draft checkout; any other session is blocked by the Step 2 guard and shown _"A payment
+  is already in progress…"_
 
 **Frequent payment (tokenization):**
 
@@ -168,9 +177,10 @@ startCheckout(manifest, {
 });
 ```
 
-The SDK posts the checkout ID and CSRF token to the success or cancel route. Both routes
-require the checkout to belong to the current browser session. Only a draft transaction
-can be canceled here.
+The SDK posts the checkout ID and CSRF token to the success or cancel route. The success
+route requires the checkout to belong to the current browser session. The cancel route
+is read-only: browser abandonment is not an EasyPay payment cancellation, so it never
+changes the transaction — only EasyPay can confirm one.
 
 > ⚠️ `unmount()` is called before every navigation to prevent SDK memory leaks.
 
@@ -222,12 +232,22 @@ replace a submitted capture.
   `provider_reference`, reads `GET /2.0/refund/{id}` and sets it `done`/`error`
 - `type: "authorisation"` → `_process_authorisation_event`: reads the checkout and
   `GET /2.0/authorisation/{payment_id}`; skipped entirely once a capture id is stored
+- `type: "frequent_create"` → `_process_frequent_create_event`: completes a tokenized
+  frequent checkout whose browser callback never ran, through the same verified
+  checkout + frequent reads as the success route; the event's key and payment id are
+  untrusted hints only
 - capture/payment events → `_process_payment_event`: resolves exactly one capture via
   `GET /2.0/capture/{id}` or falls back to the payment-level status from
   `GET /2.0/checkout/{id}`, `GET /2.0/single/{id}` or `GET /2.0/frequent/{id}`
 
 Every state change goes through `_handle_notification_data` with data verified against
 the stored checkout id, payment id, currency and amount.
+
+**Retries and uncertain submissions:** EasyPay honours `Idempotency-Key` on POST for
+24h. Checkout, capture and void requests carry deterministic keys derived from the
+transaction (`_easypay_operation_key`); transport failures raise
+`const.EasyPayTransportError` so the request rolls back and the same key is retried,
+while definitive API rejections remain plain `ValidationError`s.
 
 ---
 
@@ -248,13 +268,18 @@ the stored checkout id, payment id, currency and amount.
 
 ### Manual Capture (`_send_capture_request`)
 
+- Row-locks the transaction, then no-ops unless the state is `authorized` with no stored
+  capture — a repeated capture click cannot submit twice
 - Rejected while a void outcome is unknown (`easypay_void_id` set)
 - Requires `provider_reference` (the EasyPay payment ID)
 - `POST /2.0/capture/{provider_reference}` with `{descriptive, transaction_key, value}`
+  and a deterministic `Idempotency-Key` (`_easypay_operation_key("capture")`)
 - Stores the resulting capture `id` as `easypay_transaction_id`
 
-A capture acknowledgement is not settlement: Odoo polls the capture resource and keeps
-unresolved captures pending for webhook confirmation.
+A capture acknowledgement is not settlement: Odoo polls `GET /2.0/capture/{id}` and
+applies the outcome only when the read verifies the capture id, merchant reference,
+amount and payment binding (`_easypay_verify_capture`); the mapped status is stored in
+`easypay_capture_status`. Unresolved captures stay pending for webhook confirmation.
 
 ### Refund (`_send_refund_request`)
 
@@ -270,10 +295,15 @@ unresolved captures pending for webhook confirmation.
 
 ### Void (`_send_void_request`)
 
+- Row-locks the transaction, then no-ops unless the state is `authorized` with no stored
+  capture
 - Requires `provider_reference`
-- POST /2.0/void/{provider_reference} queues the void. Odoo stores the returned void ID
-  and blocks capture while the outcome is unknown. A matching webhook or a repeat click
-  on Void checks GET /2.0/void/{id}; only verified success cancels the transaction.
+- POST /2.0/void/{provider_reference} queues the void with a deterministic
+  `Idempotency-Key` (`_easypay_operation_key("void", easypay_void_attempt)`). Odoo
+  stores the returned void ID and blocks capture while the outcome is unknown. A
+  matching webhook or a repeat click on Void checks GET /2.0/void/{id}; only verified
+  success cancels, and only a verified failure releases the guard — which also
+  increments `easypay_void_attempt` so the next attempt uses a fresh key.
 
 ---
 
@@ -292,19 +322,28 @@ unresolved captures pending for webhook confirmation.
 
 ### Transaction Fields
 
-| Field                     | Description                                       |
-| ------------------------- | ------------------------------------------------- |
-| `provider_reference`      | EasyPay payment ID (standard Odoo field)          |
-| `easypay_transaction_id`  | Capture ID (used for refund and manual capture)   |
-| `easypay_checkout_id`     | Checkout session ID                               |
-| `easypay_payment_method`  | Method selected by user (`cc`, `mb`, `mbw`, …)    |
-| `easypay_capture_status`  | Raw capture status from EasyPay                   |
-| `easypay_mb_entity`       | Multibanco entity (authenticated read only)       |
-| `easypay_mb_reference`    | Multibanco reference (authenticated read only)    |
-| `easypay_mb_expiration`   | Multibanco reference expiration                   |
-| `easypay_void_id`         | Void operation ID (blocks capture until resolved) |
-| `easypay_payment_details` | Full JSON response (audit trail)                  |
-| `token_id`                | Linked `payment.token` (frequent flow only)       |
+| Field                     | Description                                             |
+| ------------------------- | ------------------------------------------------------- |
+| `provider_reference`      | EasyPay payment ID (standard Odoo field)                |
+| `easypay_transaction_id`  | Capture ID (used for refund and manual capture)         |
+| `easypay_checkout_id`     | Checkout session ID                                     |
+| `easypay_payment_method`  | Method selected by user (`cc`, `mb`, `mbw`, …)          |
+| `easypay_capture_status`  | Normalized EasyPay capture status                       |
+| `easypay_mb_entity`       | Multibanco entity (authenticated read only)             |
+| `easypay_mb_reference`    | Multibanco reference (authenticated read only)          |
+| `easypay_mb_expiration`   | Multibanco reference expiration                         |
+| `easypay_void_id`         | Void operation ID (blocks capture until resolved)       |
+| `easypay_void_attempt`    | Verified failed void attempts (keys the next void POST) |
+| `easypay_payment_details` | Full JSON response (audit trail)                        |
+| `token_id`                | Linked `payment.token` (frequent flow only)             |
+
+`provider_reference` normally holds the EasyPay payment id, but legacy rows may store
+the checkout id there — or, for token-backed offline transactions, the capture UUID.
+`_easypay_payment_reference()` is the single contract for "the EasyPay payment id": it
+rejects checkout/capture-id impostors and falls back to `token_id.provider_ref`. A
+token-backed capture can use this fallback. For standalone mandates without an Odoo
+token, PR #185 must store the mandate's frequent payment ID as provider_reference (or
+override this helper); `easypay_transaction_id` stores the capture ID.
 
 ### Provider Fields
 
@@ -341,16 +380,16 @@ unresolved captures pending for webhook confirmation.
 
 ### Odoo Controllers
 
-| Route                                      | Description                                                      |
-| ------------------------------------------ | ---------------------------------------------------------------- |
-| `/payment/easypay/create_checkout_session` | JSON-RPC: create session on Pay click (requires `access_token`)  |
-| `/payment/easypay/checkout`                | Serves SDK page (session-bound manifest + CSRF token)            |
-| `/payment/easypay/checkout/success`        | SDK success callback (POST + CSRF, `session_id` only)            |
-| `/payment/easypay/checkout/cancel`         | SDK cancel callback (POST + CSRF, `session_id` only, draft only) |
-| `/payment/easypay/mb_reference/<tx_id>`    | Multibanco reference display page (scoped access token)          |
-| `/payment/easypay/webhook/generic`         | EasyPay generic webhook (POST)                                   |
-| `/payment/easypay/webhook/authorisation`   | EasyPay authorisation webhook (POST)                             |
-| `/payment/easypay/webhook/transaction`     | EasyPay transaction webhook (POST)                               |
+| Route                                      | Description                                                       |
+| ------------------------------------------ | ----------------------------------------------------------------- |
+| `/payment/easypay/create_checkout_session` | JSON-RPC: create session on Pay click (requires `access_token`)   |
+| `/payment/easypay/checkout`                | Serves SDK page (session-bound manifest + CSRF token)             |
+| `/payment/easypay/checkout/success`        | SDK success callback (POST + CSRF, `session_id` only)             |
+| `/payment/easypay/checkout/cancel`         | SDK cancel callback (POST + CSRF; read-only, never changes state) |
+| `/payment/easypay/mb_reference/<tx_id>`    | Multibanco reference display page (scoped access token)           |
+| `/payment/easypay/webhook/generic`         | EasyPay generic webhook (POST)                                    |
+| `/payment/easypay/webhook/authorisation`   | EasyPay authorisation webhook (POST)                              |
+| `/payment/easypay/webhook/transaction`     | EasyPay transaction webhook (POST)                                |
 
 ---
 
@@ -491,13 +530,15 @@ your isolated database and substitute the actual proxy-only HTTPS origin:
   export EASYPAY_TEST_E2E_DB=easypay-test &&
   export EASYPAY_TEST_PROVIDER_ID=1 EASYPAY_TEST_PARTNER_ID=55 &&
   export EASYPAY_TEST_WEBHOOK_BASE_URL=https://your-node.your-tailnet.ts.net &&
-  osh odoo shell --no-http -d "$EASYPAY_TEST_E2E_DB" \
+  osh odoo shell --no-http --limit-memory-hard=0 -d "$EASYPAY_TEST_E2E_DB" \
     < /path/to/payment_easypay_oca/tests/run_multibanco_sandbox.py
 )
 ```
 
-The loopback server defaults to port `8177`; override it with `EASYPAY_TEST_ODOO_PORT`.
-The runner prints a fresh numeric reference when the checkout is ready. Enter it at
+The shell-only memory override lets Chromium reserve its virtual address space. Leave
+the running Odoo server's memory limit unchanged. The loopback server defaults to port
+`8177`; override it with `EASYPAY_TEST_ODOO_PORT`. The runner prints a fresh numeric
+reference when the checkout is ready. Enter it at
 [EasyPay Test Payments](https://backoffice.test.easypay.pt/developers/payments) within
 five minutes. Do not pay the reference via a bank. The browser is already closed by this
 point, and the runner waits for the matching payment and capture to settle in EasyPay

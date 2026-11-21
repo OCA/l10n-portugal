@@ -73,7 +73,8 @@ def run(odoo_env):
     ):
         raise RunError("Check the test provider and synthetic customer in DEVELOP.md.")
 
-    reference = f"SANDBOX-MB-WEBHOOK-{uuid4().hex}"
+    # EasyPay limits merchant keys to 50 characters.
+    reference = f"SANDBOX-MB-{uuid4().hex}"
     token = hmac(
         odoo_env(su=True), "generate_access_token", f"{partner.id}|10.0|{currency.id}"
     )
@@ -227,38 +228,50 @@ def issue_reference(url, provider_id):
             page = browser.new_page(locale="en-US")
             page.set_default_timeout(20_000)
             page.goto(url, wait_until="domcontentloaded")
-            page.locator(
+            # A saved token can leave the payment methods list collapsed.
+            expand = page.locator('[name="o_payment_expand_button"]').first
+            try:
+                expand.wait_for(state="visible", timeout=5_000)
+            except Error:
+                print("No collapsed payment-methods toggle found.", flush=True)
+            else:
+                expand.click()
+            method_radio = page.locator(
                 f'[data-provider-id="{provider_id}"][data-provider-state="test"]'
                 '[data-payment-method-code="multibanco"]'
-            ).check()
+            )
+            method_radio.wait_for(state="attached")
+            method_id = method_radio.get_attribute("id")
+            page.locator(f'label[for="{method_id}"]').click()
+            if not method_radio.is_checked():
+                raise RunError("The Multibanco option was not selected.")
             page.locator('[name="o_payment_submit_button"]').click()
             page.wait_for_url("**/payment/easypay/checkout?**")
-            frame = page.frame_locator(
-                '#easypay-checkout iframe[src^="https://pay.sandbox.easypay.pt/"]'
+
+            def is_sandbox_frame(frame):
+                origin = urlsplit(frame.url)
+                return (
+                    origin.scheme == "https"
+                    and origin.netloc == "pay.sandbox.easypay.pt"
+                )
+
+            frame = next(
+                (frame for frame in page.frames if is_sandbox_frame(frame)), None
             )
-            advance = frame.get_by_role(
-                "button", name=re.compile(r"^(Continue|Confirm|End)$", re.I)
-            ).filter(visible=True)
-            # The SDK can show pre-filled customer details before method selection.
-            method = frame.get_by_alt_text("Multibanco", exact=True).filter(
-                visible=True
-            )
-            method_selected = False
-            for _ in range(5):
-                try:
-                    choice = advance if method_selected else method.or_(advance)
-                    choice.first.wait_for(timeout=8_000)
-                    if not method_selected and method.is_visible():
-                        method.click()
-                        method_selected = True
-                    else:
-                        advance.first.click()
-                except Error:
-                    if "/payment/status" in page.url:
-                        break
-                    raise
-            page.wait_for_url("**/payment/status**")
+            if frame is None:
+                frame = page.wait_for_event(
+                    "framenavigated", predicate=is_sandbox_frame
+                )
+            # The checkout request already restricts the SDK to Multibanco.
+            frame.get_by_role("button", name="Continue", exact=True).click()
+            page.wait_for_url("**/payment/easypay/mb_reference/**")
+            reference_row = page.locator("tr", has_text="Reference:")
+            rendered = reference_row.locator("td").last.inner_text().strip()
             browser.close()
+            if not re.fullmatch(r"\d{3}( \d{3}){2}", rendered):
+                raise RunError(
+                    "The Multibanco reference page did not render a reference."
+                )
     except Error:
         raise RunError(
             "Browser checkout failed. Check Chromium and the EasyPay SDK UI."
