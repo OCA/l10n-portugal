@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="action_report_vacation_schedule" model="ir.actions.report">
+        <field name="name">Vacation Schedule</field>
+        <field name="model">l10n.pt.vacation.schedule.wizard</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">l10n_pt_hr_holidays.report_vacation_schedule</field>
+        <field name="report_file">l10n_pt_hr_holidays.report_vacation_schedule</field>
+        <field
+            name="group_ids"
+            eval="[(4, ref('hr_holidays.group_hr_holidays_manager'))]"
+        />
+    </record>
+
+    <template id="report_vacation_schedule">
+        <t t-call="web.basic_layout">
+            <div class="page">
+                <t t-foreach="docs" t-as="o">
+                    <h2>
+                        Vacation Schedule -
+                        <t t-out="o.year" />
+                    </h2>
+                    <p t-field="o.company_id.name" />
+                    <t t-if="not schedule_leaves">
+                        <p>No approved vacation periods for this selection.</p>
+                    </t>
+                    <t t-if="schedule_leaves">
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Employee</th>
+                                    <th>Start Date</th>
+                                    <th>End Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="schedule_leaves" t-as="leave">
+                                    <tr style="page-break-inside: avoid;">
+                                        <td>
+                                            <span t-field="leave.employee_id.name" />
+                                        </td>
+                                        <td>
+                                            <span t-field="leave.request_date_from" />
+                                        </td>
+                                        <td>
+                                            <span t-field="leave.request_date_to" />
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </t>
+                </t>
+            </div>
+        </t>
+    </template>
+</odoo>

@@ -1,0 +1,1 @@
+Provides Annual Leave and the default Portuguese absence types needed to distinguish the active reasons in Relatório Único Table 10. It uses Odoo's standard requests, approvals, allocations, and work calendars. This addon does not generate public holidays, calculate payroll, or submit declarations.
