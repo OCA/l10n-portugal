@@ -6,6 +6,7 @@ import json
 import logging
 import pprint
 import re
+from urllib.parse import urlsplit
 
 import requests
 from werkzeug.urls import url_join
@@ -255,3 +256,49 @@ class InvoiceXpress(models.AbstractModel):
                     cc=payload["message"].get("cc", ""),
                 )
             )
+
+    def get_document_pdf(self, document):
+        try:
+            response = self._call(
+                document.journal_id,
+                f"api/pdf/{document.l10n_pt_doc_id}.json",
+                "GET",
+                raise_errors=False,
+            )
+        except requests.exceptions.JSONDecodeError:
+            return
+        if response.status_code != 200:
+            return
+        try:
+            payload = response.json()
+        except ValueError:
+            return
+        output = payload.get("output") if isinstance(payload, dict) else None
+        pdf_url = output.get("pdfUrl") if isinstance(output, dict) else None
+        if not isinstance(pdf_url, str):
+            return
+        try:
+            url = urlsplit(pdf_url)
+            host = url.hostname or ""
+            port = url.port
+        except ValueError:
+            return
+        # InvoiceXpress provides a signed URL; never forward the API key
+        # or follow redirects.
+        if (
+            url.scheme != "https"
+            or url.username is not None
+            or url.password is not None
+            or port not in (None, 443)
+            or not (
+                host.endswith(".invoicexpress.com")
+                or host == "invoicexpress-documents-pdfs.s3.eu-west-1.amazonaws.com"
+            )
+        ):
+            return
+        try:
+            pdf = requests.get(pdf_url, timeout=15, allow_redirects=False)
+        except requests.RequestException:
+            return
+        if pdf.status_code == 200 and pdf.content.startswith(b"%PDF-"):
+            return pdf.content

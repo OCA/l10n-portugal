@@ -93,6 +93,22 @@ derived from the invoice lines' taxes instead.
   view conditions compare the related `invoicexpress_provider_code`
   (`l10n_pt_doc_provider_id.code`) instead of the old selection string.
 
+### Document PDF
+
+- Printing or sending an issued invoice asks InvoiceXpress for the
+  certified PDF through `GET api/pdf/<document id>.json`, then downloads
+  the signed URL in `output.pdfUrl`. A `202` (still generating), a
+  missing or malformed payload, or an unverifiable URL surfaces the
+  framework's retryable "PDF unavailable" error — never a substitute
+  document.
+- The download URL must use HTTPS without credentials on the default
+  port and live on an `*.invoicexpress.com` host or the exact
+  InvoiceXpress documents S3 bucket host; it is fetched directly with
+  redirects disabled and the API key is never forwarded. Only content
+  starting with `%PDF-` is accepted.
+- The first successful download is stored as the invoice's reference
+  document; later prints reuse it without further provider requests.
+
 ## Non-goals
 
 - Odoo 19 support, stock transport guides, or updating already-sent
