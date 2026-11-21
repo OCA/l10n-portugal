@@ -79,6 +79,62 @@ class AccountMove(models.Model):
         " If unset, InvoiceXpress will not be used.",
     )
 
+    def _requires_invoicexpress_pdf(self):
+        self.ensure_one()
+        return (
+            self.state == "posted"
+            and self.move_type in ("out_invoice", "out_refund")
+            and bool(self.invoicexpress_id)
+        )
+
+    def _get_cached_invoicexpress_pdf(self):
+        self.ensure_one()
+        return self.invoice_pdf_report_id.filtered("invoicexpress_certified_pdf")
+
+    def _ensure_invoicexpress_pdf(self):
+        self.ensure_one()
+        if attachment := self._get_cached_invoicexpress_pdf():
+            return attachment
+        company = self.company_id
+        if not company.invoicexpress_account_name or not company.invoicexpress_api_key:
+            raise exceptions.UserError(
+                self.env._(
+                    "Configure the original InvoiceXpress account to retrieve this PDF."
+                )
+            )
+        content = self.env["account.invoicexpress"]._get_invoice_pdf(self)
+        if not isinstance(content, bytes) or not content.startswith(b"%PDF-"):
+            raise exceptions.UserError(
+                self.env._("The InvoiceXpress PDF is unavailable. Try again later.")
+            )
+        # Keep the old file as a regular attachment, not the legal invoice PDF.
+        self.invoice_pdf_report_id.write({"res_field": False})
+        attachment = self.env["ir.attachment"].create(
+            {
+                "name": self._get_invoice_report_filename(),
+                "res_model": self._name,
+                "res_id": self.id,
+                "res_field": "invoice_pdf_report_file",
+                "mimetype": "application/pdf",
+                "raw": content,
+                "invoicexpress_certified_pdf": True,
+            }
+        )
+        self.invalidate_recordset(["invoice_pdf_report_id", "invoice_pdf_report_file"])
+        return attachment
+
+    def _get_invoice_legal_documents(self, filetype, allow_fallback=False):
+        if filetype == "pdf" and self._requires_invoicexpress_pdf():
+            self._ensure_invoicexpress_pdf()
+        return super()._get_invoice_legal_documents(
+            filetype, allow_fallback=allow_fallback
+        )
+
+    def _get_invoice_legal_documents_all(self, allow_fallback=False):
+        if self._requires_invoicexpress_pdf():
+            self._ensure_invoicexpress_pdf()
+        return super()._get_invoice_legal_documents_all(allow_fallback=allow_fallback)
+
     @api.constrains("journal_id", "company_id")
     def _check_invoicexpress_doctype_config(self):
         """

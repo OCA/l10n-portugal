@@ -19,4 +19,15 @@ Invoices:
 - For standalone credit notes (invoices created outside InvoiceXpress), fill the Reference field with the invoice series/number (e.g., "FT A/1") before posting
 
 
+For invoices issued by InvoiceXpress, **Print** and **Send & Print**
+use the certified InvoiceXpress PDF. To backfill a missing PDF, open
+the posted invoice and choose **Print**. The invoice must retain its
+InvoiceXpress document ID, and the company must be configured for the
+account that issued it. Odoo fetches and caches the PDF without
+reissuing the invoice or sending email.
+
+If the PDF is unavailable, retry later or check the company's
+InvoiceXpress credentials. Odoo does not print a substitute.
+
+
 The monthly SAF-T file should be downloaded from the InvoiceXpress website.
