@@ -233,6 +233,9 @@ class TestEasyPay(TransactionCase):
         mbway.active = False
         ap.active = True
 
+        other = self.provider.copy({"name": "Another EasyPay Account", "state": "test"})
+        other.payment_method_ids = ap
+
         self.provider.action_easypay_sync_payment_methods()
 
         # Shared core methods are never deactivated, but API-returned ones are
@@ -245,9 +248,11 @@ class TestEasyPay(TransactionCase):
         self.assertEqual(
             set(self.provider.payment_method_ids.mapped("code")), {"vi", "mbway"}
         )
-        # Owned methods not returned are deactivated; dd stays inactive
+        # Owned methods not returned are deactivated — unless still linked
+        # to another provider, like ap on `other`; dd stays inactive.
         self.assertTrue(vi.active)
-        self.assertFalse(ap.active)
+        self.assertTrue(ap.active)
+        self.assertIn(ap, other.payment_method_ids)
         self.assertFalse(dd.active)
         # Direct Debit variants are never synced or linked to the provider.
         self.assertNotIn("dd", self.provider.payment_method_ids.mapped("code"))
@@ -285,7 +290,13 @@ class TestEasyPay(TransactionCase):
             resp = MagicMock()
             resp.raise_for_status.return_value = None
             if method == "GET":
-                resp.json.return_value = {"status": "success"}
+                resp.json.return_value = {
+                    "id": "cap-1",
+                    "transaction_key": "TEST-CAPTURE-001",
+                    "payment_id": "pay-1",
+                    "value": 30.0,
+                    "status": "success",
+                }
             else:
                 resp.json.return_value = {"status": "ok", "id": "cap-1"}
             return resp
@@ -307,6 +318,7 @@ class TestEasyPay(TransactionCase):
         tx._send_capture_request()
         self.assertEqual(tx.state, "done")
         self.assertEqual(tx.easypay_transaction_id, "cap-1")
+        self.assertEqual(tx.easypay_capture_status, "paid")
 
     @patch("odoo.addons.payment_easypay_oca.models.payment_provider.requests.request")
     def test_send_capture_request_capture_failed(self, mock_request):
@@ -316,7 +328,13 @@ class TestEasyPay(TransactionCase):
             resp = MagicMock()
             resp.raise_for_status.return_value = None
             if method == "GET":
-                resp.json.return_value = {"status": "failed"}
+                resp.json.return_value = {
+                    "id": "cap-fail",
+                    "transaction_key": "TEST-CAPTURE-FAIL-001",
+                    "payment_id": "pay-fail",
+                    "value": 30.0,
+                    "status": "failed",
+                }
             else:
                 resp.json.return_value = {"status": "ok", "id": "cap-fail"}
             return resp
@@ -343,14 +361,19 @@ class TestEasyPay(TransactionCase):
     @patch("odoo.addons.payment_easypay_oca.models.payment_transaction.time.sleep")
     @mute_logger("odoo.addons.payment_easypay_oca.models.payment_transaction")
     def test_send_capture_request_pending_stays_pending(self, mock_sleep, mock_request):
-        """An unresolved capture moves the authorized transaction to pending
-        so it is not offered for capture again — never done."""
+        """A successful capture for the wrong amount cannot settle the order."""
 
         def _api(method, url, **kwargs):
             resp = MagicMock()
             resp.raise_for_status.return_value = None
             if method == "GET":
-                resp.json.return_value = {"status": "pending"}
+                resp.json.return_value = {
+                    "id": "cap-pending",
+                    "transaction_key": "TEST-CAPTURE-PENDING-001",
+                    "payment_id": "pay-pending",
+                    "value": 99.0,
+                    "status": "success",
+                }
             else:
                 resp.json.return_value = {"status": "ok", "id": "cap-pending"}
             return resp
@@ -909,7 +932,9 @@ class TestEasyPayController(HttpCase):
                         "expiration_date": "04/25",
                     },
                 ),
-                "/capture/": {"status": "success"},
+                "/capture/": self._capture_read(
+                    "cap-freq-1", tx.reference, payment_id="pay-freq-1"
+                ),
             },
         )
         self._start_checkout_session(tx, checkout_id)
@@ -998,6 +1023,65 @@ class TestEasyPayController(HttpCase):
             if c.args[0] == "POST" and c.args[1].endswith("/2.0/checkout")
         ]
         self.assertEqual(checkout_call.kwargs["json"]["payment"]["key"], tx.reference)
+
+    @patch("odoo.addons.payment_easypay_oca.models.payment_provider.requests.request")
+    def test_saved_card_webhook_retries_capture_without_id(self, mock_request):
+        """A capture acknowledgement without an ID is retried, not committed."""
+        tx = self._checkout_tx("TEST-FREQUENT-CAPTURE-RETRY", tokenize=True)
+        checkout_id, payment_id, capture_id = (
+            "chk-web-freq-retry",
+            "pay-web-freq-retry",
+            "cap-web-freq-retry",
+        )
+        capture_ack = {"status": "ok"}
+        mock_request.side_effect = self._api_router(
+            post_reads={
+                "/2.0/checkout": {"id": checkout_id, "session": "manifest"},
+                "/capture/": capture_ack,
+            },
+            get_reads={
+                "/checkout/": self._checkout_read(
+                    checkout_id,
+                    payment_id=payment_id,
+                    payment_type="frequent",
+                    payment_status="tokenized",
+                ),
+                "/frequent/": self._frequent_read(payment_id),
+                "/capture/": self._capture_read(
+                    capture_id, tx.reference, payment_id=payment_id
+                ),
+            },
+        )
+        self._start_checkout_session(tx, checkout_id)
+        event = {
+            "id": payment_id,
+            "key": tx.reference,
+            "type": "frequent_create",
+            "status": "success",
+        }
+        response = self._post_webhook(event)
+        self.assertEqual(response.status_code, 503)
+        tx.invalidate_recordset()
+        self.assertEqual(tx.state, "draft")
+        self.assertFalse(tx.token_id)
+        self.assertFalse(tx.easypay_transaction_id)
+        capture_ack["id"] = capture_id
+        response = self._post_webhook(event)
+        self.assertEqual(response.status_code, 200)
+        tx.invalidate_recordset()
+        self.assertEqual(tx.state, "done")
+        self.assertTrue(tx.token_id)
+        self.assertEqual(tx.easypay_transaction_id, capture_id)
+        captures = [
+            c
+            for c in mock_request.call_args_list
+            if c.args[:2]
+            == ("POST", f"https://api.test.easypay.pt/2.0/capture/{payment_id}")
+        ]
+        self.assertEqual(len(captures), 2)
+        keys = {c.kwargs["headers"].get("Idempotency-Key") for c in captures}
+        self.assertEqual(len(keys), 1)
+        self.assertTrue(next(iter(keys)))
 
     @patch("odoo.addons.payment_easypay_oca.models.payment_provider.requests.request")
     def test_checkout_success_frequent_inactive_method_is_ignored(self, mock_request):
@@ -1156,9 +1240,28 @@ class TestEasyPayController(HttpCase):
         self.assertEqual(tx.state, "draft")
 
     @patch("odoo.addons.payment_easypay_oca.models.payment_provider.requests.request")
+    def test_checkout_retry_reuses_draft_session(self, mock_request):
+        """Refreshing a draft checkout cannot start a second payable session."""
+        tx = self._checkout_tx("TEST-REUSE-DRAFT")
+        checkout_id = "checkout-reuse-draft"
+        mock_request.side_effect = self._api_router(
+            post_reads={"/2.0/checkout": {"id": checkout_id, "session": "manifest"}}
+        )
+        self._start_checkout_session(tx, checkout_id)
+        self._start_checkout_session(tx, checkout_id)
+        calls = [
+            c
+            for c in mock_request.call_args_list
+            if c.args[0] == "POST" and c.args[1].endswith("/2.0/checkout")
+        ]
+        self.assertEqual(len(calls), 1)
+        self.assertTrue(calls[0].kwargs["headers"].get("Idempotency-Key"))
+
+    @patch("odoo.addons.payment_easypay_oca.models.payment_provider.requests.request")
     def test_checkout_cancel_callback(self, mock_request):
-        """Cancel works only for the exact session stored in this browser
-        session — never for another checkout id or the bare reference."""
+        """Only EasyPay can confirm a cancellation: even the browser session
+        owning the checkout leaves the draft untouched, and foreign session
+        ids or the bare reference never reach the transaction."""
         tx = self._checkout_tx("TEST-CANCEL-001")
         checkout_id = "chk-can-1"
         mock_request.side_effect = self._api_router(
@@ -1188,10 +1291,10 @@ class TestEasyPayController(HttpCase):
         tx.invalidate_recordset()
         self.assertEqual(tx.state, "draft")
 
-        # The owned session cancels the draft transaction.
+        # Even the owning browser cannot confirm that EasyPay cancelled the payment.
         self._post_checkout("/payment/easypay/checkout/cancel", checkout_id, csrf_token)
         tx.invalidate_recordset()
-        self.assertEqual(tx.state, "cancel")
+        self.assertEqual(tx.state, "draft")
 
     @patch("odoo.addons.payment_easypay_oca.models.payment_provider.requests.request")
     def test_checkout_cancel_keeps_non_draft_transaction(self, mock_request):
