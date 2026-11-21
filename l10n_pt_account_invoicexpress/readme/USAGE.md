@@ -17,6 +17,9 @@ Invoices:
 - Added support for the Terms and Conditions/Observations field
 - Added to Credit Notes the link to the source Invoice
 - For standalone credit notes (invoices created outside InvoiceXpress), fill the Reference field with the invoice series/number (e.g., "FT A/1") before posting
+- InvoiceXpress does not accept negative unit prices or quantities;
+  use a percentage discount on the affected line instead of a negative
+  discount line where appropriate.
 
 
 The monthly SAF-T file should be downloaded from the InvoiceXpress website.

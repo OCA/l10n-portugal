@@ -109,11 +109,14 @@ class AccountMove(models.Model):
             "debit_note": "ND",
         }.get(doctype)
 
-    def _prepare_invoicexpress_lines(self):
-        # FIXME: set user lang, based on country?
-        lines = self.invoice_line_ids.filtered(
+    def _get_invoicexpress_product_lines(self):
+        return self.invoice_line_ids.filtered(
             lambda x: x.display_type not in ("line_section", "line_note")
         )
+
+    def _prepare_invoicexpress_lines(self):
+        # FIXME: set user lang, based on country?
+        lines = self._get_invoicexpress_product_lines()
         # Ensure Taxes are created on InvoiceXpress
         lines.mapped("tax_ids").action_invoicexpress_tax_create()
         items = []
@@ -155,6 +158,7 @@ class AccountMove(models.Model):
 
     def _prepare_invoicexpress_vals(self):
         self.ensure_one()
+        self._validate_invoicexpress_nonnegative_lines()
         if not self.invoice_date and self.invoice_date_due:
             raise exceptions.UserError(
                 self.env._("Kindly add the invoice date and invoice due date.")
@@ -199,6 +203,17 @@ class AccountMove(models.Model):
                 if owner_invoice_num:
                     invoice_data["invoice"]["owner_invoice_id"] = owner_invoice_num
         return invoice_data
+
+    def _validate_invoicexpress_nonnegative_lines(self):
+        for line in self._get_invoicexpress_product_lines():
+            if line.price_unit < 0 or line.quantity < 0:
+                raise exceptions.UserError(
+                    self.env._(
+                        "InvoiceXpress does not accept a negative unit price or "
+                        "quantity on line %(line)s.",
+                        line=line.name,
+                    )
+                )
 
     def _update_invoicexpress_status(self):
         inv_xpress_link_name = self.env._("View Document")
