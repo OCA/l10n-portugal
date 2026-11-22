@@ -28,6 +28,7 @@ class PaymentTransaction(models.Model):
         readonly=True,
     )
     easypay_dd_description = fields.Char(readonly=True, copy=False)
+    easypay_dd_last_polled_at = fields.Datetime(readonly=True, copy=False, index=True)
     payment_order_id = fields.Many2one(
         related="payment_id.payment_order_id",
         string="Payment Order",
@@ -53,7 +54,7 @@ class PaymentTransaction(models.Model):
         """Map an EasyPay capture status to a transaction state, or False."""
         if status in ("paid", "captured", "complete", "success"):
             return "done"
-        if status in ("pending", "waiting", "authorized", "authorised"):
+        if status in ("pending", "waiting", "delayed", "authorized", "authorised"):
             return "pending"
         if status in (
             "cancelled",
@@ -68,6 +69,13 @@ class PaymentTransaction(models.Model):
         if status in ("failed", "error"):
             return "error"
         return False
+
+    def _easypay_normalize_capture_status(self, status):
+        # DD statuses (returned, rejected, ...) have no checkout-map
+        # equivalent; keep the raw EasyPay vocabulary end-to-end.
+        if self._easypay_is_direct_debit():
+            return status if self._easypay_dd_state_for_status(status) else None
+        return super()._easypay_normalize_capture_status(status)
 
     def _apply_payment_state(self, status, notification_data):
         # DD statuses (rejected, returned, ...) are not covered by the
@@ -158,17 +166,36 @@ class PaymentTransaction(models.Model):
             .get_param("account_payment_easypay_direct_debit.poll_min_age_hours", 1)
         )
         limit = fields.Datetime.now() - timedelta(hours=min_age_hours)
+        scope = [
+            ("provider_code", "=", "easypay"),
+            ("operation", "=", "offline"),
+            ("easypay_transaction_id", "!=", False),
+            ("mandate_id", "!=", False),
+        ]
         pending = self.search(
-            [
-                ("provider_code", "=", "easypay"),
-                ("operation", "=", "offline"),
+            scope
+            + [
                 ("state", "=", "pending"),
-                ("easypay_transaction_id", "!=", False),
-                ("mandate_id", "!=", False),
                 ("create_date", "<", limit),
             ]
         )
         for tx in pending:
+            tx._easypay_dd_sync_from_api()
+        # Settlements keep being re-checked for late returns/chargebacks.
+        now = fields.Datetime.now()
+        done = self.search(
+            scope
+            + [
+                ("state", "=", "done"),
+                ("last_state_change", ">=", now - timedelta(days=60)),
+                "|",
+                ("easypay_dd_last_polled_at", "=", False),
+                ("easypay_dd_last_polled_at", "<", now - timedelta(days=1)),
+            ],
+            order="easypay_dd_last_polled_at ASC NULLS FIRST, id",
+            limit=50,
+        )
+        for tx in done:
             tx._easypay_dd_sync_from_api()
 
     def _easypay_dd_sync_from_api(self):
@@ -177,6 +204,8 @@ class PaymentTransaction(models.Model):
         capture_id = self.easypay_transaction_id
         if not capture_id or not self._easypay_is_direct_debit():
             return
+        # Stamped before the GET so failed polls still count as attempted.
+        self.easypay_dd_last_polled_at = fields.Datetime.now()
         try:
             data = self.provider_id._easypay_make_request(
                 f"/2.0/capture/{capture_id}", method="GET"
@@ -189,8 +218,8 @@ class PaymentTransaction(models.Model):
         kind, capture = self._easypay_verify_capture(data, capture_id)
         if kind != "ok" or capture["payment_id"] != self._easypay_payment_reference():
             return
-        status = capture["status"]
-        if not self._easypay_dd_state_for_status(status):
+        status = self._easypay_normalize_capture_status(capture["status"])
+        if not status:
             return
         self._apply_payment_state(status, data)
         self.easypay_payment_details = data

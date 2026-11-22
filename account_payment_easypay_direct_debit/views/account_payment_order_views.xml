@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="account_payment_order_form_easypay_dd" model="ir.ui.view">
+        <field name="name">account.payment.order.form.easypay.dd</field>
+        <field name="model">account.payment.order</field>
+        <field
+            name="inherit_id"
+            ref="account_payment_order.account_payment_order_form"
+        />
+        <field name="arch" type="xml">
+            <button name="generated2uploaded" position="attributes">
+                <attribute name="invisible">
+                    state != 'generated' or (easypay_dd_is_order and not
+                    easypay_dd_prepared_at)
+                </attribute>
+            </button>
+            <button name="generated2uploaded" position="before">
+                <field name="easypay_dd_is_order" invisible="1" />
+                <field name="easypay_dd_prepared_at" invisible="1" />
+                <button
+                    name="action_easypay_prepare_upload"
+                    type="object"
+                    string="Prepare EasyPay Upload"
+                    class="btn-secondary"
+                    invisible="not easypay_dd_is_order or state != 'generated'
+                    or easypay_dd_prepared_at"
+                />
+            </button>
+        </field>
+    </record>
+</odoo>

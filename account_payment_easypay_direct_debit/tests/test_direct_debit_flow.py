@@ -95,7 +95,7 @@ class TestDirectDebitFlow(AccountTestInvoicingCommon):
                     "status": "ok",
                     "id": "freq-uuid-1",
                     "method": {
-                        "type": "dd",
+                        "type": "DD",
                         "status": "active",
                         "sdd_mandate": {"id": "m-12345"},
                     },
@@ -103,7 +103,7 @@ class TestDirectDebitFlow(AccountTestInvoicingCommon):
             if endpoint == "/2.0/frequent/freq-uuid-1" and method == "GET":
                 return {
                     "id": "freq-uuid-1",
-                    "method": {"type": "dd", "status": cls.mandate_api_status},
+                    "method": {"type": "DD", "status": cls.mandate_api_status},
                 }
             if endpoint.startswith("/2.0/capture/"):
                 if method == "GET":
@@ -140,6 +140,7 @@ class TestDirectDebitFlow(AccountTestInvoicingCommon):
                 "company_id": cls.company.id,
             }
         )
+        cls.mandate.action_easypay_prepare_registration()
         cls.mandate.validate()
 
     def _create_invoice(self, amount=100.0):
@@ -172,6 +173,7 @@ class TestDirectDebitFlow(AccountTestInvoicingCommon):
     def _upload_order(self, order):
         order.draft2open()
         order.open2generated()
+        order.action_easypay_prepare_upload()
         order.generated2uploaded()
 
     def test_full_flow(self):
@@ -186,6 +188,7 @@ class TestDirectDebitFlow(AccountTestInvoicingCommon):
         self.assertEqual(payment.mandate_id, self.mandate)
         order.open2generated()
         self.assertEqual(order.state, "generated")
+        order.action_easypay_prepare_upload()
         order.generated2uploaded()
         self.assertEqual(order.state, "uploaded")
         # One EasyPay capture submitted for the grouped amount
@@ -257,6 +260,7 @@ class TestDirectDebitFlow(AccountTestInvoicingCommon):
         order = self._new_order_with(self._create_invoice())
         order.draft2open()
         order.open2generated()
+        order.action_easypay_prepare_upload()
         payment = order.payment_ids
         # Force the capture to fail once
         key = payment._easypay_transaction_key()
@@ -284,6 +288,7 @@ class TestDirectDebitFlow(AccountTestInvoicingCommon):
         order = self._new_order_with(self._create_invoice())
         order.draft2open()
         order.open2generated()
+        order.action_easypay_prepare_upload()
         posts_before = self._capture_post_count()
         self.__class__.mandate_api_status = "pending"
         try:
@@ -291,6 +296,23 @@ class TestDirectDebitFlow(AccountTestInvoicingCommon):
                 order.generated2uploaded()
         finally:
             self.__class__.mandate_api_status = "active"
+        self.assertEqual(order.state, "generated")
+        self.assertEqual(self._capture_post_count(), posts_before)
+
+    def test_upload_blocks_cancelled_mandate(self):
+        """A mandate cancelled after Generate blocks the upload."""
+        order = self._new_order_with(self._create_invoice())
+        order.draft2open()
+        order.open2generated()
+        order.action_easypay_prepare_upload()
+        posts_before = self._capture_post_count()
+        self.mandate.cancel()
+        try:
+            with self.assertRaises(UserError):
+                order.generated2uploaded()
+        finally:
+            self.mandate.back2draft()
+            self.mandate.validate()
         self.assertEqual(order.state, "generated")
         self.assertEqual(self._capture_post_count(), posts_before)
 
@@ -307,6 +329,7 @@ class TestDirectDebitFlow(AccountTestInvoicingCommon):
         order.draft2open()
         posts_before = self._capture_post_count()
         order.open2generated()
+        order.action_easypay_prepare_upload()
         payment = order.payment_ids
         tx_before = payment.easypay_dd_transaction_ids
         # Generate reserves the debit without submitting it to EasyPay.
@@ -347,14 +370,120 @@ class TestDirectDebitFlow(AccountTestInvoicingCommon):
             capture_posts[1].kwargs["idempotency_key"],
         )
 
+    def test_mixed_upload_replays_without_duplicate_debits(self):
+        """Two debits, second response lost: retry replays, no duplicates."""
+        original_group_lines = self.inbound_mode.group_lines
+        self.inbound_mode.group_lines = False
+        self.addCleanup(setattr, self.inbound_mode, "group_lines", original_group_lines)
+        invoice1 = self._create_invoice(100.0)
+        invoice2 = self._create_invoice(50.0)
+        order = self._new_order_with(invoice1 + invoice2)
+        order.draft2open()
+        self.assertEqual(len(order.payment_ids), 2)
+        order.open2generated()
+        order.action_easypay_prepare_upload()
+        txs = order.payment_ids.mapped("easypay_dd_transaction_ids")
+        self.assertEqual(len(txs), 2)
+
+        # Fake EasyPay that durably accepts each distinct debit, replays
+        # identical requests, and loses the second debit's response once.
+        accepted = {}  # idempotency_key -> {"payload": ..., "id": ...}
+        # self.mock_api binds like a method through autospec; the class
+        # attribute is the raw mock whose side_effect can be replaced.
+        api_mock = type(self.provider)._easypay_make_request
+        original_side_effect = api_mock.side_effect
+
+        def _mixed_side_effect(
+            provider, endpoint, payload=None, method="POST", **kwargs
+        ):
+            if endpoint.startswith("/2.0/capture/") and method == "POST":
+                key = kwargs.get("idempotency_key")
+                self.assertTrue(key)
+                if key in accepted:
+                    stored = accepted[key]
+                    self.assertEqual(payload, stored["payload"])
+                    return {"status": "ok", "id": stored["id"]}
+                capture_id = f"cap-mixed-{len(accepted) + 1}"
+                accepted[key] = {"payload": payload, "id": capture_id}
+                if len(accepted) == 2:
+                    raise EasyPayTransportError(_("Response lost"))
+                return {"status": "ok", "id": capture_id}
+            return original_side_effect(
+                provider, endpoint, payload=payload, method=method, **kwargs
+            )
+
+        api_mock.side_effect = _mixed_side_effect
+        self.addCleanup(setattr, api_mock, "side_effect", original_side_effect)
+        calls_before = self._capture_post_count()
+        with self.assertRaises(UserError), self.env.cr.savepoint():
+            order.generated2uploaded()
+        # EasyPay accepted both debits; the rollback left no capture IDs.
+        self.assertEqual(len(accepted), 2)
+        txs.invalidate_recordset()
+        for tx in txs:
+            self.assertFalse(tx.easypay_transaction_id)
+        self.assertEqual(order.state, "generated")
+        # Alternative recovery timing on the same fixture: once the
+        # 23-hour window measured from Prepare has expired, upload is
+        # refused before any capture POST.
+        posts_before_expired = self._capture_post_count()
+        with (
+            freeze_time(order.easypay_dd_prepared_at + timedelta(hours=24)),
+            self.assertRaises(UserError),
+            self.env.cr.savepoint(),
+        ):
+            order.generated2uploaded()
+        self.assertEqual(self._capture_post_count(), posts_before_expired)
+        self.assertEqual(order.state, "generated")
+        # Back inside the window (the freeze rewinds the test clock), the
+        # retry replays both requests and binds each tx to the capture
+        # EasyPay originally accepted for it.
+        order.generated2uploaded()
+        self.assertEqual(order.state, "uploaded")
+        self.assertEqual(self._capture_post_count() - calls_before, 4)
+        accepted_by_reference = {
+            item["payload"]["transaction_key"]: item["id"] for item in accepted.values()
+        }
+        for tx in txs:
+            self.assertEqual(
+                tx.easypay_transaction_id, accepted_by_reference[tx.reference]
+            )
+            self.assertEqual(tx.state, "pending")
+
     def test_upload_after_reservation_deadline_does_not_submit(self):
-        """A reservation past its deadline is never submitted to EasyPay."""
+        """A prepared order past its deadline is never submitted."""
         order = self._new_order_with(self._create_invoice())
         order.draft2open()
         order.open2generated()
+        order.action_easypay_prepare_upload()
         posts_before = self._capture_post_count()
         with freeze_time(fields.Datetime.now() + timedelta(hours=24)):
             with self.assertRaises(UserError):
                 order.generated2uploaded()
         self.assertEqual(order.state, "generated")
         self.assertEqual(self._capture_post_count(), posts_before)
+
+    def test_upload_window_starts_at_prepare(self):
+        """Generate age does not matter — the window starts at Prepare."""
+        order = self._new_order_with(self._create_invoice())
+        order.draft2open()
+        order.open2generated()
+        posts_before = self._capture_post_count()
+        with freeze_time(fields.Datetime.now() + timedelta(hours=24)):
+            order.action_easypay_prepare_upload()
+            order.generated2uploaded()
+        self.assertEqual(order.state, "uploaded")
+        self.assertGreater(self._capture_post_count(), posts_before)
+
+    def test_upload_requires_prepare_and_cancel_allowed(self):
+        """Upload needs an armed order; unprepared orders can still cancel."""
+        order = self._new_order_with(self._create_invoice())
+        order.draft2open()
+        order.open2generated()
+        posts_before = self._capture_post_count()
+        with self.assertRaises(UserError):
+            order.generated2uploaded()
+        self.assertEqual(order.state, "generated")
+        self.assertEqual(self._capture_post_count(), posts_before)
+        order.action_cancel()
+        self.assertEqual(order.state, "cancel")

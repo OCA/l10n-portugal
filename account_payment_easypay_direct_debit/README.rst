@@ -39,8 +39,9 @@ Features:
 
 - Register SEPA mandates with EasyPay directly from the mandate form —
   validation calls the EasyPay API and stores the returned mandate
-  reference. A mandate can also reuse an existing EasyPay authorization
-  created through the EasyPay checkout (``payment_easypay_oca``).
+  reference. A mandate can also reuse an externally provisioned EasyPay
+  authorization, as long as it belongs to the same customer, provider
+  and bank account (IBAN).
 - Submit direct debits in batch from *Invoicing → Payments → Payment
   Orders* — one EasyPay debit per generated account payment.
 - Track each debit in the *EasyPay Transactions* log: pending, paid,
@@ -73,10 +74,6 @@ EasyPay account
 3. Click **Test Connection** to verify the credentials, then **Configure
    Webhooks** — this registers the Odoo webhook URLs with EasyPay
    (shared by checkout payments and direct debits).
-4. Optionally click **Sync Payment Methods**: when your EasyPay account
-   has Direct Debit enabled, the ``dd`` method is activated and becomes
-   available at checkout — letting customers grant mandates online that
-   can be reused for payment order debits (see *Mandates* below).
 
 Payment mode
 ------------
@@ -100,10 +97,23 @@ For each customer to debit:
    **Format = EasyPay SEPA**, the customer's bank account (IBAN) and the
    signature date. The partner must have an email and phone number —
    EasyPay requires them for mandate registration.
-2. Optionally set **EasyPay Token** to reuse an authorization the
-   customer already granted through the EasyPay checkout.
-3. Click **Validate**: the mandate is registered with EasyPay and the
-   EasyPay reference is stored. Validation fails if the API rejects it.
+2. Optionally set **EasyPay Token** to reuse an externally provisioned
+   EasyPay authorization — it must belong to the same customer, provider
+   and bank account (IBAN), and validation checks the remote mandate
+   before reusing it. Token-based mandates do not need preparation.
+3. For a standalone registration, click **Prepare EasyPay Registration**
+   first: it freezes the provider and mandate data without contacting
+   EasyPay and starts a 23-hour window — preparing again with unchanged
+   data is a no-op. If the prepared inputs later change, the mandate
+   must be recreated.
+4. Click **Validate** within the window: the mandate is registered with
+   EasyPay and the EasyPay reference is stored. Validation fails if the
+   API rejects it, if the window expired, or if the mandate was not
+   prepared. When the original response was lost, an administrator can
+   fill in **EasyPay Registration Recovery ID** (visible to
+   administrators only) with the frequent payment ID shown in the
+   EasyPay backoffice — validation then adopts it after verifying the
+   key, IBAN and status instead of posting again.
 
 Usage
 =====
@@ -114,13 +124,23 @@ Usage
 2. **Confirm** the order — draft payments are created (one per
    partner/bank/mandate group).
 3. Click **Generate Payment File** — no file is produced for this
-   method; the order simply moves to *File Generated*.
-4. Click **Mark as Uploaded** — Odoo submits one debit per payment to
+   method; the order moves to *File Generated* and each payment reserves
+   its debit: provider, mandate, amount and reference are frozen on a
+   draft transaction, but nothing is sent to EasyPay yet.
+4. Click **Prepare EasyPay Upload** — this arms the order and starts the
+   23-hour submission window. Preparing again keeps the original
+   timestamp.
+5. Click **Mark as Uploaded** — Odoo submits the reserved debits to
    EasyPay and posts/reconciles the payments, exactly as if the file had
-   been sent to a bank. If some debits fail, the error lists them and
-   the order stays in *File Generated*; fix the cause and retry —
-   already submitted debits are not resent.
-5. Track results in *Invoicing → Customers → EasyPay Transactions* (or
+   been sent to a bank. Upload must happen within 23 hours of Prepare; a
+   retry reuses the exact same request (same reference and idempotency
+   key), so an ambiguous earlier attempt cannot debit twice. If the
+   window expired or a reservation is ambiguous, reconcile the debit in
+   EasyPay before retrying — the order stays in *File Generated* until
+   every debit is submitted. Once the order is prepared — or EasyPay has
+   acknowledged any debit — it can no longer be cancelled, regenerated
+   or deleted; reconcile the debits in EasyPay first.
+6. Track results in *Invoicing → Customers → EasyPay Transactions* (or
    from each payment). *Pending* debits are updated automatically by
    EasyPay webhooks and the scheduled polling job.
 

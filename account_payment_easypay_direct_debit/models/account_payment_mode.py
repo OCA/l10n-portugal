@@ -21,7 +21,23 @@ class AccountPaymentMode(models.Model):
     def _easypay_get_provider(self):
         """Return the EasyPay provider to use for this payment mode."""
         self.ensure_one()
-        provider = self.easypay_provider_id or self.env["payment.provider"].search(
+        provider = self.easypay_provider_id
+        if provider:
+            if (
+                provider.code != "easypay"
+                or provider.company_id != self.company_id
+                or provider.state not in ("test", "enabled")
+            ):
+                raise UserError(
+                    _(
+                        "The EasyPay provider '%(provider)s' configured on "
+                        "payment mode '%(mode)s' is not usable.",
+                        provider=provider.display_name,
+                        mode=self.display_name,
+                    )
+                )
+            return provider
+        provider = self.env["payment.provider"].search(
             [
                 ("code", "=", "easypay"),
                 ("company_id", "=", self.company_id.id),

@@ -22,6 +22,7 @@
                     type="object"
                     string="Test EasyPay Connection"
                     class="btn-link"
+                    groups="base.group_system"
                     invisible="payment_method_code != 'easypay_direct_debit'"
                 />
             </field>

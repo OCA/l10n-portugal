@@ -4,13 +4,24 @@
 2. **Confirm** the order — draft payments are created (one per
    partner/bank/mandate group).
 3. Click **Generate Payment File** — no file is produced for this method;
-   the order simply moves to *File Generated*.
-4. Click **Mark as Uploaded** — Odoo submits one debit per payment to
+   the order moves to *File Generated* and each payment reserves its
+   debit: provider, mandate, amount and reference are frozen on a draft
+   transaction, but nothing is sent to EasyPay yet.
+4. Click **Prepare EasyPay Upload** — this arms the order and starts the
+   23-hour submission window. Preparing again keeps the original
+   timestamp.
+5. Click **Mark as Uploaded** — Odoo submits the reserved debits to
    EasyPay and posts/reconciles the payments, exactly as if the file had
-   been sent to a bank. If some debits fail, the error lists them and the
-   order stays in *File Generated*; fix the cause and retry — already
-   submitted debits are not resent.
-5. Track results in *Invoicing → Customers → EasyPay Transactions*
+   been sent to a bank. Upload must happen within 23 hours of Prepare;
+   a retry reuses the exact same request (same reference and
+   idempotency key), so an ambiguous earlier attempt cannot debit twice.
+   If the window expired or a reservation is ambiguous, reconcile the
+   debit in EasyPay before retrying — the order stays in *File
+   Generated* until every debit is submitted. Once the order is prepared
+   — or EasyPay has acknowledged any debit — it can no longer be
+   cancelled, regenerated or deleted; reconcile the debits in EasyPay
+   first.
+6. Track results in *Invoicing → Customers → EasyPay Transactions*
    (or from each payment). *Pending* debits are updated automatically by
    EasyPay webhooks and the scheduled polling job.
 

@@ -9,8 +9,9 @@ Features:
 
 - Register SEPA mandates with EasyPay directly from the mandate form —
   validation calls the EasyPay API and stores the returned mandate
-  reference. A mandate can also reuse an existing EasyPay authorization
-  created through the EasyPay checkout (`payment_easypay_oca`).
+  reference. A mandate can also reuse an externally provisioned EasyPay
+  authorization, as long as it belongs to the same customer, provider
+  and bank account (IBAN).
 - Submit direct debits in batch from *Invoicing → Payments → Payment
   Orders* — one EasyPay debit per generated account payment.
 - Track each debit in the *EasyPay Transactions* log: pending, paid,

@@ -27,7 +27,25 @@
                     name="easypay_mandate_state"
                     invisible="format != 'easypay' or not easypay_mandate_state"
                 />
+                <field
+                    name="easypay_registration_prepared_at"
+                    invisible="format != 'easypay' or not easypay_registration_prepared_at or easypay_frequent_id"
+                />
+                <field
+                    name="easypay_registration_recovery_id"
+                    invisible="format != 'easypay' or not easypay_registration_prepared_at or easypay_frequent_id"
+                />
             </field>
+            <xpath expr="//header/button[@name='validate']" position="before">
+                <button
+                    name="action_easypay_prepare_registration"
+                    type="object"
+                    string="Prepare EasyPay Registration"
+                    class="btn-secondary"
+                    invisible="format != 'easypay' or state != 'draft' or easypay_frequent_id or easypay_token_id or easypay_registration_prepared_at"
+                    groups="account_payment_order.group_account_payment"
+                />
+            </xpath>
         </field>
     </record>
 </odoo>

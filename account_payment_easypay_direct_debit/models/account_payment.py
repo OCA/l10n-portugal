@@ -44,11 +44,14 @@ class AccountPayment(models.Model):
         reference, amount and description are what EasyPay receives.
         """
         self.ensure_one()
+        self.check_access("write")
         tx.ensure_one()
+        tx.check_access("write")
         tx._easypay_lock_operation()
         tx.invalidate_recordset()
         provider = tx.provider_id
         mandate = tx.mandate_id
+        mandate.check_access("read")
         order_provider = self.payment_order_id.payment_mode_id._easypay_get_provider()
         if (
             provider != order_provider
@@ -82,6 +85,21 @@ class AccountPayment(models.Model):
                     tx.reference,
                 )
             )
+        if (
+            mandate.state != "valid"
+            or mandate.format != "easypay"
+            or mandate.easypay_provider_id != provider
+            or mandate.partner_id.commercial_partner_id
+            != self.partner_id.commercial_partner_id
+        ):
+            raise UserError(
+                _(
+                    "EasyPay debit %(reference)s cannot be submitted: "
+                    "mandate %(mandate)s is not valid for this partner.",
+                    reference=tx.reference,
+                    mandate=mandate.display_name,
+                )
+            )
         self._easypay_dd_check_submission_deadline(tx)
         mandate._easypay_refresh_state(provider)
         self._easypay_dd_check_submission_deadline(tx)
@@ -89,7 +107,9 @@ class AccountPayment(models.Model):
         # replays the original response instead of debiting twice. Hashed
         # to stay within the 50-char limit.
         idempotency_key = hashlib.sha256(tx.reference.encode()).hexdigest()[:50]
-        response = provider._easypay_make_request(
+        # sudo: easypay_api_key is restricted to base.group_system; the
+        # provider identity was validated by the mandate refresh above.
+        response = provider.sudo()._easypay_make_request(
             f"/2.0/capture/{tx.provider_reference}",
             {
                 "descriptive": tx.easypay_dd_description or "",
@@ -119,10 +139,13 @@ class AccountPayment(models.Model):
         tx._set_pending(extra_allowed_states=("cancel", "error"))
 
     def _easypay_dd_check_submission_deadline(self, tx):
-        """Refuse submission once the reservation is too old to retry."""
+        """Refuse submission once the armed window has expired."""
         self.ensure_one()
         tx.ensure_one()
-        if fields.Datetime.now() >= tx.create_date + timedelta(hours=23):
+        prepared_at = self.payment_order_id.easypay_dd_prepared_at
+        if not prepared_at or fields.Datetime.now() >= prepared_at + timedelta(
+            hours=23
+        ):
             raise UserError(
                 _(
                     "The EasyPay submission window has expired for %s. "
@@ -139,6 +162,7 @@ class AccountPayment(models.Model):
         later Upload step submits exactly what was reserved.
         """
         self.ensure_one()
+        self.check_access("write")
         provider = self.payment_order_id.payment_mode_id._easypay_get_provider()
         mandate = self.mandate_id
         if not mandate or not mandate.easypay_frequent_id:
@@ -149,6 +173,21 @@ class AccountPayment(models.Model):
                     "first.",
                     name=self.payment_reference or self.id,
                     partner=self.partner_id.display_name,
+                )
+            )
+        if (
+            mandate.state != "valid"
+            or mandate.format != "easypay"
+            or mandate.easypay_provider_id != provider
+            or mandate.partner_id.commercial_partner_id
+            != self.partner_id.commercial_partner_id
+        ):
+            raise UserError(
+                _(
+                    "Payment %(name)s cannot reserve an EasyPay debit: "
+                    "mandate %(mandate)s is not valid for this partner.",
+                    name=self.payment_reference or self.id,
+                    mandate=mandate.display_name,
                 )
             )
         reserved = self.easypay_dd_transaction_ids

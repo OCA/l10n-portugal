@@ -11,10 +11,12 @@
     "license": "AGPL-3",
     "depends": ["account_banking_mandate", "payment_easypay_oca"],
     "data": [
+        "security/ir.model.access.csv",
         "data/account_payment_method_data.xml",
         "data/ir_cron_data.xml",
         "views/payment_transaction_views.xml",
         "views/account_payment_mode_views.xml",
+        "views/account_payment_order_views.xml",
         "views/account_banking_mandate_views.xml",
         "views/account_payment_views.xml",
     ],

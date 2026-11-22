@@ -85,7 +85,7 @@ class TestDirectDebitWebhook(HttpCase):
                     "status": "ok",
                     "id": "freq-uuid-1",
                     "method": {
-                        "type": "dd",
+                        "type": "DD",
                         "status": "active",
                         "sdd_mandate": {"id": "m-12345"},
                     },
@@ -94,7 +94,7 @@ class TestDirectDebitWebhook(HttpCase):
                 return {
                     "id": "freq-uuid-1",
                     "currency": cls.company.currency_id.name,
-                    "method": {"type": "dd", "status": "active"},
+                    "method": {"type": "DD", "status": "active"},
                 }
             if endpoint.startswith("/2.0/single/") and method == "GET":
                 return {}
@@ -126,8 +126,12 @@ class TestDirectDebitWebhook(HttpCase):
                 "partner_bank_id": bank_account.id,
                 "signature_date": "2026-01-01",
                 "company_id": cls.company.id,
+                # Pin the provider: this company already has a demo EasyPay
+                # provider and the mode below uses ``cls.provider``.
+                "easypay_provider_id": cls.provider.id,
             }
         )
+        cls.mandate.action_easypay_prepare_registration()
         cls.mandate.validate()
 
     def _create_tx(self, *, upload=True):
@@ -165,6 +169,7 @@ class TestDirectDebitWebhook(HttpCase):
         order.draft2open()
         order.open2generated()
         if upload:
+            order.action_easypay_prepare_upload()
             order.generated2uploaded()
         return order.payment_ids.easypay_dd_transaction_ids
 
@@ -215,6 +220,34 @@ class TestDirectDebitWebhook(HttpCase):
         self.assertEqual(tx.state, "done")
         self.assertEqual(tx.easypay_transaction_id, capture_id)
 
+    def test_webhook_applies_verified_late_return(self):
+        """A verified returned capture cancels the debit even when the
+        event payload claims success — the authenticated read wins."""
+        tx = self._create_tx()
+        self.assertEqual(tx.state, "pending")
+        capture_id = tx.easypay_transaction_id
+        payload = {
+            "key": tx.reference,
+            "id": capture_id,
+            "type": "capture",
+            "status": "success",
+        }
+        try:
+            self.__class__.capture_status = "paid"
+            response = self._post_webhook(payload)
+            self.assertEqual(response.status_code, 200)
+            tx.invalidate_recordset()
+            self.assertEqual(tx.state, "done")
+
+            self.__class__.capture_status = "returned"
+            response = self._post_webhook(payload)
+            self.assertEqual(response.status_code, 200)
+            tx.invalidate_recordset()
+            self.assertEqual(tx.state, "cancel")
+            self.assertEqual(tx.easypay_transaction_id, capture_id)
+        finally:
+            self.__class__.capture_status = "pending"
+
     def test_webhook_inconclusive_capture_leaves_debit_pending(self):
         """A claimed settlement cannot override an inconclusive API read."""
         tx = self._create_tx()
@@ -242,6 +275,7 @@ class TestDirectDebitWebhook(HttpCase):
         """A capture recorded by webhook is reused instead of resent."""
         tx = self._create_tx(upload=False)
         order = tx.payment_order_id
+        order.action_easypay_prepare_upload()
         # Model a lost upload acknowledgement: EasyPay accepted the
         # capture but the response never arrived locally, so the
         # reservation stays draft until the webhook records it.
