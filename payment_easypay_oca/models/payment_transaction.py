@@ -541,6 +541,11 @@ class PaymentTransaction(models.Model):
             "payment_id": payment_id,
         }
 
+    def _easypay_normalize_capture_status(self, status):
+        """Map a verified EasyPay capture status to the notification
+        vocabulary, or None when the status is not recognized."""
+        return const.CAPTURE_STATUS_MAP.get(status)
+
     def _easypay_payment_reference(self):
         """Locally stored EasyPay payment id used to bind capture reads.
 

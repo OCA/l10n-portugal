@@ -482,7 +482,7 @@ class EasyPayWebhookController(http.Controller):
                 return _READ_RETRY, None
             if cap["payment_id"] != verified["payment_id"]:
                 return _READ_CONFLICT, None
-            status = const.CAPTURE_STATUS_MAP.get(cap["status"])
+            status = tx_sudo._easypay_normalize_capture_status(cap["status"])
             if status is None:
                 return _READ_RETRY, None
             return _READ_OK, self._build_notification(
@@ -510,7 +510,7 @@ class EasyPayWebhookController(http.Controller):
         kind, verified = self._bind_payment(tx_sudo, cap["payment_id"])
         if kind != _READ_OK:
             return kind, None
-        status = const.CAPTURE_STATUS_MAP.get(cap["status"])
+        status = tx_sudo._easypay_normalize_capture_status(cap["status"])
         if status is None:
             return _READ_RETRY, None
         return _READ_OK, self._build_notification(
