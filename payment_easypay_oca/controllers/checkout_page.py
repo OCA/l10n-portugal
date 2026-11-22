@@ -4,10 +4,10 @@
 import json
 import logging
 
-from markupsafe import Markup
-
 from odoo import http
 from odoo.http import request
+
+from .checkout_session import find_owned_checkout_transaction
 
 _logger = logging.getLogger(__name__)
 
@@ -23,27 +23,22 @@ class EasyPayCheckoutPageController(http.Controller):
     def checkout_page(self, **kwargs):
         """Dedicated page to host EasyPay checkout form."""
         session_id = kwargs.get("session_id")
-        manifest_json = kwargs.get("manifest")
-
-        if not session_id or not manifest_json:
+        tx_sudo = find_owned_checkout_transaction(session_id)
+        if not tx_sudo:
+            _logger.warning(
+                "Checkout page requested for unknown session %s", session_id
+            )
             return request.redirect("/payment/status")
 
-        try:
-            manifest = json.loads(manifest_json)
-        except json.JSONDecodeError:
-            _logger.warning("Failed to parse checkout manifest from URL params")
-            return request.redirect("/payment/status")
-
-        tx_sudo = (
-            request.env["payment.transaction"]
-            .sudo()
-            ._find_easypay_transaction(session_id, None)
-        )
-        api_url = tx_sudo.provider_id._easypay_get_api_url() if tx_sudo else ""
-        hide_details = tx_sudo.provider_id.easypay_hide_details if tx_sudo else False
+        # The manifest is the documented POST /2.0/checkout result stored
+        # server-side when the session was created; a client-supplied copy
+        # in the query string is never trusted.
+        manifest = request.session.get("easypay_checkout_manifest")
+        api_url = tx_sudo.provider_id._easypay_get_api_url()
+        hide_details = tx_sudo.provider_id.easypay_hide_details
 
         # EasyPay SDK accepts 'pt_PT', 'es_ES', or 'en' (default: browser lang).
-        odoo_lang = (tx_sudo.partner_id.lang or "en") if tx_sudo else "en"
+        odoo_lang = tx_sudo.partner_id.lang or "en"
         if odoo_lang.startswith("pt"):
             sdk_language = "pt_PT"
         elif odoo_lang.startswith("es"):
@@ -51,18 +46,17 @@ class EasyPayCheckoutPageController(http.Controller):
         else:
             sdk_language = "en"
 
-        # Serialise the entire JS data object server-side so the template
-        # never interpolates untrusted strings inside a <script> block.
-        easypay_data_json = Markup(
-            json.dumps(
-                {
-                    "sessionId": session_id,
-                    "manifest": manifest,
-                    "apiUrl": api_url,
-                    "language": sdk_language,
-                    "hideDetails": hide_details,
-                }
-            )
+        # Serialise the entire JS data object server-side; it is injected as
+        # an escaped data attribute, never inside a <script> block.
+        easypay_data_json = json.dumps(
+            {
+                "sessionId": session_id,
+                "csrfToken": request.csrf_token(),
+                "manifest": manifest,
+                "apiUrl": api_url,
+                "language": sdk_language,
+                "hideDetails": hide_details,
+            }
         )
 
         return request.render(
