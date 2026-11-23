@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_hr_pt_irs_withholding_table_payroll_user,hr.pt.irs.withholding.table payroll user,model_hr_pt_irs_withholding_table,payroll.group_payroll_user,1,0,0,0
+access_hr_pt_irs_withholding_table_payroll_manager,hr.pt.irs.withholding.table payroll manager,model_hr_pt_irs_withholding_table,payroll.group_payroll_manager,1,1,1,1
+access_hr_pt_irs_withholding_line_payroll_user,hr.pt.irs.withholding.line payroll user,model_hr_pt_irs_withholding_line,payroll.group_payroll_user,1,0,0,0
+access_hr_pt_irs_withholding_line_payroll_manager,hr.pt.irs.withholding.line payroll manager,model_hr_pt_irs_withholding_line,payroll.group_payroll_manager,1,1,1,1
+access_hr_pt_irs_withholding_import_payroll_manager,hr.pt.irs.withholding.import payroll manager,model_hr_pt_irs_withholding_import,payroll.group_payroll_manager,1,1,1,1
+access_hr_payroll_bank_account_add_hr_manager,hr.payroll.bank.account.add hr manager,model_hr_payroll_bank_account_add,hr.group_hr_manager,1,1,1,1

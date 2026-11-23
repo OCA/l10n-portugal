@@ -1,0 +1,560 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+    <!-- Salary Rule Categories -->
+    <!-- Codes mirror the payroll module defaults so the usual formulas -->
+    <!-- (categories.BASIC, categories.ALW, ...) work unchanged. -->
+    <record id="categ_pt_basic" model="hr.salary.rule.category">
+        <field name="name">Base</field>
+        <field name="code">BASIC</field>
+    </record>
+    <record id="categ_pt_alw" model="hr.salary.rule.category">
+        <field name="name">Abonos</field>
+        <field name="code">ALW</field>
+    </record>
+    <record id="categ_pt_gross" model="hr.salary.rule.category">
+        <field name="name">Bruto</field>
+        <field name="code">GROSS</field>
+    </record>
+    <record id="categ_pt_ded" model="hr.salary.rule.category">
+        <field name="name">Deduções</field>
+        <field name="code">DED</field>
+    </record>
+    <record id="categ_pt_net" model="hr.salary.rule.category">
+        <field name="name">Líquido</field>
+        <field name="code">NET</field>
+    </record>
+    <record id="categ_pt_comp" model="hr.salary.rule.category">
+        <field name="name">Contribuições da Entidade Patronal</field>
+        <field name="code">COMP</field>
+    </record>
+    <record id="categ_pt_irs_reference" model="hr.salary.rule.category">
+        <field name="name">Valores de Referência de IRS</field>
+        <field name="code">PT_IRS_REFERENCE</field>
+    </record>
+    <record id="categ_pt_ss_reference" model="hr.salary.rule.category">
+        <field name="name">Social Security Reference Values</field>
+        <field name="code">PT_SS_REFERENCE</field>
+    </record>
+    <!-- Salary Rules: attached to the structure through rule_ids. -->
+    <record id="hr_rule_pt_basic" model="hr.salary.rule">
+        <field name="name">Vencimento Base</field>
+        <field name="sequence" eval="1" />
+        <field name="code">BASIC</field>
+        <field name="category_id" ref="categ_pt_basic" />
+        <field name="l10n_pt_irs_taxable" eval="1.0" />
+        <field name="l10n_pt_dmr_at_role">income</field>
+        <field name="l10n_pt_dmr_code">A</field>
+        <field name="l10n_pt_ss_nature_code">P</field>
+        <field name="condition_select">none</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+result = contract.wage
+            </field>
+    </record>
+    <record id="hr_rule_pt_meal" model="hr.salary.rule">
+        <field name="name">Subsídio de Alimentação</field>
+        <field name="sequence" eval="10" />
+        <field name="code">SA</field>
+        <field name="category_id" ref="categ_pt_alw" />
+        <field name="condition_select">none</field>
+        <field name="amount_select">fix</field>
+        <field eval="10.20" name="amount_fix" />
+        <field name="quantity">
+worked_days.WORK100.number_of_days
+            </field>
+        <field name="note">Meal allowance; exempt from IRS within the legal limit; flag
+l10n_pt_irs_taxable holds the taxable share (e.g. 0.5 for half-taxable
+allowances); configure declaration codes only after separating the reportable portions.</field>
+    </record>
+    <record id="hr_rule_pt_gross" model="hr.salary.rule">
+        <field name="name">Remuneração Bruta</field>
+        <field name="sequence" eval="100" />
+        <field name="code">GROSS</field>
+        <field name="category_id" ref="categ_pt_gross" />
+        <field name="l10n_pt_dmr_at_role">ignore</field>
+        <field name="condition_select">none</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+result = categories.BASIC + categories.ALW
+            </field>
+    </record>
+    <record id="hr_rule_pt_ss" model="hr.salary.rule">
+        <field name="name">Segurança Social (Trabalhador)</field>
+        <field name="sequence" eval="120" />
+        <field name="code">SS</field>
+        <field name="category_id" ref="categ_pt_ded" />
+        <field name="l10n_pt_dmr_at_role">contribution</field>
+        <field name="condition_select">none</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+result = -result_rules.dict['PT_SS_BASE'].total
+result_rate = (contract.l10n_pt_ss_regime_id or contract.env.ref('l10n_pt_hr.l10n_pt_ss_regime_geral', raise_if_not_found=False)).l10n_pt_employee_rate
+result, result_rate, result_name = payslip._l10n_pt_ss_line_values(payslip.env.ref('l10n_pt_payroll.hr_rule_pt_ss').name, result, result_rate)
+            </field>
+    </record>
+    <record id="hr_rule_pt_ss_base" model="hr.salary.rule">
+        <field name="name">Social Security Contribution Base</field>
+        <field name="sequence" eval="119" />
+        <field name="code">PT_SS_BASE</field>
+        <field name="parent_rule_id" ref="hr_rule_pt_ss" />
+        <field name="category_id" ref="categ_pt_ss_reference" />
+        <field name="appears_on_payslip" eval="False" />
+        <field name="l10n_pt_dmr_at_role">ignore</field>
+        <field name="condition_select">none</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+result = categories.BASIC
+for code, rule in rules.dict.items():
+    treatment = rule.l10n_pt_ss_contribution_base
+    if not treatment:
+        continue
+    category = rule.category_id
+    basic_count = 0
+    while category:
+        basic_count += category.code == 'BASIC'
+        category = category.parent_id
+    result += (int(treatment == 'include') - basic_count) * result_rules.dict[code].total
+        </field>
+    </record>
+    <record id="hr_rule_pt_natal" model="hr.salary.rule">
+        <field name="name">Subsídio de Natal</field>
+        <field name="code">PT_NATAL</field>
+        <field name="sequence" eval="90" />
+        <field name="parent_rule_id" ref="hr_rule_pt_gross" />
+        <field name="category_id" ref="categ_pt_alw" />
+        <field name="l10n_pt_dmr_at_role">income</field>
+        <field name="l10n_pt_dmr_code">A4</field>
+        <field name="l10n_pt_ss_nature_code">N</field>
+        <field name="l10n_pt_ss_contribution_base">include</field>
+        <field name="condition_select">python</field>
+        <field name="condition_python">
+entries = payslip.input_line_ids.filtered_domain([('code', '=', 'PT_NATAL')])
+result = any(entries.mapped('amount')) or payslip.struct_id == payslip.env.ref('l10n_pt_payroll.structure_pt_natal')
+        </field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+entries = payslip.input_line_ids.filtered_domain([('code', '=', 'PT_NATAL')])
+if len(entries) != 1 or entries.contract_id != contract or contract != payslip.contract_id:
+    raise Exception("Enter one Christmas subsidy input for the payslip contract.")
+amount = entries.amount
+if not tools.math.isfinite(amount) or amount &lt; 0:
+    raise Exception("The Christmas subsidy must be non-negative.")
+result = payslip.company_id.currency_id.round(amount)
+if not result:
+    raise Exception("Enter a positive Christmas subsidy entitlement.")
+if not payslip.payment_date or payslip.payment_date.year != payslip.date_to.year:
+    raise Exception("Set a Christmas subsidy payment date in the payslip period end year.")
+if contract.l10n_pt_irs_pensioner or (contract.l10n_pt_irs_non_resident and contract.l10n_pt_irs_single_payer_declared):
+    raise Exception("Review Christmas subsidy withholding manually for this contract.")
+        </field>
+    </record>
+    <record id="hr_rule_pt_natal_correction" model="hr.salary.rule">
+        <field name="name">Correção do Subsídio de Natal - Valor Já Pago</field>
+        <field name="sequence" eval="91" />
+        <field name="code">PT_NATAL_CORRECTION</field>
+        <field name="parent_rule_id" ref="hr_rule_pt_gross" />
+        <field name="category_id" ref="categ_pt_alw" />
+        <field name="l10n_pt_dmr_at_role">income</field>
+        <field name="l10n_pt_dmr_code">A4</field>
+        <field name="l10n_pt_ss_nature_code">N</field>
+        <field name="l10n_pt_ss_contribution_base">include</field>
+        <field name="condition_select">python</field>
+        <field name="condition_python">
+result = 'PT_NATAL' in result_rules.dict
+        </field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+history = payslip._get_payroll_history_totals(('PT_NATAL', 'PT_NATAL_CORRECTION', 'PT_NATAL_MONTHLY'), date_basis='payment', window='year_to_date', strict=True)
+already_paid = payslip.company_id.currency_id.round(sum(history.values()))
+if payslip.company_id.currency_id.compare_amounts(already_paid, PT_NATAL) > 0:
+    raise Exception("Review the Christmas subsidy manually: prior payments exceed the annual entitlement.")
+result = -already_paid
+        </field>
+    </record>
+    <record id="hr_rule_input_pt_natal" model="hr.rule.input">
+        <field name="name">Subsídio de Natal</field>
+        <field name="code">PT_NATAL</field>
+        <field name="input_id" ref="hr_rule_pt_natal" />
+    </record>
+    <record id="hr_rule_pt_natal_irs" model="hr.salary.rule">
+        <field name="name">Retenção na Fonte IRS - Subsídio de Natal</field>
+        <field name="sequence" eval="133" />
+        <field name="code">PT_NATAL_IRS</field>
+        <field name="parent_rule_id" ref="hr_rule_pt_gross" />
+        <field name="category_id" ref="categ_pt_ded" />
+        <field name="l10n_pt_dmr_at_role">withholding</field>
+        <field name="l10n_pt_dmr_code">A4</field>
+        <field name="condition_select">python</field>
+        <field name="condition_python">
+result = 'PT_NATAL_CORRECTION' in result_rules.dict and payslip.company_id.currency_id.compare_amounts(PT_NATAL, -PT_NATAL_CORRECTION) > 0
+        </field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+details = payslip.env['hr.pt.irs.withholding.table']._calculate_withholding(contract, payslip.payment_date or payslip.date_to, PT_NATAL)
+cumulative_tax = details['amount']
+monthly = payslip._get_payroll_history_totals(('PT_NATAL_MONTHLY',), date_basis='payment', window='year_to_date', strict=True)['PT_NATAL_MONTHLY']
+if monthly:
+    result = -payslip.company_id.currency_id.round(cumulative_tax * (PT_NATAL + PT_NATAL_CORRECTION) / PT_NATAL)
+    result_name = '%s (%.2f x %.2f / %.2f)' % (payslip.env.ref('l10n_pt_payroll.hr_rule_pt_natal_irs').name, cumulative_tax, PT_NATAL + PT_NATAL_CORRECTION, PT_NATAL)
+else:
+    prior_tax = -payslip._get_payroll_history_totals(('PT_NATAL_IRS',), date_basis='payment', window='year_to_date', strict=True)['PT_NATAL_IRS']
+    if prior_tax > cumulative_tax:
+        raise Exception("Review the Christmas subsidy manually: prior withholding exceeds the recalculated tax.")
+    result = prior_tax - cumulative_tax
+    result_name = "%s (%.2f - %.2f)" % (payslip.env.ref('l10n_pt_payroll.hr_rule_pt_natal_irs').name, cumulative_tax, prior_tax)
+        </field>
+    </record>
+    <record id="hr_rule_pt_natal_monthly_base" model="hr.salary.rule">
+        <field name="name">Direito Anual ao Subsídio de Natal em Duodécimos</field>
+        <field name="sequence" eval="88" />
+        <field name="code">PT_NATAL_MONTHLY_BASE</field>
+        <field name="parent_rule_id" ref="hr_rule_pt_gross" />
+        <field name="category_id" ref="categ_pt_irs_reference" />
+        <field name="appears_on_payslip" eval="False" />
+        <field name="l10n_pt_dmr_at_role">ignore</field>
+        <field name="condition_select">python</field>
+        <field name="condition_python">
+entries = payslip.input_line_ids.filtered_domain([('code', '=', 'PT_NATAL_MONTHLY')])
+result = any(entries.mapped('amount'))
+        </field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+entries = payslip.input_line_ids.filtered_domain([('code', '=', 'PT_NATAL_MONTHLY')])
+lump = payslip.input_line_ids.filtered_domain([('code', '=', 'PT_NATAL')])
+if any(lump.mapped('amount')) or payslip.struct_id == payslip.env.ref('l10n_pt_payroll.structure_pt_natal'):
+    raise Exception('Use the monthly Christmas subsidy only on a regular payslip without a lump-sum subsidy.')
+if len(entries) != 1 or entries.contract_id != contract or contract != payslip.contract_id:
+    raise Exception('Enter one monthly Christmas subsidy input for the payslip contract.')
+amount = entries.amount
+if not tools.math.isfinite(amount) or amount &lt;= 0:
+    raise Exception('Enter a positive annual Christmas subsidy entitlement.')
+result = payslip.company_id.currency_id.round(amount)
+if not result:
+    raise Exception('Enter a positive annual Christmas subsidy entitlement.')
+if not payslip.payment_date or payslip.payment_date.year != payslip.date_to.year:
+    raise Exception('Set a Christmas subsidy payment date in the payslip period end year.')
+if contract.l10n_pt_irs_pensioner or (contract.l10n_pt_irs_non_resident and contract.l10n_pt_irs_single_payer_declared):
+    raise Exception('Review Christmas subsidy withholding manually for this contract.')
+        </field>
+    </record>
+    <record id="hr_rule_input_pt_natal_monthly" model="hr.rule.input">
+        <field name="name">Subsídio de Natal em Duodécimos - Direito Anual</field>
+        <field name="code">PT_NATAL_MONTHLY</field>
+        <field name="input_id" ref="hr_rule_pt_natal_monthly_base" />
+    </record>
+    <record id="hr_rule_pt_natal_monthly" model="hr.salary.rule">
+        <field name="name">Subsídio de Natal em Duodécimos</field>
+        <field name="sequence" eval="89" />
+        <field name="code">PT_NATAL_MONTHLY</field>
+        <field name="parent_rule_id" ref="hr_rule_pt_gross" />
+        <field name="category_id" ref="categ_pt_alw" />
+        <field name="l10n_pt_dmr_at_role">income</field>
+        <field name="l10n_pt_dmr_code">A4</field>
+        <field name="l10n_pt_ss_nature_code">N</field>
+        <field name="l10n_pt_ss_contribution_base">include</field>
+        <field name="condition_select">python</field>
+        <field name="condition_python">
+result = 'PT_NATAL_MONTHLY_BASE' in result_rules.dict
+        </field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+currency = payslip.company_id.currency_id
+basis = PT_NATAL_MONTHLY_BASE
+month = payslip.payment_date.month
+scheduled = currency.round(basis * month / 12) - currency.round(basis * (month - 1) / 12)
+annual = payslip._get_payroll_history_totals(('PT_NATAL', 'PT_NATAL_CORRECTION', 'PT_NATAL_MONTHLY'), date_basis='payment', window='year_to_date', strict=True)
+monthly = payslip._get_payroll_history_totals(('PT_NATAL_MONTHLY',), date_basis='payment', window='month_to_date', strict=True)
+remaining = currency.round(basis - sum(annual.values()))
+if remaining &lt; 0:
+    raise Exception('Review the Christmas subsidy manually: prior payments exceed the annual entitlement.')
+result = currency.round(max(0.0, min(remaining, scheduled - monthly['PT_NATAL_MONTHLY'])))
+        </field>
+    </record>
+    <record id="hr_rule_pt_natal_monthly_irs" model="hr.salary.rule">
+        <field
+            name="name"
+        >Retenção na Fonte IRS - Duodécimo do Subsídio de Natal</field>
+        <field name="sequence" eval="134" />
+        <field name="code">PT_NATAL_MONTHLY_IRS</field>
+        <field name="parent_rule_id" ref="hr_rule_pt_gross" />
+        <field name="category_id" ref="categ_pt_ded" />
+        <field name="l10n_pt_dmr_at_role">withholding</field>
+        <field name="l10n_pt_dmr_code">A4</field>
+        <field name="condition_select">python</field>
+        <field name="condition_python">
+result = 'PT_NATAL_MONTHLY' in result_rules.dict and PT_NATAL_MONTHLY &gt; 0
+        </field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+details = payslip.env['hr.pt.irs.withholding.table']._calculate_withholding(contract, payslip.payment_date, PT_NATAL_MONTHLY_BASE)
+result = -payslip.company_id.currency_id.round(details['amount'] * PT_NATAL_MONTHLY / PT_NATAL_MONTHLY_BASE)
+result_name = '%s (%.2f x %.2f / %.2f)' % (payslip.env.ref('l10n_pt_payroll.hr_rule_pt_natal_monthly_irs').name, details['amount'], PT_NATAL_MONTHLY, PT_NATAL_MONTHLY_BASE)
+        </field>
+    </record>
+    <record id="hr_rule_pt_ferias_base" model="hr.salary.rule">
+        <field name="name">Direito Anual ao Subsídio de Férias</field>
+        <field name="sequence" eval="92" />
+        <field name="code">PT_FERIAS_BASE</field>
+        <field name="parent_rule_id" ref="hr_rule_pt_gross" />
+        <field name="category_id" ref="categ_pt_irs_reference" />
+        <field name="appears_on_payslip" eval="False" />
+        <field name="l10n_pt_dmr_at_role">ignore</field>
+        <field name="condition_select">python</field>
+        <field name="condition_python">
+entries = payslip.input_line_ids.filtered_domain([('code', 'in', ['PT_FERIAS', 'PT_FERIAS_TARGET', 'PT_FERIAS_MONTHLY'])])
+result = any(entries.mapped('amount')) or payslip.struct_id == payslip.env.ref('l10n_pt_payroll.structure_pt_ferias')
+        </field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+if payslip.struct_id == payslip.env.ref('l10n_pt_payroll.structure_pt_natal'):
+    raise Exception('Do not enter a holiday subsidy on a Christmas-only payslip.')
+if payslip.struct_id == payslip.env.ref('l10n_pt_payroll.structure_pt_ferias'):
+    natal = payslip.input_line_ids.filtered_domain([('code', 'in', ['PT_NATAL', 'PT_NATAL_MONTHLY'])])
+    if any(natal.mapped('amount')):
+        raise Exception('Do not enter a Christmas subsidy on a holiday-only payslip.')
+monthly = payslip.input_line_ids.filtered_domain([('code', '=', 'PT_FERIAS_MONTHLY')])
+manual = payslip.input_line_ids.filtered_domain([('code', 'in', ['PT_FERIAS', 'PT_FERIAS_TARGET'])])
+if any(monthly.mapped('amount')):
+    if any(manual.mapped('amount')) or payslip.struct_id == payslip.env.ref('l10n_pt_payroll.structure_pt_ferias'):
+        raise Exception('Use monthly holiday subsidy only on a regular payslip without a manual holiday subsidy.')
+    entries = monthly
+else:
+    entries = manual.filtered_domain([('code', '=', 'PT_FERIAS')])
+if len(entries) != 1 or entries.contract_id != contract or contract != payslip.contract_id:
+    raise Exception('Enter one annual holiday subsidy entitlement for the payslip contract.')
+amount = entries.amount
+if not tools.math.isfinite(amount) or amount &lt;= 0:
+    raise Exception('Enter a positive annual holiday subsidy entitlement.')
+result = payslip.company_id.currency_id.round(amount)
+if not result:
+    raise Exception('Enter a positive annual holiday subsidy entitlement.')
+if not payslip.payment_date or payslip.payment_date.year != payslip.date_to.year:
+    raise Exception('Set a holiday subsidy payment date in the payslip period end year.')
+if contract.l10n_pt_irs_pensioner or (contract.l10n_pt_irs_non_resident and contract.l10n_pt_irs_single_payer_declared):
+    raise Exception('Review holiday subsidy withholding manually for this contract.')
+        </field>
+    </record>
+    <record id="hr_rule_input_pt_ferias" model="hr.rule.input">
+        <field name="name">Subsídio de Férias - Direito Anual</field>
+        <field name="code">PT_FERIAS</field>
+        <field name="input_id" ref="hr_rule_pt_ferias_base" />
+    </record>
+    <record id="hr_rule_input_pt_ferias_target" model="hr.rule.input">
+        <field name="name">Subsídio de Férias - Total a Pagar até à Data</field>
+        <field name="code">PT_FERIAS_TARGET</field>
+        <field name="input_id" ref="hr_rule_pt_ferias_base" />
+    </record>
+    <record id="hr_rule_input_pt_ferias_monthly" model="hr.rule.input">
+        <field name="name">Subsídio de Férias em Duodécimos - Direito Anual</field>
+        <field name="code">PT_FERIAS_MONTHLY</field>
+        <field name="input_id" ref="hr_rule_pt_ferias_base" />
+    </record>
+    <record id="hr_rule_pt_ferias" model="hr.salary.rule">
+        <field name="name">Subsídio de Férias</field>
+        <field name="sequence" eval="93" />
+        <field name="code">PT_FERIAS</field>
+        <field name="parent_rule_id" ref="hr_rule_pt_gross" />
+        <field name="category_id" ref="categ_pt_alw" />
+        <field name="l10n_pt_dmr_at_role">income</field>
+        <field name="l10n_pt_dmr_code">A3</field>
+        <field name="l10n_pt_ss_nature_code">F</field>
+        <field name="l10n_pt_ss_contribution_base">exclude</field>
+        <field name="condition_select">python</field>
+        <field name="condition_python">
+result = 'PT_FERIAS_BASE' in result_rules.dict
+        </field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+currency = payslip.company_id.currency_id
+entries = payslip.input_line_ids.filtered_domain([('code', '=', 'PT_FERIAS_TARGET')])
+if len(entries) > 1 or (entries and entries.contract_id != contract):
+    raise Exception('Enter at most one cumulative holiday subsidy target for the payslip contract.')
+target = entries.amount if entries else 0.0
+if not tools.math.isfinite(target) or target &lt; 0:
+    raise Exception('The cumulative holiday subsidy target must be non-negative.')
+target = currency.round(target) if target else PT_FERIAS_BASE
+if currency.compare_amounts(target, PT_FERIAS_BASE) > 0:
+    raise Exception('The cumulative holiday subsidy target exceeds the annual entitlement.')
+paid = payslip._get_payroll_history_totals(('PT_FERIAS',), date_basis='payment', window='year_to_date', strict=True)['PT_FERIAS']
+if currency.compare_amounts(paid, PT_FERIAS_BASE) > 0:
+    raise Exception('Review the holiday subsidy manually: prior payments exceed the annual entitlement.')
+monthly = payslip.input_line_ids.filtered_domain([('code', '=', 'PT_FERIAS_MONTHLY')])
+if any(monthly.mapped('amount')):
+    month = payslip.payment_date.month
+    scheduled = currency.round(PT_FERIAS_BASE * month / 12) - currency.round(PT_FERIAS_BASE * (month - 1) / 12)
+    paid_this_month = payslip._get_payroll_history_totals(('PT_FERIAS',), date_basis='payment', window='month_to_date', strict=True)['PT_FERIAS']
+    result = currency.round(max(0.0, min(PT_FERIAS_BASE - paid, scheduled - paid_this_month)))
+else:
+    result = currency.round(max(0.0, target - paid))
+        </field>
+    </record>
+    <record id="hr_rule_pt_ferias_irs" model="hr.salary.rule">
+        <field name="name">Retenção na Fonte IRS - Subsídio de Férias</field>
+        <field name="sequence" eval="135" />
+        <field name="code">PT_FERIAS_IRS</field>
+        <field name="parent_rule_id" ref="hr_rule_pt_gross" />
+        <field name="category_id" ref="categ_pt_ded" />
+        <field name="l10n_pt_dmr_at_role">withholding</field>
+        <field name="l10n_pt_dmr_code">A3</field>
+        <field name="condition_select">python</field>
+        <field name="condition_python">
+result = 'PT_FERIAS' in result_rules.dict and PT_FERIAS &gt; 0
+        </field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+details = payslip.env['hr.pt.irs.withholding.table']._calculate_withholding(contract, payslip.payment_date, PT_FERIAS_BASE)
+result = -payslip.company_id.currency_id.round(details['amount'] * PT_FERIAS / PT_FERIAS_BASE)
+result_name = '%s (%.2f x %.2f / %.2f)' % (payslip.env.ref('l10n_pt_payroll.hr_rule_pt_ferias_irs').name, details['amount'], PT_FERIAS, PT_FERIAS_BASE)
+        </field>
+    </record>
+    <record id="hr_rule_pt_ferias_ss" model="hr.salary.rule">
+        <field name="name">Segurança Social (Trabalhador) - Subsídio de Férias</field>
+        <field name="sequence" eval="121" />
+        <field name="code">PT_FERIAS_SS</field>
+        <field name="parent_rule_id" ref="hr_rule_pt_gross" />
+        <field name="category_id" ref="categ_pt_ded" />
+        <field name="l10n_pt_dmr_at_role">contribution</field>
+        <field name="condition_select">python</field>
+        <field name="condition_python">
+result = 'PT_FERIAS' in result_rules.dict and PT_FERIAS &gt; 0
+        </field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+result = -PT_FERIAS
+result_rate = (contract.l10n_pt_ss_regime_id or contract.env.ref('l10n_pt_hr.l10n_pt_ss_regime_geral', raise_if_not_found=False)).l10n_pt_employee_rate
+result, result_rate, result_name = payslip._l10n_pt_ss_line_values(payslip.env.ref('l10n_pt_payroll.hr_rule_pt_ferias_ss').name, result, result_rate)
+        </field>
+    </record>
+    <record id="hr_rule_pt_ferias_ss_company" model="hr.salary.rule">
+        <field
+            name="name"
+        >Segurança Social (Entidade Patronal) - Subsídio de Férias</field>
+        <field name="sequence" eval="301" />
+        <field name="code">PT_FERIAS_SS_COMP</field>
+        <field name="parent_rule_id" ref="hr_rule_pt_gross" />
+        <field name="category_id" ref="categ_pt_comp" />
+        <field name="l10n_pt_dmr_at_role">ignore</field>
+        <field name="condition_select">python</field>
+        <field name="condition_python">
+result = 'PT_FERIAS' in result_rules.dict and PT_FERIAS &gt; 0
+        </field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+result = PT_FERIAS
+result_rate = (contract.l10n_pt_ss_regime_id or contract.env.ref('l10n_pt_hr.l10n_pt_ss_regime_geral', raise_if_not_found=False)).l10n_pt_employer_rate
+result, result_rate, result_name = payslip._l10n_pt_ss_line_values(payslip.env.ref('l10n_pt_payroll.hr_rule_pt_ferias_ss_company').name, result, result_rate)
+        </field>
+    </record>
+    <record id="hr_rule_pt_irs" model="hr.salary.rule">
+        <field name="name">Retenção na Fonte IRS</field>
+        <field name="sequence" eval="132" />
+        <field name="code">IRS</field>
+        <field name="category_id" ref="categ_pt_ded" />
+        <field name="l10n_pt_dmr_at_role">withholding</field>
+        <field name="condition_select">none</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+details = payslip._l10n_pt_irs_retention_details(result_rules.dict['PT_IRS_BASE'].total, result_rules.dict['PT_IRS_ALLOWANCE'].total)
+result = -details['amount']
+result_name = payslip._l10n_pt_irs_line_name(payslip.env.ref('l10n_pt_payroll.hr_rule_pt_irs').name, details)
+            </field>
+    </record>
+    <record id="hr_rule_input_pt_irs_single_payer" model="hr.rule.input">
+        <field name="name">Dedução de Entidade Única Neste Pagamento</field>
+        <field name="code">PT_IRS_SINGLE_PAYER</field>
+        <field name="input_id" ref="hr_rule_pt_irs" />
+    </record>
+    <record id="hr_rule_pt_irs_base" model="hr.salary.rule">
+        <field name="name">Rendimento Sujeito a IRS Neste Pagamento</field>
+        <field name="code">PT_IRS_BASE</field>
+        <field name="sequence" eval="130" />
+        <field name="parent_rule_id" ref="hr_rule_pt_irs" />
+        <field name="category_id" ref="categ_pt_irs_reference" />
+        <field name="appears_on_payslip" eval="False" />
+        <field name="l10n_pt_dmr_at_role">ignore</field>
+        <field name="condition_select">none</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+result = payslip._l10n_pt_irs_current_taxable(result_rules, contract)
+        </field>
+    </record>
+    <record id="hr_rule_pt_irs_allowance" model="hr.salary.rule">
+        <field name="name">Dedução de Entidade Única Aplicada</field>
+        <field name="code">PT_IRS_ALLOWANCE</field>
+        <field name="sequence" eval="131" />
+        <field name="parent_rule_id" ref="hr_rule_pt_irs" />
+        <field name="category_id" ref="categ_pt_irs_reference" />
+        <field name="appears_on_payslip" eval="False" />
+        <field name="l10n_pt_dmr_at_role">ignore</field>
+        <field name="condition_select">none</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+result = payslip._l10n_pt_irs_current_allowance(result_rules.dict['PT_IRS_BASE'].total, contract)
+        </field>
+    </record>
+    <record id="hr_rule_pt_ss_company" model="hr.salary.rule">
+        <field name="name">Segurança Social (Entidade Patronal)</field>
+        <field name="sequence" eval="300" />
+        <field name="code">SS_COMP</field>
+        <field name="category_id" ref="categ_pt_comp" />
+        <field name="l10n_pt_dmr_at_role">ignore</field>
+        <field name="condition_select">none</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+result = result_rules.dict['PT_SS_BASE'].total
+result_rate = (contract.l10n_pt_ss_regime_id or contract.env.ref('l10n_pt_hr.l10n_pt_ss_regime_geral', raise_if_not_found=False)).l10n_pt_employer_rate
+result, result_rate, result_name = payslip._l10n_pt_ss_line_values(payslip.env.ref('l10n_pt_payroll.hr_rule_pt_ss_company').name, result, result_rate)
+            </field>
+    </record>
+    <record id="hr_rule_pt_sat" model="hr.salary.rule">
+        <field name="name">Seguro de Acidentes de Trabalho (SAT)</field>
+        <field name="sequence" eval="320" />
+        <field name="code">SAT_COMP</field>
+        <field name="category_id" ref="categ_pt_comp" />
+        <field name="l10n_pt_dmr_at_role">ignore</field>
+        <field name="condition_select">none</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+result = categories.BASIC * (contract.l10n_pt_work_insurance_id.rate or 0) / 100
+            </field>
+    </record>
+    <record id="hr_rule_pt_net" model="hr.salary.rule">
+        <field name="name">Líquido a Receber</field>
+        <field name="sequence" eval="500" />
+        <field name="code">NET</field>
+        <field name="category_id" ref="categ_pt_net" />
+        <field name="l10n_pt_dmr_at_role">ignore</field>
+        <field name="condition_select">none</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+result = categories.BASIC + categories.ALW + categories.DED
+            </field>
+    </record>
+    <!-- Salary Structure: contracts pick it through struct_id. -->
+    <record id="structure_pt" model="hr.payroll.structure">
+        <field name="code">PT</field>
+        <field name="name">PT Payroll</field>
+        <field
+            name="rule_ids"
+            eval="[(6, 0, [ref('hr_rule_pt_basic'), ref('hr_rule_pt_meal'), ref('hr_rule_pt_gross'), ref('hr_rule_pt_ss'), ref('hr_rule_pt_irs'), ref('hr_rule_pt_ss_company'), ref('hr_rule_pt_sat'), ref('hr_rule_pt_net')])]"
+        />
+    </record>
+    <record id="structure_pt_natal" model="hr.payroll.structure">
+        <field name="code">PT_NATAL</field>
+        <field name="name">PT Payroll - Christmas Subsidy</field>
+        <field name="parent_id" eval="False" />
+        <field
+            name="rule_ids"
+            eval="[(6, 0, [ref('hr_rule_pt_gross'), ref('hr_rule_pt_ss'), ref('hr_rule_pt_ss_company'), ref('hr_rule_pt_net')])]"
+        />
+    </record>
+    <record id="structure_pt_ferias" model="hr.payroll.structure">
+        <field name="code">PT_FERIAS</field>
+        <field name="name">PT Payroll - Holiday Subsidy</field>
+        <field name="parent_id" eval="False" />
+        <field
+            name="rule_ids"
+            eval="[(6, 0, [ref('hr_rule_pt_gross'), ref('hr_rule_pt_ss'), ref('hr_rule_pt_ss_company'), ref('hr_rule_pt_net')])]"
+        />
+    </record>
+</odoo>

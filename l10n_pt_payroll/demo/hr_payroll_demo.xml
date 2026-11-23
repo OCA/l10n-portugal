@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+    <!-- Load the bundled IRS tables before anything else: demo payslips
+         below compute the retention, and demo data runs before the
+         post-init hook. Idempotent: the import upserts per block. -->
+    <function model="hr.pt.irs.withholding.import" name="load_bundled_tables" />
+
+    <!-- IRS determinants for the PT demo employees so payslips compute:
+         a declared family situation is required to pick a table
+         variant. Single is the neutral default for demo data. -->
+    <function model="hr.version" name="write">
+        <value
+            model="hr.version"
+            eval="obj().env['hr.version'].search([('employee_id.company_id', '=', ref('base.demo_company_pt')), ('l10n_pt_irs_family_status', '=', False)]).ids"
+        />
+        <value eval="{'l10n_pt_irs_family_status': 'single'}" />
+    </function>
+
+    <!-- Assign the PT salary structure to the contract versions of all
+         PT Company employees. -->
+    <function model="hr.version" name="write">
+        <value
+            model="hr.version"
+            eval="obj().env['hr.version'].search([('employee_id.company_id', '=', ref('base.demo_company_pt'))]).ids"
+        />
+        <value eval="{'struct_id': ref('l10n_pt_payroll.structure_pt')}" />
+    </function>
+
+    <!-- Illustrate the salary payment method on three named demo
+         employees: SEPA transfer, cheque and cash. -->
+    <function model="hr.employee" name="write">
+        <value model="hr.employee" eval="[ref('l10n_pt_hr.employee_pt_admin')]" />
+        <value eval="{'l10n_pt_payment_method': 'sepa'}" />
+    </function>
+    <function model="hr.employee" name="write">
+        <value model="hr.employee" eval="[ref('l10n_pt_hr.employee_pt_rui')]" />
+        <value eval="{'l10n_pt_payment_method': 'cheque'}" />
+    </function>
+    <function model="hr.employee" name="write">
+        <value model="hr.employee" eval="[ref('l10n_pt_hr.employee_pt_helena')]" />
+        <value eval="{'l10n_pt_payment_method': 'cash'}" />
+    </function>
+
+    <!-- Current-month pay run for the PT demo company. -->
+    <record id="payslip_run_current_month" model="hr.payslip.run">
+        <field name="name" eval="'Payroll ' + time.strftime('%Y-%m')" />
+        <field name="company_id" ref="base.demo_company_pt" />
+    </record>
+
+    <!-- Generate and compute one payslip per PT employee contract
+         overlapping the current month, mirroring the
+         hr.payslip.employees wizard: get_payslip_vals fills the
+         contract, structure, worked days and inputs. -->
+    <function model="hr.payslip" name="create">
+        <value
+            model="hr.payslip"
+            eval="[] if obj().env['hr.payslip'].search_count([('payslip_run_id', '=', ref('l10n_pt_payroll.payslip_run_current_month'))]) else [
+                {
+                    'employee_id': emp.id,
+                    'name': vals['name'],
+                    'struct_id': vals['struct_id'],
+                    'contract_id': vals['contract_id'],
+                    'payslip_run_id': ref('l10n_pt_payroll.payslip_run_current_month'),
+                    'input_line_ids': [(0, 0, x) for x in vals['input_line_ids']],
+                    'worked_days_line_ids': [(0, 0, x) for x in vals['worked_days_line_ids']],
+                    'date_from': time.strftime('%Y-%m-01'),
+                    'date_to': (datetime.now().replace(day=1) + relativedelta(months=1) - timedelta(days=1)).strftime('%Y-%m-%d'),
+                    'company_id': emp.company_id.id,
+                }
+                for emp in obj().env['hr.employee'].search(
+                    [('company_id', '=', ref('base.demo_company_pt'))]
+                )
+                for vals in [
+                    emp.env['hr.payslip'].get_payslip_vals(
+                        time.strftime('%Y-%m-01'),
+                        (datetime.now().replace(day=1) + relativedelta(months=1) - timedelta(days=1)).strftime('%Y-%m-%d'),
+                        emp.id,
+                    )['value']
+                ]
+                if vals.get('contract_id')
+            ]"
+        />
+    </function>
+    <!-- Payslips are left in 'verify' (computed) state: the run covers
+         the current month, which is still open. -->
+    <function model="hr.payslip" name="_compute_name">
+        <value
+            model="hr.payslip"
+            eval="obj().env['hr.payslip'].search([('payslip_run_id', '=', ref('l10n_pt_payroll.payslip_run_current_month'))]).ids"
+        />
+    </function>
+    <function model="hr.payslip" name="compute_sheet">
+        <value
+            model="hr.payslip"
+            eval="obj().env['hr.payslip'].search([('payslip_run_id', '=', ref('l10n_pt_payroll.payslip_run_current_month'))]).ids"
+        />
+    </function>
+</odoo>
