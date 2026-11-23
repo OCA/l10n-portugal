@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_employee_form_l10n_pt_payroll" model="ir.ui.view">
+        <field name="name">hr.employee.form.l10n.pt.payroll</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="l10n_pt_hr.view_employee_form_l10n_pt_hr" />
+        <field name="arch" type="xml">
+            <xpath
+                expr="//group[@name='l10n_pt_payroll_social_security']"
+                position="before"
+            >
+                <group
+                    name="l10n_pt_salary_payment"
+                    string="Portugal: Salary Payment"
+                    invisible="company_country_code != 'PT'"
+                >
+                    <field
+                        name="payment_method_id"
+                        domain="[('payment_type', '=', 'outbound')]"
+                        options="{'no_create': True, 'no_open': True}"
+                    />
+                    <field
+                        name="l10n_pt_payment_method"
+                        string="Previous Payment Method"
+                        readonly="1"
+                        invisible="not l10n_pt_payment_method or payment_method_id"
+                    />
+                    <field name="work_contact_id" invisible="1" />
+                    <field name="bank_account_ids" invisible="1" />
+                    <field
+                        name="payment_bank_account_id"
+                        domain="[('id', 'in', bank_account_ids), ('partner_id', '=', work_contact_id), ('active', '=', True), '|', ('company_id', '=', False), ('company_id', '=', company_id)]"
+                        readonly="not id or not work_contact_id"
+                        context="{'default_partner_id': work_contact_id, 'payroll_bank_account_version_id': version_id, 'form_view_ref': 'l10n_pt_payroll.view_payroll_partner_bank_form'}"
+                        options="{'no_quick_create': True, 'no_open': True}"
+                    />
+                    <button
+                        name="action_add_payment_bank_account"
+                        type="object"
+                        string="Add Bank Account"
+                        groups="base.group_partner_manager"
+                        invisible="not id or not work_contact_id"
+                    />
+                </group>
+                <group
+                    name="l10n_pt_payroll_irs"
+                    string="Portugal: IRS Withholding"
+                    invisible="company_country_code != 'PT'"
+                >
+                    <field name="l10n_pt_irs_family_status" />
+                    <field name="l10n_pt_irs_dependents" />
+                    <field name="l10n_pt_irs_disabled_dependents" />
+                    <field
+                        name="l10n_pt_irs_disabled_dep_factor"
+                        invisible="not l10n_pt_irs_disabled_dependents"
+                    />
+                    <field
+                        name="l10n_pt_irs_spouse_disabled"
+                        invisible="l10n_pt_irs_family_status != 'married_single_income'"
+                    />
+                    <field name="l10n_pt_irs_region" />
+                    <field name="l10n_pt_irs_pensioner" />
+                    <field
+                        name="l10n_pt_military_disabled"
+                        invisible="not l10n_pt_irs_pensioner"
+                    />
+                    <field name="l10n_pt_irs_non_resident" />
+                    <field
+                        name="l10n_pt_irs_single_payer_declared"
+                        invisible="not l10n_pt_irs_non_resident or l10n_pt_irs_pensioner"
+                    />
+                    <field name="l10n_pt_irs_preferred_rate" />
+                    <field name="l10n_pt_irs_jovem" />
+                    <field
+                        name="l10n_pt_irs_income_years"
+                        invisible="not l10n_pt_irs_jovem"
+                    />
+                    <field name="l10n_pt_irs_table_id" readonly="1" />
+                </group>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_payroll_partner_bank_form" model="ir.ui.view">
+        <field name="name">res.partner.bank.form.payroll</field>
+        <field name="model">res.partner.bank</field>
+        <field name="priority">100</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="acc_number" />
+                        <field name="partner_id" readonly="1" />
+                        <field name="bank_id" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

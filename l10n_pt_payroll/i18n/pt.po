@@ -1,0 +1,1536 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-21 21:43+0000\n"
+"PO-Revision-Date: 2026-11-21 21:43+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_pt_payroll
+#. odoo-python
+#: code:addons/l10n_pt_payroll/wizard/hr_pt_irs_withholding_import.py:0
+msgid "%(count)s withholding table set(s) imported."
+msgstr "%(count)s conjunto(s) de tabelas de retenção na fonte importado(s)."
+
+#. module: l10n_pt_payroll
+#. odoo-python
+#: code:addons/l10n_pt_payroll/models/hr_payslip.py:0
+msgid "%(name)s (%(rate)s%%)"
+msgstr "%(name)s (%(rate)s%%)"
+
+#. module: l10n_pt_payroll
+#. odoo-python
+#: code:addons/l10n_pt_payroll/models/hr_payslip.py:0
+msgid "%(name)s (income before relief: %(amount)s)"
+msgstr "%(name)s (rendimento antes do benefício: %(amount)s)"
+
+#. module: l10n_pt_payroll
+#. odoo-python
+#: code:addons/l10n_pt_payroll/models/hr_payslip.py:0
+msgid "%(name)s - Contribution base: %(base)s"
+msgstr "%(name)s - Base contributiva: %(base)s"
+
+#. module: l10n_pt_payroll
+#. odoo-python
+#: code:addons/l10n_pt_payroll/models/hr_payslip.py:0
+msgid "%(name)s - Taxable base: %(base)s"
+msgstr "%(name)s - Base tributável: %(base)s"
+
+#. module: l10n_pt_payroll
+#. odoo-python
+#: code:addons/l10n_pt_payroll/models/hr_payslip.py:0
+msgid "%(name)s; applied rate: %(rate)s%%; formula deductions: %(deduction)s"
+msgstr ""
+"%(name)s; taxa aplicada: %(rate)s%%; deduções da fórmula: %(deduction)s"
+
+#. module: l10n_pt_payroll
+#. odoo-python
+#: code:addons/l10n_pt_payroll/models/hr_payslip.py:0
+msgid ""
+"%(name)s; month-to-date withholding: %(monthly)s; previously withheld: "
+"%(previous)s"
+msgstr ""
+"%(name)s; retenção acumulada no mês: %(monthly)s; retido anteriormente: "
+"%(previous)s"
+
+#. module: l10n_pt_payroll
+#. odoo-python
+#: code:addons/l10n_pt_payroll/models/hr_payslip.py:0
+msgid "%(name)s; monthly effective withholding rate: %(effective)s%%"
+msgstr "%(name)s; taxa efetiva mensal de retenção na fonte: %(effective)s%%"
+
+#. module: l10n_pt_payroll
+#. odoo-python
+#: code:addons/l10n_pt_payroll/models/hr_payslip.py:0
+msgid "%(name)s; single-payer allowance applied: %(allowance)s"
+msgstr "%(name)s; dedução de entidade única aplicada: %(allowance)s"
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields.selection,name:l10n_pt_payroll.selection__hr_payslip_line__l10n_pt_ss_nature_code__2
+#: model:ir.model.fields.selection,name:l10n_pt_payroll.selection__hr_salary_rule__l10n_pt_ss_nature_code__2
+msgid "2 - Unused Holiday Pay on Termination"
+msgstr "2 - Pagamento de Férias Não Gozadas na Cessação"
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields.selection,name:l10n_pt_payroll.selection__hr_payslip_line__l10n_pt_ss_nature_code__6
+#: model:ir.model.fields.selection,name:l10n_pt_payroll.selection__hr_salary_rule__l10n_pt_ss_nature_code__6
+msgid "6 - Pay Differences (Legacy DR)"
+msgstr "6 - Diferenças Remuneratórias (DR Legado)"
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields.selection,name:l10n_pt_payroll.selection__hr_payslip_line__l10n_pt_ss_nature_code__a
+#: model:ir.model.fields.selection,name:l10n_pt_payroll.selection__hr_salary_rule__l10n_pt_ss_nature_code__a
+msgid "A - Travel and Transport Allowances"
+msgstr "A - Abonos de Transporte e Deslocação"
+
+#. module: l10n_pt_payroll
+#. odoo-python
+#: code:addons/l10n_pt_payroll/models/hr_salary_rule.py:0
+msgid "A rule affecting the SS contribution base needs a code."
+msgstr "Uma regra que afete a base contributiva da SS precisa de um código."
+
+#. module: l10n_pt_payroll
+#: model:ir.model.constraint,message:l10n_pt_payroll.constraint_hr_pt_irs_withholding_table_date_region_table_uniq
+msgid ""
+"A withholding table set already exists for this period, region and table "
+"variant."
+msgstr ""
+"Já existe um conjunto de tabelas de retenção para este período, região e "
+"variante de tabela."
+
+#. module: l10n_pt_payroll
+#: model:hr.salary.rule.category,name:l10n_pt_payroll.categ_pt_alw
+msgid "Abonos"
+msgstr "Abonos"
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_payroll_bank_account_add__acc_number
+msgid "Account Number"
+msgstr "Número da Conta"
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields,help:l10n_pt_payroll.field_hr_employee__payment_method_id
+#: model:ir.model.fields,help:l10n_pt_payroll.field_hr_version__payment_method_id
+msgid ""
+"Accounting payment method for the net salary. Selecting it does not initiate"
+" a payment."
+msgstr ""
+"Método de pagamento contabilístico para o salário líquido. A sua seleção não"
+" inicia um pagamento."
+
+#. module: l10n_pt_payroll
+#. odoo-python
+#: code:addons/l10n_pt_payroll/models/hr_employee.py:0
+#: model:ir.model,name:l10n_pt_payroll.model_hr_payroll_bank_account_add
+#: model_terms:ir.ui.view,arch_db:l10n_pt_payroll.view_employee_form_l10n_pt_payroll
+#: model_terms:ir.ui.view,arch_db:l10n_pt_payroll.view_hr_payroll_bank_account_add_form
+msgid "Add Bank Account"
+msgstr "Adicionar Conta Bancária"
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields,help:l10n_pt_payroll.field_hr_pt_irs_withholding_line__dependent_parcela
+msgid "Additional deduction for each IRS dependent."
+msgstr "Dedução adicional por cada dependente para efeitos de IRS."
+
+#. module: l10n_pt_payroll
+#. odoo-python
+#: code:addons/l10n_pt_payroll/models/hr_payslip.py:0
+msgid ""
+"An earlier payslip has no unique record of its IRS taxable base and "
+"allowance. Review the monthly withholding before processing another payslip."
+msgstr ""
+"Um recibo de vencimento anterior não tem um registo único da sua base "
+"tributável de IRS e dedução. Reveja a retenção mensal antes de processar "
+"outro recibo de vencimento."
+
+#. module: l10n_pt_payroll
+#. odoo-python
+#: code:addons/l10n_pt_payroll/models/hr_version.py:0
+msgid "An employee with a work contact is required."
+msgstr "É necessário um trabalhador com contato profissional."
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_employee__l10n_pt_military_disabled
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_version__l10n_pt_military_disabled
+msgid "Armed Forces Disability"
+msgstr "Deficiência das Forças Armadas"
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields.selection,name:l10n_pt_payroll.selection__hr_pt_irs_withholding_table__region__acores
+#: model:ir.model.fields.selection,name:l10n_pt_payroll.selection__hr_version__l10n_pt_irs_region__acores
+msgid "Açores"
+msgstr "Açores"
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields.selection,name:l10n_pt_payroll.selection__hr_payslip_line__l10n_pt_ss_nature_code__b
+#: model:ir.model.fields.selection,name:l10n_pt_payroll.selection__hr_salary_rule__l10n_pt_ss_nature_code__b
+msgid "B - Monthly Bonuses"
+msgstr "B - Prémios Mensais"
+
+#. module: l10n_pt_payroll
+#: model:ir.model,name:l10n_pt_payroll.model_res_partner_bank
+msgid "Bank Accounts"
+msgstr "Contas Bancárias"
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields,help:l10n_pt_payroll.field_hr_employee__payment_bank_account_id
+#: model:ir.model.fields,help:l10n_pt_payroll.field_hr_version__payment_bank_account_id
+msgid "Bank account selected for this salary payment arrangement."
+msgstr "Conta bancária selecionada para o pagamento do salário."
+
+#. module: l10n_pt_payroll
+#: model:hr.salary.rule.category,name:l10n_pt_payroll.categ_pt_basic
+msgid "Base"
+msgstr "Base"
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_pt_irs_withholding_table__line_ids
+#: model_terms:ir.ui.view,arch_db:l10n_pt_payroll.view_hr_pt_irs_withholding_table_form
+msgid "Brackets"
+msgstr "Escalões"
+
+#. module: l10n_pt_payroll
+#: model:hr.salary.rule.category,name:l10n_pt_payroll.categ_pt_gross
+msgid "Bruto"
+msgstr "Bruto"
+
+#. module: l10n_pt_payroll
+#. odoo-python
+#: code:addons/l10n_pt_payroll/wizard/hr_pt_irs_withholding_import.py:0
+msgid "Bundled tables loaded"
+msgstr "Tabelas incluídas carregadas"
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields.selection,name:l10n_pt_payroll.selection__hr_payslip_line__l10n_pt_ss_nature_code__c
+#: model:ir.model.fields.selection,name:l10n_pt_payroll.selection__hr_salary_rule__l10n_pt_ss_nature_code__c
+msgid "C - Commissions"
+msgstr "C - Comissões"
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_pt_irs_withholding_import__csv_file
+msgid "CSV File"
+msgstr "Ficheiro CSV"
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields,help:l10n_pt_payroll.field_hr_pt_irs_withholding_import__csv_file
+msgid ""
+"CSV file with the official withholding table brackets, in the same format as"
+" the bundled files under data/irs/. Leave empty to load the bundled tables "
+"instead."
+msgstr ""
+"Ficheiro CSV com os escalões oficiais das tabelas de retenção, no mesmo "
+"formato dos ficheiros incluídos em data/irs/. Deixe vazio para carregar as "
+"tabelas incluídas."
+
+#. module: l10n_pt_payroll
+#: model_terms:ir.ui.view,arch_db:l10n_pt_payroll.view_hr_payroll_bank_account_add_form
+#: model_terms:ir.ui.view,arch_db:l10n_pt_payroll.view_hr_pt_irs_withholding_import_form
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields.selection,name:l10n_pt_payroll.selection__hr_version__l10n_pt_payment_method__cash
+msgid "Cash"
+msgstr "Numerário"
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields.selection,name:l10n_pt_payroll.selection__hr_version__l10n_pt_payment_method__cheque
+msgid "Cheque"
+msgstr "Cheque"
+
+#. module: l10n_pt_payroll
+#. odoo-python
+#: code:addons/l10n_pt_payroll/models/hr_version.py:0
+msgid "Choose an outbound payment method for salary."
+msgstr "Escolha um método de pagamento de saída para o salário."
+
+#. module: l10n_pt_payroll
+#: model:ir.model,name:l10n_pt_payroll.model_res_config_settings
+msgid "Config Settings"
+msgstr "Configurações"
+
+#. module: l10n_pt_payroll
+#. odoo-python
+#: code:addons/l10n_pt_payroll/models/hr_payslip.py:0
+msgid "Confirm IRS payslips for the same employee and month separately."
+msgstr ""
+"Confirme os recibos de vencimento de IRS do mesmo funcionário e mês "
+"separadamente."
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields.selection,name:l10n_pt_payroll.selection__hr_pt_irs_withholding_table__region__continente
+#: model:ir.model.fields.selection,name:l10n_pt_payroll.selection__hr_version__l10n_pt_irs_region__continente
+msgid "Continente"
+msgstr "Continente"
+
+#. module: l10n_pt_payroll
+#: model:hr.salary.rule.category,name:l10n_pt_payroll.categ_pt_comp
+msgid "Contribuições da Entidade Patronal"
+msgstr "Contribuições da Entidade Patronal"
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_payslip_line__l10n_pt_dmr_at_recipient_nipc
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_salary_rule__l10n_pt_dmr_at_recipient_nipc
+msgid "Contribution Recipient NIPC"
+msgstr "NIPC do Destinatário da Contribuição"
+
+#. module: l10n_pt_payroll
+#: model:hr.salary.rule,name:l10n_pt_payroll.hr_rule_pt_natal_correction
+msgid "Correção do Subsídio de Natal - Valor Já Pago"
+msgstr "Correção do Subsídio de Natal - Valor Já Pago"
+
+#. module: l10n_pt_payroll
+#. odoo-python
+#: code:addons/l10n_pt_payroll/wizard/hr_pt_irs_withholding_import.py:0
+msgid "Could not parse the CSV file: %s"
+msgstr "Não foi possível interpretar o ficheiro CSV: %s"
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_payroll_bank_account_add__create_uid
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_pt_irs_withholding_import__create_uid
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_pt_irs_withholding_line__create_uid
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_pt_irs_withholding_table__create_uid
+msgid "Created by"
+msgstr "Criado por"
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_payroll_bank_account_add__create_date
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_pt_irs_withholding_import__create_date
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_pt_irs_withholding_line__create_date
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_pt_irs_withholding_table__create_date
+msgid "Created on"
+msgstr "Criado em"
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields.selection,name:l10n_pt_payroll.selection__hr_payslip_line__l10n_pt_ss_nature_code__d
+#: model:ir.model.fields.selection,name:l10n_pt_payroll.selection__hr_salary_rule__l10n_pt_ss_nature_code__d
+msgid "D - Termination Compensation"
+msgstr "D - Compensação por Cessação"
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_payslip_line__l10n_pt_dmr_code
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_salary_rule__l10n_pt_dmr_code
+msgid "DMR-AT Income Code"
+msgstr "Código de Rendimento DMR-AT"
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_payslip_line__l10n_pt_dmr_at_role
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_salary_rule__l10n_pt_dmr_at_role
+msgid "DMR-AT Role"
+msgstr "Função DMR-AT"
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_pt_irs_withholding_table__date_end
+msgid "Date End"
+msgstr "Data de Fim"
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_pt_irs_withholding_table__date_start
+msgid "Date Start"
+msgstr "Data de Início"
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields,help:l10n_pt_payroll.field_hr_payslip__payment_date
+msgid ""
+"Date the income is paid or made available. If blank, IRS uses the payslip "
+"period end."
+msgstr ""
+"Data em que o rendimento é pago ou colocado à disposição. Se ficar em "
+"branco, o IRS usa o fim do período do recibo."
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_pt_irs_withholding_line__forces_disabled_parcela
+msgid "Deduction - Armed Forces Disabled"
+msgstr "Dedução - Deficiência das Forças Armadas"
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields,help:l10n_pt_payroll.field_hr_pt_irs_withholding_line__parcela_abater
+msgid ""
+"Deduction expression evaluated with safe_eval and the variable R (monthly "
+"taxable remuneration). A plain number is a valid expression."
+msgstr ""
+"Expressão de dedução avaliada com safe_eval e a variável R (remuneração "
+"mensal tributável). Um número simples é uma expressão válida."
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_pt_irs_withholding_line__dependent_parcela
+msgid "Deduction per Dependent"
+msgstr "Dedução por Dependente"
+
+#. module: l10n_pt_payroll
+#: model:hr.salary.rule,name:l10n_pt_payroll.hr_rule_pt_irs_allowance
+msgid "Dedução de Entidade Única Aplicada"
+msgstr "Dedução de Entidade Única Aplicada"
+
+#. module: l10n_pt_payroll
+#: model:hr.salary.rule.category,name:l10n_pt_payroll.categ_pt_ded
+msgid "Deduções"
+msgstr "Deduções"
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_res_config_settings__l10n_pt_full_time_hours
+#: model_terms:ir.ui.view,arch_db:l10n_pt_payroll.res_config_settings_view_form_l10n_pt
+msgid "Default Full-Time Hours"
+msgstr "Horas Semanais de Referência a Tempo Integral"
+
+#. module: l10n_pt_payroll
+#: model_terms:ir.ui.view,arch_db:l10n_pt_payroll.res_config_settings_view_form_l10n_pt
+msgid ""
+"Default weekly reference when the collective contract does not specify "
+"hours."
+msgstr ""
+"Referência semanal por predefinição quando o acordo coletivo não especifica "
+"horas."
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields,help:l10n_pt_payroll.field_hr_employee__l10n_pt_irs_disabled_dependents
+#: model:ir.model.fields,help:l10n_pt_payroll.field_hr_version__l10n_pt_irs_disabled_dependents
+msgid "Dependents with a disability of 60% or more."
+msgstr "Dependentes com deficiência igual ou superior a 60%."
+
+#. module: l10n_pt_payroll
+#: model_terms:ir.ui.view,arch_db:l10n_pt_payroll.view_hr_pt_irs_withholding_table_form
+msgid "Despacho constants"
+msgstr "Constantes do Despacho"
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields,help:l10n_pt_payroll.field_hr_pt_irs_withholding_table__disabled_dep_parcela_joint
+msgid ""
+"Despacho n.5-a: amount added to the deduction for each dependent with a "
+"disability of 60% or more, for married workers filing jointly."
+msgstr ""
+"Despacho n.5-a: montante acrescido à dedução por cada dependente com "
+"deficiência igual ou superior a 60%, para trabalhadores casados, ambos os "
+"titulares."
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields,help:l10n_pt_payroll.field_hr_pt_irs_withholding_table__disabled_dep_parcela_single
+msgid ""
+"Despacho n.5-a: amount added to the deduction for each dependent with a "
+"disability of 60% or more, for single workers and married workers filing "
+"alone."
+msgstr ""
+"Despacho n.5-a: montante acrescido à dedução por cada dependente com "
+"deficiência igual ou superior a 60%, para trabalhadores solteiros e casados "
+"que entregam a declaração sozinhos."
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields,help:l10n_pt_payroll.field_hr_pt_irs_withholding_table__spouse_disabled_parcela
+msgid ""
+"Despacho n.5-b: amount added to the deduction when a married worker filing "
+"alone has a spouse with a permanent disability of 60% or more and no "
+"category A/H income."
+msgstr ""
+"Despacho n.5-b: montante acrescido à dedução quando um trabalhador casado "
+"que entrega a declaração sozinho tem cônjuge com deficiência permanente "
+"igual ou superior a 60% e sem rendimentos das categorias A/H."
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields,help:l10n_pt_payroll.field_hr_employee__l10n_pt_irs_spouse_disabled
+#: model:ir.model.fields,help:l10n_pt_payroll.field_hr_version__l10n_pt_irs_spouse_disabled
+msgid ""
+"Despacho n.5-b: for a married worker filing alone, the spouse has a "
+"permanent disability of 60% or more and no category A or H income."
+msgstr ""
+"Despacho n.5-b: para um trabalhador casado que entrega a declaração sozinho,"
+" o cônjuge tem deficiência permanente igual ou superior a 60% e não tem "
+"rendimentos das categorias A ou H."
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields,help:l10n_pt_payroll.field_hr_pt_irs_withholding_table__pension_dep_parcela_single_income
+msgid ""
+"Despacho n.5-c: amount added to the deduction for each dependent of a "
+"married pensioner filing alone."
+msgstr ""
+"Despacho n.5-c: montante acrescido à dedução por cada dependente de um "
+"pensionista casado que entrega a declaração sozinho."
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields,help:l10n_pt_payroll.field_hr_pt_irs_withholding_table__pension_dep_parcela_joint
+msgid ""
+"Despacho n.5-c: amount added to the deduction for each dependent of a "
+"married pensioner filing jointly."
+msgstr ""
+"Despacho n.5-c: montante acrescido à dedução por cada dependente de um "
+"pensionista casado, ambos os titulares."
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields,help:l10n_pt_payroll.field_hr_pt_irs_withholding_table__pension_dep_parcela_single
+msgid ""
+"Despacho n.5-c: amount added to the deduction for each dependent of a "
+"pensioner who is single."
+msgstr ""
+"Despacho n.5-c: montante acrescido à dedução por cada dependente de um "
+"pensionista solteiro."
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields,help:l10n_pt_payroll.field_hr_pt_irs_withholding_line__forces_disabled_parcela
+msgid ""
+"Despacho n.5-d / formula 3.c: flat amount added to the deduction for "
+"pensioners with an armed forces disability (tables X and XI only)."
+msgstr ""
+"Despacho n.5-d / fórmula 3.c: montante fixo acrescido à dedução para "
+"pensionistas com deficiência das Forças Armadas (apenas tabelas X e XI)."
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields,help:l10n_pt_payroll.field_hr_employee__l10n_pt_military_disabled
+#: model:ir.model.fields,help:l10n_pt_payroll.field_hr_version__l10n_pt_military_disabled
+msgid ""
+"Despacho n.5-d: the pensioner has an armed forces disability (Decretos-Leis "
+"43/76 and 314/90); adds the flat pension deduction on tables X and XI."
+msgstr ""
+"Despacho n.5-d: o pensionista tem deficiência ao abrigo do regime das Forças"
+" Armadas (Decretos-Leis 43/76 e 314/90); acresce a dedução fixa de "
+"pensionista nas tabelas X e XI."
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields,help:l10n_pt_payroll.field_hr_employee__l10n_pt_irs_disabled_dep_factor
+#: model:ir.model.fields,help:l10n_pt_payroll.field_hr_version__l10n_pt_irs_disabled_dep_factor
+msgid ""
+"Despacho n.6: the per-disabled-dependent deduction may be multiplied, up to "
+"3 times for single workers and married workers filing alone, up to 6 times "
+"for married workers filing jointly. The employee communicates the chosen "
+"factor to the payer."
+msgstr ""
+"Despacho n.6: a dedução por dependente deficiente pode ser multiplicada, até"
+" 3 vezes para trabalhadores solteiros e casados que entregam a declaração "
+"sozinhos, até 6 vezes para casados, ambos os titulares. O trabalhador "
+"comunica o fator escolhido ao pagador."
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_pt_irs_withholding_table__disabled_dep_parcela_joint
+msgid "Disabled Dependent Deduction - Joint"
+msgstr "Dedução por Dependente Deficiente - Ambos Titulares"
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_pt_irs_withholding_table__disabled_dep_parcela_single
+msgid "Disabled Dependent Deduction - Single"
+msgstr "Dedução por Dependente Deficiente - Titular Único"
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_employee__l10n_pt_irs_disabled_dep_factor
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_version__l10n_pt_irs_disabled_dep_factor
+msgid "Disabled Dependent Deduction Factor"
+msgstr "Fator de Dedução por Dependente Deficiente"
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_employee__l10n_pt_irs_spouse_disabled
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_version__l10n_pt_irs_spouse_disabled
+msgid "Disabled Spouse (no income)"
+msgstr "Cônjuge Deficiente (sem rendimentos)"
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_pt_irs_withholding_table__spouse_disabled_parcela
+msgid "Disabled Spouse Deduction"
+msgstr "Dedução por Cônjuge Deficiente"
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_employee__display_name
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_payroll_bank_account_add__display_name
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_payslip__display_name
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_pt_irs_withholding_import__display_name
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_pt_irs_withholding_line__display_name
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_pt_irs_withholding_table__display_name
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_salary_rule__display_name
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_version__display_name
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_res_config_settings__display_name
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_res_partner_bank__display_name
+msgid "Display Name"
+msgstr "Nome a Apresentar"
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_pt_irs_withholding_line__effective_rate_limit
+msgid "Effective Rate at Limit (%)"
+msgstr "Taxa Efetiva no Limite do Escalão (%)"
+
+#. module: l10n_pt_payroll
+#: model:ir.model,name:l10n_pt_payroll.model_hr_employee
+msgid "Employee"
+msgstr "Funcionário"
+
+#. module: l10n_pt_payroll
+#. odoo-python
+#: code:addons/l10n_pt_payroll/models/hr_pt_irs_withholding.py:0
+msgid ""
+"Employee %(employee)s has no IRS withholding table variant: set the IRS "
+"family status on the contract."
+msgstr ""
+"O trabalhador %(employee)s não tem variante de tabela de retenção de IRS: "
+"defina a situação familiar de IRS no contrato."
+
+#. module: l10n_pt_payroll
+#: model:ir.model,name:l10n_pt_payroll.model_hr_version
+msgid "Employee Contract / Version"
+msgstr "Contrato / Versão do Funcionário"
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields,help:l10n_pt_payroll.field_hr_pt_irs_withholding_table__date_end
+msgid "End of the validity period; empty means open-ended."
+msgstr "Fim do período de validade; vazio significa sem limite."
+
+#. module: l10n_pt_payroll
+#. odoo-python
+#: code:addons/l10n_pt_payroll/wizard/hr_payroll_bank_account_add.py:0
+msgid "Enter a bank account number."
+msgstr "Introduza um número de conta bancária."
+
+#. module: l10n_pt_payroll
+#. odoo-python
+#: code:addons/l10n_pt_payroll/models/hr_payslip.py:0
+msgid "Enter only one single-payer allowance per contract."
+msgstr "Introduza apenas uma dedução de entidade única por contrato."
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields.selection,name:l10n_pt_payroll.selection__hr_payslip_line__l10n_pt_ss_contribution_base__exclude
+#: model:ir.model.fields.selection,name:l10n_pt_payroll.selection__hr_salary_rule__l10n_pt_ss_contribution_base__exclude
+msgid "Exclude"
+msgstr "Excluir"
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields.selection,name:l10n_pt_payroll.selection__hr_payslip_line__l10n_pt_ss_nature_code__f
+#: model:ir.model.fields.selection,name:l10n_pt_payroll.selection__hr_salary_rule__l10n_pt_ss_nature_code__f
+msgid "F - Holiday Subsidy"
+msgstr "F - Subsídio de Férias"
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_pt_irs_withholding_import__filename
+msgid "Filename"
+msgstr "Nome do Ficheiro"
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields.selection,name:l10n_pt_payroll.selection__hr_payslip_line__l10n_pt_ss_nature_code__h
+#: model:ir.model.fields.selection,name:l10n_pt_payroll.selection__hr_salary_rule__l10n_pt_ss_nature_code__h
+msgid "H - Concurrent Service Fees"
+msgstr "H - Honorários"
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields,help:l10n_pt_payroll.field_hr_employee__l10n_pt_payment_method
+#: model:ir.model.fields,help:l10n_pt_payroll.field_hr_version__l10n_pt_payment_method
+msgid ""
+"How the net salary is intended to be paid. This field does not initiate a "
+"payment."
+msgstr ""
+"Modo previsto para o pagamento do salário líquido. Este campo não inicia um "
+"pagamento."
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields.selection,name:l10n_pt_payroll.selection__hr_payslip_line__l10n_pt_ss_nature_code__i
+#: model:ir.model.fields.selection,name:l10n_pt_payroll.selection__hr_salary_rule__l10n_pt_ss_nature_code__i
+msgid "I - Intermittent Contract Compensation"
+msgstr "I - Retribuições de Contrato Intermitente"
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_pt_irs_withholding_table__ias
+msgid "IAS"
+msgstr "IAS"
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_employee__id
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_payroll_bank_account_add__id
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_payslip__id
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_pt_irs_withholding_import__id
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_pt_irs_withholding_line__id
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_pt_irs_withholding_table__id
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_salary_rule__id
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_version__id
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_res_config_settings__id
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_res_partner_bank__id
+msgid "ID"
+msgstr "ID"
+
+#. module: l10n_pt_payroll
+#: model_terms:ir.ui.view,arch_db:l10n_pt_payroll.hr_salary_rule_view_form_l10n_pt
+msgid "IRS"
+msgstr "IRS"
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_employee__l10n_pt_irs_dependents
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_version__l10n_pt_irs_dependents
+msgid "IRS Dependents"
+msgstr "Dependentes para IRS"
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_employee__l10n_pt_irs_disabled_dependents
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_version__l10n_pt_irs_disabled_dependents
+msgid "IRS Disabled Dependents"
+msgstr "Dependentes Deficientes para IRS"
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_employee__l10n_pt_irs_family_status
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_version__l10n_pt_irs_family_status
+msgid "IRS Family Status"
+msgstr "Situação Familiar para IRS"
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_employee__l10n_pt_irs_jovem
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_version__l10n_pt_irs_jovem
+msgid "IRS Jovem"
+msgstr "IRS Jovem"
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_employee__l10n_pt_irs_region
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_version__l10n_pt_irs_region
+msgid "IRS Region"
+msgstr "Região para IRS"
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_payslip_line__l10n_pt_irs_taxable
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_salary_rule__l10n_pt_irs_taxable
+msgid "IRS Taxable Share"
+msgstr "Parcela Tributável para IRS"
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields.selection,name:l10n_pt_payroll.selection__hr_payslip_line__l10n_pt_dmr_at_role__withholding
+#: model:ir.model.fields.selection,name:l10n_pt_payroll.selection__hr_salary_rule__l10n_pt_dmr_at_role__withholding
+msgid "IRS Withholding"
+msgstr "Retenção na Fonte de IRS"
+
+#. module: l10n_pt_payroll
+#: model:ir.model,name:l10n_pt_payroll.model_hr_pt_irs_withholding_line
+msgid "IRS Withholding Bracket"
+msgstr "Escalão de Retenção na Fonte de IRS"
+
+#. module: l10n_pt_payroll
+#: model:ir.model,name:l10n_pt_payroll.model_hr_pt_irs_withholding_table
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_employee__l10n_pt_irs_table_id
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_version__l10n_pt_irs_table_id
+msgid "IRS Withholding Table"
+msgstr "Tabela de Retenção na Fonte de IRS"
+
+#. module: l10n_pt_payroll
+#: model:ir.actions.act_window,name:l10n_pt_payroll.action_hr_pt_irs_withholding_table
+#: model:ir.ui.menu,name:l10n_pt_payroll.menu_hr_pt_irs_withholding_table
+msgid "IRS Withholding Tables"
+msgstr "Tabelas de Retenção na Fonte de IRS"
+
+#. module: l10n_pt_payroll
+#. odoo-python
+#: code:addons/l10n_pt_payroll/models/hr_payslip.py:0
+msgid ""
+"IRS already withheld exceeds the recalculated monthly amount. Review the "
+"earlier payslips before continuing."
+msgstr ""
+"O IRS já retido excede o valor mensal recalculado. Reveja os recibos de "
+"vencimento anteriores antes de continuar."
+
+#. module: l10n_pt_payroll
+#. odoo-python
+#: code:addons/l10n_pt_payroll/wizard/hr_pt_irs_withholding_import.py:0
+msgid "IRS tables imported"
+msgstr "Tabelas de IRS importadas"
+
+#. module: l10n_pt_payroll
+#: model_terms:ir.ui.view,arch_db:l10n_pt_payroll.view_hr_pt_irs_withholding_import_form
+msgid "Import"
+msgstr "Importar"
+
+#. module: l10n_pt_payroll
+#: model:ir.ui.menu,name:l10n_pt_payroll.menu_hr_pt_irs_withholding_import
+msgid "Import IRS Tables"
+msgstr "Importar Tabelas de IRS"
+
+#. module: l10n_pt_payroll
+#: model:ir.actions.act_window,name:l10n_pt_payroll.action_hr_pt_irs_withholding_import
+#: model:ir.model,name:l10n_pt_payroll.model_hr_pt_irs_withholding_import
+msgid "Import IRS Withholding Tables"
+msgstr "Importar Tabelas de Retenção na Fonte de IRS"
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields.selection,name:l10n_pt_payroll.selection__hr_payslip_line__l10n_pt_ss_contribution_base__include
+#: model:ir.model.fields.selection,name:l10n_pt_payroll.selection__hr_salary_rule__l10n_pt_ss_contribution_base__include
+msgid "Include"
+msgstr "Incluir"
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields.selection,name:l10n_pt_payroll.selection__hr_payslip_line__l10n_pt_dmr_at_role__income
+#: model:ir.model.fields.selection,name:l10n_pt_payroll.selection__hr_salary_rule__l10n_pt_dmr_at_role__income
+msgid "Income"
+msgstr "Rendimento"
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields,help:l10n_pt_payroll.field_hr_payslip_line__l10n_pt_dmr_code
+#: model:ir.model.fields,help:l10n_pt_payroll.field_hr_salary_rule__l10n_pt_dmr_code
+msgid ""
+"Income code for the Autoridade Tributaria declaration. This is independent "
+"of the Social Security remuneration nature."
+msgstr ""
+"Código de rendimento para a declaração à Autoridade Tributária. É "
+"independente da natureza das remunerações para a Segurança Social."
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields,help:l10n_pt_payroll.field_hr_pt_irs_withholding_table__ias
+msgid ""
+"Index of social support for the period; used for the IRS Jovem exemption cap"
+" (55 x IAS per year)."
+msgstr ""
+"Indexante de apoios sociais do período; usado no limite de isenção do IRS "
+"Jovem (55 x IAS por ano)."
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields,help:l10n_pt_payroll.field_hr_pt_irs_withholding_line__effective_rate_limit
+msgid ""
+"Informational 'taxa efetiva no limite do escadao' published by the Despacho;"
+" never used in computation."
+msgstr ""
+"Taxa efetiva informativa no limite do escalão publicada pelo Despacho; nunca"
+" usada no cálculo."
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_payroll_bank_account_add__write_uid
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_pt_irs_withholding_import__write_uid
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_pt_irs_withholding_line__write_uid
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_pt_irs_withholding_table__write_uid
+msgid "Last Updated by"
+msgstr "Última atualização por"
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_payroll_bank_account_add__write_date
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_pt_irs_withholding_import__write_date
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_pt_irs_withholding_line__write_date
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_pt_irs_withholding_table__write_date
+msgid "Last Updated on"
+msgstr "Última atualização em"
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields,help:l10n_pt_payroll.field_hr_payslip_line__l10n_pt_ss_contribution_base
+#: model:ir.model.fields,help:l10n_pt_payroll.field_hr_salary_rule__l10n_pt_ss_contribution_base
+msgid ""
+"Leave empty to retain the BASIC salary category behavior. Rules affecting "
+"contributions must run before the SS deduction."
+msgstr ""
+"Deixe vazio para manter o comportamento da categoria salarial BASIC. As "
+"regras que afetem as contribuições devem executar antes da dedução da SS."
+
+#. module: l10n_pt_payroll
+#. odoo-python
+#: code:addons/l10n_pt_payroll/wizard/hr_pt_irs_withholding_import.py:0
+msgid "Line %(line)s: %(field)s is not a valid date."
+msgstr "Linha %(line)s: %(field)s não é uma data válida."
+
+#. module: l10n_pt_payroll
+#. odoo-python
+#: code:addons/l10n_pt_payroll/wizard/hr_pt_irs_withholding_import.py:0
+msgid "Line %(line)s: %(field)s is not a valid number."
+msgstr "Linha %(line)s: %(field)s não é um número válido."
+
+#. module: l10n_pt_payroll
+#. odoo-python
+#: code:addons/l10n_pt_payroll/wizard/hr_pt_irs_withholding_import.py:0
+msgid "Line %(line)s: %(field)s is required."
+msgstr "Linha %(line)s: %(field)s é obrigatório."
+
+#. module: l10n_pt_payroll
+#. odoo-python
+#: code:addons/l10n_pt_payroll/wizard/hr_pt_irs_withholding_import.py:0
+msgid "Line %(line)s: date_end is before date_start."
+msgstr "Linha %(line)s: date_end é anterior a date_start."
+
+#. module: l10n_pt_payroll
+#. odoo-python
+#: code:addons/l10n_pt_payroll/wizard/hr_pt_irs_withholding_import.py:0
+msgid ""
+"Line %(line)s: inconsistent table-set values (IAS or Despacho constants) "
+"inside the same table block."
+msgstr ""
+"Linha %(line)s: valores de conjunto de tabela inconsistentes (IAS ou "
+"constantes do Despacho) dentro do mesmo bloco de tabela."
+
+#. module: l10n_pt_payroll
+#. odoo-python
+#: code:addons/l10n_pt_payroll/wizard/hr_pt_irs_withholding_import.py:0
+msgid "Line %(line)s: lower_bound must be a positive number."
+msgstr "Linha %(line)s: lower_bound deve ser um número positivo."
+
+#. module: l10n_pt_payroll
+#. odoo-python
+#: code:addons/l10n_pt_payroll/wizard/hr_pt_irs_withholding_import.py:0
+msgid "Line %(line)s: marginal_rate must be between 0 and 100."
+msgstr "Linha %(line)s: marginal_rate deve estar entre 0 e 100."
+
+#. module: l10n_pt_payroll
+#. odoo-python
+#: code:addons/l10n_pt_payroll/wizard/hr_pt_irs_withholding_import.py:0
+msgid "Line %(line)s: parcela_abater is not a valid expression: %(error)s"
+msgstr "Linha %(line)s: parcela_abater não é uma expressão válida: %(error)s"
+
+#. module: l10n_pt_payroll
+#. odoo-python
+#: code:addons/l10n_pt_payroll/wizard/hr_pt_irs_withholding_import.py:0
+msgid "Line %(line)s: unknown region '%(region)s'."
+msgstr "Linha %(line)s: região '%(region)s' desconhecida."
+
+#. module: l10n_pt_payroll
+#. odoo-python
+#: code:addons/l10n_pt_payroll/wizard/hr_pt_irs_withholding_import.py:0
+msgid "Line %(line)s: unknown table code '%(code)s'."
+msgstr "Linha %(line)s: código de tabela '%(code)s' desconhecido."
+
+#. module: l10n_pt_payroll
+#. odoo-python
+#: code:addons/l10n_pt_payroll/wizard/hr_pt_irs_withholding_import.py:0
+msgid "Line %(line)s: upper_bound must be greater than lower_bound."
+msgstr "Linha %(line)s: upper_bound deve ser superior a lower_bound."
+
+#. module: l10n_pt_payroll
+#: model_terms:ir.ui.view,arch_db:l10n_pt_payroll.view_hr_pt_irs_withholding_import_form
+msgid "Load bundled tables"
+msgstr "Carregar tabelas incluídas"
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_pt_irs_withholding_line__lower_bound
+msgid "Lower Bound"
+msgstr "Limite Inferior"
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields,help:l10n_pt_payroll.field_hr_pt_irs_withholding_line__lower_bound
+msgid ""
+"Lower bound of the monthly taxable remuneration (exclusive): the bracket "
+"applies when lower_bound < R <= upper_bound."
+msgstr ""
+"Limite inferior da remuneração mensal tributável (exclusivo): o escalão "
+"aplica-se quando lower_bound < R <= upper_bound."
+
+#. module: l10n_pt_payroll
+#: model:hr.salary.rule.category,name:l10n_pt_payroll.categ_pt_net
+msgid "Líquido"
+msgstr "Líquido"
+
+#. module: l10n_pt_payroll
+#: model:hr.salary.rule,name:l10n_pt_payroll.hr_rule_pt_net
+msgid "Líquido a Receber"
+msgstr "Líquido a Receber"
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields.selection,name:l10n_pt_payroll.selection__hr_payslip_line__l10n_pt_ss_nature_code__m
+#: model:ir.model.fields.selection,name:l10n_pt_payroll.selection__hr_salary_rule__l10n_pt_ss_nature_code__m
+msgid "M - Regular Monthly Allowances"
+msgstr "M - Abonos Mensais Regulares"
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields.selection,name:l10n_pt_payroll.selection__hr_pt_irs_withholding_table__region__madeira
+#: model:ir.model.fields.selection,name:l10n_pt_payroll.selection__hr_version__l10n_pt_irs_region__madeira
+msgid "Madeira"
+msgstr "Madeira"
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields.selection,name:l10n_pt_payroll.selection__hr_payslip_line__l10n_pt_dmr_at_role__contribution
+#: model:ir.model.fields.selection,name:l10n_pt_payroll.selection__hr_salary_rule__l10n_pt_dmr_at_role__contribution
+msgid "Mandatory Contribution"
+msgstr "Contribuição Obrigatória"
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_pt_irs_withholding_line__marginal_rate
+msgid "Marginal Rate (%)"
+msgstr "Taxa Marginal (%)"
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields.selection,name:l10n_pt_payroll.selection__hr_version__l10n_pt_irs_family_status__married_joint
+msgid "Married - both filers"
+msgstr "Casado - ambos os titulares"
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields.selection,name:l10n_pt_payroll.selection__hr_version__l10n_pt_irs_family_status__married_single_income
+msgid "Married - single income"
+msgstr "Casado - um só titular"
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields.selection,name:l10n_pt_payroll.selection__hr_payslip_line__l10n_pt_ss_nature_code__n
+#: model:ir.model.fields.selection,name:l10n_pt_payroll.selection__hr_salary_rule__l10n_pt_ss_nature_code__n
+msgid "N - Christmas Subsidy"
+msgstr "N - Subsídio de Natal"
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_pt_irs_withholding_table__name
+msgid "Name"
+msgstr "Nome"
+
+#. module: l10n_pt_payroll
+#. odoo-python
+#: code:addons/l10n_pt_payroll/models/hr_pt_irs_withholding.py:0
+msgid ""
+"No IRS withholding table covers %(date)s for region %(region)s and table "
+"%(variant)s. Import the tables for the period."
+msgstr ""
+"Nenhuma tabela de retenção de IRS cobre %(date)s para a região %(region)s e "
+"a tabela %(variant)s. Importe as tabelas do período."
+
+#. module: l10n_pt_payroll
+#. odoo-python
+#: code:addons/l10n_pt_payroll/models/hr_pt_irs_withholding.py:0
+msgid ""
+"No unique IRS withholding bracket found for remuneration %(amount)s on table"
+" %(table)s."
+msgstr ""
+"Nenhum escalão de retenção de IRS único encontrado para a remuneração "
+"%(amount)s na tabela %(table)s."
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_employee__l10n_pt_irs_non_resident
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_version__l10n_pt_irs_non_resident
+msgid "Non-Resident"
+msgstr "Não Residente"
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields.selection,name:l10n_pt_payroll.selection__hr_payslip_line__l10n_pt_dmr_at_role__ignore
+#: model:ir.model.fields.selection,name:l10n_pt_payroll.selection__hr_salary_rule__l10n_pt_dmr_at_role__ignore
+msgid "Not Reported"
+msgstr "Não Declarado"
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields,help:l10n_pt_payroll.field_hr_employee__l10n_pt_irs_dependents
+#: model:ir.model.fields,help:l10n_pt_payroll.field_hr_version__l10n_pt_irs_dependents
+msgid ""
+"Number of dependents for IRS purposes; may differ from dependent children "
+"(e.g. ascendentes)."
+msgstr ""
+"Número de dependentes para efeitos de IRS; pode diferir dos filhos "
+"dependentes (por exemplo ascendentes)."
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields.selection,name:l10n_pt_payroll.selection__hr_payslip_line__l10n_pt_ss_nature_code__o
+#: model:ir.model.fields.selection,name:l10n_pt_payroll.selection__hr_salary_rule__l10n_pt_ss_nature_code__o
+msgid "O - Non-monthly Bonuses"
+msgstr "O - Prémios Não Mensais"
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields,help:l10n_pt_payroll.field_hr_pt_irs_withholding_line__marginal_rate
+msgid "Official maximum marginal rate for the bracket, e.g. 44.95."
+msgstr "Taxa marginal máxima oficial do escalão, por exemplo 44,95."
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields,help:l10n_pt_payroll.field_hr_pt_irs_withholding_table__table_id
+msgid "Official table number (I-XI) this set belongs to."
+msgstr "Número oficial da tabela (I-XI) a que este conjunto pertence."
+
+#. module: l10n_pt_payroll
+#. odoo-python
+#: code:addons/l10n_pt_payroll/models/hr_employee.py:0
+#: code:addons/l10n_pt_payroll/models/hr_version.py:0
+msgid "Only HR managers can add bank accounts."
+msgstr "Apenas os gestores de RH podem adicionar contas bancárias."
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields,help:l10n_pt_payroll.field_hr_employee__l10n_pt_irs_preferred_rate
+#: model:ir.model.fields,help:l10n_pt_payroll.field_hr_version__l10n_pt_irs_preferred_rate
+msgid ""
+"Optional flat withholding rate chosen by the employee (art. 98 n.6 CIRS): "
+"replaces the marginal rate but keeps the table deductions."
+msgstr ""
+"Taxa de retenção fixa opcional escolhida pelo trabalhador (art. 98 n.º 6 "
+"CIRS): substitui a taxa marginal mas mantém as deduções da tabela."
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields.selection,name:l10n_pt_payroll.selection__hr_version__l10n_pt_payment_method__other
+msgid "Other"
+msgstr "Outro"
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields.selection,name:l10n_pt_payroll.selection__hr_payslip_line__l10n_pt_ss_nature_code__p
+#: model:ir.model.fields.selection,name:l10n_pt_payroll.selection__hr_salary_rule__l10n_pt_ss_nature_code__p
+msgid "P - Base Pay"
+msgstr "P - Vencimento Base"
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_pt_irs_withholding_line__parcela_abater
+msgid "Parcela Abater"
+msgstr "Parcela a Abater"
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_payslip__payment_date
+msgid "Payment Date"
+msgstr "Data de Pagamento"
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_employee__l10n_pt_payment_method
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_employee__payment_method_id
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_version__l10n_pt_payment_method
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_version__payment_method_id
+msgid "Payment Method"
+msgstr "Método de Pagamento"
+
+#. module: l10n_pt_payroll
+#: model:ir.model,name:l10n_pt_payroll.model_hr_payslip
+msgid "Payslip"
+msgstr "Recibo de Vencimento"
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_pt_irs_withholding_table__pension_dep_parcela_joint
+msgid "Pension Dependent Deduction - Joint"
+msgstr "Dedução por Dependente Pensionista - Ambos Titulares"
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_pt_irs_withholding_table__pension_dep_parcela_single
+msgid "Pension Dependent Deduction - Single"
+msgstr "Dedução por Dependente Pensionista - Titular Único"
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_pt_irs_withholding_table__pension_dep_parcela_single_income
+msgid "Pension Dependent Deduction - Single Income"
+msgstr "Dedução por Dependente Pensionista - Casado Titular Único"
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_employee__l10n_pt_irs_pensioner
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_version__l10n_pt_irs_pensioner
+msgid "Pensioner"
+msgstr "Pensionista"
+
+#. module: l10n_pt_payroll
+#. odoo-python
+#: code:addons/l10n_pt_payroll/wizard/hr_pt_irs_withholding_import.py:0
+msgid "Please select a CSV file to import."
+msgstr "Selecione um ficheiro CSV para importar."
+
+#. module: l10n_pt_payroll
+#: model_terms:ir.ui.view,arch_db:l10n_pt_payroll.hr_salary_rule_view_form_l10n_pt
+#: model_terms:ir.ui.view,arch_db:l10n_pt_payroll.res_config_settings_view_form_l10n_pt
+msgid "Portugal"
+msgstr "Portugal"
+
+#. module: l10n_pt_payroll
+#: model_terms:ir.ui.view,arch_db:l10n_pt_payroll.view_employee_form_l10n_pt_payroll
+msgid "Portugal: IRS Withholding"
+msgstr "Portugal: Retenção na Fonte de IRS"
+
+#. module: l10n_pt_payroll
+#: model_terms:ir.ui.view,arch_db:l10n_pt_payroll.view_employee_form_l10n_pt_payroll
+msgid "Portugal: Salary Payment"
+msgstr "Portugal: Pagamento de Salário"
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_employee__l10n_pt_irs_preferred_rate
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_version__l10n_pt_irs_preferred_rate
+msgid "Preferred IRS Rate (%)"
+msgstr "Taxa de IRS Preferencial (%)"
+
+#. module: l10n_pt_payroll
+#: model_terms:ir.ui.view,arch_db:l10n_pt_payroll.view_employee_form_l10n_pt_payroll
+msgid "Previous Payment Method"
+msgstr "Método de Pagamento Anterior"
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields.selection,name:l10n_pt_payroll.selection__hr_payslip_line__l10n_pt_ss_nature_code__r
+#: model:ir.model.fields.selection,name:l10n_pt_payroll.selection__hr_salary_rule__l10n_pt_ss_nature_code__r
+msgid "R - Meal Allowance"
+msgstr "R - Subsídio de Alimentação"
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_pt_irs_withholding_table__region
+msgid "Region"
+msgstr "Região"
+
+#. module: l10n_pt_payroll
+#: model:hr.salary.rule,name:l10n_pt_payroll.hr_rule_pt_gross
+msgid "Remuneração Bruta"
+msgstr "Remuneração Bruta"
+
+#. module: l10n_pt_payroll
+#: model:hr.salary.rule,name:l10n_pt_payroll.hr_rule_pt_irs_base
+msgid "Rendimento Sujeito a IRS Neste Pagamento"
+msgstr "Rendimento Sujeito a IRS Neste Pagamento"
+
+#. module: l10n_pt_payroll
+#: model:hr.salary.rule,name:l10n_pt_payroll.hr_rule_pt_irs
+msgid "Retenção na Fonte IRS"
+msgstr "Retenção na Fonte IRS"
+
+#. module: l10n_pt_payroll
+#: model:hr.salary.rule,name:l10n_pt_payroll.hr_rule_pt_natal_irs
+msgid "Retenção na Fonte IRS - Subsídio de Natal"
+msgstr "Retenção na Fonte IRS - Subsídio de Natal"
+
+#. module: l10n_pt_payroll
+#. odoo-python
+#: code:addons/l10n_pt_payroll/models/hr_payslip.py:0
+msgid ""
+"Review payroll history manually before processing a backdated payment or a "
+"reversal."
+msgstr ""
+"Reveja manualmente o histórico de vencimentos antes de processar um "
+"pagamento retroativo ou um estorno."
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields.selection,name:l10n_pt_payroll.selection__hr_payslip_line__l10n_pt_ss_nature_code__s
+#: model:ir.model.fields.selection,name:l10n_pt_payroll.selection__hr_salary_rule__l10n_pt_ss_nature_code__s
+msgid "S - Overtime"
+msgstr "S - Horas Suplementares"
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields.selection,name:l10n_pt_payroll.selection__hr_version__l10n_pt_payment_method__sepa
+msgid "SEPA Bank Transfer"
+msgstr "Transferência Bancária SEPA"
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_payslip_line__l10n_pt_ss_contribution_base
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_salary_rule__l10n_pt_ss_contribution_base
+msgid "SS Contribution Base"
+msgstr "Base Contributiva da SS"
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_payslip_line__l10n_pt_ss_nature_code
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_salary_rule__l10n_pt_ss_nature_code
+msgid "SS Remuneration Nature"
+msgstr "Natureza da Remuneração para SS"
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_employee__payment_bank_account_id
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_version__payment_bank_account_id
+msgid "Salary Bank Account"
+msgstr "Conta Bancária para Salário"
+
+#. module: l10n_pt_payroll
+#: model:ir.model,name:l10n_pt_payroll.model_hr_salary_rule
+msgid "Salary Rule"
+msgstr "Regra Salarial"
+
+#. module: l10n_pt_payroll
+#: model:hr.salary.rule,name:l10n_pt_payroll.hr_rule_pt_ss_company
+msgid "Segurança Social (Entidade Patronal)"
+msgstr "Segurança Social (Entidade Patronal)"
+
+#. module: l10n_pt_payroll
+#: model:hr.salary.rule,name:l10n_pt_payroll.hr_rule_pt_ss
+msgid "Segurança Social (Trabalhador)"
+msgstr "Segurança Social (Trabalhador)"
+
+#. module: l10n_pt_payroll
+#: model:hr.salary.rule,name:l10n_pt_payroll.hr_rule_pt_sat
+msgid "Seguro de Acidentes de Trabalho (SAT)"
+msgstr "Seguro de Acidentes de Trabalho (SAT)"
+
+#. module: l10n_pt_payroll
+#. odoo-python
+#: code:addons/l10n_pt_payroll/models/hr_version.py:0
+msgid "Select an active bank account from the employee's Bank Accounts."
+msgstr ""
+"Selecione uma conta bancária ativa nas Contas Bancárias do trabalhador."
+
+#. module: l10n_pt_payroll
+#. odoo-python
+#: code:addons/l10n_pt_payroll/models/hr_payslip.py:0
+msgid ""
+"Set a payment date on each payslip when there is more than one payment in "
+"the window."
+msgstr ""
+"Defina uma data de pagamento em cada recibo quando houver mais de um "
+"pagamento no período."
+
+#. module: l10n_pt_payroll
+#. odoo-python
+#: code:addons/l10n_pt_payroll/models/hr_version.py:0
+msgid ""
+"Set the contractual weekly hours (PNT) on the applicable contract version "
+"before calculating hourly remuneration."
+msgstr ""
+"Defina as horas semanais contratuais (PNT) na versão de contrato aplicável "
+"antes de calcular a retribuição horária."
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields,help:l10n_pt_payroll.field_hr_payslip_line__l10n_pt_irs_taxable
+#: model:ir.model.fields,help:l10n_pt_payroll.field_hr_salary_rule__l10n_pt_irs_taxable
+msgid ""
+"Share of the rule total that enters the taxable remuneration R used by the "
+"Portuguese IRS retention computation: 1.0 means fully taxable, 0.5 half, 0.0"
+" exempt. Use it for partially taxable payments such as the taxable portion "
+"of allowances."
+msgstr ""
+"Parcela do total da regra que entra na remuneração tributável R usada no "
+"cálculo da retenção de IRS português: 1,0 significa totalmente tributável, "
+"0,5 metade, 0,0 isento. Use-a para pagamentos parcialmente tributáveis como "
+"a parte tributável dos abonos."
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields.selection,name:l10n_pt_payroll.selection__hr_version__l10n_pt_irs_family_status__single
+msgid "Single"
+msgstr "Solteiro"
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_employee__l10n_pt_irs_single_payer_declared
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_version__l10n_pt_irs_single_payer_declared
+msgid "Single-Payer Declaration on File"
+msgstr "Declaração de Entidade Única em Arquivo"
+
+#. module: l10n_pt_payroll
+#: model_terms:ir.ui.view,arch_db:l10n_pt_payroll.hr_salary_rule_view_form_l10n_pt
+msgid "Social Security"
+msgstr "Segurança Social"
+
+#. module: l10n_pt_payroll
+#: model:hr.salary.rule,name:l10n_pt_payroll.hr_rule_pt_ss_base
+msgid "Social Security Contribution Base"
+msgstr "Base de Incidência Contributiva da Segurança Social"
+
+#. module: l10n_pt_payroll
+#: model:hr.salary.rule.category,name:l10n_pt_payroll.categ_pt_ss_reference
+msgid "Social Security Reference Values"
+msgstr "Valores de Referência da Segurança Social"
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields,help:l10n_pt_payroll.field_hr_pt_irs_withholding_table__date_start
+msgid "Start of the validity period approved by the Despacho."
+msgstr "Início do período de validade aprovado pelo Despacho."
+
+#. module: l10n_pt_payroll
+#: model:hr.salary.rule,name:l10n_pt_payroll.hr_rule_pt_meal
+msgid "Subsídio de Alimentação"
+msgstr "Subsídio de Alimentação"
+
+#. module: l10n_pt_payroll
+#: model:hr.salary.rule,name:l10n_pt_payroll.hr_rule_pt_natal
+msgid "Subsídio de Natal"
+msgstr "Subsídio de Natal"
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields.selection,name:l10n_pt_payroll.selection__hr_payslip_line__l10n_pt_ss_nature_code__t
+#: model:ir.model.fields.selection,name:l10n_pt_payroll.selection__hr_salary_rule__l10n_pt_ss_nature_code__t
+msgid "T - Night Work"
+msgstr "T - Trabalho Noturno"
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_pt_irs_withholding_line__table_id
+msgid "Table"
+msgstr "Tabela"
+
+#. module: l10n_pt_payroll
+#. odoo-python
+#: code:addons/l10n_pt_payroll/wizard/hr_pt_irs_withholding_import.py:0
+msgid ""
+"Table %(label)s has a gap or overlap at bound %(bound)s: brackets must be "
+"contiguous from 0."
+msgstr ""
+"A tabela %(label)s tem um intervalo ou sobreposição no limite %(bound)s: os "
+"escalões devem ser contíguos a partir de 0."
+
+#. module: l10n_pt_payroll
+#. odoo-python
+#: code:addons/l10n_pt_payroll/wizard/hr_pt_irs_withholding_import.py:0
+msgid "Table %(label)s: the last bracket must be open-ended."
+msgstr "Tabela %(label)s: o último escalão deve ser aberto (sem limite)."
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_pt_irs_withholding_table__table_id
+msgid "Table Variant"
+msgstr "Variante da Tabela"
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields,help:l10n_pt_payroll.field_hr_payslip_line__l10n_pt_dmr_at_recipient_nipc
+#: model:ir.model.fields,help:l10n_pt_payroll.field_hr_salary_rule__l10n_pt_dmr_at_recipient_nipc
+msgid "Tax number of the entity receiving the mandatory employee deduction."
+msgstr ""
+"Número de contribuinte da entidade que recebe a dedução obrigatória do "
+"trabalhador."
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields,help:l10n_pt_payroll.field_hr_employee__l10n_pt_irs_region
+#: model:ir.model.fields,help:l10n_pt_payroll.field_hr_version__l10n_pt_irs_region
+msgid ""
+"Tax region used to pick the withholding table set. Suggested from the "
+"employee's address (state district or postal code) while empty; kept once "
+"set, so update it manually if the employee moves to another region."
+msgstr ""
+"Região fiscal usada para selecionar o conjunto de tabelas de retenção. "
+"Sugerida a partir da morada do trabalhador (distrito ou código postal) "
+"enquanto estiver vazia; mantida depois de definida, pelo que atualize-a "
+"manualmente se o trabalhador mudar de região."
+
+#. module: l10n_pt_payroll
+#. odoo-python
+#: code:addons/l10n_pt_payroll/wizard/hr_pt_irs_withholding_import.py:0
+msgid "The CSV file is empty."
+msgstr "O ficheiro CSV está vazio."
+
+#. module: l10n_pt_payroll
+#. odoo-python
+#: code:addons/l10n_pt_payroll/wizard/hr_pt_irs_withholding_import.py:0
+msgid "The CSV file is missing required columns: %s"
+msgstr "O ficheiro CSV não tem as colunas obrigatórias: %s"
+
+#. module: l10n_pt_payroll
+#. odoo-python
+#: code:addons/l10n_pt_payroll/wizard/hr_pt_irs_withholding_import.py:0
+msgid "The bundled IRS withholding tables were loaded."
+msgstr "As tabelas de retenção de IRS incluídas foram carregadas."
+
+#. module: l10n_pt_payroll
+#. odoo-python
+#: code:addons/l10n_pt_payroll/models/hr_version.py:0
+msgid ""
+"The disabled dependent deduction factor must be between 1 and %(limit)s for "
+"the %(status)s family status."
+msgstr ""
+"O fator de dedução por dependente deficiente deve estar entre 1 e %(limit)s "
+"para a situação familiar %(status)s."
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields,help:l10n_pt_payroll.field_hr_employee__l10n_pt_irs_non_resident
+#: model:ir.model.fields,help:l10n_pt_payroll.field_hr_version__l10n_pt_irs_non_resident
+msgid ""
+"The employee is not a tax resident in Portugal: a flat 25% withholding "
+"applies without table deductions."
+msgstr ""
+"O trabalhador não é residente fiscal em Portugal: aplica-se uma retenção "
+"fixa de 25% sem deduções da tabela."
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields,help:l10n_pt_payroll.field_hr_employee__l10n_pt_irs_jovem
+#: model:ir.model.fields,help:l10n_pt_payroll.field_hr_version__l10n_pt_irs_jovem
+msgid ""
+"The employee opted in to the young-worker partial exemption (art. 12-B "
+"CIRS)."
+msgstr ""
+"O trabalhador aderiu à isenção parcial de jovem trabalhador (art. 12.º-B "
+"CIRS)."
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields,help:l10n_pt_payroll.field_hr_employee__l10n_pt_irs_single_payer_declared
+#: model:ir.model.fields,help:l10n_pt_payroll.field_hr_version__l10n_pt_irs_single_payer_declared
+msgid ""
+"The non-resident worker supplied the written declaration required by CIRS "
+"Article 71 to claim the minimum-wage withholding allowance."
+msgstr ""
+"O trabalhador não residente apresentou a declaração escrita exigida pelo "
+"artigo 71.º do CIRS para usufruir da dedução de retenção da remuneração "
+"mínima."
+
+#. module: l10n_pt_payroll
+#. odoo-python
+#: code:addons/l10n_pt_payroll/models/hr_payslip.py:0
+msgid "The payslip has no contract."
+msgstr "O recibo de vencimento não tem contrato."
+
+#. module: l10n_pt_payroll
+#. odoo-python
+#: code:addons/l10n_pt_payroll/models/hr_payslip.py:0
+msgid "The single-payer allowance must be non-negative."
+msgstr "A dedução de entidade única deve ser igual ou superior a zero."
+
+#. module: l10n_pt_payroll
+#. odoo-python
+#: code:addons/l10n_pt_payroll/models/hr_pt_irs_withholding.py:0
+msgid ""
+"The single-payer allowance requires a non-resident worker with a written "
+"single-payer declaration."
+msgstr ""
+"A dedução de entidade única exige um trabalhador não residente com "
+"declaração de entidade única por escrito."
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields,help:l10n_pt_payroll.field_hr_employee__l10n_pt_irs_pensioner
+#: model:ir.model.fields,help:l10n_pt_payroll.field_hr_version__l10n_pt_irs_pensioner
+msgid ""
+"The worker receives a pension: the pension withholding tables (VIII-XI) "
+"apply instead of the dependent work tables (I-VII)."
+msgstr ""
+"O trabalhador recebe pensão: aplicam-se as tabelas de retenção de "
+"pensionistas (VIII-XI) em vez das tabelas de trabalho dependente (I-VII)."
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields.selection,name:l10n_pt_payroll.selection__hr_payslip_line__l10n_pt_dmr_at_role__union_dues
+#: model:ir.model.fields.selection,name:l10n_pt_payroll.selection__hr_salary_rule__l10n_pt_dmr_at_role__union_dues
+msgid "Union Dues"
+msgstr "Quotização Sindical"
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_pt_irs_withholding_line__upper_bound
+msgid "Upper Bound"
+msgstr "Limite Superior"
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields,help:l10n_pt_payroll.field_hr_pt_irs_withholding_line__upper_bound
+msgid ""
+"Upper bound of the bracket (inclusive). Leave empty or zero for the last, "
+"open-ended bracket."
+msgstr ""
+"Limite superior do escalão (inclusivo). Deixe vazio ou zero para o último "
+"escalão, sem limite."
+
+#. module: l10n_pt_payroll
+#: model:hr.salary.rule.category,name:l10n_pt_payroll.categ_pt_irs_reference
+msgid "Valores de Referência de IRS"
+msgstr "Valores de Referência de IRS"
+
+#. module: l10n_pt_payroll
+#: model:hr.salary.rule,name:l10n_pt_payroll.hr_rule_pt_basic
+msgid "Vencimento Base"
+msgstr "Vencimento Base"
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_payroll_bank_account_add__version_id
+msgid "Version"
+msgstr "Versão"
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields,help:l10n_pt_payroll.field_res_config_settings__l10n_pt_full_time_hours
+msgid ""
+"Weekly hours used as the full-time reference for Portuguese contracts when "
+"the collective contract does not set one."
+msgstr ""
+"Horas semanais usadas como referência de tempo integral para contratos "
+"portugueses quando o acordo coletivo não define nenhuma."
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields.selection,name:l10n_pt_payroll.selection__hr_payslip_line__l10n_pt_ss_nature_code__x
+#: model:ir.model.fields.selection,name:l10n_pt_payroll.selection__hr_salary_rule__l10n_pt_ss_nature_code__x
+msgid "X - Regular Non-monthly Allowances"
+msgstr "X - Abonos Regulares Não Mensais"
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_employee__l10n_pt_irs_income_years
+#: model:ir.model.fields,field_description:l10n_pt_payroll.field_hr_version__l10n_pt_irs_income_years
+msgid "Years of Income"
+msgstr "Anos de Rendimento"
+
+#. module: l10n_pt_payroll
+#: model:ir.model.fields,help:l10n_pt_payroll.field_hr_employee__l10n_pt_irs_income_years
+#: model:ir.model.fields,help:l10n_pt_payroll.field_hr_version__l10n_pt_irs_income_years
+msgid ""
+"Years of category A/B income already obtained; drives the IRS Jovem "
+"exemption percentage."
+msgstr ""
+"Anos de rendimento das categorias A/B já obtidos; determina a percentagem de"
+" isenção do IRS Jovem."
+
+#. module: l10n_pt_payroll
+#: model:hr.salary.rule,name:l10n_pt_payroll.hr_rule_pt_natal_monthly_base
+msgid "Direito Anual ao Subsídio de Natal em Duodécimos"
+msgstr "Direito Anual ao Subsídio de Natal em Duodécimos"
+
+#. module: l10n_pt_payroll
+#: model:hr.salary.rule,name:l10n_pt_payroll.hr_rule_pt_natal_monthly_irs
+msgid "Retenção na Fonte IRS - Duodécimo do Subsídio de Natal"
+msgstr "Retenção na Fonte IRS - Duodécimo do Subsídio de Natal"
+
+#. module: l10n_pt_payroll
+#: model:hr.salary.rule,name:l10n_pt_payroll.hr_rule_pt_natal_monthly
+msgid "Subsídio de Natal em Duodécimos"
+msgstr "Subsídio de Natal em Duodécimos"
+
+#. module: l10n_pt_payroll
+#: model:hr.salary.rule,name:l10n_pt_payroll.hr_rule_pt_ferias_base
+msgid "Direito Anual ao Subsídio de Férias"
+msgstr "Direito Anual ao Subsídio de Férias"
+
+#. module: l10n_pt_payroll
+#: model:hr.salary.rule,name:l10n_pt_payroll.hr_rule_pt_ferias_irs
+msgid "Retenção na Fonte IRS - Subsídio de Férias"
+msgstr "Retenção na Fonte IRS - Subsídio de Férias"
+
+#. module: l10n_pt_payroll
+#: model:hr.salary.rule,name:l10n_pt_payroll.hr_rule_pt_ferias
+msgid "Subsídio de Férias"
+msgstr "Subsídio de Férias"
+
+#. module: l10n_pt_payroll
+#: model:hr.salary.rule,name:l10n_pt_payroll.hr_rule_pt_ferias_ss_company
+msgid "Segurança Social (Entidade Patronal) - Subsídio de Férias"
+msgstr "Segurança Social (Entidade Patronal) - Subsídio de Férias"
+
+#. module: l10n_pt_payroll
+#: model:hr.salary.rule,name:l10n_pt_payroll.hr_rule_pt_ferias_ss
+msgid "Segurança Social (Trabalhador) - Subsídio de Férias"
+msgstr "Segurança Social (Trabalhador) - Subsídio de Férias"

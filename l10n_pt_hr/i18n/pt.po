@@ -1,0 +1,1071 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-01 12:32+0000\n"
+"PO-Revision-Date: 2026-11-21 16:30+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: pt\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+
+#. module: l10n_pt_hr
+#: model:l10n.pt.ss.regime,name:l10n_pt_hr.l10n_pt_ss_regime_moe_gerencia
+msgid ""
+"\n"
+"            MOE - management or administration (commercial companies)\n"
+"        "
+msgstr "MOE - órgãos de gestão ou administração (sociedades comerciais)"
+
+#. module: l10n_pt_hr
+#: model:l10n.pt.ss.regime,name:l10n_pt_hr.l10n_pt_ss_regime_pre_reforma
+msgid ""
+"\n"
+"            Pre-retirement with reduced working time (general regime)\n"
+"        "
+msgstr "Pré-reforma com redução do tempo de trabalho (regime geral)"
+
+#. module: l10n_pt_hr
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_collective_contract__active
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_establishment__active
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_irs_withholding_table__active
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_pay_grade__active
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_profession__active
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_professional_category__active
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_ss_regime__active
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_union__active
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_work_insurance__active
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_work_time_arrangement__active
+msgid "Active"
+msgstr "Ativo"
+
+#. module: l10n_pt_hr
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_establishment__address_id
+msgid "Address"
+msgstr "Morada"
+
+#. module: l10n_pt_hr
+#: model:hr.department,name:l10n_pt_hr.dep_pt_administration
+msgid "Administração"
+msgstr "Administração"
+
+#. module: l10n_pt_hr
+#: model:l10n.pt.ss.regime,name:l10n_pt_hr.l10n_pt_ss_regime_agricola
+msgid "Agricultural producers"
+msgstr "Produtores agrícolas"
+
+#. module: l10n_pt_hr
+#. odoo-python
+#: code:addons/l10n_pt_hr/models/l10n_pt_establishment.py:0
+msgid "An establishment cannot be moved to another company."
+msgstr "Um estabelecimento não pode ser transferido para outra empresa."
+
+#. module: l10n_pt_hr
+#: model:l10n.pt.profession,name:l10n_pt_hr.profession_pt_management_analyst
+msgid "Analista em gestão e organização"
+msgstr "Analista em gestão e organização"
+
+#. module: l10n_pt_hr
+#: model:ir.model.fields,help:l10n_pt_hr.field_hr_employee__l10n_pt_irct_id
+#: model:ir.model.fields,help:l10n_pt_hr.field_hr_version__l10n_pt_irct_id
+msgid "Applicable collective labour regulation instrument (IRCT)."
+msgstr "Instrumento de regulação coletiva do trabalho aplicável (IRCT)."
+
+#. module: l10n_pt_hr
+#: model_terms:ir.ui.view,arch_db:l10n_pt_hr.l10n_pt_establishment_form
+#: model_terms:ir.ui.view,arch_db:l10n_pt_hr.l10n_pt_establishment_search
+msgid "Archived"
+msgstr "Arquivado"
+
+#. module: l10n_pt_hr
+#: model:ir.model.fields.selection,name:l10n_pt_hr.selection__hr_version__l10n_pt_id_doc_type__cc
+msgid "Citizen Card"
+msgstr "Cartão de Cidadão"
+
+#. module: l10n_pt_hr
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_establishment__date_end
+msgid "Closing Date"
+msgstr "Data de Encerramento"
+
+#. module: l10n_pt_hr
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_collective_contract__code
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_irs_withholding_table__code
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_pay_grade__code
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_profession__code
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_professional_category__code
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_ss_regime__code
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_union__code
+msgid "Code"
+msgstr "Código"
+
+#. module: l10n_pt_hr
+#: model:ir.model.fields,help:l10n_pt_hr.field_l10n_pt_ss_regime__l10n_pt_dr_code
+msgid ""
+"Codigo de taxa na DR of the official Seguranca Social contribution-rate "
+"table, used by the monthly remuneration declaration (DMR). Employers with a "
+"specific code assigned by Seguranca Social use it instead on the "
+"declaration."
+msgstr ""
+"Código de taxa na DR da tabela oficial de taxas contributivas da Segurança "
+"Social, usado na declaração mensal de remunerações (DMR). As entidades "
+"patronais com um código específico atribuído pela Segurança Social usam-no "
+"na declaração."
+
+#. module: l10n_pt_hr
+#: model:ir.model,name:l10n_pt_hr.model_l10n_pt_collective_contract
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_hr_employee__l10n_pt_irct_id
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_hr_version__l10n_pt_irct_id
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_professional_category__irct_id
+msgid "Collective Contract"
+msgstr "Contrato Coletivo"
+
+#. module: l10n_pt_hr
+#: model:ir.actions.act_window,name:l10n_pt_hr.l10n_pt_irct_action
+#: model:ir.ui.menu,name:l10n_pt_hr.menu_l10n_pt_irct
+msgid "Collective Contracts"
+msgstr "Contratos Coletivos"
+
+#. module: l10n_pt_hr
+#: model:ir.model.fields,help:l10n_pt_hr.field_l10n_pt_professional_category__irct_id
+msgid ""
+"Collective agreement defining this category. Leave empty for categories that"
+" apply across agreements."
+msgstr ""
+"Acordo coletivo que define esta categoria. Deixe vazio para categorias que "
+"se aplicam a todos os acordos."
+
+#. module: l10n_pt_hr
+#: model:hr.department,name:l10n_pt_hr.dep_pt_sales
+msgid "Comercial"
+msgstr "Comercial"
+
+#. module: l10n_pt_hr
+#: model:ir.model,name:l10n_pt_hr.model_res_company
+msgid "Companies"
+msgstr "Empresas"
+
+#. module: l10n_pt_hr
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_establishment__company_id
+#: model_terms:ir.ui.view,arch_db:l10n_pt_hr.l10n_pt_establishment_search
+msgid "Company"
+msgstr "Empresa"
+
+#. module: l10n_pt_hr
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_hr_employee__l10n_pt_weekly_pnt_hours
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_hr_version__l10n_pt_weekly_pnt_hours
+msgid "Contractual Weekly Hours (PNT)"
+msgstr "Horas Semanais Contratuais (PNT)"
+
+#. module: l10n_pt_hr
+#: model:ir.model.fields,help:l10n_pt_hr.field_hr_employee__l10n_pt_weekly_pnt_hours
+#: model:ir.model.fields,help:l10n_pt_hr.field_hr_version__l10n_pt_weekly_pnt_hours
+msgid ""
+"Contractual weekly working hours agreed with the worker; 0 means not "
+"configured."
+msgstr ""
+"Horas semanais de trabalho contratadas com o trabalhador; 0 significa não "
+"configurado."
+
+#. module: l10n_pt_hr
+#: model_terms:ir.ui.view,arch_db:l10n_pt_hr.l10n_pt_ss_regime_form
+msgid "Contribution Rates"
+msgstr "Taxas Contributivas"
+
+#. module: l10n_pt_hr
+#: model:l10n.pt.ss.regime,name:l10n_pt_hr.l10n_pt_ss_regime_convergente
+msgid "Convergent regime (public service)"
+msgstr "Regime convergente (função pública)"
+
+#. module: l10n_pt_hr
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_work_insurance__date_end
+msgid "Coverage End"
+msgstr "Fim da Cobertura"
+
+#. module: l10n_pt_hr
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_work_insurance__date_start
+msgid "Coverage Start"
+msgstr "Início da Cobertura"
+
+#. module: l10n_pt_hr
+#. odoo-python
+#: code:addons/l10n_pt_hr/models/hr_employee.py:0
+msgid ""
+"Create a separate employee record when moving an employee with an "
+"establishment assignment to a different company."
+msgstr ""
+"Crie um registo de trabalhador separado ao transferir um trabalhador com "
+"atribuição de estabelecimento para outra empresa."
+
+#. module: l10n_pt_hr
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_collective_contract__create_uid
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_establishment__create_uid
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_irs_withholding_table__create_uid
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_pay_grade__create_uid
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_profession__create_uid
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_professional_category__create_uid
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_ss_regime__create_uid
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_union__create_uid
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_work_insurance__create_uid
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_work_time_arrangement__create_uid
+msgid "Created by"
+msgstr "Criado por"
+
+#. module: l10n_pt_hr
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_collective_contract__create_date
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_establishment__create_date
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_irs_withholding_table__create_date
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_pay_grade__create_date
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_profession__create_date
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_professional_category__create_date
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_ss_regime__create_date
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_union__create_date
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_work_insurance__create_date
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_work_time_arrangement__create_date
+msgid "Created on"
+msgstr "Criado em"
+
+#. module: l10n_pt_hr
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_ss_regime__l10n_pt_dr_code
+msgid "DR Rate Code"
+msgstr "Código de Taxa na DR"
+
+#. module: l10n_pt_hr
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_res_company__l10n_pt_default_establishment_id
+#: model_terms:ir.ui.view,arch_db:l10n_pt_hr.res_company_form_view_l10n_pt_hr
+msgid "Default Establishment"
+msgstr "Estabelecimento Predefinido"
+
+#. module: l10n_pt_hr
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_res_company__l10n_pt_full_time_hours
+msgid "Default Full-Time Hours"
+msgstr "Horas Semanais de Referência a Tempo Integral"
+
+#. module: l10n_pt_hr
+#: model:l10n.pt.ss.regime,name:l10n_pt_hr.l10n_pt_ss_regime_geral
+msgid "Dependent worker - general regime"
+msgstr "Trabalhador dependente - regime geral"
+
+#. module: l10n_pt_hr
+#: model:l10n.pt.profession,name:l10n_pt_hr.profession_pt_director
+msgid "Diretor geral e gestor executivo, de empresas"
+msgstr "Diretor geral e gestor executivo, de empresas"
+
+#. module: l10n_pt_hr
+#: model:hr.department,name:l10n_pt_hr.dep_pt_management
+msgid "Direção"
+msgstr "Direção"
+
+#. module: l10n_pt_hr
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_hr_employee__l10n_pt_disability_degree
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_hr_version__l10n_pt_disability_degree
+msgid "Disability Degree (%)"
+msgstr "Grau de Deficiência (%)"
+
+#. module: l10n_pt_hr
+#: model_terms:ir.ui.view,arch_db:l10n_pt_hr.view_employee_form_l10n_pt_hr
+msgid "Disability Degree (%) - Portugal"
+msgstr "Grau de Deficiência (%) - Portugal"
+
+#. module: l10n_pt_hr
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_hr_employee__display_name
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_hr_version__display_name
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_collective_contract__display_name
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_establishment__display_name
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_irs_withholding_table__display_name
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_pay_grade__display_name
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_profession__display_name
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_professional_category__display_name
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_ss_regime__display_name
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_union__display_name
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_work_insurance__display_name
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_work_time_arrangement__display_name
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_res_company__display_name
+msgid "Display Name"
+msgstr "Nome a Apresentar"
+
+#. module: l10n_pt_hr
+#: model:l10n.pt.ss.regime,name:l10n_pt_hr.l10n_pt_ss_regime_domestico
+msgid "Domestic work"
+msgstr "Trabalho doméstico"
+
+#. module: l10n_pt_hr
+#: model:ir.model,name:l10n_pt_hr.model_hr_employee
+msgid "Employee"
+msgstr "Funcionário"
+
+#. module: l10n_pt_hr
+#: model:ir.model,name:l10n_pt_hr.model_hr_version
+msgid "Employee Contract / Version"
+msgstr "Contrato / Versão do Funcionário"
+
+#. module: l10n_pt_hr
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_ss_regime__l10n_pt_employee_rate
+msgid "Employee Rate (%)"
+msgstr "Taxa do Trabalhador (%)"
+
+#. module: l10n_pt_hr
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_ss_regime__l10n_pt_employer_rate
+msgid "Employer Rate (%)"
+msgstr "Taxa da Entidade Patronal (%)"
+
+#. module: l10n_pt_hr
+#: model:l10n.pt.profession,name:l10n_pt_hr.profession_pt_marketing
+msgid "Especialista em publicidade e marketing"
+msgstr "Especialista em publicidade e marketing"
+
+#. module: l10n_pt_hr
+#: model:l10n.pt.profession,name:l10n_pt_hr.profession_pt_hr_specialist
+msgid "Especialista em recursos humanos"
+msgstr "Especialista em recursos humanos"
+
+#. module: l10n_pt_hr
+#: model:ir.model,name:l10n_pt_hr.model_l10n_pt_establishment
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_hr_employee__l10n_pt_establishment_id
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_hr_version__l10n_pt_establishment_id
+msgid "Establishment"
+msgstr "Estabelecimento"
+
+#. module: l10n_pt_hr
+#: model:ir.model.fields,help:l10n_pt_hr.field_res_company__l10n_pt_default_establishment_id
+msgid ""
+"Establishment pre-assigned to new employees of this company; existing "
+"assignments are not changed."
+msgstr ""
+"Estabelecimento atribuído por predefinição aos novos trabalhadores desta "
+"empresa; as atribuições existentes não são alteradas."
+
+#. module: l10n_pt_hr
+#: model:ir.actions.act_window,name:l10n_pt_hr.l10n_pt_establishment_action
+#: model:ir.ui.menu,name:l10n_pt_hr.menu_l10n_pt_establishment
+msgid "Establishments"
+msgstr "Estabelecimentos"
+
+#. module: l10n_pt_hr
+#: model:l10n.pt.work.time.arrangement,name:l10n_pt_hr.work_time_arrangement_iht
+msgid "Exempt Schedule (IHT)"
+msgstr "Horário Isento (IHT)"
+
+#. module: l10n_pt_hr
+#: model:l10n.pt.work.time.arrangement,name:l10n_pt_hr.work_time_arrangement_fixed
+msgid "Fixed Schedule"
+msgstr "Horário Fixo"
+
+#. module: l10n_pt_hr
+#: model:l10n.pt.work.time.arrangement,name:l10n_pt_hr.work_time_arrangement_flexible
+msgid "Flexible Schedule"
+msgstr "Horário Flexível"
+
+#. module: l10n_pt_hr
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_hr_employee__l10n_pt_full_time_reference_hours
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_hr_version__l10n_pt_full_time_reference_hours
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_collective_contract__l10n_pt_full_time_hours
+msgid "Full-Time Reference Hours"
+msgstr "Horas de Referência a Tempo Integral"
+
+#. module: l10n_pt_hr
+#: model:hr.department,name:l10n_pt_hr.dep_pt_rd_pto
+msgid "I&D Porto"
+msgstr "I&D Porto"
+
+#. module: l10n_pt_hr
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_hr_employee__id
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_hr_version__id
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_collective_contract__id
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_establishment__id
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_irs_withholding_table__id
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_pay_grade__id
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_profession__id
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_professional_category__id
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_ss_regime__id
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_union__id
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_work_insurance__id
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_work_time_arrangement__id
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_res_company__id
+msgid "ID"
+msgstr "ID"
+
+#. module: l10n_pt_hr
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_hr_employee__l10n_pt_id_doc_expiry
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_hr_version__l10n_pt_id_doc_expiry
+msgid "ID Document Expiry"
+msgstr "Validade do Documento de Identificação"
+
+#. module: l10n_pt_hr
+#: model_terms:ir.ui.view,arch_db:l10n_pt_hr.view_employee_form_l10n_pt_hr
+msgid "ID Document Expiry - Portugal"
+msgstr "Validade do Documento de Identificação - Portugal"
+
+#. module: l10n_pt_hr
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_hr_employee__l10n_pt_id_doc_type
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_hr_version__l10n_pt_id_doc_type
+msgid "ID Document Type"
+msgstr "Tipo de Documento de Identificação"
+
+#. module: l10n_pt_hr
+#: model_terms:ir.ui.view,arch_db:l10n_pt_hr.view_employee_form_l10n_pt_hr
+msgid "ID Document Type - Portugal"
+msgstr "Tipo de Documento de Identificação - Portugal"
+
+#. module: l10n_pt_hr
+#: model:ir.model,name:l10n_pt_hr.model_l10n_pt_irs_withholding_table
+msgid "IRS Withholding Table"
+msgstr "Tabela de Retenção na Fonte de IRS"
+
+#. module: l10n_pt_hr
+#: model:ir.actions.act_window,name:l10n_pt_hr.l10n_pt_irs_table_action
+#: model:ir.ui.menu,name:l10n_pt_hr.menu_l10n_pt_irs_table
+msgid "IRS Withholding Tables"
+msgstr "Tabelas de Retenção na Fonte de IRS"
+
+#. module: l10n_pt_hr
+#: model:ir.model.fields.selection,name:l10n_pt_hr.selection__hr_version__l10n_pt_id_doc_type__bi
+msgid "Identity Card (BI)"
+msgstr "Bilhete de Identidade (BI)"
+
+#. module: l10n_pt_hr
+#: model:l10n.pt.ss.regime,name:l10n_pt_hr.l10n_pt_ss_regime_ti
+msgid "Independent workers"
+msgstr "Trabalhadores independentes"
+
+#. module: l10n_pt_hr
+#: model:ir.model.fields,help:l10n_pt_hr.field_l10n_pt_work_insurance__insurer_id
+msgid "Insurance company issuing the policy (seguradora)."
+msgstr "Companhia de seguros emissora da apólice."
+
+#. module: l10n_pt_hr
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_work_insurance__insurer_id
+msgid "Insurer"
+msgstr "Seguradora"
+
+#. module: l10n_pt_hr
+#. odoo-python
+#: code:addons/l10n_pt_hr/models/hr_version.py:0
+msgid ""
+"Invalid Citizen Card number %(number)s: it must have 12 characters (8 "
+"digits, a check digit, a 2-character card version and a final check digit)."
+msgstr ""
+"Número de Cartão de Cidadão %(number)s inválido: deve ter 12 caracteres (8 "
+"dígitos, um dígito de controlo, uma versão de cartão de 2 caracteres e um "
+"dígito de controlo final)."
+
+#. module: l10n_pt_hr
+#. odoo-python
+#: code:addons/l10n_pt_hr/models/hr_version.py:0
+msgid ""
+"Invalid Citizen Card number %(number)s: the NIC check digit does not match."
+msgstr ""
+"Número de Cartão de Cidadão %(number)s inválido: o dígito de controlo do NIC"
+" não confere."
+
+#. module: l10n_pt_hr
+#. odoo-python
+#: code:addons/l10n_pt_hr/models/hr_version.py:0
+msgid ""
+"Invalid Citizen Card number %(number)s: the final check digit does not "
+"match."
+msgstr ""
+"Número de Cartão de Cidadão %(number)s inválido: o dígito de controlo final "
+"não confere."
+
+#. module: l10n_pt_hr
+#. odoo-python
+#: code:addons/l10n_pt_hr/models/hr_version.py:0
+msgid ""
+"Invalid ID document number %(number)s: only letters and digits are allowed."
+msgstr ""
+"Número de documento de identificação %(number)s inválido: apenas são "
+"permitidas letras e dígitos."
+
+#. module: l10n_pt_hr
+#. odoo-python
+#: code:addons/l10n_pt_hr/models/hr_version.py:0
+msgid "Invalid Identity Card (BI) number %(number)s: it must have 9 digits."
+msgstr ""
+"Número de Bilhete de Identidade (BI) %(number)s inválido: deve ter 9 "
+"dígitos."
+
+#. module: l10n_pt_hr
+#. odoo-python
+#: code:addons/l10n_pt_hr/models/hr_version.py:0
+msgid ""
+"Invalid Identity Card (BI) number %(number)s: the check digit does not "
+"match."
+msgstr ""
+"Número de Bilhete de Identidade (BI) %(number)s inválido: o dígito de "
+"controlo não confere."
+
+#. module: l10n_pt_hr
+#. odoo-python
+#: code:addons/l10n_pt_hr/models/hr_version.py:0
+msgid ""
+"Invalid Social Security number %(niss)s: the NISS must have 11 digits and "
+"start with 1 or 2."
+msgstr ""
+"Número de Segurança Social %(niss)s inválido: o NISS deve ter 11 dígitos e "
+"começar por 1 ou 2."
+
+#. module: l10n_pt_hr
+#. odoo-python
+#: code:addons/l10n_pt_hr/models/hr_version.py:0
+msgid ""
+"Invalid Social Security number %(niss)s: the check digit does not match."
+msgstr ""
+"Número de Segurança Social %(niss)s inválido: o dígito de controlo não "
+"confere."
+
+#. module: l10n_pt_hr
+#: model:hr.department,name:l10n_pt_hr.dep_pt_rd
+msgid "Investigação e Desenvolvimento"
+msgstr "Investigação e Desenvolvimento"
+
+#. module: l10n_pt_hr
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_collective_contract__write_uid
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_establishment__write_uid
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_irs_withholding_table__write_uid
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_pay_grade__write_uid
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_profession__write_uid
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_professional_category__write_uid
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_ss_regime__write_uid
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_union__write_uid
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_work_insurance__write_uid
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_work_time_arrangement__write_uid
+msgid "Last Updated by"
+msgstr "Última atualização por"
+
+#. module: l10n_pt_hr
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_collective_contract__write_date
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_establishment__write_date
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_irs_withholding_table__write_date
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_pay_grade__write_date
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_profession__write_date
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_professional_category__write_date
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_ss_regime__write_date
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_union__write_date
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_work_insurance__write_date
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_work_time_arrangement__write_date
+msgid "Last Updated on"
+msgstr "Última atualização em"
+
+#. module: l10n_pt_hr
+#: model:ir.model.fields.selection,name:l10n_pt_hr.selection__hr_version__l10n_pt_qualification_level__1
+msgid "Level 1"
+msgstr "Nível 1"
+
+#. module: l10n_pt_hr
+#: model:ir.model.fields.selection,name:l10n_pt_hr.selection__hr_version__l10n_pt_qualification_level__2
+msgid "Level 2"
+msgstr "Nível 2"
+
+#. module: l10n_pt_hr
+#: model:ir.model.fields.selection,name:l10n_pt_hr.selection__hr_version__l10n_pt_qualification_level__3
+msgid "Level 3"
+msgstr "Nível 3"
+
+#. module: l10n_pt_hr
+#: model:ir.model.fields.selection,name:l10n_pt_hr.selection__hr_version__l10n_pt_qualification_level__4
+msgid "Level 4"
+msgstr "Nível 4"
+
+#. module: l10n_pt_hr
+#: model:ir.model.fields.selection,name:l10n_pt_hr.selection__hr_version__l10n_pt_qualification_level__5
+msgid "Level 5"
+msgstr "Nível 5"
+
+#. module: l10n_pt_hr
+#: model:ir.model.fields.selection,name:l10n_pt_hr.selection__hr_version__l10n_pt_qualification_level__6
+msgid "Level 6"
+msgstr "Nível 6"
+
+#. module: l10n_pt_hr
+#: model:ir.model.fields.selection,name:l10n_pt_hr.selection__hr_version__l10n_pt_qualification_level__7
+msgid "Level 7"
+msgstr "Nível 7"
+
+#. module: l10n_pt_hr
+#: model:ir.model.fields.selection,name:l10n_pt_hr.selection__hr_version__l10n_pt_qualification_level__8
+msgid "Level 8"
+msgstr "Nível 8"
+
+#. module: l10n_pt_hr
+#: model:l10n.pt.ss.regime,name:l10n_pt_hr.l10n_pt_ss_regime_moe_ipss
+msgid "MOE - IPSS staff"
+msgstr "MOE - pessoal das IPSS"
+
+#. module: l10n_pt_hr
+#: model:l10n.pt.ss.regime,name:l10n_pt_hr.l10n_pt_ss_regime_moe_geral
+msgid "MOE - general"
+msgstr "MOE - geral"
+
+#. module: l10n_pt_hr
+#: model:l10n.pt.ss.regime,name:l10n_pt_hr.l10n_pt_ss_regime_mar
+msgid "Maritime workers"
+msgstr "Trabalhadores marítimos"
+
+#. module: l10n_pt_hr
+#: model:l10n.pt.irs.withholding.table,name:l10n_pt_hr.l10n_pt_irs_table_6
+msgid "Married — both filers, with one or more dependents — disabled"
+msgstr "Casado - ambos os titulares, com um ou mais dependentes - deficiente"
+
+#. module: l10n_pt_hr
+#: model:l10n.pt.irs.withholding.table,name:l10n_pt_hr.l10n_pt_irs_table_3
+msgid "Married — single income"
+msgstr "Casado - um só titular"
+
+#. module: l10n_pt_hr
+#: model:l10n.pt.irs.withholding.table,name:l10n_pt_hr.l10n_pt_irs_table_7
+msgid "Married — single income — disabled"
+msgstr "Casado - um só titular - deficiente"
+
+#. module: l10n_pt_hr
+#: model:l10n.pt.ss.regime,name:l10n_pt_hr.l10n_pt_ss_regime_igrejas
+msgid "Members of churches and religious confessions"
+msgstr "Membros de igrejas e confissões religiosas"
+
+#. module: l10n_pt_hr
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_collective_contract__name
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_establishment__name
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_irs_withholding_table__name
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_pay_grade__name
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_profession__name
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_professional_category__name
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_ss_regime__name
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_union__name
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_work_time_arrangement__name
+msgid "Name"
+msgstr "Nome"
+
+#. module: l10n_pt_hr
+#: model:ir.model.fields,help:l10n_pt_hr.field_l10n_pt_profession__code
+msgid "Official CPP/2010 code, reported in the Relatório Único (Tabela 16)."
+msgstr "Código oficial CPP/2010, indicado no Relatório Único (Tabela 16)."
+
+#. module: l10n_pt_hr
+#: model:ir.model.fields,help:l10n_pt_hr.field_l10n_pt_collective_contract__code
+msgid ""
+"Official reference of the agreement, e.g. the BTE publication number or CCT "
+"code."
+msgstr ""
+"Referência oficial do acordo, por exemplo o número de publicação do BTE ou o"
+" código do CCT."
+
+#. module: l10n_pt_hr
+#: model:ir.model.fields,help:l10n_pt_hr.field_l10n_pt_irs_withholding_table__code
+msgid ""
+"Official table number (Roman numeral) assigned by the annual Despacho "
+"approving the withholding tables."
+msgstr ""
+"Número oficial da tabela (numeral romano) atribuído pelo Despacho anual que "
+"aprova as tabelas de retenção."
+
+#. module: l10n_pt_hr
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_establishment__date_start
+msgid "Opening Date"
+msgstr "Data de Abertura"
+
+#. module: l10n_pt_hr
+#: model:ir.model.fields.selection,name:l10n_pt_hr.selection__hr_version__l10n_pt_id_doc_type__other
+msgid "Other"
+msgstr "Outro"
+
+#. module: l10n_pt_hr
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_hr_employee__l10n_pt_part_time
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_hr_version__l10n_pt_part_time
+msgid "Part-time"
+msgstr "Tempo Parcial"
+
+#. module: l10n_pt_hr
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_hr_employee__l10n_pt_pay_grade_id
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_hr_version__l10n_pt_pay_grade_id
+msgid "Pay Grade"
+msgstr "Escalão Remuneratório"
+
+#. module: l10n_pt_hr
+#: model:ir.model,name:l10n_pt_hr.model_l10n_pt_pay_grade
+msgid "Pay Grade (Escalão de Remuneração)"
+msgstr "Escalão de Remuneração"
+
+#. module: l10n_pt_hr
+#: model_terms:ir.ui.view,arch_db:l10n_pt_hr.view_employee_form_l10n_pt_hr
+msgid "Pay Grade - Portugal"
+msgstr "Escalão Remuneratório - Portugal"
+
+#. module: l10n_pt_hr
+#: model:ir.actions.act_window,name:l10n_pt_hr.l10n_pt_pay_grade_action
+#: model:ir.ui.menu,name:l10n_pt_hr.menu_l10n_pt_pay_grade
+msgid "Pay Grades"
+msgstr "Escalões Remuneratórios"
+
+#. module: l10n_pt_hr
+#: model:l10n.pt.irs.withholding.table,name:l10n_pt_hr.l10n_pt_irs_table_9
+msgid "Pension — married — single income"
+msgstr "Pensionista - casado - um só titular"
+
+#. module: l10n_pt_hr
+#: model:l10n.pt.irs.withholding.table,name:l10n_pt_hr.l10n_pt_irs_table_11
+msgid "Pension — married — single income — disabled"
+msgstr "Pensionista - casado - um só titular - deficiente"
+
+#. module: l10n_pt_hr
+#: model:l10n.pt.irs.withholding.table,name:l10n_pt_hr.l10n_pt_irs_table_8
+msgid "Pension — single or married — both filers"
+msgstr "Pensionista - solteiro ou casado - ambos os titulares"
+
+#. module: l10n_pt_hr
+#: model:l10n.pt.irs.withholding.table,name:l10n_pt_hr.l10n_pt_irs_table_10
+msgid "Pension — single or married — both filers — disabled"
+msgstr "Pensionista - solteiro ou casado - ambos os titulares - deficiente"
+
+#. module: l10n_pt_hr
+#: model:ir.model.fields,help:l10n_pt_hr.field_l10n_pt_union__l10n_pt_dues_rate
+msgid ""
+"Percentage of the contributory base used to compute the union dues "
+"(quotizacao sindical) withheld from the worker."
+msgstr ""
+"Percentagem da base contributiva usada para calcular as quotas sindicais "
+"retidas ao trabalhador."
+
+#. module: l10n_pt_hr
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_work_insurance__policy_number
+msgid "Policy Number"
+msgstr "Número da Apólice"
+
+#. module: l10n_pt_hr
+#: model:ir.ui.menu,name:l10n_pt_hr.menu_l10n_pt_hr_configuration
+msgid "Portugal"
+msgstr "Portugal"
+
+#. module: l10n_pt_hr
+#: model_terms:ir.ui.view,arch_db:l10n_pt_hr.view_employee_form_l10n_pt_hr
+msgid "Portugal: Employment Classification"
+msgstr "Portugal: Classificação Profissional"
+
+#. module: l10n_pt_hr
+#: model_terms:ir.ui.view,arch_db:l10n_pt_hr.view_employee_form_l10n_pt_hr
+msgid "Portugal: Social Security & Insurance"
+msgstr "Portugal: Segurança Social e Seguros"
+
+#. module: l10n_pt_hr
+#: model_terms:ir.ui.view,arch_db:l10n_pt_hr.view_employee_form_l10n_pt_hr
+msgid "Portugal: Work Time Agreement"
+msgstr "Portugal: Acordo de Tempo de Trabalho"
+
+#. module: l10n_pt_hr
+#: model_terms:ir.ui.view,arch_db:l10n_pt_hr.view_employee_form_l10n_pt_hr
+msgid "Portuguese Qualification Level (QNQ)"
+msgstr "Nível de Qualificação Português (QNQ)"
+
+#. module: l10n_pt_hr
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_work_insurance__rate
+msgid "Premium Rate (%)"
+msgstr "Taxa do Prémio (%)"
+
+#. module: l10n_pt_hr
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_establishment__principal_cae
+msgid "Principal CAE"
+msgstr "CAE Principal"
+
+#. module: l10n_pt_hr
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_hr_employee__l10n_pt_profession_id
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_hr_version__l10n_pt_profession_id
+msgid "Profession (CPP)"
+msgstr "Profissão (CPP)"
+
+#. module: l10n_pt_hr
+#: model:ir.model,name:l10n_pt_hr.model_l10n_pt_profession
+msgid "Profession (CPP/2010)"
+msgstr "Profissão (CPP/2010)"
+
+#. module: l10n_pt_hr
+#: model:ir.actions.act_window,name:l10n_pt_hr.l10n_pt_professional_category_action
+#: model:ir.ui.menu,name:l10n_pt_hr.menu_l10n_pt_professional_category
+msgid "Professional Categories"
+msgstr "Categorias Profissionais"
+
+#. module: l10n_pt_hr
+#: model:ir.model,name:l10n_pt_hr.model_l10n_pt_professional_category
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_hr_employee__l10n_pt_professional_category_id
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_hr_version__l10n_pt_professional_category_id
+msgid "Professional Category"
+msgstr "Categoria Profissional"
+
+#. module: l10n_pt_hr
+#: model:ir.actions.act_window,name:l10n_pt_hr.l10n_pt_profession_action
+#: model:ir.ui.menu,name:l10n_pt_hr.menu_l10n_pt_profession
+msgid "Professions (CPP)"
+msgstr "Profissões (CPP)"
+
+#. module: l10n_pt_hr
+#: model:l10n.pt.profession,name:l10n_pt_hr.profession_pt_software_dev
+msgid "Programador de aplicações informáticas"
+msgstr "Programador de aplicações informáticas"
+
+#. module: l10n_pt_hr
+#: model:hr.department,name:l10n_pt_hr.dep_pt_rd_ltp
+msgid "Projetos de Longo Prazo"
+msgstr "Projetos de Longo Prazo"
+
+#. module: l10n_pt_hr
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_hr_employee__l10n_pt_qualification_level
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_hr_version__l10n_pt_qualification_level
+msgid "Qualification Level (QNQ)"
+msgstr "Nível de Qualificação (QNQ)"
+
+#. module: l10n_pt_hr
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_establishment__ru_local_unit_id
+msgid "Relatório Único Local Unit ID"
+msgstr "ID da Unidade Local do Relatório Único"
+
+#. module: l10n_pt_hr
+#: model:ir.model.fields.selection,name:l10n_pt_hr.selection__hr_version__l10n_pt_id_doc_type__residence
+msgid "Residence Permit"
+msgstr "Autorização de Residência"
+
+#. module: l10n_pt_hr
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_collective_contract__sequence
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_irs_withholding_table__sequence
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_pay_grade__sequence
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_professional_category__sequence
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_ss_regime__sequence
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_union__sequence
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_work_time_arrangement__sequence
+msgid "Sequence"
+msgstr "Sequência"
+
+#. module: l10n_pt_hr
+#: model:hr.department,name:l10n_pt_hr.dep_pt_ps
+msgid "Serviços Profissionais"
+msgstr "Serviços Profissionais"
+
+#. module: l10n_pt_hr
+#: model:l10n.pt.irs.withholding.table,name:l10n_pt_hr.l10n_pt_irs_table_4
+msgid "Single or married — both filers — without dependents — disabled"
+msgstr ""
+"Solteiro ou casado - ambos os titulares - sem dependentes - deficiente"
+
+#. module: l10n_pt_hr
+#: model:l10n.pt.irs.withholding.table,name:l10n_pt_hr.l10n_pt_irs_table_2
+msgid "Single with one or more dependents"
+msgstr "Solteiro com um ou mais dependentes"
+
+#. module: l10n_pt_hr
+#: model:l10n.pt.irs.withholding.table,name:l10n_pt_hr.l10n_pt_irs_table_5
+msgid "Single with one or more dependents — disabled"
+msgstr "Solteiro com um ou mais dependentes - deficiente"
+
+#. module: l10n_pt_hr
+#: model:l10n.pt.irs.withholding.table,name:l10n_pt_hr.l10n_pt_irs_table_1
+msgid "Single without dependents or married — both filers"
+msgstr "Solteiro sem dependentes ou casado - ambos os titulares"
+
+#. module: l10n_pt_hr
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_establishment__ss_establishment_code
+msgid "Social Security Establishment Code"
+msgstr "Código de Estabelecimento da Segurança Social"
+
+#. module: l10n_pt_hr
+#: model:ir.model,name:l10n_pt_hr.model_l10n_pt_ss_regime
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_hr_employee__l10n_pt_ss_regime_id
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_hr_version__l10n_pt_ss_regime_id
+msgid "Social Security Regime"
+msgstr "Regime de Segurança Social"
+
+#. module: l10n_pt_hr
+#: model:ir.actions.act_window,name:l10n_pt_hr.l10n_pt_ss_regime_action
+#: model:ir.ui.menu,name:l10n_pt_hr.menu_l10n_pt_ss_regime
+msgid "Social Security Regimes"
+msgstr "Regimes de Segurança Social"
+
+#. module: l10n_pt_hr
+#: model:ir.model.fields,help:l10n_pt_hr.field_l10n_pt_ss_regime__code
+msgid ""
+"Stable technical code of the regime. Segurança Social does not publish "
+"numeric codes for regimes; this key identifies the situação contributiva in "
+"module data."
+msgstr ""
+"Código técnico estável do regime. A Segurança Social não publica códigos "
+"numéricos para os regimes; esta chave identifica a situação contributiva nos"
+" dados do módulo."
+
+#. module: l10n_pt_hr
+#: model:ir.model.fields,help:l10n_pt_hr.field_l10n_pt_ss_regime__l10n_pt_employer_rate
+msgid ""
+"TSU rate paid by the employer (entidade patronal). The default matches the "
+"general regime (23.75%)."
+msgstr ""
+"Taxa de TSU paga pela entidade patronal. O valor por predefinição "
+"corresponde ao regime geral (23,75%)."
+
+#. module: l10n_pt_hr
+#: model:ir.model.fields,help:l10n_pt_hr.field_l10n_pt_ss_regime__l10n_pt_employee_rate
+msgid ""
+"TSU rate withheld from the employee's pay (trabalhador). The default matches"
+" the general regime (11%)."
+msgstr ""
+"Taxa de TSU retida na retribuição do trabalhador. O valor por predefinição "
+"corresponde ao regime geral (11%)."
+
+#. module: l10n_pt_hr
+#: model:ir.model.fields,help:l10n_pt_hr.field_l10n_pt_ss_regime__l10n_pt_total_rate
+msgid "Taxa global: employee plus employer contribution rate."
+msgstr ""
+"Taxa global: taxa de contribuição do trabalhador mais entidade patronal."
+
+#. module: l10n_pt_hr
+#. odoo-python
+#: code:addons/l10n_pt_hr/models/hr_version.py:0
+msgid ""
+"The Social Security regime is required for employees of Portuguese "
+"companies."
+msgstr ""
+"O regime de Segurança Social é obrigatório para os trabalhadores de empresas"
+" portuguesas."
+
+#. module: l10n_pt_hr
+#: model:ir.model.constraint,message:l10n_pt_hr.constraint_l10n_pt_establishment_check_dates
+msgid "The closing date cannot be earlier than the opening date."
+msgstr "A data de encerramento não pode ser anterior à data de abertura."
+
+#. module: l10n_pt_hr
+#. odoo-python
+#: code:addons/l10n_pt_hr/models/res_company.py:0
+msgid "The default full-time hours must be a positive number."
+msgstr ""
+"As horas de tempo integral por predefinição devem ser um número positivo."
+
+#. module: l10n_pt_hr
+#. odoo-python
+#: code:addons/l10n_pt_hr/models/hr_version.py:0
+msgid "The establishment must belong to the employee's company."
+msgstr "O estabelecimento tem de pertencer à empresa do trabalhador."
+
+#. module: l10n_pt_hr
+#. odoo-python
+#: code:addons/l10n_pt_hr/models/l10n_pt_collective_contract.py:0
+msgid ""
+"The full-time reference hours must be zero or a positive finite number."
+msgstr ""
+"As horas de referência a tempo integral devem ser zero ou um número positivo"
+" finito."
+
+#. module: l10n_pt_hr
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_ss_regime__l10n_pt_total_rate
+msgid "Total Rate (%)"
+msgstr "Taxa Total (%)"
+
+#. module: l10n_pt_hr
+#: model:ir.model,name:l10n_pt_hr.model_l10n_pt_union
+msgid "Trade Union"
+msgstr "Sindicato"
+
+#. module: l10n_pt_hr
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_hr_employee__l10n_pt_union_id
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_hr_version__l10n_pt_union_id
+msgid "Union"
+msgstr "Sindicato"
+
+#. module: l10n_pt_hr
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_l10n_pt_union__l10n_pt_dues_rate
+msgid "Union Dues Rate (%)"
+msgstr "Taxa de Quotização Sindical (%)"
+
+#. module: l10n_pt_hr
+#: model:ir.actions.act_window,name:l10n_pt_hr.l10n_pt_union_action
+#: model:ir.ui.menu,name:l10n_pt_hr.menu_l10n_pt_union
+msgid "Unions"
+msgstr "Sindicatos"
+
+#. module: l10n_pt_hr
+#: model:l10n.pt.ss.regime,name:l10n_pt_hr.l10n_pt_ss_regime_facultativo
+msgid "Voluntary social insurance"
+msgstr "Seguro social voluntário"
+
+#. module: l10n_pt_hr
+#: model:ir.model.fields,help:l10n_pt_hr.field_l10n_pt_collective_contract__l10n_pt_full_time_hours
+msgid ""
+"Weekly hours of a full-time contract under this agreement; 0 means not "
+"configured."
+msgstr ""
+"Horas semanais de um contrato a tempo integral ao abrigo deste acordo; 0 "
+"significa não configurado."
+
+#. module: l10n_pt_hr
+#: model:ir.model.fields,help:l10n_pt_hr.field_hr_employee__l10n_pt_full_time_reference_hours
+#: model:ir.model.fields,help:l10n_pt_hr.field_hr_version__l10n_pt_full_time_reference_hours
+msgid ""
+"Weekly hours of a full-time contract used to tell part-time from full-time; "
+"defaults from the collective contract or the company setting and can be "
+"overridden per contract."
+msgstr ""
+"Horas semanais de um contrato a tempo integral usadas para distinguir tempo "
+"parcial de tempo integral; vêm por predefinição do acordo coletivo ou da "
+"configuração da empresa e podem ser substituídas por contrato."
+
+#. module: l10n_pt_hr
+#: model:ir.model.fields,help:l10n_pt_hr.field_res_company__l10n_pt_full_time_hours
+msgid ""
+"Weekly hours used as the full-time reference for Portuguese contracts when "
+"the collective contract does not set one."
+msgstr ""
+"Horas semanais usadas como referência de tempo integral para contratos "
+"portugueses quando o acordo coletivo não define nenhuma."
+
+#. module: l10n_pt_hr
+#. odoo-python
+#: code:addons/l10n_pt_hr/models/hr_version.py:0
+msgid "Weekly working hours must be zero or a positive finite number."
+msgstr ""
+"As horas de trabalho semanais devem ser zero ou um número positivo finito."
+
+#. module: l10n_pt_hr
+#: model:ir.model,name:l10n_pt_hr.model_l10n_pt_work_insurance
+msgid "Work Accident Insurance (SAT)"
+msgstr "Seguro de Acidentes de Trabalho (SAT)"
+
+#. module: l10n_pt_hr
+#: model_terms:ir.ui.view,arch_db:l10n_pt_hr.view_employee_form_l10n_pt_hr
+msgid "Work Accident Insurance Policy"
+msgstr "Apólice de Seguro de Acidentes de Trabalho"
+
+#. module: l10n_pt_hr
+#: model:ir.actions.act_window,name:l10n_pt_hr.l10n_pt_work_insurance_action
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_hr_employee__l10n_pt_work_insurance_id
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_hr_version__l10n_pt_work_insurance_id
+#: model:ir.ui.menu,name:l10n_pt_hr.menu_l10n_pt_work_insurance
+msgid "Work Insurance"
+msgstr "Seguro de Trabalho"
+
+#. module: l10n_pt_hr
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_hr_employee__l10n_pt_work_time_arrangement_id
+#: model:ir.model.fields,field_description:l10n_pt_hr.field_hr_version__l10n_pt_work_time_arrangement_id
+msgid "Work Time Arrangement"
+msgstr "Acordo de Tempo de Trabalho"
+
+#. module: l10n_pt_hr
+#: model:ir.actions.act_window,name:l10n_pt_hr.l10n_pt_work_time_arrangement_action
+#: model:ir.ui.menu,name:l10n_pt_hr.menu_l10n_pt_work_time_arrangement
+msgid "Work Time Arrangements"
+msgstr "Acordos de Tempo de Trabalho"
+
+#. module: l10n_pt_hr
+#: model:ir.model.fields,help:l10n_pt_hr.field_l10n_pt_work_insurance__rate
+msgid ""
+"Work accident insurance (SAT) premium rate applied to the Social Security "
+"contribution base; varies by risk class (CAE) and insurer."
+msgstr ""
+"Taxa do prémio do seguro de acidentes de trabalho (SAT) aplicada à base "
+"contributiva da Segurança Social; varia consoante a classe de risco (CAE) e "
+"a seguradora."
+
+#. module: l10n_pt_hr
+#: model:ir.model,name:l10n_pt_hr.model_l10n_pt_work_time_arrangement
+msgid "Working Time Arrangement"
+msgstr "Acordo de Tempo de Trabalho"
+
+#. module: l10n_pt_hr
+#: model_terms:ir.ui.view,arch_db:l10n_pt_hr.l10n_pt_establishment_form
+msgid "e.g. Headquarters"
+msgstr "ex.: Sede"

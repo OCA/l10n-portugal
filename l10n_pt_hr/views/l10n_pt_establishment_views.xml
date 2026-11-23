@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="l10n_pt_establishment_list" model="ir.ui.view">
+        <field name="name">l10n.pt.establishment.list</field>
+        <field name="model">l10n.pt.establishment</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name" />
+                <field name="company_id" groups="base.group_multi_company" />
+                <field name="ss_establishment_code" />
+                <field name="ru_local_unit_id" />
+                <field name="principal_cae" />
+                <field name="date_start" />
+                <field name="date_end" />
+                <field name="active" column_invisible="1" />
+            </list>
+        </field>
+    </record>
+    <record id="l10n_pt_establishment_search" model="ir.ui.view">
+        <field name="name">l10n.pt.establishment.search</field>
+        <field name="model">l10n.pt.establishment</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name" />
+                <field name="company_id" groups="base.group_multi_company" />
+                <field name="ss_establishment_code" />
+                <field name="ru_local_unit_id" />
+                <filter
+                    name="inactive"
+                    string="Archived"
+                    domain="[('active', '=', False)]"
+                    context="{'active_test': False}"
+                />
+                <separator />
+                <group>
+                    <filter
+                        name="group_company"
+                        string="Company"
+                        domain="[]"
+                        context="{'group_by': 'company_id'}"
+                        groups="base.group_multi_company"
+                    />
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="l10n_pt_establishment_form" model="ir.ui.view">
+        <field name="name">l10n.pt.establishment.form</field>
+        <field name="model">l10n.pt.establishment</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <widget
+                        name="web_ribbon"
+                        title="Archived"
+                        bg_color="text-bg-danger"
+                        invisible="active"
+                    />
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="e.g. Headquarters" />
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field
+                                name="company_id"
+                                groups="base.group_multi_company"
+                                readonly="id"
+                            />
+                            <field
+                                name="address_id"
+                                context="{'show_address': 1}"
+                                options="{'no_create': True}"
+                            />
+                            <field name="principal_cae" />
+                        </group>
+                        <group>
+                            <field name="ss_establishment_code" />
+                            <field name="ru_local_unit_id" />
+                            <field name="date_start" />
+                            <field name="date_end" />
+                            <field name="active" invisible="1" />
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="l10n_pt_establishment_action" model="ir.actions.act_window">
+        <field name="name">Establishments</field>
+        <field name="res_model">l10n.pt.establishment</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="l10n_pt_establishment_search" />
+        <field name="context">{}</field>
+    </record>
+
+    <menuitem
+        id="menu_l10n_pt_establishment"
+        name="Establishments"
+        action="l10n_pt_establishment_action"
+        parent="menu_l10n_pt_hr_configuration"
+        groups="hr.group_hr_manager"
+        sequence="100"
+    />
+
+    <record id="res_company_form_view_l10n_pt_hr" model="ir.ui.view">
+        <field name="name">res.company.form.l10n.pt.hr</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="base.view_company_form" />
+        <field name="arch" type="xml">
+            <xpath
+                expr="//page[@name='general_info']//field[@name='vat']"
+                position="after"
+            >
+                <field
+                    name="l10n_pt_default_establishment_id"
+                    string="Default Establishment"
+                    invisible="country_id != %(base.pt)d"
+                    groups="base.group_system"
+                    domain="[('company_id', '=', id), ('active', '=', True)]"
+                    options="{'no_create': True}"
+                />
+            </xpath>
+        </field>
+    </record>
+</odoo>

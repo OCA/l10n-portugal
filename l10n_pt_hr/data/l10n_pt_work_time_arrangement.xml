@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+    <record id="work_time_arrangement_fixed" model="l10n.pt.work.time.arrangement">
+        <field name="name">Fixed Schedule</field>
+        <field name="sequence">10</field>
+    </record>
+    <record id="work_time_arrangement_flexible" model="l10n.pt.work.time.arrangement">
+        <field name="name">Flexible Schedule</field>
+        <field name="sequence">20</field>
+    </record>
+    <record id="work_time_arrangement_iht" model="l10n.pt.work.time.arrangement">
+        <field name="name">Exempt Schedule (IHT)</field>
+        <field name="sequence">30</field>
+    </record>
+</odoo>
