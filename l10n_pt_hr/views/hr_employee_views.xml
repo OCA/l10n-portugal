@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_employee_form_l10n_pt_hr" model="ir.ui.view">
+        <field name="name">hr.employee.form.l10n.pt.hr</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//div[@id='o_work_information']" position="inside">
+                <field
+                    name="company_country_code"
+                    invisible="1"
+                    groups="hr.group_hr_user"
+                />
+                <group
+                    string="Portugal: Employment Classification"
+                    name="l10n_pt_hr"
+                    groups="hr.group_hr_user"
+                    invisible="company_country_code != 'PT'"
+                >
+                    <field name="l10n_pt_irct_id" />
+                    <field
+                        name="l10n_pt_professional_category_id"
+                        domain="['|', ('irct_id', '=', l10n_pt_irct_id), ('irct_id', '=', False)]"
+                    />
+                    <field
+                        name="l10n_pt_qualification_level"
+                        string="Portuguese Qualification Level (QNQ)"
+                    />
+                    <field name="l10n_pt_union_id" />
+                    <field name="l10n_pt_profession_id" />
+                </group>
+            </xpath>
+            <xpath
+                expr="//group[@name='citizenship']/field[@name='identification_id']"
+                position="before"
+            >
+                <field
+                    name="l10n_pt_id_doc_type"
+                    string="ID Document Type - Portugal"
+                    invisible="company_country_code != 'PT'"
+                />
+            </xpath>
+            <xpath
+                expr="//group[@name='citizenship']/field[@name='identification_id']"
+                position="after"
+            >
+                <field
+                    name="l10n_pt_id_doc_expiry"
+                    string="ID Document Expiry - Portugal"
+                    invisible="company_country_code != 'PT' or not l10n_pt_id_doc_type"
+                />
+            </xpath>
+            <xpath expr="//group[@name='hr_birth_group']" position="inside">
+                <field
+                    name="l10n_pt_disability_degree"
+                    string="Disability Degree (%) - Portugal"
+                    invisible="company_country_code != 'PT'"
+                />
+            </xpath>
+            <xpath
+                expr="//page[@name='payroll_information']//group[@name='contract']//field[@name='structure_type_id']"
+                position="after"
+            >
+                <field
+                    name="l10n_pt_pay_grade_id"
+                    string="Pay Grade - Portugal"
+                    invisible="company_country_code != 'PT'"
+                />
+            </xpath>
+            <xpath
+                expr="//page[@name='payroll_information']//group[@name='payroll_group']"
+                position="inside"
+            >
+                <group
+                    name="l10n_pt_payroll_social_security"
+                    string="Portugal: Social Security &amp; Insurance"
+                    invisible="company_country_code != 'PT'"
+                >
+                    <field name="l10n_pt_ss_regime_id" />
+                    <field
+                        name="l10n_pt_work_insurance_id"
+                        string="Work Accident Insurance Policy"
+                    />
+                </group>
+            </xpath>
+            <xpath
+                expr="//page[@name='payroll_information']//group[@name='contract']/separator[@name='schedule']"
+                position="attributes"
+            >
+                <attribute name="invisible">company_country_code == 'PT'</attribute>
+            </xpath>
+            <xpath
+                expr="//page[@name='payroll_information']//group[@name='contract']/separator[@name='schedule']"
+                position="before"
+            >
+                <separator
+                    name="l10n_pt_work_time_agreement"
+                    string="Portugal: Work Time Agreement"
+                    invisible="company_country_code != 'PT'"
+                />
+            </xpath>
+            <xpath
+                expr="//page[@name='payroll_information']//group[@name='contract']/field[@name='resource_calendar_id']"
+                position="after"
+            >
+                <field
+                    name="l10n_pt_work_time_arrangement_id"
+                    options="{'no_create': True}"
+                    invisible="company_country_code != 'PT'"
+                />
+                <field
+                    name="l10n_pt_weekly_pnt_hours"
+                    invisible="company_country_code != 'PT'"
+                />
+                <field
+                    name="l10n_pt_full_time_reference_hours"
+                    invisible="company_country_code != 'PT'"
+                />
+                <field
+                    name="l10n_pt_part_time"
+                    invisible="company_country_code != 'PT'"
+                />
+            </xpath>
+            <xpath
+                expr="//page[@name='work_information']//field[@name='work_location_id']"
+                position="after"
+            >
+                <field
+                    name="l10n_pt_establishment_id"
+                    groups="hr.group_hr_user"
+                    invisible="company_country_code != 'PT'"
+                    domain="[('company_id', '=', company_id), ('active', '=', True)]"
+                    options="{'no_create': True, 'no_open': True}"
+                />
+            </xpath>
+        </field>
+    </record>
+</odoo>

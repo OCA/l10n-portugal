@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="l10n_pt_irct_list" model="ir.ui.view">
+        <field name="name">l10n.pt.collective.contract.list</field>
+        <field name="model">l10n.pt.collective.contract</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="sequence" widget="handle" />
+                <field name="name" />
+                <field name="code" />
+            </list>
+        </field>
+    </record>
+    <record id="l10n_pt_irct_form" model="ir.ui.view">
+        <field name="name">l10n.pt.collective.contract.form</field>
+        <field name="model">l10n.pt.collective.contract</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name" />
+                        <field name="code" />
+                        <field name="l10n_pt_full_time_hours" />
+                        <field name="sequence" />
+                        <field name="active" invisible="1" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="l10n_pt_irct_action" model="ir.actions.act_window">
+        <field name="name">Collective Contracts</field>
+        <field name="res_model">l10n.pt.collective.contract</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="l10n_pt_professional_category_list" model="ir.ui.view">
+        <field name="name">l10n.pt.professional.category.list</field>
+        <field name="model">l10n.pt.professional.category</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="sequence" widget="handle" />
+                <field name="name" />
+                <field name="code" />
+                <field name="irct_id" />
+            </list>
+        </field>
+    </record>
+    <record id="l10n_pt_professional_category_form" model="ir.ui.view">
+        <field name="name">l10n.pt.professional.category.form</field>
+        <field name="model">l10n.pt.professional.category</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name" />
+                        <field name="code" />
+                        <field name="irct_id" />
+                        <field name="sequence" />
+                        <field name="active" invisible="1" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="l10n_pt_professional_category_action" model="ir.actions.act_window">
+        <field name="name">Professional Categories</field>
+        <field name="res_model">l10n.pt.professional.category</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="l10n_pt_union_list" model="ir.ui.view">
+        <field name="name">l10n.pt.union.list</field>
+        <field name="model">l10n.pt.union</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="sequence" widget="handle" />
+                <field name="name" />
+                <field name="code" />
+                <field name="l10n_pt_dues_rate" />
+            </list>
+        </field>
+    </record>
+    <record id="l10n_pt_union_form" model="ir.ui.view">
+        <field name="name">l10n.pt.union.form</field>
+        <field name="model">l10n.pt.union</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name" />
+                        <field name="code" />
+                        <field name="l10n_pt_dues_rate" />
+                        <field name="sequence" />
+                        <field name="active" invisible="1" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="l10n_pt_union_action" model="ir.actions.act_window">
+        <field name="name">Unions</field>
+        <field name="res_model">l10n.pt.union</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="l10n_pt_profession_list" model="ir.ui.view">
+        <field name="name">l10n.pt.profession.list</field>
+        <field name="model">l10n.pt.profession</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="code" />
+                <field name="name" />
+            </list>
+        </field>
+    </record>
+    <record id="l10n_pt_profession_form" model="ir.ui.view">
+        <field name="name">l10n.pt.profession.form</field>
+        <field name="model">l10n.pt.profession</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="code" />
+                        <field name="name" />
+                        <field name="active" invisible="1" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="l10n_pt_profession_action" model="ir.actions.act_window">
+        <field name="name">Professions (CPP)</field>
+        <field name="res_model">l10n.pt.profession</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="l10n_pt_pay_grade_list" model="ir.ui.view">
+        <field name="name">l10n.pt.pay.grade.list</field>
+        <field name="model">l10n.pt.pay.grade</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="sequence" widget="handle" />
+                <field name="name" />
+                <field name="code" />
+            </list>
+        </field>
+    </record>
+    <record id="l10n_pt_pay_grade_form" model="ir.ui.view">
+        <field name="name">l10n.pt.pay.grade.form</field>
+        <field name="model">l10n.pt.pay.grade</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name" />
+                        <field name="code" />
+                        <field name="sequence" />
+                        <field name="active" invisible="1" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="l10n_pt_pay_grade_action" model="ir.actions.act_window">
+        <field name="name">Pay Grades</field>
+        <field name="res_model">l10n.pt.pay.grade</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem
+        id="menu_l10n_pt_hr_configuration"
+        name="Portugal"
+        parent="hr.menu_human_resources_configuration"
+        sequence="50"
+    />
+
+    <menuitem
+        id="menu_l10n_pt_irct"
+        name="Collective Contracts"
+        action="l10n_pt_irct_action"
+        parent="menu_l10n_pt_hr_configuration"
+        sequence="10"
+    />
+
+    <menuitem
+        id="menu_l10n_pt_professional_category"
+        name="Professional Categories"
+        action="l10n_pt_professional_category_action"
+        parent="menu_l10n_pt_hr_configuration"
+        sequence="20"
+    />
+
+    <menuitem
+        id="menu_l10n_pt_union"
+        name="Unions"
+        action="l10n_pt_union_action"
+        parent="menu_l10n_pt_hr_configuration"
+        sequence="30"
+    />
+
+    <menuitem
+        id="menu_l10n_pt_profession"
+        name="Professions (CPP)"
+        action="l10n_pt_profession_action"
+        parent="menu_l10n_pt_hr_configuration"
+        sequence="40"
+    />
+
+    <menuitem
+        id="menu_l10n_pt_pay_grade"
+        name="Pay Grades"
+        action="l10n_pt_pay_grade_action"
+        parent="menu_l10n_pt_hr_configuration"
+        sequence="50"
+    />
+
+    <record id="l10n_pt_ss_regime_list" model="ir.ui.view">
+        <field name="name">l10n.pt.ss.regime.list</field>
+        <field name="model">l10n.pt.ss.regime</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="sequence" widget="handle" />
+                <field name="code" />
+                <field name="name" />
+            </list>
+        </field>
+    </record>
+    <record id="l10n_pt_ss_regime_form" model="ir.ui.view">
+        <field name="name">l10n.pt.ss.regime.form</field>
+        <field name="model">l10n.pt.ss.regime</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group name="main">
+                        <field name="name" />
+                        <field name="code" />
+                        <field name="sequence" />
+                        <field name="active" invisible="1" />
+                    </group>
+                    <group string="Contribution Rates">
+                        <group>
+                            <field name="l10n_pt_employee_rate" />
+                            <field name="l10n_pt_employer_rate" />
+                            <field name="l10n_pt_total_rate" />
+                        </group>
+                        <group>
+                            <field name="l10n_pt_dr_code" />
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="l10n_pt_ss_regime_action" model="ir.actions.act_window">
+        <field name="name">Social Security Regimes</field>
+        <field name="res_model">l10n.pt.ss.regime</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="l10n_pt_irs_table_list" model="ir.ui.view">
+        <field name="name">l10n.pt.irs.withholding.table.list</field>
+        <field name="model">l10n.pt.irs.withholding.table</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="sequence" widget="handle" />
+                <field name="code" />
+                <field name="name" />
+            </list>
+        </field>
+    </record>
+    <record id="l10n_pt_irs_table_form" model="ir.ui.view">
+        <field name="name">l10n.pt.irs.withholding.table.form</field>
+        <field name="model">l10n.pt.irs.withholding.table</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name" />
+                        <field name="code" />
+                        <field name="sequence" />
+                        <field name="active" invisible="1" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="l10n_pt_irs_table_action" model="ir.actions.act_window">
+        <field name="name">IRS Withholding Tables</field>
+        <field name="res_model">l10n.pt.irs.withholding.table</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem
+        id="menu_l10n_pt_ss_regime"
+        name="Social Security Regimes"
+        action="l10n_pt_ss_regime_action"
+        parent="menu_l10n_pt_hr_configuration"
+        sequence="60"
+    />
+
+    <menuitem
+        id="menu_l10n_pt_irs_table"
+        name="IRS Withholding Tables"
+        action="l10n_pt_irs_table_action"
+        parent="menu_l10n_pt_hr_configuration"
+        sequence="70"
+    />
+
+    <record id="l10n_pt_work_insurance_list" model="ir.ui.view">
+        <field name="name">l10n.pt.work.insurance.list</field>
+        <field name="model">l10n.pt.work.insurance</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="insurer_id" />
+                <field name="policy_number" />
+                <field name="date_start" />
+                <field name="date_end" />
+            </list>
+        </field>
+    </record>
+    <record id="l10n_pt_work_insurance_form" model="ir.ui.view">
+        <field name="name">l10n.pt.work.insurance.form</field>
+        <field name="model">l10n.pt.work.insurance</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="insurer_id" />
+                        <field name="policy_number" />
+                        <field name="rate" />
+                        <field name="date_start" />
+                        <field name="date_end" />
+                        <field name="active" invisible="1" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="l10n_pt_work_insurance_action" model="ir.actions.act_window">
+        <field name="name">Work Insurance</field>
+        <field name="res_model">l10n.pt.work.insurance</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem
+        id="menu_l10n_pt_work_insurance"
+        name="Work Insurance"
+        action="l10n_pt_work_insurance_action"
+        parent="menu_l10n_pt_hr_configuration"
+        sequence="80"
+    />
+
+    <record id="l10n_pt_work_time_arrangement_list" model="ir.ui.view">
+        <field name="name">l10n.pt.work.time.arrangement.list</field>
+        <field name="model">l10n.pt.work.time.arrangement</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="sequence" widget="handle" />
+                <field name="name" />
+                <field name="active" optional="hide" />
+            </list>
+        </field>
+    </record>
+    <record id="l10n_pt_work_time_arrangement_form" model="ir.ui.view">
+        <field name="name">l10n.pt.work.time.arrangement.form</field>
+        <field name="model">l10n.pt.work.time.arrangement</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name" />
+                        <field name="sequence" />
+                        <field name="active" invisible="1" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="l10n_pt_work_time_arrangement_action" model="ir.actions.act_window">
+        <field name="name">Work Time Arrangements</field>
+        <field name="res_model">l10n.pt.work.time.arrangement</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem
+        id="menu_l10n_pt_work_time_arrangement"
+        name="Work Time Arrangements"
+        action="l10n_pt_work_time_arrangement_action"
+        parent="menu_l10n_pt_hr_configuration"
+        groups="hr.group_hr_manager"
+        sequence="90"
+    />
+</odoo>

@@ -1,0 +1,22 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_l10n_pt_irct_hr_user,l10n.pt.collective.contract hr user,model_l10n_pt_collective_contract,hr.group_hr_user,1,0,0,0
+access_l10n_pt_irct_hr_manager,l10n.pt.collective.contract hr manager,model_l10n_pt_collective_contract,hr.group_hr_manager,1,1,1,1
+access_l10n_pt_professional_category_hr_user,l10n.pt.professional.category hr user,model_l10n_pt_professional_category,hr.group_hr_user,1,0,0,0
+access_l10n_pt_professional_category_hr_manager,l10n.pt.professional.category hr manager,model_l10n_pt_professional_category,hr.group_hr_manager,1,1,1,1
+access_l10n_pt_union_hr_user,l10n.pt.union hr user,model_l10n_pt_union,hr.group_hr_user,1,0,0,0
+access_l10n_pt_union_hr_manager,l10n.pt.union hr manager,model_l10n_pt_union,hr.group_hr_manager,1,1,1,1
+access_l10n_pt_profession_hr_user,l10n.pt.profession hr user,model_l10n_pt_profession,hr.group_hr_user,1,0,0,0
+access_l10n_pt_profession_hr_manager,l10n.pt.profession hr manager,model_l10n_pt_profession,hr.group_hr_manager,1,1,1,1
+access_l10n_pt_pay_grade_hr_user,l10n.pt.pay.grade hr user,model_l10n_pt_pay_grade,hr.group_hr_user,1,0,0,0
+access_l10n_pt_pay_grade_hr_manager,l10n.pt.pay.grade hr manager,model_l10n_pt_pay_grade,hr.group_hr_manager,1,1,1,1
+access_l10n_pt_ss_regime_hr_user,l10n.pt.ss.regime hr user,model_l10n_pt_ss_regime,hr.group_hr_user,1,0,0,0
+access_l10n_pt_ss_regime_hr_manager,l10n.pt.ss.regime hr manager,model_l10n_pt_ss_regime,hr.group_hr_manager,1,1,1,1
+access_l10n_pt_irs_table_hr_user,l10n.pt.irs.withholding.table hr user,model_l10n_pt_irs_withholding_table,hr.group_hr_user,1,0,0,0
+access_l10n_pt_irs_table_hr_manager,l10n.pt.irs.withholding.table hr manager,model_l10n_pt_irs_withholding_table,hr.group_hr_manager,1,1,1,1
+access_l10n_pt_work_insurance_hr_user,l10n.pt.work.insurance hr user,model_l10n_pt_work_insurance,hr.group_hr_user,1,0,0,0
+access_l10n_pt_work_insurance_hr_manager,l10n.pt.work.insurance hr manager,model_l10n_pt_work_insurance,hr.group_hr_manager,1,1,1,1
+access_l10n_pt_work_time_arrangement_hr_user,l10n.pt.work.time.arrangement hr user,model_l10n_pt_work_time_arrangement,hr.group_hr_user,1,0,0,0
+access_l10n_pt_work_time_arrangement_hr_manager,l10n.pt.work.time.arrangement hr manager,model_l10n_pt_work_time_arrangement,hr.group_hr_manager,1,1,1,0
+access_l10n_pt_establishment_system,l10n.pt.establishment system,model_l10n_pt_establishment,base.group_system,1,0,0,0
+access_l10n_pt_establishment_hr_user,l10n.pt.establishment hr user,model_l10n_pt_establishment,hr.group_hr_user,1,0,0,0
+access_l10n_pt_establishment_hr_manager,l10n.pt.establishment hr manager,model_l10n_pt_establishment,hr.group_hr_manager,1,1,1,0

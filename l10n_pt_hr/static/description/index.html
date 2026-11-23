@@ -1,0 +1,2648 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils: https://docutils.sourceforge.io/" />
+<title>README.rst</title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 9511 2024-01-13 09:50:07Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+Despite the name, some widely supported CSS2 features are used.
+
+See https://docutils.sourceforge.io/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+.subscript {
+  vertical-align: sub;
+  font-size: smaller }
+
+.superscript {
+  vertical-align: super;
+  font-size: smaller }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left, table.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right, table.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+.align-top    {
+  vertical-align: top }
+
+.align-middle {
+  vertical-align: middle }
+
+.align-bottom {
+  vertical-align: bottom }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: gray; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic, pre.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document">
+
+
+<a class="reference external image-reference" href="https://odoo-community.org/get-involved?utm_source=readme">
+<img alt="Odoo Community Association" src="https://odoo-community.org/readme-banner-image" />
+</a>
+<div class="section" id="portugal-human-resources">
+<h1>Portugal - Human Resources</h1>
+<!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!! This file is generated by oca-gen-addon-readme !!
+!! changes will be overwritten.                   !!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!! source digest: sha256:4b283a18786541d94625fa1b8d490876a99e5643bb6bf4061b9d2434ca338548
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+<p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Alpha" src="https://img.shields.io/badge/maturity-Alpha-red.png" /></a> <a class="reference external image-reference" href="http://www.gnu.org/licenses/lgpl-3.0-standalone.html"><img alt="License: LGPL-3" src="https://img.shields.io/badge/license-LGPL--3-blue.png" /></a> <a class="reference external image-reference" href="https://github.com/OCA/l10n-portugal/tree/19.0/l10n_pt_hr"><img alt="OCA/l10n-portugal" src="https://img.shields.io/badge/github-OCA%2Fl10n--portugal-lightgray.png?logo=github" /></a> <a class="reference external image-reference" href="https://translation.odoo-community.org/projects/l10n-portugal-19-0/l10n-portugal-19-0-l10n_pt_hr"><img alt="Translate me on Weblate" src="https://img.shields.io/badge/weblate-Translate%20me-F47D42.png" /></a> <a class="reference external image-reference" href="https://runboat.odoo-community.org/builds?repo=OCA/l10n-portugal&amp;target_branch=19.0"><img alt="Try me on Runboat" src="https://img.shields.io/badge/runboat-Try%20me-875A7B.png" /></a></p>
+<p>Portuguese localization support for Human Resources.</p>
+<p>Features:</p>
+<ul class="simple">
+<li>Demo data for the “PT Company” (<tt class="docutils literal">base.demo_company_pt</tt> from
+<tt class="docutils literal">l10n_pt</tt>): a full set of Portuguese employees mirroring the core
+<tt class="docutils literal">hr</tt> demo data, including a Portuguese department tree, work
+location, working schedule, contract versions and department managers,
+with Portuguese job titles.</li>
+<li>Extra translations (<tt class="docutils literal">i18n_extra/pt.po</tt>) for the core demo Job
+Positions used by the demo data.</li>
+</ul>
+<div class="admonition important">
+<p class="first admonition-title">Important</p>
+<p class="last">This is an alpha version, the data model and design can change at any time without warning.
+Only for development or testing purpose, do not use in production.
+<a class="reference external" href="https://odoo-community.org/page/development-status">More details on development status</a></p>
+</div>
+<p><strong>Table of contents</strong></p>
+<div class="contents local topic" id="contents">
+<ul class="simple">
+<li><a class="reference internal" href="#configuration" id="toc-entry-1">Configuration</a></li>
+<li><a class="reference internal" href="#data-elements-required-for-portugal" id="toc-entry-2">Data elements required for Portugal</a><ul>
+<li><a class="reference internal" href="#worker-identification" id="toc-entry-3">Worker identification</a></li>
+<li><a class="reference internal" href="#employment-relationship" id="toc-entry-4">Employment relationship</a></li>
+<li><a class="reference internal" href="#pay-and-statutory-processing" id="toc-entry-5">Pay and statutory processing</a></li>
+<li><a class="reference internal" href="#time-leave-and-attendance" id="toc-entry-6">Time, leave and attendance</a></li>
+<li><a class="reference internal" href="#statutory-reporting-requirements" id="toc-entry-7">Statutory reporting requirements</a><ul>
+<li><a class="reference internal" href="#employee-master-data-required-by-the-dmr-at" id="toc-entry-8">Employee master data required by the DMR-AT</a></li>
+<li><a class="reference internal" href="#employee-master-data-required-by-the-dmr-ss" id="toc-entry-9">Employee master data required by the DMR-SS</a></li>
+<li><a class="reference internal" href="#master-data-checklist-for-both-declarations" id="toc-entry-10">Master data checklist for both declarations</a></li>
+<li><a class="reference internal" href="#annual-relatorio-unico-ru-dgcp" id="toc-entry-11">Annual Relatório Único (RU) — DGCP</a></li>
+<li><a class="reference internal" href="#establishments-unidades-locais-in-the-ru" id="toc-entry-12">Establishments (“Unidades Locais”) in the RU</a></li>
+<li><a class="reference internal" href="#per-worker-fields-of-the-anexo-a-quadro-de-pessoal" id="toc-entry-13">Per-worker fields of the Anexo A “Quadro de Pessoal”</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#qualifications-and-career" id="toc-entry-14">Qualifications and career</a></li>
+<li><a class="reference internal" href="#proposed-fields" id="toc-entry-15">Proposed fields</a><ul>
+<li><a class="reference internal" href="#placement-rules" id="toc-entry-16">Placement rules</a></li>
+<li><a class="reference internal" href="#hr-version-worker-identification" id="toc-entry-17"><tt class="docutils literal">hr.version</tt> — worker identification</a></li>
+<li><a class="reference internal" href="#hr-version-employment-relationship" id="toc-entry-18"><tt class="docutils literal">hr.version</tt> — employment relationship</a></li>
+<li><a class="reference internal" href="#l10n-pt-establishment-estabelecimento-unidade-local" id="toc-entry-19"><tt class="docutils literal">l10n.pt.establishment</tt> — estabelecimento / unidade local</a></li>
+<li><a class="reference internal" href="#hr-employee-career-history" id="toc-entry-20"><tt class="docutils literal">hr.employee</tt> — career history</a></li>
+<li><a class="reference internal" href="#new-models" id="toc-entry-21">New models</a></li>
+<li><a class="reference internal" href="#data-not-fields" id="toc-entry-22">Data, not fields</a></li>
+<li><a class="reference internal" href="#open-questions-for-the-specialist-review" id="toc-entry-23">Open questions for the specialist review</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#hr-employee-master-data-hr-employee-master-data-oca-hr" id="toc-entry-24">HR Employee Master Data (<tt class="docutils literal">hr_employee_master_data</tt>, OCA/hr)</a><ul>
+<li><a class="reference internal" href="#models" id="toc-entry-25">Models</a></li>
+<li><a class="reference internal" href="#attribute-scope-countries-and-companies" id="toc-entry-26">Attribute scope — countries and companies</a></li>
+<li><a class="reference internal" href="#change-reasons" id="toc-entry-27">Change reasons</a></li>
+<li><a class="reference internal" href="#assignment-semantics" id="toc-entry-28">Assignment semantics</a></li>
+<li><a class="reference internal" href="#employee-form-master-data-page" id="toc-entry-29">Employee form — Master Data page</a></li>
+<li><a class="reference internal" href="#employee-change-bulk" id="toc-entry-30">Employee Change (bulk)</a></li>
+<li><a class="reference internal" href="#relationship-to-l10n-pt-hr" id="toc-entry-31">Relationship to <tt class="docutils literal">l10n_pt_hr</tt></a></li>
+<li><a class="reference internal" href="#open-questions-for-hr-employee-master-data" id="toc-entry-32">Open questions for <tt class="docutils literal">hr_employee_master_data</tt></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#usage" id="toc-entry-33">Usage</a><ul>
+<li><a class="reference internal" href="#demo-employees" id="toc-entry-34">Demo employees</a></li>
+<li><a class="reference internal" href="#load-testing" id="toc-entry-35">Load testing</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#known-issues-roadmap" id="toc-entry-36">Known issues / Roadmap</a><ul>
+<li><a class="reference internal" href="#decisions" id="toc-entry-37">Decisions</a></li>
+<li><a class="reference internal" href="#plan" id="toc-entry-38">Plan</a></li>
+<li><a class="reference internal" href="#tasks" id="toc-entry-39">Tasks</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#bug-tracker" id="toc-entry-40">Bug Tracker</a></li>
+<li><a class="reference internal" href="#credits" id="toc-entry-41">Credits</a><ul>
+<li><a class="reference internal" href="#authors" id="toc-entry-42">Authors</a></li>
+<li><a class="reference internal" href="#contributors" id="toc-entry-43">Contributors</a></li>
+<li><a class="reference internal" href="#maintainers" id="toc-entry-44">Maintainers</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="configuration">
+<h2><a class="toc-backref" href="#toc-entry-1">Configuration</a></h2>
+</div>
+<div class="section" id="data-elements-required-for-portugal">
+<h2><a class="toc-backref" href="#toc-entry-2">Data elements required for Portugal</a></h2>
+<p>Catalog of the HR data elements the Portuguese localization needs, with
+the Portuguese term, the recommended English term, and where the element
+maps in Odoo. Terms marked <strong>new</strong> have no dedicated field or
+translation in Odoo CE or EE today. Terms marked <strong>exists</strong> already have
+a <tt class="docutils literal">pt</tt> translation in the core <tt class="docutils literal">hr</tt>, <tt class="docutils literal">hr_holidays</tt>,
+<tt class="docutils literal">hr_attendance</tt> or EE <tt class="docutils literal">hr_payroll</tt> modules.</p>
+<p>Terminology was checked against official sources (seg-social.pt,
+OE/gov.pt tax tables, QNQ/DGERT) and against the <tt class="docutils literal">pt.po</tt> files shipped
+with Odoo CE and EE. Several shipped translations use Brazilian variants
+(<tt class="docutils literal">holerite</tt>, <tt class="docutils literal"><span class="pre">auxílio-transporte</span></tt>, <tt class="docutils literal">Licença</tt> for time off); the
+PT-PT forms are preferred here.</p>
+<div class="section" id="worker-identification">
+<h3><a class="toc-backref" href="#toc-entry-3">Worker identification</a></h3>
+<table border="1" class="docutils">
+<colgroup>
+<col width="19%" />
+<col width="19%" />
+<col width="44%" />
+<col width="19%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Element (PT)</th>
+<th class="head">English</th>
+<th class="head">Odoo element</th>
+<th class="head">Status</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>Número de
+Identificação
+Fiscal (NIF)</td>
+<td>Tax
+identification
+number</td>
+<td>employee contact VAT
+(<tt class="docutils literal">hr.employee.work_contact_id.vat</tt>
+/ private address <tt class="docutils literal">vat</tt>)</td>
+<td>exists (as
+VAT)</td>
+</tr>
+<tr><td>Número da
+Segurança
+Social (NISS)</td>
+<td>Social
+security
+number</td>
+<td><tt class="docutils literal">hr.employee.ssnid</tt></td>
+<td>exists —
+validated as
+NISS for PT
+companies</td>
+</tr>
+<tr><td>Cartão de
+Cidadão (n.º)</td>
+<td>Citizen Card
+number</td>
+<td><tt class="docutils literal">l10n_pt_id_doc_type</tt> = <tt class="docutils literal">cc</tt> +
+core <tt class="docutils literal">identification_id</tt></td>
+<td>implemented</td>
+</tr>
+<tr><td>Bilhete de
+Identidade
+(n.º)</td>
+<td>Identity Card
+(BI, legacy)
+number</td>
+<td><tt class="docutils literal">l10n_pt_id_doc_type</tt> = <tt class="docutils literal">bi</tt> +
+core <tt class="docutils literal">identification_id</tt></td>
+<td>implemented</td>
+</tr>
+<tr><td>Passaporte
+(n.º e
+validade)</td>
+<td>Passport
+number and
+expiry</td>
+<td>core <tt class="docutils literal">passport_id</tt> /
+<tt class="docutils literal">passport_expiration_date</tt></td>
+<td>exists</td>
+</tr>
+<tr><td>Título de
+Residência /
+Autorização de
+Residência
+(n.º e
+validade)</td>
+<td>Residence
+permit number
+and expiry</td>
+<td><tt class="docutils literal">l10n_pt_id_doc_type</tt> =
+<tt class="docutils literal">residence</tt> +
+<tt class="docutils literal">identification_id</tt> +
+<tt class="docutils literal">l10n_pt_id_doc_expiry</tt></td>
+<td>implemented
+(format check
+only)</td>
+</tr>
+<tr><td>Estado civil</td>
+<td>Marital status</td>
+<td><tt class="docutils literal">hr.employee.marital</tt></td>
+<td>exists</td>
+</tr>
+<tr><td>Filhos
+dependentes</td>
+<td>Dependent
+children</td>
+<td><tt class="docutils literal">hr.employee.children</tt></td>
+<td>exists</td>
+</tr>
+<tr><td>Data de
+nascimento</td>
+<td>Date of birth</td>
+<td><tt class="docutils literal">hr.employee.birthday</tt></td>
+<td>exists</td>
+</tr>
+<tr><td>Naturalidade /
+País de
+nascimento</td>
+<td>Place /
+country of
+birth</td>
+<td><tt class="docutils literal">hr.employee.place_of_birth</tt>,
+<tt class="docutils literal">country_of_birth</tt></td>
+<td>exists</td>
+</tr>
+<tr><td>Nacionalidade</td>
+<td>Nationality</td>
+<td><tt class="docutils literal">hr.employee.country_id</tt> (address)
+/ new field</td>
+<td>partial</td>
+</tr>
+<tr><td>Contacto de
+emergência</td>
+<td>Emergency
+contact</td>
+<td><tt class="docutils literal">hr.employee.emergency_*</tt></td>
+<td>exists</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="employment-relationship">
+<h3><a class="toc-backref" href="#toc-entry-4">Employment relationship</a></h3>
+<table border="1" class="docutils">
+<colgroup>
+<col width="20%" />
+<col width="19%" />
+<col width="43%" />
+<col width="19%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Element (PT)</th>
+<th class="head">English</th>
+<th class="head">Odoo element</th>
+<th class="head">Status</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>Tipo de
+contrato</td>
+<td>Contract type</td>
+<td><tt class="docutils literal">hr.version.contract_type_id</tt></td>
+<td>exists</td>
+</tr>
+<tr><td>Data de início
+/ fim do
+contrato</td>
+<td>Contract start
+/ end date</td>
+<td><tt class="docutils literal">hr.version.contract_date_*</tt></td>
+<td>exists</td>
+</tr>
+<tr><td>Período
+experimental</td>
+<td>Probation
+period</td>
+<td><tt class="docutils literal">hr.version.trial_date_end</tt></td>
+<td>exists</td>
+</tr>
+<tr><td>Horário de
+trabalho</td>
+<td>Working
+schedule</td>
+<td><tt class="docutils literal">hr.version.resource_calendar_id</tt></td>
+<td>exists</td>
+</tr>
+<tr><td>Local de
+trabalho</td>
+<td>Work location</td>
+<td><tt class="docutils literal">hr.work.location</tt></td>
+<td>exists (demo
+data)</td>
+</tr>
+<tr><td>Estabelecimento
+/ Unidade local</td>
+<td>Establishment
+/ local unit</td>
+<td><tt class="docutils literal">l10n.pt.establishment</tt>:
+<tt class="docutils literal">name</tt>, <tt class="docutils literal">company_id</tt>,
+<tt class="docutils literal">address_id</tt>,
+<tt class="docutils literal">ss_establishment_code</tt>,
+<tt class="docutils literal">ru_local_unit_id</tt>,
+<tt class="docutils literal">principal_cae</tt>,
+<tt class="docutils literal">date_start</tt>/<tt class="docutils literal">date_end</tt>,
+<tt class="docutils literal">active</tt></td>
+<td>implemented</td>
+</tr>
+<tr><td>Seguro de
+Acidentes de
+Trabalho</td>
+<td>Work accident
+insurance
+(SAT)</td>
+<td><tt class="docutils literal">l10n_pt_work_insurance_id</tt> on
+<tt class="docutils literal">hr.version</tt> →
+<tt class="docutils literal">l10n.pt.work.insurance</tt></td>
+<td>new</td>
+</tr>
+<tr><td>Categoria
+profissional</td>
+<td>Professional
+category</td>
+<td>new field on <tt class="docutils literal">hr.version</tt></td>
+<td>new</td>
+</tr>
+<tr><td>Escalão de
+remuneração</td>
+<td>Pay grade</td>
+<td>new field</td>
+<td>new</td>
+</tr>
+<tr><td>Função / Cargo</td>
+<td>Job position</td>
+<td><tt class="docutils literal">hr.job</tt> / <tt class="docutils literal">hr.employee.job_id</tt></td>
+<td>exists</td>
+</tr>
+</tbody>
+</table>
+<p>Notes on proposed terms:</p>
+<ul class="simple">
+<li><strong>Categoria profissional</strong> is the term used on Portuguese payslips
+(recibo de vencimento) and in collective agreements. English:
+“professional category” (“job category” is also acceptable).</li>
+<li><strong>Escalão de remuneração</strong> (“pay grade”) is official for independent
+workers, whose contributions are computed on a “remuneração
+convencional” fixed in one of the pay grades (escalões) referenced to
+the IAS. It does not apply to employees on a standard contract (conta
+de outrem), whose contributions are a percentage of actual pay. Keep
+it only if the module targets independent workers.</li>
+<li><strong>Regime de Segurança Social</strong> is the official term (seg-social.pt):
+e.g. “regime geral dos trabalhadores por conta de outrem”, “regime dos
+trabalhadores independentes”. English: “Social Security scheme”.</li>
+<li><strong>Escalão de IRS</strong> is official (OE tables, gov.pt): the IRS is divided
+into escalões (brackets). English: “IRS bracket” or “tax bracket”. For
+payroll withholding, the operative table is the “tabela de retenção na
+fonte” (withholding table) — model the brackets behind it.</li>
+<li><strong>Nível de Habilitações Académicas</strong>: prefer <strong>Nível de
+qualificação</strong>, the official term of the Quadro Nacional de
+Qualificações (QNQ, levels 1-8, aligned with EQF/ISCED). English:
+“qualification level”. “Habilitações” is colloquial. Odoo CE ships
+<tt class="docutils literal">hr.employee.certificate</tt> (“Certificate Level”) translated as
+“Escolaridade” — European Portuguese users will expect the QNQ level.</li>
+<li><strong>Seguro de Acidentes de Trabalho</strong>: official term for the mandatory
+work accident insurance; commonly abbreviated <strong>SAT</strong>. English: “work
+accident insurance” or “occupational accident insurance”.</li>
+</ul>
+</div>
+<div class="section" id="pay-and-statutory-processing">
+<h3><a class="toc-backref" href="#toc-entry-5">Pay and statutory processing</a></h3>
+<table border="1" class="docutils">
+<colgroup>
+<col width="19%" />
+<col width="19%" />
+<col width="36%" />
+<col width="26%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Element (PT)</th>
+<th class="head">English</th>
+<th class="head">Odoo element</th>
+<th class="head">Status</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>Vencimento
+base / Salário
+base</td>
+<td>Base wage</td>
+<td><tt class="docutils literal">hr.version.wage</tt>, salary
+rule <tt class="docutils literal">BASIC</tt></td>
+<td>exists</td>
+</tr>
+<tr><td>Subsídio de
+alimentação</td>
+<td>Meal allowance</td>
+<td>salary rule</td>
+<td>new (demo uses it)</td>
+</tr>
+<tr><td>Subsídio de
+transporte</td>
+<td>Transport
+allowance</td>
+<td>salary rule</td>
+<td>new</td>
+</tr>
+<tr><td>Horas
+suplementares</td>
+<td>Overtime</td>
+<td>work entry type / salary
+rule</td>
+<td>new (CE uses
+“Trabalho extra”)</td>
+</tr>
+<tr><td>Estrutura
+salarial</td>
+<td>Salary
+structure</td>
+<td><tt class="docutils literal">hr.payroll.structure</tt> (EE
+<tt class="docutils literal">hr_payroll</tt>; OCA
+<tt class="docutils literal">payroll</tt>)</td>
+<td>exists</td>
+</tr>
+<tr><td>Regra salarial</td>
+<td>Salary rule</td>
+<td><tt class="docutils literal">hr.salary.rule</tt></td>
+<td>exists</td>
+</tr>
+<tr><td>Categoria de
+rendimento</td>
+<td>Income
+category (for
+IRS tables)</td>
+<td>new field on salary rule</td>
+<td>new</td>
+</tr>
+<tr><td>Registo de
+contribuições</td>
+<td>Contribution
+register</td>
+<td><tt class="docutils literal">hr.contribution.register</tt></td>
+<td>exists</td>
+</tr>
+<tr><td>Recibo de
+vencimento</td>
+<td>Payslip</td>
+<td><tt class="docutils literal">hr.payslip</tt></td>
+<td>exists (see note)</td>
+</tr>
+<tr><td>Processamento
+salarial</td>
+<td>Payroll run /
+payslip batch</td>
+<td><tt class="docutils literal">hr.payslip.run</tt></td>
+<td>exists</td>
+</tr>
+<tr><td>Retenção na
+fonte (IRS)</td>
+<td>Withholding
+tax</td>
+<td>salary rule + IRS table</td>
+<td>new</td>
+</tr>
+<tr><td>Escalão de IRS</td>
+<td>IRS bracket</td>
+<td>new data (per year)</td>
+<td>new</td>
+</tr>
+<tr><td>Tabela de
+retenção na
+fonte</td>
+<td>Withholding
+table</td>
+<td>new data (per year)</td>
+<td>new</td>
+</tr>
+<tr><td>Regime de
+Segurança
+Social</td>
+<td>Social
+Security
+scheme</td>
+<td>new field on <tt class="docutils literal">hr.version</tt></td>
+<td>new</td>
+</tr>
+<tr><td>Taxa Social
+Única (TSU)</td>
+<td>Social
+security
+contribution</td>
+<td>salary rule (employee 11%,
+employer 23.75%)</td>
+<td>new</td>
+</tr>
+<tr><td>Base de
+incidência
+contributiva</td>
+<td>Contribution
+base</td>
+<td>salary rule computation</td>
+<td>new</td>
+</tr>
+<tr><td>Autoridade
+Tributária e
+Aduaneira (AT)</td>
+<td>Tax and
+Customs
+Authority</td>
+<td>contribution register</td>
+<td>new (used in
+<tt class="docutils literal">l10n_pt_payroll</tt>)</td>
+</tr>
+<tr><td>Mínimo de
+existência</td>
+<td>Subsistence
+minimum</td>
+<td>IRS table parameter</td>
+<td>new</td>
+</tr>
+<tr><td>Indexante dos
+Apoios Sociais
+(IAS)</td>
+<td>Social
+benefits index</td>
+<td>parameter for brackets</td>
+<td>new</td>
+</tr>
+</tbody>
+</table>
+<p>Note: EE <tt class="docutils literal">hr_payroll</tt> pt.po translates “Payslip” as both “Holerite”
+(Brazilian) and “Recibo de Vencimento”. In Portugal the document is the
+“recibo de vencimento”; “holerite” is understood but not the local term.</p>
+</div>
+<div class="section" id="time-leave-and-attendance">
+<h3><a class="toc-backref" href="#toc-entry-6">Time, leave and attendance</a></h3>
+<table border="1" class="docutils">
+<colgroup>
+<col width="21%" />
+<col width="21%" />
+<col width="37%" />
+<col width="21%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Element (PT)</th>
+<th class="head">English</th>
+<th class="head">Odoo element</th>
+<th class="head">Status</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>Férias</td>
+<td>Annual leave</td>
+<td><tt class="docutils literal">hr.leave.type</tt></td>
+<td>new (CE uses
+“Licença”)</td>
+</tr>
+<tr><td>Tipo de
+ausência</td>
+<td>Time off type</td>
+<td><tt class="docutils literal">hr.leave.type</tt></td>
+<td>exists (as
+“Tipo de
+folga”)</td>
+</tr>
+<tr><td>Baixa médica</td>
+<td>Sick leave</td>
+<td><tt class="docutils literal">hr.leave.type</tt></td>
+<td>new</td>
+</tr>
+<tr><td>Licença
+parental</td>
+<td>Parental leave</td>
+<td><tt class="docutils literal">hr.leave.type</tt></td>
+<td>new</td>
+</tr>
+<tr><td>Horas
+suplementares</td>
+<td>Overtime</td>
+<td><tt class="docutils literal">hr.attendance.overtime</tt></td>
+<td>new</td>
+</tr>
+<tr><td>Ponto /
+Registo de
+assiduidade</td>
+<td>Clock-in /
+attendance</td>
+<td><tt class="docutils literal">hr.attendance</tt></td>
+<td>exists</td>
+</tr>
+<tr><td>Desligamento</td>
+<td>Departure /
+termination</td>
+<td><tt class="docutils literal">hr.version.departure_*</tt></td>
+<td>exists</td>
+</tr>
+<tr><td>Rescisão</td>
+<td>Contract
+termination</td>
+<td>departure reason</td>
+<td>partial</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="statutory-reporting-requirements">
+<h3><a class="toc-backref" href="#toc-entry-7">Statutory reporting requirements</a></h3>
+<p>Portugal has no single annual “income declaration” from employer to
+worker anymore. The recurring obligations are two monthly declarations,
+both due by day 10 of the following month (Portaria n.º 33/2024 as
+amended by Portaria n.º 289/2025 for the AT; the SS declaration follows
+the same calendar):</p>
+<ul class="simple">
+<li><strong>DMR-AT</strong> — Declaração Mensal de Remunerações to the Autoridade
+Tributária e Aduaneira (AT): employment income (category A), IRS
+withholding, mandatory social protection contributions, union dues.</li>
+<li><strong>DMR-SS</strong> — Declaração de Remunerações to Segurança Social, I.P.:
+remuneration per worker per month split by nature code.</li>
+</ul>
+<p>Related obligations: payment of withheld IRS (day 20), payment of SS
+contributions (days 1-25), the annual Relatório Único to DGCP (former
+GEP, roughly March-April), and the payslip content required by art.
+276.º of the Código do Trabalho.</p>
+<div class="section" id="employee-master-data-required-by-the-dmr-at">
+<h4><a class="toc-backref" href="#toc-entry-8">Employee master data required by the DMR-AT</a></h4>
+<p>The DMR-AT quadro 5 (“Relação dos titulares dos rendimentos”) is keyed
+by the worker’s NIF, with one line per income type and region of
+obtention:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="47%" />
+<col width="53%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Field</th>
+<th class="head">Master data needed</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>NIF do titular</td>
+<td>Tax identification number — the
+employee’s contact VAT
+(<tt class="docutils literal">hr.employee.work_contact_id.vat</tt>
+/ private address <tt class="docutils literal">vat</tt>)</td>
+</tr>
+<tr><td>Rendimentos do ano / anos
+anteriores</td>
+<td>Payroll results per income code,
+split by year and region of
+obtention</td>
+</tr>
+<tr><td>Tipo de rendimento (código)</td>
+<td>Income categorization on salary
+rules (e.g. A68 IRS Jovem, exempt
+codes)</td>
+</tr>
+<tr><td>Local onde foram obtidos</td>
+<td><strong>Region only</strong> — <tt class="docutils literal">C</tt> Continente,
+<tt class="docutils literal">RA</tt> Açores, <tt class="docutils literal">RM</tt> Madeira, <tt class="docutils literal">E</tt>
+Estrangeiro (Portaria n.º 274/2014
+instructions; art. 17.º n.º 3 CIRS:
+where the work is performed).
+Derived from the work location
+address, not the establishment</td>
+</tr>
+<tr><td>Retenção de IRS</td>
+<td>Withholding computed from the
+official tables</td>
+</tr>
+<tr><td>Contribuições obrigatórias</td>
+<td>SS and health subsystem
+contributions</td>
+</tr>
+<tr><td>Quotizações sindicais</td>
+<td>Union dues (if any)</td>
+</tr>
+<tr><td>Dias trabalhados</td>
+<td>Worked days</td>
+</tr>
+<tr><td>Grau de incapacidade ≥ 60%</td>
+<td>Disability flag (special declaration
+rule)</td>
+</tr>
+</tbody>
+</table>
+<p>The withholding itself depends on employee attributes declared to the AT
+(not on the DMR): marital status / couple situation (tabela: não casado,
+casado único titular, casado dois titulares), number of dependents,
+disability, fiscal residence (Continente, Açores, Madeira), and IRS
+Jovem eligibility (age, qualification level per QNQ, years of income).</p>
+</div>
+<div class="section" id="employee-master-data-required-by-the-dmr-ss">
+<h4><a class="toc-backref" href="#toc-entry-9">Employee master data required by the DMR-SS</a></h4>
+<p>The DMR-SS file has fixed-length records of 118 characters, model
+<tt class="docutils literal">RC4008</tt> (normas de preenchimento, seg-social.pt). The structure is:</p>
+<ul class="simple">
+<li><tt class="docutils literal">R0</tt> — file header (model + version), once per file.</li>
+<li><tt class="docutils literal">R1</tt> — entity header, <strong>one per estabelecimento × taxa
+contributiva</strong>.</li>
+<li><tt class="docutils literal">R2</tt> — remuneration lines per worker per month of reference.</li>
+<li><tt class="docutils literal">R3</tt> — totals closing each R1 block.</li>
+</ul>
+<p>“Deverão existir tantos registos (R1) quantos os diferentes
+estabelecimentos e diferentes taxas que a Entidade Empregadora tenha a
+declarar” — the OCC practical guide (June 2025) states the same in plain
+terms: workers of each estabelecimento go in separate declarations, and
+one declaration per contribution rate. So the grouping key is
+<strong>(estabelecimento, taxa contributiva)</strong>, not the worker alone. Each R1
+carries <tt class="docutils literal">NISSEE</tt> (SS number of the employing entity), <tt class="docutils literal">ESTABEE</tt>
+(4-char establishment code registered in Segurança Social Direta — SS
+rejects unknown/closed codes, error DS31), <tt class="docutils literal">NIF</tt>, <tt class="docutils literal">RAZSOC</tt>,
+<tt class="docutils literal">DATREM</tt>; each R3 carries the same keys plus <tt class="docutils literal">TAXA</tt> and <tt class="docutils literal">TOTREGS</tt>.
+A single file may contain several R1–R3 blocks.</p>
+<p>Each R2 line carries:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="49%" />
+<col width="51%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Field</th>
+<th class="head">Master data needed</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>NISS</td>
+<td>Social security number</td>
+</tr>
+<tr><td>Nome do trabalhador</td>
+<td>Full name</td>
+</tr>
+<tr><td>Data de nascimento</td>
+<td>Date of birth</td>
+</tr>
+<tr><td>Mês de referência</td>
+<td>Payroll period</td>
+</tr>
+<tr><td>Dias de trabalho</td>
+<td>Worked days (one decimal, may be
+negative)</td>
+</tr>
+<tr><td>Natureza da remuneração (código)</td>
+<td>Remuneration nature per line:
+<tt class="docutils literal">P</tt> base, <tt class="docutils literal">F</tt> subsídio de
+férias, <tt class="docutils literal">N</tt> subsídio de Natal,
+<tt class="docutils literal">R</tt> subsídio de refeição, <tt class="docutils literal">S</tt>
+trabalho suplementar, <tt class="docutils literal">T</tt>
+trabalho noturno, <tt class="docutils literal">M</tt> subsídios
+regulares mensais, <tt class="docutils literal">X</tt>
+subsídios regulares não mensais,
+<tt class="docutils literal">C</tt> comissões, <tt class="docutils literal">B</tt>/<tt class="docutils literal">O</tt>
+prémios mensais/não mensais,
+<tt class="docutils literal">A</tt> ajudas de custo e
+transportes, <tt class="docutils literal">D</tt> compensação
+por cessação, <tt class="docutils literal">2</tt> férias pagas
+não gozadas, <tt class="docutils literal">6</tt> diferenças de
+vencimento, <tt class="docutils literal">I</tt> contrato
+intermitente</td>
+</tr>
+<tr><td>Valor e sinal</td>
+<td>Amount per nature code (positive
+or negative)</td>
+</tr>
+<tr><td>Estabelecimento (<tt class="docutils literal">ESTABEE</tt>)</td>
+<td>SS establishment code of the
+employing entity — via the
+worker’s establishment
+(<tt class="docutils literal">l10n.pt.establishment</tt>)</td>
+</tr>
+<tr><td>Taxa contributiva</td>
+<td>Contribution rate per worker
+(differs for MOE, independent
+workers, exemptions); also the
+second dimension of the R1/R3
+grouping</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="master-data-checklist-for-both-declarations">
+<h4><a class="toc-backref" href="#toc-entry-10">Master data checklist for both declarations</a></h4>
+<ul class="simple">
+<li>NIF (employee contact VAT), full name, date of birth, NISS — worker
+identification</li>
+<li>Marital status, number of dependents, disability, fiscal residence —
+IRS withholding table selection</li>
+<li>IBAN — salary payment and refund account</li>
+<li>Professional category — required on the recibo de vencimento (art.
+276.º CT) and used in SS contexts</li>
+<li>Contract type, schedule — payslip; work location resolves the DMR-AT
+region and the DMR-SS/RU establishment</li>
+<li>Social Security scheme (regime) — determines the contribution rate and
+the applicable rules</li>
+<li>Union membership — quotizações sindicais</li>
+<li>Income categorization per salary rule — maps payroll lines to the
+DMR-AT income codes and DMR-SS nature codes</li>
+</ul>
+</div>
+<div class="section" id="annual-relatorio-unico-ru-dgcp">
+<h4><a class="toc-backref" href="#toc-entry-11">Annual Relatório Único (RU) — DGCP</a></h4>
+<p>The Relatório Único (Portaria n.º 55/2010) is the annual social-activity
+report to the DGCP (former GEP), delivered through the relatoriounico.pt
+application, typically in a March-April window. It has a Rosto (employer
+and establishments), Anexo A (Quadro de Pessoal — staff as of 31
+October), Anexo B (entries/exits during the year), Anexo C (continuous
+training), Anexo D (occupational health and safety), Anexo E (strikes)
+and Anexo F (service providers). Estagiários (interns) are included in
+the headcount and the Anexo A.</p>
+</div>
+<div class="section" id="establishments-unidades-locais-in-the-ru">
+<h4><a class="toc-backref" href="#toc-entry-12">Establishments (“Unidades Locais”) in the RU</a></h4>
+<p>The modelo RU (Portaria n.º 55/2010; modelo oficial <tt class="docutils literal">MODELO_RU.pdf</tt>,
+delivered via the SGURI platform at relatoriounico.pt) has a <strong>Section
+II: Identificação da(s) Unidade(s) Local(is) (Estabelecimentos)</strong> — one
+block per physical establishment <em>including the sede</em>. Each block needs:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">RU field</th>
+<th class="head">Data needed</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>Número da unidade local</td>
+<td>Assigned by SGURI in the
+platform (SUL — Sistema de
+Unidades Locais); not master
+data</td>
+</tr>
+<tr><td>Nome / datas de início e fim</td>
+<td><tt class="docutils literal">l10n.pt.establishment.name</tt>,
+activity period</td>
+</tr>
+<tr><td>Localização e contactos</td>
+<td>Address down to freguesia +
+phone/email — via <tt class="docutils literal">address_id</tt></td>
+</tr>
+<tr><td>Actividade económica principal
+(CAE)</td>
+<td>CAE Rev. 4 code — mandatory
+since the 2026 delivery (year
+2025)</td>
+</tr>
+<tr><td>Situação perante a actividade,
+motivo e período</td>
+<td>Status + reason + dates</td>
+</tr>
+<tr><td>Total de pessoas ao serviço (31
+de Outubro)</td>
+<td>Headcount snapshot per
+establishment</td>
+</tr>
+<tr><td>Número de trabalhadores por
+conta de outrem</td>
+<td>TCO count per establishment</td>
+</tr>
+<tr><td>Natureza jurídica</td>
+<td>Entity-level (<tt class="docutils literal">res.company</tt>),
+repeated per block</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Every anexo is keyed by unidade local</strong>: Anexo A’s header carries NIF
++ NISS + <em>número da unidade local</em>, and each worker row has a “Nº da
+unidade local (estabelecimento)” field. Anexos B–F are likewise reported
+per UL (Anexo D even asks for SST technician counts per UL). This makes
+the establishment — not the department — the statutory grouping unit of
+the RU, and the 31-October reference date means the worker→establishment
+assignment must be reconstructible historically (<tt class="docutils literal">hr.version</tt>).</p>
+</div>
+<div class="section" id="per-worker-fields-of-the-anexo-a-quadro-de-pessoal">
+<h4><a class="toc-backref" href="#toc-entry-13">Per-worker fields of the Anexo A “Quadro de Pessoal”</a></h4>
+<table border="1" class="docutils">
+<colgroup>
+<col width="47%" />
+<col width="53%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">RU field</th>
+<th class="head">Master data needed</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>Nome</td>
+<td><tt class="docutils literal">hr.employee.name</tt></td>
+</tr>
+<tr><td>NISS ou equiparado</td>
+<td>Social security number; for
+public-sector workers without SS,
+the pension fund (CGA) subscriber
+number or beneficiary number</td>
+</tr>
+<tr><td>Regime de reforma aplicado</td>
+<td>Pension/Social Security scheme
+applied — distinguishes SS regime
+from other regimes</td>
+</tr>
+<tr><td>Sexo</td>
+<td><tt class="docutils literal">hr.employee.gender</tt></td>
+</tr>
+<tr><td>Nascimento</td>
+<td><tt class="docutils literal">hr.employee.birthday</tt></td>
+</tr>
+<tr><td>Entrada na entidade empregadora</td>
+<td>First contractual admission date
+(transfers keep the original date)</td>
+</tr>
+<tr><td>Última promoção</td>
+<td>Last promotion date — no CE field;
+needs tracking</td>
+</tr>
+<tr><td>Tipo de contrato</td>
+<td><tt class="docutils literal">hr.version.contract_type_id</tt> (RU
+code table)</td>
+</tr>
+<tr><td>Nacionalidade</td>
+<td>Nationality — new dedicated field or
+country of the private address</td>
+</tr>
+<tr><td>Habilitação literária</td>
+<td>Education level, using the RU code
+table (distinct from the QNQ level)</td>
+</tr>
+<tr><td>Situação na profissão</td>
+<td>Situation in the profession
+(employee, employer,
+self-employed…) — new field</td>
+</tr>
+<tr><td>Categoria profissional</td>
+<td>Professional category — required by
+art. 276.º CT on the payslip and
+here</td>
+</tr>
+<tr><td>Profissão (CPP)</td>
+<td>Profession code from the CPP/2010
+(Classificação Portuguesa das
+Profissões; RU Tabela 16) — new
+field</td>
+</tr>
+<tr><td>Nível de qualificação</td>
+<td>QNQ level (field 15 in current
+versions)</td>
+</tr>
+<tr><td>PNT</td>
+<td>Período normal de trabalho — the
+employee’s contracted weekly working
+hours. A field on the
+employee/contract, not derived from
+<tt class="docutils literal">resource.calendar.hours_per_week</tt>
+(that is the calendar’s full-time
+equivalent)</td>
+</tr>
+<tr><td>Duração do tempo de trabalho</td>
+<td>Full-time/part-time — part of the
+contract</td>
+</tr>
+<tr><td>Remuneração base devida/paga
+(outubro)</td>
+<td>Payroll result for the reference
+month</td>
+</tr>
+<tr><td>Prémios e subsídios regulares,
+trabalho suplementar, prestações
+irregulares, horas não
+trabalhadas</td>
+<td>Payroll aggregates for the reference
+year/month</td>
+</tr>
+</tbody>
+</table>
+<p>Anexo B additionally needs per-event data: admission and termination
+dates, contract type, and reason for entry/exit. Anexo C needs
+per-worker training records (course, hours, provider). Anexo D needs
+risk-prevention and accident data per worker.</p>
+</div>
+</div>
+<div class="section" id="qualifications-and-career">
+<h3><a class="toc-backref" href="#toc-entry-14">Qualifications and career</a></h3>
+<table border="1" class="docutils">
+<colgroup>
+<col width="19%" />
+<col width="19%" />
+<col width="40%" />
+<col width="22%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Element (PT)</th>
+<th class="head">English</th>
+<th class="head">Odoo element</th>
+<th class="head">Status</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>Escolaridade</td>
+<td>Schooling /
+degree level</td>
+<td><tt class="docutils literal">hr.employee.certificate</tt></td>
+<td>exists</td>
+</tr>
+<tr><td>Nível de
+qualificação
+(QNQ)</td>
+<td>Qualification
+level</td>
+<td><tt class="docutils literal">l10n_pt_qualification_level</tt></td>
+<td>new (complements
+<tt class="docutils literal">certificate</tt>)</td>
+</tr>
+<tr><td>Área de
+formação</td>
+<td>Field of study</td>
+<td><tt class="docutils literal">hr.employee.study_field</tt></td>
+<td>exists</td>
+</tr>
+<tr><td>Certificações
+(RVCC)</td>
+<td>Certifications</td>
+<td>new</td>
+<td>new</td>
+</tr>
+<tr><td>Categoria
+profissional
+(ver acima)</td>
+<td>Professional
+category</td>
+<td>see Employment relationship</td>
+<td>new</td>
+</tr>
+</tbody>
+</table>
+<p>Note: “Nível de Habilitações Académicas” is a colloquial umbrella term;
+in the catalog it maps to two distinct elements — <strong>Escolaridade</strong>
+(degree level, <tt class="docutils literal">hr.employee.certificate</tt>) and <strong>Nível de
+qualificação</strong> (QNQ level 1–8). Both are listed above; no separate field
+is needed.</p>
+</div>
+<div class="section" id="proposed-fields">
+<h3><a class="toc-backref" href="#toc-entry-15">Proposed fields</a></h3>
+<p>Concrete proposal for every element marked <strong>new</strong> or <strong>partial</strong> above.
+Naming follows the <tt class="docutils literal">l10n_pt_</tt> prefix used by sibling modules. All
+personal data fields sit in the private-information group
+(<tt class="docutils literal">hr.group_hr_user</tt>); contract-scoped fields use
+<tt class="docutils literal">hr.group_hr_manager</tt> where the core equivalent does.</p>
+<div class="section" id="placement-rules">
+<h4><a class="toc-backref" href="#toc-entry-16">Placement rules</a></h4>
+<ul class="simple">
+<li><tt class="docutils literal">hr.version</tt> holds the employee’s personal data in Odoo 19
+(<tt class="docutils literal">ssnid</tt>, <tt class="docutils literal">marital</tt>, <tt class="docutils literal">children</tt>, private address fields all live
+there). Fields that describe the worker or vary per contract version
+go there.</li>
+<li><tt class="docutils literal">hr.employee</tt> holds data that must survive contract changes: the
+first contractual admission date and the last promotion date.</li>
+<li>Per-year statutory tables (IRS brackets, IAS, minimum existence) get
+dedicated models; they are data, not employee fields.</li>
+<li>Open-ended statutory lists get one dedicated model each
+(<tt class="docutils literal">l10n.pt.collective.contract</tt>, <tt class="docutils literal">l10n.pt.professional.category</tt>,
+<tt class="docutils literal">l10n.pt.union</tt>, <tt class="docutils literal">l10n.pt.profession</tt>, <tt class="docutils literal">l10n.pt.pay.grade</tt>)
+rather than one generic attribute mechanism or <tt class="docutils literal">fields.Selection</tt>.
+Closed code tables stay <tt class="docutils literal">fields.Selection</tt>. The module is
+self-contained: it does not depend on <tt class="docutils literal">hr_employee_master_data</tt>.</li>
+<li>Salary-rule mappings (income category, DMR nature codes, contribution
+base) extend <tt class="docutils literal">hr.salary.rule</tt> and therefore land in
+<tt class="docutils literal">l10n_pt_payroll</tt>, not this module.</li>
+<li>Rejected: a separate <tt class="docutils literal">l10n_pt.employee</tt> model — it would duplicate
+<tt class="docutils literal">hr.version</tt> and break the core versioning UI.</li>
+</ul>
+</div>
+<div class="section" id="hr-version-worker-identification">
+<h4><a class="toc-backref" href="#toc-entry-17"><tt class="docutils literal">hr.version</tt> — worker identification</a></h4>
+<table border="1" class="docutils">
+<colgroup>
+<col width="15%" />
+<col width="31%" />
+<col width="17%" />
+<col width="13%" />
+<col width="24%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">PT element</th>
+<th class="head">Proposed field</th>
+<th class="head">Type</th>
+<th class="head">Required</th>
+<th class="head">Notes</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>NIF</td>
+<td>reuse <tt class="docutils literal">work_contact_id.vat</tt>
+/ private <tt class="docutils literal">vat</tt></td>
+<td>—</td>
+<td>yes for
+payroll</td>
+<td>Validate PT NIF
+checksum in payroll,
+not here</td>
+</tr>
+<tr><td>NISS</td>
+<td><tt class="docutils literal">ssnid</tt></td>
+<td>Char</td>
+<td>yes for
+payroll</td>
+<td>PT format +
+check-digit validation
+— see below</td>
+</tr>
+<tr><td>Documento de
+identificação
+— tipo</td>
+<td><tt class="docutils literal">l10n_pt_id_doc_type</tt></td>
+<td>Selection:
+<tt class="docutils literal">cc</tt> (Cartão
+de Cidadão),
+<tt class="docutils literal">bi</tt> (Bilhete
+de Identidade),
+<tt class="docutils literal">residence</tt>
+(Autorização de
+Residência),
+<tt class="docutils literal">other</tt>
+(Outro)</td>
+<td>recommended</td>
+<td>Which document serves
+as the worker’s ID;
+drives validation of
+the number field</td>
+</tr>
+<tr><td>Documento de
+identificação
+— número</td>
+<td>reuse <tt class="docutils literal">identification_id</tt></td>
+<td>Char (core)</td>
+<td>recommended</td>
+<td>Number of the selected
+document; normalized
+(uppercase, no spaces)
+and validated per type
+— see below</td>
+</tr>
+<tr><td>Documento de
+identificação
+— validade</td>
+<td><tt class="docutils literal">l10n_pt_id_doc_expiry</tt></td>
+<td>Date</td>
+<td>no</td>
+<td>Expiry of the selected
+document</td>
+</tr>
+<tr><td>Nacionalidade</td>
+<td><tt class="docutils literal">l10n_pt_nationality_id</tt></td>
+<td>Many2one
+<tt class="docutils literal">res.country</tt></td>
+<td>no</td>
+<td>Distinct from
+<tt class="docutils literal">private_country_id</tt>
+(residence ≠
+nationality); needed
+by Relatório Único</td>
+</tr>
+<tr><td>Situação
+fiscal
+(retenção)</td>
+<td><tt class="docutils literal">l10n_pt_tax_residence</tt></td>
+<td>Selection:
+<tt class="docutils literal">pt</tt>
+(Continente),
+<tt class="docutils literal">pt_acores</tt>,
+<tt class="docutils literal">pt_madeira</tt></td>
+<td>no</td>
+<td>Drives the withholding
+table variant</td>
+</tr>
+<tr><td>Grau de
+incapacidade
+≥ 60%</td>
+<td><tt class="docutils literal">l10n_pt_disability_degree</tt></td>
+<td>Integer (%)</td>
+<td>no</td>
+<td>DMR-AT special
+declaration above 60%</td>
+</tr>
+</tbody>
+</table>
+<p><tt class="docutils literal">ssnid</tt> validation (NISS): implemented as a constraint on
+<tt class="docutils literal">hr.version.ssnid</tt>, applied only to employees of Portuguese companies
+(<tt class="docutils literal">country_id = PT</tt>) so other countries keep their own SSN conventions.
+The NISS has 11 digits. The first digit identifies the holder type (1 =
+national, 2 = foreign natural person — employees always start with one
+of these). The last digit is a check digit computed over the first 10
+digits with prime weights <tt class="docutils literal">29, 23, 19, 17, 13, 11, 7, 5, 3, 2</tt>:
+<tt class="docutils literal">check = 9 − (Σ dᵢ·pᵢ mod 10)</tt>. Demo data uses mathematically valid
+numbers. This validates format only — whether a NISS is actually
+assigned is confirmed only by Segurança Social.</p>
+<p><tt class="docutils literal">identification_id</tt> validation: the document number is stored in the
+core <tt class="docutils literal">hr.version.identification_id</tt> field. For employees of Portuguese
+companies it is normalized (uppercase, no spaces) and checked against
+the selected document type; with no type selected, PT employees are
+treated as <tt class="docutils literal">other</tt>. <tt class="docutils literal">identification_id</tt> of other countries is
+neither normalized nor validated.</p>
+<p>Cartão de Cidadão: the document number is 12 characters, format
+<tt class="docutils literal">DDDDDDDD C VV D</tt> — 8-digit Número de Identificação Civil (NIC), its
+check digit, a 2-character card version (<tt class="docutils literal">A–Z</tt>, <tt class="docutils literal">0–9</tt>), and a final
+check digit. Two independent checks:</p>
+<ol class="arabic simple">
+<li>NIC check digit (9th char): mod-11 with weights 9..2 over the 8
+digits — the same rule as the old BI and the NIF.
+<tt class="docutils literal">check = resto &lt; 2 ? 0 : 11 − resto</tt>.</li>
+<li>Final check digit (12th char): Luhn variant in base 36 over all 12
+chars, right to left, doubling every second character (<tt class="docutils literal">A</tt>=10 …
+<tt class="docutils literal">Z</tt>=35, subtract 9 when the doubled value ≥ 10); the sum must be
+a multiple of 10.</li>
+</ol>
+<p>Bilhete de Identidade (BI): the legacy document number is 9 digits — the
+same 8-digit NIC (zero-padded) plus the same mod-11 check digit as the
+CC’s 9th character.</p>
+<p>Residence permit and other document numbers have no Portuguese
+check-digit scheme — format validation only (<tt class="docutils literal">A–Z</tt>, <tt class="docutils literal">0–9</tt>).
+Passports are not part of <tt class="docutils literal">l10n_pt_id_doc_type</tt>: they use the core
+<tt class="docutils literal">hr.version.passport_id</tt> / <tt class="docutils literal">passport_expiration_date</tt> fields and are
+not validated here.</p>
+</div>
+<div class="section" id="hr-version-employment-relationship">
+<h4><a class="toc-backref" href="#toc-entry-18"><tt class="docutils literal">hr.version</tt> — employment relationship</a></h4>
+<table border="1" class="docutils">
+<colgroup>
+<col width="10%" />
+<col width="27%" />
+<col width="25%" />
+<col width="9%" />
+<col width="29%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">PT element</th>
+<th class="head">Proposed field</th>
+<th class="head">Type</th>
+<th class="head">Required</th>
+<th class="head">Notes</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>Categoria
+profissional</td>
+<td><tt class="docutils literal">l10n_pt_professional_category_id</tt></td>
+<td>Many2one
+<tt class="docutils literal">l10n.pt.professional.category</tt>,
+filtered by the employee’s IRCT</td>
+<td>yes for
+payslip
+(art. 276.º
+CT)</td>
+<td>Values are defined per IRCT; see note
+below</td>
+</tr>
+<tr><td>IRCT (CCT)</td>
+<td><tt class="docutils literal">l10n_pt_irct_id</tt></td>
+<td>Many2one
+<tt class="docutils literal">l10n.pt.collective.contract</tt></td>
+<td>recommended</td>
+<td>Instrumento de Regulação Coletiva de
+Trabalho — the collective agreement
+(CCT is the common type). Determines
+the professional categories, working
+time and premiums; also RU Tabela 17</td>
+</tr>
+<tr><td>Regime de
+Segurança
+Social</td>
+<td><tt class="docutils literal">l10n_pt_ss_regime_id</tt></td>
+<td>Many2one <tt class="docutils literal">l10n.pt.ss.regime</tt></td>
+<td>yes</td>
+<td>Regime contributivo per the Código dos
+Regimes Contributivos (Lei 110/2009);
+determines contribution rate and rules</td>
+</tr>
+<tr><td>PNT (período
+normal de
+trabalho)</td>
+<td><tt class="docutils literal">l10n_pt_pnt_hours</tt></td>
+<td>Float (hours/week)</td>
+<td>no</td>
+<td>Relatório Único field; default from
+<tt class="docutils literal">resource_calendar_id.hours_per_week</tt></td>
+</tr>
+<tr><td>Situação na
+profissão</td>
+<td><tt class="docutils literal">l10n_pt_profession_situation</tt></td>
+<td>Selection per RU code table</td>
+<td>no</td>
+<td>Employee, employer, self-employed…</td>
+</tr>
+<tr><td>Habilitação
+literária</td>
+<td><tt class="docutils literal">l10n_pt_education_level</tt></td>
+<td>Selection per RU code table</td>
+<td>no</td>
+<td>Distinct from QNQ level</td>
+</tr>
+<tr><td>Nível de
+qualificação
+(QNQ)</td>
+<td><tt class="docutils literal">l10n_pt_qualification_level</tt></td>
+<td>Selection 1–8</td>
+<td>no</td>
+<td>QNQ scale; complements <tt class="docutils literal">certificate</tt>
+(“Escolaridade”), which is a different,
+degree-level scale. QNQ feeds IRS Jovem
+and RU</td>
+</tr>
+<tr><td>Situação
+familiar
+para IRS</td>
+<td><tt class="docutils literal">l10n_pt_irs_family_status</tt></td>
+<td>Selection: <tt class="docutils literal">single</tt> (não
+casado), <tt class="docutils literal">married_single_income</tt>
+(casado — único titular),
+<tt class="docutils literal">married_joint</tt> (casado — dois
+titulares)</td>
+<td>no</td>
+<td>Declared IRS family situation; core
+<tt class="docutils literal">marital</tt> does not capture whether
+the spouse files jointly. Implemented
+in <tt class="docutils literal">l10n_pt_payroll</tt> (tax domain)</td>
+</tr>
+<tr><td>Grau de
+incapacidade
+≥ 60%</td>
+<td><tt class="docutils literal">l10n_pt_disability_degree</tt></td>
+<td>Integer (%)</td>
+<td>no</td>
+<td>Selects the disabled withholding tables
+(IV–VII) and the DMR-AT special
+declaration</td>
+</tr>
+<tr><td>Dependentes
+para IRS</td>
+<td><tt class="docutils literal">l10n_pt_irs_dependents</tt></td>
+<td>Integer</td>
+<td>no</td>
+<td>Number of IRS dependents — may differ
+from <tt class="docutils literal">children</tt> (e.g. ascendentes);
+also feeds payroll’s per-dependent
+deduction. Implemented in
+<tt class="docutils literal">l10n_pt_payroll</tt></td>
+</tr>
+<tr><td>Situação
+para
+retenção na
+fonte</td>
+<td><tt class="docutils literal">l10n_pt_irs_table_id</tt></td>
+<td>Many2one
+<tt class="docutils literal">l10n.pt.irs.withholding.table</tt></td>
+<td>computed</td>
+<td>Official withholding table (I–VII for
+dependent work income) derived from the
+determinants above — implemented in
+<tt class="docutils literal">l10n_pt_payroll</tt>; see note below</td>
+</tr>
+<tr><td>Quotização
+sindical</td>
+<td><tt class="docutils literal">l10n_pt_union_id</tt></td>
+<td>Many2one <tt class="docutils literal">l10n.pt.union</tt></td>
+<td>no</td>
+<td>Declared on DMR-AT; dues amount is
+payroll data, not master data</td>
+</tr>
+<tr><td>Profissão
+(CPP)</td>
+<td><tt class="docutils literal">l10n_pt_profession_id</tt></td>
+<td>Many2one <tt class="docutils literal">l10n.pt.profession</tt></td>
+<td>no</td>
+<td>Relatório Único field (Tabela 16); the
+record’s <tt class="docutils literal">code</tt> holds the CPP/2010
+code. “CBO” is the Brazilian
+classification — not used in Portugal</td>
+</tr>
+<tr><td>Escalão de
+remuneração</td>
+<td><tt class="docutils literal">l10n_pt_pay_grade_id</tt></td>
+<td>Many2one <tt class="docutils literal">l10n.pt.pay.grade</tt></td>
+<td>no</td>
+<td>Only if independent workers are in
+scope — see note above</td>
+</tr>
+<tr><td>Seguro de
+Acidentes de
+Trabalho</td>
+<td><tt class="docutils literal">l10n_pt_work_insurance_id</tt></td>
+<td>Many2one
+<tt class="docutils literal">l10n.pt.work.insurance</tt></td>
+<td>no</td>
+<td>Work accident insurance (SAT) policy —
+insurer, policy number and coverage
+period live on the policy record; see
+note below</td>
+</tr>
+</tbody>
+</table>
+<p>Note on work accident insurance (SAT): <tt class="docutils literal">l10n.pt.work.insurance</tt> is a
+policy record (insurer, policy number, coverage period) that employees
+point at — several employees can share one policy, which fits the common
+case of an employer policy covering the whole staff. For employees on a
+standard contract the coverage is the employer’s obligation; the
+per-worker link matters for independent workers (trabalhadores
+independentes), who must hold their own SAT policy. Whether the
+employer’s master policy also belongs on <tt class="docutils literal">res.company</tt> is an open
+question below.</p>
+<p>Note on professional categories: each IRCT defines its own category
+table, so <tt class="docutils literal">l10n.pt.professional.category</tt> carries an optional
+<tt class="docutils literal">irct_id</tt>. The employee form filters the category list to the selected
+IRCT plus generic categories (no IRCT).</p>
+<p>Note on IRS withholding table selection: <tt class="docutils literal">l10n_pt_irs_table_id</tt> is a
+stored computed field implemented in <tt class="docutils literal">l10n_pt_payroll</tt> — the employee
+never picks a table directly. The annual Despacho (e.g. n.º 1179/2026,
+Circular 3/2026) numbers the dependent-work tables I–VII by exactly
+three determinants, all declared on the employee: family situation
+(<tt class="docutils literal">l10n_pt_irs_family_status</tt>), the number of IRS dependents
+(<tt class="docutils literal">l10n_pt_irs_dependents</tt> — a dedicated count, since IRS dependents
+can differ from dependent children), and disability of 60% or more
+(<tt class="docutils literal">l10n_pt_disability_degree</tt>). Tables IV–VII are the disabled variants
+of I–III. Caveats: these are the mainland (continente) tables — the
+Açores and Madeira have their own Despacho table sets with the same
+numbering but different values, which <tt class="docutils literal">l10n_pt_payroll</tt> must select by
+region; non-resident taxpayers pay a flat rate and pensioners use tables
+VIII–XI, both out of scope here; IRS Jovem is a reduction computed by
+payroll (age, QNQ level, years of income), not a table determinant.</p>
+</div>
+<div class="section" id="l10n-pt-establishment-estabelecimento-unidade-local">
+<h4><a class="toc-backref" href="#toc-entry-19"><tt class="docutils literal">l10n.pt.establishment</tt> — estabelecimento / unidade local</a></h4>
+<p>Decided: a dedicated PT model, not fields on <tt class="docutils literal">hr.work.location</tt>. The
+establishment is a <strong>company-level legal concept</strong> — it is the grouping
+unit of the DMR-SS file and of every RU anexo, its SS code is registered
+in Segurança Social Direta against the employing entity, and it is
+needed by non-HR flows (payroll, accounting, future SAF-T/IES
+obligations). <tt class="docutils literal">hr.work.location</tt> stays the HR-level “where the worker
+physically is” record.</p>
+<p>The same record serves both authorities, but the two identifiers are
+independent: Segurança Social calls it the <em>estabelecimento</em>
+(<tt class="docutils literal">ESTABEE</tt>, a code registered in SS Direta), the RU calls it the
+<em>unidade local</em> (SGURI assigns the número). They are stored as separate
+fields and are never inferred from each other; values are plain text so
+leading zeros survive. If a real-world mismatch ever appears (SS
+grouping ≠ physical site), separate records remain possible.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="18%" />
+<col width="29%" />
+<col width="18%" />
+<col width="11%" />
+<col width="24%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">PT element</th>
+<th class="head">Field</th>
+<th class="head">Type</th>
+<th class="head">Required</th>
+<th class="head">Notes</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>Nome /
+designação</td>
+<td><tt class="docutils literal">name</tt></td>
+<td>Char</td>
+<td>yes</td>
+<td>RU Section II field 2</td>
+</tr>
+<tr><td>Entidade
+empregadora</td>
+<td><tt class="docutils literal">company_id</tt></td>
+<td>Many2one
+<tt class="docutils literal">res.company</tt></td>
+<td>yes</td>
+<td>The legal entity
+holding the NIF/NISS;
+cannot be moved to
+another company after
+creation</td>
+</tr>
+<tr><td>Morada</td>
+<td><tt class="docutils literal">address_id</tt></td>
+<td>Many2one
+<tt class="docutils literal">res.partner</tt></td>
+<td>yes</td>
+<td>Same pattern as
+<tt class="docutils literal">hr.work.location</tt>;
+must reach freguesia
+level for the RU —
+see open questions</td>
+</tr>
+<tr><td>Estabelecimento
+de Segurança
+Social (código)</td>
+<td><tt class="docutils literal">ss_establishment_code</tt></td>
+<td>Char</td>
+<td>no</td>
+<td><tt class="docutils literal">ESTABEE</tt> in the
+DMR-SS R1/R2/R3
+records; code
+registered in SS
+Direta, SS rejects
+unknown/closed codes
+(DS31)</td>
+</tr>
+<tr><td>Unidade local
+(número RU)</td>
+<td><tt class="docutils literal">ru_local_unit_id</tt></td>
+<td>Char</td>
+<td>no</td>
+<td>SGURI-assigned local
+unit number;
+independent from the
+SS code</td>
+</tr>
+<tr><td>Actividade
+económica
+principal (CAE)</td>
+<td><tt class="docutils literal">principal_cae</tt></td>
+<td>Char</td>
+<td>no</td>
+<td>CAE Rev. 4; RU
+Section II / Anexo A
+field — see open
+questions on the CAE
+table</td>
+</tr>
+<tr><td>Datas de
+início/fim</td>
+<td><tt class="docutils literal">date_start</tt>,
+<tt class="docutils literal">date_end</tt></td>
+<td>Date</td>
+<td>no</td>
+<td>Opening/closing dates
+of the establishment</td>
+</tr>
+<tr><td>Activo</td>
+<td><tt class="docutils literal">active</tt></td>
+<td>Boolean</td>
+<td>yes</td>
+<td>Archived
+establishments stay
+readable on
+historical versions
+but cannot be
+selected for new
+assignments</td>
+</tr>
+</tbody>
+</table>
+<p>Worker assignment is stored directly on
+<tt class="docutils literal">hr.version.l10n_pt_establishment_id</tt> (mirrored on <tt class="docutils literal">hr.employee</tt>),
+<strong>not</strong> derived from the work location.
+<tt class="docutils literal">res.company.l10n_pt_default_establishment_id</tt> only pre-fills the
+assignment when an employee is created; it never reassigns existing
+employees or past versions. History is preserved by core version copying
+— a dated version keeps the establishment that was assigned at that
+date. Whether head-office flag, activity-status fields, or a
+<tt class="docutils literal">hr.work.location</tt> link are still needed remains open.</p>
+<p>Operator path: master data under <strong>Employees ▸ Configuration ▸ Portugal
+▸ Establishments</strong>; the optional company default sits on the company
+form’s <strong>General Information</strong> page; the per-employee assignment is on
+the employee form under <strong>Work ▸ Location</strong>.</p>
+<p>Entity-level data repeated in the RU entity block (NISS da entidade,
+natureza jurídica, data de constituição, CAE da entidade) belongs on
+<tt class="docutils literal">res.company</tt> — propose <tt class="docutils literal">l10n_pt_ss_number</tt>,
+<tt class="docutils literal">l10n_pt_legal_nature</tt>, <tt class="docutils literal">l10n_pt_constitution_date</tt>,
+<tt class="docutils literal">l10n_pt_cae_code</tt> there; possibly better placed in <tt class="docutils literal">l10n_pt</tt> itself
+since accounting may need them too.</p>
+</div>
+<div class="section" id="hr-employee-career-history">
+<h4><a class="toc-backref" href="#toc-entry-20"><tt class="docutils literal">hr.employee</tt> — career history</a></h4>
+<table border="1" class="docutils">
+<colgroup>
+<col width="20%" />
+<col width="40%" />
+<col width="7%" />
+<col width="12%" />
+<col width="21%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">PT element</th>
+<th class="head">Proposed field</th>
+<th class="head">Type</th>
+<th class="head">Required</th>
+<th class="head">Notes</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>Admissão
+original
+(primeiro
+contrato)</td>
+<td><tt class="docutils literal">l10n_pt_first_contract_date</tt></td>
+<td>Date</td>
+<td>no</td>
+<td>Manual; must
+not reset on
+internal
+transfer (RU
+Anexo A)</td>
+</tr>
+<tr><td>Última
+promoção</td>
+<td><tt class="docutils literal">l10n_pt_last_promotion_date</tt></td>
+<td>Date</td>
+<td>no</td>
+<td>Candidate for a
+stored compute
+over
+<tt class="docutils literal">version_ids</tt>
+job changes;
+manual is
+acceptable for
+v1</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="new-models">
+<h4><a class="toc-backref" href="#toc-entry-21">New models</a></h4>
+<table border="1" class="docutils">
+<colgroup>
+<col width="37%" />
+<col width="23%" />
+<col width="39%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Model</th>
+<th class="head">Purpose</th>
+<th class="head">Key fields</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td><tt class="docutils literal">l10n.pt.establishment</tt></td>
+<td>Estabelecimento /
+unidade local —
+statutory grouping
+unit of DMR-SS and
+all RU anexos</td>
+<td><tt class="docutils literal">name</tt>, <tt class="docutils literal">company_id</tt>,
+<tt class="docutils literal">address_id</tt>,
+<tt class="docutils literal">l10n_pt_ss_establishment_code</tt>,
+<tt class="docutils literal">is_head_office</tt>,
+<tt class="docutils literal">l10n_pt_cae_code</tt>, activity
+period/status</td>
+</tr>
+<tr><td><tt class="docutils literal">l10n.pt.collective.contract</tt></td>
+<td>Collective agreement
+(IRCT/CCT)</td>
+<td><tt class="docutils literal">name</tt>, <tt class="docutils literal">code</tt> (BTE/CCT
+reference), <tt class="docutils literal">sequence</tt>,
+<tt class="docutils literal">active</tt></td>
+</tr>
+<tr><td><tt class="docutils literal">l10n.pt.professional.category</tt></td>
+<td>Professional
+category, optionally
+scoped to an IRCT</td>
+<td><tt class="docutils literal">name</tt>, <tt class="docutils literal">code</tt>, <tt class="docutils literal">irct_id</tt>,
+<tt class="docutils literal">sequence</tt>, <tt class="docutils literal">active</tt></td>
+</tr>
+<tr><td><tt class="docutils literal">l10n.pt.union</tt></td>
+<td>Trade union</td>
+<td><tt class="docutils literal">name</tt>, <tt class="docutils literal">code</tt>, <tt class="docutils literal">sequence</tt>,
+<tt class="docutils literal">active</tt></td>
+</tr>
+<tr><td><tt class="docutils literal">l10n.pt.profession</tt></td>
+<td>Profession from the
+CPP/2010
+classification</td>
+<td><tt class="docutils literal">name</tt>, <tt class="docutils literal">code</tt> (CPP code),
+<tt class="docutils literal">active</tt></td>
+</tr>
+<tr><td><tt class="docutils literal">l10n.pt.pay.grade</tt></td>
+<td>Escalão de
+remuneração (TI pay
+grade)</td>
+<td><tt class="docutils literal">name</tt>, <tt class="docutils literal">code</tt>, <tt class="docutils literal">sequence</tt>,
+<tt class="docutils literal">active</tt></td>
+</tr>
+<tr><td><tt class="docutils literal">l10n.pt.ss.regime</tt></td>
+<td>Social security
+(contributory)
+regime — seeded with
+the regimes of the
+Código dos Regimes
+Contributivos</td>
+<td><tt class="docutils literal">name</tt>, <tt class="docutils literal">code</tt> (stable key; SS
+publishes no numeric codes —
+payroll maps code → rates),
+<tt class="docutils literal">sequence</tt>, <tt class="docutils literal">active</tt></td>
+</tr>
+<tr><td><tt class="docutils literal">l10n.pt.irs.withholding.table</tt></td>
+<td>Official IRS
+withholding table
+variant — tables
+I–VII for dependent
+work income (VIII–XI
+are pension tables)</td>
+<td><tt class="docutils literal">name</tt>, <tt class="docutils literal">code</tt> (official Roman
+numeral per the annual Despacho),
+<tt class="docutils literal">sequence</tt>, <tt class="docutils literal">active</tt></td>
+</tr>
+<tr><td><tt class="docutils literal">l10n.pt.work.insurance</tt></td>
+<td>Work accident
+insurance (SAT)
+policy</td>
+<td><tt class="docutils literal">insurer_id</tt> (<tt class="docutils literal">res.partner</tt>),
+<tt class="docutils literal">policy_number</tt>, <tt class="docutils literal">date_start</tt>,
+<tt class="docutils literal">date_end</tt>, <tt class="docutils literal">active</tt></td>
+</tr>
+<tr><td><tt class="docutils literal">hr.pt.fiscal.year</tt></td>
+<td>Per-year statutory
+parameters</td>
+<td><tt class="docutils literal">year</tt> (unique), <tt class="docutils literal">ias</tt>
+(Indexante dos Apoios Sociais),
+<tt class="docutils literal">minimum_existence</tt></td>
+</tr>
+<tr><td><tt class="docutils literal">hr.pt.irs.withholding.table</tt></td>
+<td>Withholding brackets
+of one official
+table variant for a
+fiscal year and
+region (continente,
+Açores, Madeira have
+separate Despacho
+values)</td>
+<td><tt class="docutils literal">fiscal_year_id</tt>, <tt class="docutils literal">region</tt>,
+<tt class="docutils literal">table_id</tt> (→
+<tt class="docutils literal">l10n.pt.irs.withholding.table</tt>),
+lines</td>
+</tr>
+<tr><td><tt class="docutils literal">hr.pt.irs.withholding.line</tt></td>
+<td>One withholding
+bracket</td>
+<td><tt class="docutils literal">table_id</tt>, <tt class="docutils literal">lower_bound</tt>,
+<tt class="docutils literal">upper_bound</tt>, <tt class="docutils literal">rate</tt>,
+<tt class="docutils literal">fixed_amount</tt></td>
+</tr>
+</tbody>
+</table>
+<p>The statutory lists use dedicated <tt class="docutils literal">l10n.pt.*</tt> models instead of a
+generic attribute mechanism: the lists differ enough in shape (CPP has
+~2 700 coded entries, professional categories are scoped to an IRCT,
+IRCTs have BTE references) that one model per list stays simpler than a
+generic attribute/value pair. The fields are stored on <tt class="docutils literal">hr.version</tt>,
+so values are contract-scoped and versioned like the rest of the
+employment data. Both payroll-facing lists are coded models so
+<tt class="docutils literal">l10n_pt_payroll</tt> can map each <tt class="docutils literal">code</tt> to its rates:
+<tt class="docutils literal">l10n.pt.ss.regime.code</tt> → the regime’s contribution rates,
+<tt class="docutils literal">l10n.pt.irs.withholding.table.code</tt> → the year’s withholding
+brackets. A generic effective-dated attribute mechanism remains
+available in the <tt class="docutils literal">hr_employee_master_data</tt> module in the OCA/hr
+repository for attributes that do not fit these dedicated lists;
+<tt class="docutils literal">l10n_pt_hr</tt> does not depend on it.</p>
+<p>The <tt class="docutils literal">hr.pt.irs.*</tt> and <tt class="docutils literal">hr.pt.fiscal.year</tt> models belong to
+<tt class="docutils literal">l10n_pt_payroll</tt> (they only matter once salary rules exist), but are
+listed here because they consume the employee fields above. The IRS
+withholding tables — CSV data files, manual import, and the retention
+computation — are specced in <tt class="docutils literal">l10n_pt_payroll/readme/SPECS.md</tt>. The
+<tt class="docutils literal">hr.salary.rule</tt> extensions are:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="20%" />
+<col width="38%" />
+<col width="23%" />
+<col width="20%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">PT element</th>
+<th class="head">Proposed field on
+<tt class="docutils literal">hr.salary.rule</tt></th>
+<th class="head">Type</th>
+<th class="head">Notes</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>Categoria de
+rendimento
+(DMR-AT)</td>
+<td><tt class="docutils literal">l10n_pt_income_code</tt></td>
+<td>Selection per AT
+code table</td>
+<td>Maps rule to
+DMR-AT income
+codes (A68,
+exempt…)</td>
+</tr>
+<tr><td>Natureza da
+remuneração
+(DMR-SS)</td>
+<td><tt class="docutils literal">l10n_pt_ss_nature_code</tt></td>
+<td>Selection: <tt class="docutils literal">P</tt>,
+<tt class="docutils literal">F</tt>, <tt class="docutils literal">N</tt>,
+<tt class="docutils literal">R</tt>, <tt class="docutils literal">S</tt>,
+<tt class="docutils literal">T</tt>, <tt class="docutils literal">M</tt>,
+<tt class="docutils literal">X</tt>, <tt class="docutils literal">C</tt>,
+<tt class="docutils literal">B</tt>, <tt class="docutils literal">O</tt>,
+<tt class="docutils literal">A</tt>, <tt class="docutils literal">D</tt>,
+<tt class="docutils literal">2</tt>, <tt class="docutils literal">6</tt>,
+<tt class="docutils literal">I</tt></td>
+<td>One code per
+rule; a rule
+may need
+splitting if
+it mixes
+natures</td>
+</tr>
+<tr><td>Base de
+incidência
+contributiva</td>
+<td><tt class="docutils literal">l10n_pt_contribution_base</tt></td>
+<td>Selection/Boolean</td>
+<td>Marks rules
+inside/outside
+the SS base;
+TSU rates
+(employee 11%,
+employer
+23.75%) live
+on the rules
+themselves</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="data-not-fields">
+<h4><a class="toc-backref" href="#toc-entry-22">Data, not fields</a></h4>
+<p>Some catalog elements need records rather than fields. These belong in
+data files, not models:</p>
+<ul class="simple">
+<li>Leave types: <tt class="docutils literal">hr.leave.type</tt> records for Férias, Baixa médica,
+Licença parental (PT-PT labels).</li>
+<li>Work entry types and salary rules for Horas suplementares, Subsídio de
+alimentação, Subsídio de transporte — defined by <tt class="docutils literal">l10n_pt_payroll</tt>.</li>
+<li>QNQ and RU code tables — Selection values and demo data.</li>
+<li>CPP table — <tt class="docutils literal">l10n.pt.profession</tt> rows, loaded from the official
+CPP/2010 classification (large table, import tooling needed).</li>
+<li>IRCT and per-IRCT professional category tables —
+<tt class="docutils literal">l10n.pt.collective.contract</tt> and <tt class="docutils literal">l10n.pt.professional.category</tt>
+rows per collective agreement.</li>
+<li>Escalões de remuneração (TI pay grades referenced to IAS) —
+<tt class="docutils literal">l10n.pt.pay.grade</tt> rows, only if independent workers are supported.</li>
+</ul>
+</div>
+<div class="section" id="open-questions-for-the-specialist-review">
+<h4><a class="toc-backref" href="#toc-entry-23">Open questions for the specialist review</a></h4>
+<ul class="simple">
+<li>Whether <tt class="docutils literal">l10n_pt_nationality_id</tt> should default from
+<tt class="docutils literal">private_country_id</tt>.</li>
+<li>Whether <tt class="docutils literal">l10n_pt_last_promotion_date</tt> is computed from version
+history or entered manually.</li>
+<li>Whether the seeded <tt class="docutils literal">l10n.pt.ss.regime</tt> list matches the regimes
+Segurança Social expects on declarations, and whether official codes
+exist to replace the module-defined keys.</li>
+<li>Whether <tt class="docutils literal">l10n_pt_disability_degree</tt> should distinguish the
+disability types the DMR-AT declaration requires.</li>
+<li>Exact selection values for <tt class="docutils literal">l10n_pt_profession_situation</tt> against
+the current RU code table.</li>
+<li>How the CPP table is imported into <tt class="docutils literal">l10n.pt.profession</tt> (size,
+hierarchy — the classification groups professions under categories).</li>
+<li>Whether <tt class="docutils literal">l10n.pt.pay.grade</tt> needs a reference amount or IAS-linked
+value for independent workers.</li>
+<li>Whether the employer’s master SAT policy should also be reachable from
+<tt class="docutils literal">res.company</tt> (it is currently only reachable through the employees
+it covers).</li>
+<li>How to reach freguesia/município/distrito granularity for the RU
+address block — PT administrative-division data
+(<tt class="docutils literal">res.country.state</tt>) or dedicated fields on the
+address/establishment.</li>
+<li>Whether the CAE needs a dedicated table/model (CAE Rev. 4 has ~2 700
+codes) or a simple list model like the ones above, and whether the
+entity-level and unit-level CAE are separate fields.</li>
+<li>Whether the entity-level RU fields (NISS, natureza jurídica, data de
+constituição, CAE) land on <tt class="docutils literal">res.company</tt> in this module or in
+<tt class="docutils literal">l10n_pt</tt>.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="hr-employee-master-data-hr-employee-master-data-oca-hr">
+<h3><a class="toc-backref" href="#toc-entry-24">HR Employee Master Data (<tt class="docutils literal">hr_employee_master_data</tt>, OCA/hr)</a></h3>
+<p>The <tt class="docutils literal">hr_employee_master_data</tt> module (OCA/hr) owns the whole attribute
+mechanism: attribute definitions, allowed values, and effective-dated
+per-employee assignments with full change history. <tt class="docutils literal">l10n_pt_hr</tt> seeds
+the Portuguese attributes as data and reads the current values; it does
+not own the mechanism.</p>
+<div class="section" id="models">
+<h4><a class="toc-backref" href="#toc-entry-25">Models</a></h4>
+<table border="1" class="docutils">
+<colgroup>
+<col width="42%" />
+<col width="26%" />
+<col width="32%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Model</th>
+<th class="head">Purpose</th>
+<th class="head">Key fields</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td><tt class="docutils literal">hr.employee.attribute</tt></td>
+<td>A named list of
+allowed values for
+one HR data element</td>
+<td><tt class="docutils literal">name</tt>, <tt class="docutils literal">code</tt>
+(unique technical key),
+<tt class="docutils literal">employee_field_id</tt>
+(optional link to an
+<tt class="docutils literal">hr.employee</tt> field),
+<tt class="docutils literal">default_country_ids</tt>,
+<tt class="docutils literal">required_country_ids</tt>,
+<tt class="docutils literal">active</tt></td>
+</tr>
+<tr><td><tt class="docutils literal">hr.employee.attribute.value</tt></td>
+<td>One allowed value of
+an attribute</td>
+<td><tt class="docutils literal">attribute_id</tt>,
+<tt class="docutils literal">name</tt>, <tt class="docutils literal">code</tt>,
+<tt class="docutils literal">reference</tt> (record
+mirrored for
+many2one-linked
+attributes),
+<tt class="docutils literal">sequence</tt>, <tt class="docutils literal">active</tt>,
+<tt class="docutils literal">company_id</tt></td>
+</tr>
+<tr><td><tt class="docutils literal">hr.employee.attribute.company</tt></td>
+<td>Per-company
+activation of an
+attribute</td>
+<td><tt class="docutils literal">company_id</tt>,
+<tt class="docutils literal">attribute_id</tt>,
+<tt class="docutils literal">is_required</tt></td>
+</tr>
+<tr><td><tt class="docutils literal">hr.employee.history</tt></td>
+<td>One effective-dated
+assignment of an
+attribute value to
+an employee — the
+history record</td>
+<td><tt class="docutils literal">employee_id</tt>,
+<tt class="docutils literal">attribute_id</tt>
+(related, stored),
+<tt class="docutils literal">value_id</tt>,
+<tt class="docutils literal">date_start</tt>,
+<tt class="docutils literal">date_end</tt>,
+<tt class="docutils literal">reason_id</tt>,
+<tt class="docutils literal">is_current</tt></td>
+</tr>
+<tr><td><tt class="docutils literal">hr.employee.change</tt></td>
+<td>Transient wizard
+behind “Employee
+Change”</td>
+<td><tt class="docutils literal">employee_id</tt>,
+<tt class="docutils literal">date_start</tt>,
+<tt class="docutils literal">reason_id</tt>, lines of
+<tt class="docutils literal">attribute_id</tt> +
+<tt class="docutils literal">value_id</tt></td>
+</tr>
+<tr><td><tt class="docutils literal">hr.employee.change.reason</tt></td>
+<td>Coded change reason</td>
+<td><tt class="docutils literal">code</tt>, <tt class="docutils literal">name</tt>,
+<tt class="docutils literal">attribute_ids</tt></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="attribute-scope-countries-and-companies">
+<h4><a class="toc-backref" href="#toc-entry-26">Attribute scope — countries and companies</a></h4>
+<p>Attributes are not global-on; they are scoped:</p>
+<ul class="simple">
+<li><tt class="docutils literal">hr.employee.attribute.default_country_ids</tt> — countries for which
+the attribute is a <strong>default</strong> (shown/applied unless the company turns
+it off). <tt class="docutils literal">required_country_ids</tt> — countries for which it is
+<strong>required</strong>. The employee’s country (company country by default)
+selects which attributes apply.</li>
+<li><tt class="docutils literal">hr.employee.attribute.company</tt> — each company keeps its own list of
+active attributes, and for each one whether it is <strong>required</strong> or
+<strong>optional</strong> for that company. This is the per-company override of the
+attribute’s country defaults.</li>
+</ul>
+</div>
+<div class="section" id="change-reasons">
+<h4><a class="toc-backref" href="#toc-entry-27">Change reasons</a></h4>
+<p><tt class="docutils literal">reason</tt> on assignments and on the Employee Change wizard is a coded
+<tt class="docutils literal">hr.employee.change.reason</tt> record (<tt class="docutils literal">code</tt>, <tt class="docutils literal">name</tt>), not free
+text. Each reason optionally lists the <tt class="docutils literal">hr.employee.attribute</tt>s it
+applies to — <strong>empty means the reason applies to any attribute</strong> (e.g.
+“Correction” fits everything, “Promotion” may only fit
+<tt class="docutils literal">professional_category</tt> / <tt class="docutils literal">pay_grade</tt> / <tt class="docutils literal">irct</tt>).</p>
+</div>
+<div class="section" id="assignment-semantics">
+<h4><a class="toc-backref" href="#toc-entry-28">Assignment semantics</a></h4>
+<ul class="simple">
+<li>An assignment is valid from <tt class="docutils literal">date_start</tt> until the next assignment’s
+<tt class="docutils literal">date_start</tt> for the same employee and attribute (<tt class="docutils literal">date_end</tt>
+computed, like <tt class="docutils literal">hr.version</tt>). <tt class="docutils literal">is_current</tt> means the period covers
+today.</li>
+<li>At most one current assignment per (employee, attribute) — partial
+unique constraint, same pattern as <tt class="docutils literal">hr.version</tt>’s
+<tt class="docutils literal">(employee_id, date_version)</tt> index.</li>
+<li>Writing a new assignment closes the previous current period
+(<tt class="docutils literal">date_end</tt> = new <tt class="docutils literal">date_start</tt>); overlaps are rejected.</li>
+<li><tt class="docutils literal">reason_id</tt> is a coded <tt class="docutils literal">hr.employee.change.reason</tt> (see above);
+the reason’s <tt class="docutils literal">attribute_ids</tt> constrains which attributes it may be
+used with (empty = any).</li>
+<li>History is reconstructible for any date, not just today — this is what
+the RU 31-October snapshot and the monthly DMR-SS grouping consume.</li>
+</ul>
+</div>
+<div class="section" id="employee-form-master-data-page">
+<h4><a class="toc-backref" href="#toc-entry-29">Employee form — Master Data page</a></h4>
+<p>A “Master Data” notebook page on <tt class="docutils literal">hr.employee</tt> lists the employee’s
+master data as one line per attribute:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="27%" />
+<col width="73%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Column</th>
+<th class="head">Source</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>Attribute</td>
+<td><tt class="docutils literal">hr.employee.attribute.name</tt></td>
+</tr>
+<tr><td>Current value</td>
+<td>current assignment’s <tt class="docutils literal">value_id</tt></td>
+</tr>
+<tr><td>Start date</td>
+<td>current assignment’s <tt class="docutils literal">date_start</tt></td>
+</tr>
+<tr><td>Change reason</td>
+<td>current assignment’s <tt class="docutils literal">reason</tt></td>
+</tr>
+</tbody>
+</table>
+<p>Only attributes with at least one assignment appear — an employee with
+no union does not get an empty union line.</p>
+<p>Row actions:</p>
+<ul class="simple">
+<li><strong>History</strong> — opens the assignment list for that employee + attribute,
+all periods ordered by <tt class="docutils literal">date_start</tt>.</li>
+<li><strong>Change</strong> — opens the Employee Change wizard prefilled with that
+attribute (single-line change).</li>
+</ul>
+<p>Page action:</p>
+<ul class="simple">
+<li><strong>Employee Change</strong> — opens the wizard empty, for bulk changes.</li>
+</ul>
+</div>
+<div class="section" id="employee-change-bulk">
+<h4><a class="toc-backref" href="#toc-entry-30">Employee Change (bulk)</a></h4>
+<p>The <tt class="docutils literal">hr.employee.change</tt> wizard takes one <tt class="docutils literal">date_start</tt> and one
+<tt class="docutils literal">reason_id</tt>, for the whole change, plus a list of (attribute, new
+value) lines — the reason’s <tt class="docutils literal">attribute_ids</tt> must cover every attribute
+in the change. Confirming creates all assignments atomically and closes
+each previous current period. Typical use: a promotion that changes
+professional category, pay grade and IRCT on the same date in one
+recorded change.</p>
+<p>A single-attribute change is the same wizard with one line — there is no
+separate single-change model.</p>
+</div>
+<div class="section" id="relationship-to-l10n-pt-hr">
+<h4><a class="toc-backref" href="#toc-entry-31">Relationship to <tt class="docutils literal">l10n_pt_hr</tt></a></h4>
+<ul class="simple">
+<li><tt class="docutils literal">l10n_pt_hr</tt> is self-contained: the PT lists are the dedicated
+<tt class="docutils literal">l10n.pt.*</tt> models above, and the fields (<tt class="docutils literal">l10n_pt_irct_id</tt>,
+<tt class="docutils literal">l10n_pt_professional_category_id</tt>, <tt class="docutils literal">l10n_pt_union_id</tt>,
+<tt class="docutils literal">l10n_pt_profession_id</tt>, <tt class="docutils literal">l10n_pt_pay_grade_id</tt>) are stored on
+<tt class="docutils literal">hr.version</tt>, so they are contract-scoped and versioned with the
+rest of the employment data. There is no dependency on
+<tt class="docutils literal">hr_employee_master_data</tt>.</li>
+<li>Coded list models (<tt class="docutils literal">l10n.pt.ss.regime</tt>,
+<tt class="docutils literal">l10n.pt.irs.withholding.table</tt>) feed payroll: each record’s
+<tt class="docutils literal">code</tt> is the stable key <tt class="docutils literal">l10n_pt_payroll</tt> maps to contribution
+rates and withholding brackets per fiscal year.</li>
+<li><tt class="docutils literal">hr_employee_master_data</tt> remains available in the OCA/hr repository
+as an optional generic mechanism (effective-dated attribute
+assignments with change history) for HR data elements that do not fit
+the dedicated PT models; installing it does not change how
+<tt class="docutils literal">l10n_pt_hr</tt> stores data.</li>
+</ul>
+</div>
+<div class="section" id="open-questions-for-hr-employee-master-data">
+<h4><a class="toc-backref" href="#toc-entry-32">Open questions for <tt class="docutils literal">hr_employee_master_data</tt></a></h4>
+<ul class="simple">
+<li>Whether assignments should also link to <tt class="docutils literal">hr.version</tt> for attributes
+that are genuinely contract-scoped (e.g. a different IRCT per contract
+version) — v1 assumes employee-level only.</li>
+<li>Whether the Master Data page shows attributes with no assignments —
+the per-company <tt class="docutils literal">hr.employee.attribute.company</tt> list decides which
+attributes are active at all; whether inactive-but-assigned or
+never-assigned attributes still appear needs a UX decision.</li>
+<li>Access rights: read for <tt class="docutils literal">hr.group_hr_user</tt>, write for
+<tt class="docutils literal">hr.group_hr_manager</tt> — same split as the private-info fields.</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="section" id="usage">
+<h2><a class="toc-backref" href="#toc-entry-33">Usage</a></h2>
+<div class="section" id="demo-employees">
+<h3><a class="toc-backref" href="#toc-entry-34">Demo employees</a></h3>
+<p>When the database is created with demo data enabled, the module adds a
+full set of employees to the “PT Company” demo company. Switch to that
+company and open Employees to see them.</p>
+</div>
+<div class="section" id="load-testing">
+<h3><a class="toc-backref" href="#toc-entry-35">Load testing</a></h3>
+<p>To create large numbers of employees for load testing, use the
+<tt class="docutils literal">odoo populate</tt> command, which duplicates the existing demo employees:</p>
+<pre class="code console literal-block">
+<span class="gp">$ </span>odoo<span class="w"> </span>populate<span class="w"> </span>-d<span class="w"> </span>&lt;database&gt;<span class="w"> </span>--models<span class="w"> </span>hr.employee<span class="w"> </span>--factors<span class="w"> </span><span class="m">100</span>
+</pre>
+</div>
+</div>
+<div class="section" id="known-issues-roadmap">
+<h2><a class="toc-backref" href="#toc-entry-36">Known issues / Roadmap</a></h2>
+<p><strong>Status:</strong> draft</p>
+<div class="section" id="decisions">
+<h3><a class="toc-backref" href="#toc-entry-37">Decisions</a></h3>
+<ul class="simple">
+<li>The module catalogues the HR data elements required for Portugal, with
+the Portuguese term and the recommended English term for each. The
+catalog lives in <tt class="docutils literal">CONFIGURE.md</tt>.</li>
+<li>Terminology follows official Portuguese sources: seg-social.pt for
+Social Security regimes and contribution brackets, OE/gov.pt for IRS
+brackets and withholding tables, QNQ/DGERT for qualification levels.</li>
+<li>Where Odoo CE/EE already ship a <tt class="docutils literal">pt</tt> translation, it is reused;
+where the shipped term is a Brazilian variant (<tt class="docutils literal">holerite</tt>,
+<tt class="docutils literal"><span class="pre">auxílio-transporte</span></tt>, <tt class="docutils literal">Licença</tt>, <tt class="docutils literal">Escolaridade</tt>), the European
+Portuguese term is recommended instead.</li>
+<li>Rejected: “Nível de Habilitações Académicas” — colloquial; the
+official term is “Nível de qualificação” (QNQ).</li>
+<li>Rejected: “Escalão de Remuneração” for employees — it applies to
+independent workers (trabalhadores independentes) on conventional
+remuneration; standard employees contribute on actual pay.</li>
+<li>The recurring statutory declarations are the monthly DMR-AT (AT) and
+DMR-SS (Segurança Social), both due by day 10 of the following month.
+Their required employee master data is catalogued in <tt class="docutils literal">CONFIGURE.md</tt>.</li>
+<li>New fields are placed per the rules in <tt class="docutils literal">CONFIGURE.md</tt> “Proposed
+fields”: worker and contract-scoped data on <tt class="docutils literal">hr.version</tt>,
+career-history data on <tt class="docutils literal">hr.employee</tt>, per-year statutory tables in
+dedicated models, and salary-rule mappings in <tt class="docutils literal">l10n_pt_payroll</tt>.<ul>
+<li>Rejected: a separate <tt class="docutils literal">l10n_pt.employee</tt> model — duplicates
+<tt class="docutils literal">hr.version</tt> and breaks the core versioning UI.</li>
+</ul>
+</li>
+<li>Open-ended statutory value lists get one dedicated model each
+(<tt class="docutils literal">l10n.pt.collective.contract</tt>, <tt class="docutils literal">l10n.pt.professional.category</tt>,
+<tt class="docutils literal">l10n.pt.union</tt>, <tt class="docutils literal">l10n.pt.profession</tt>, <tt class="docutils literal">l10n.pt.pay.grade</tt>)
+instead of one model per shared generic mechanism or
+<tt class="docutils literal">fields.Selection</tt> for closed code tables.<ul>
+<li>Rejected: the generic <tt class="docutils literal">hr.employee.attribute</tt> mechanism of
+<tt class="docutils literal">hr_employee_master_data</tt> (OCA/hr) — the lists differ enough in
+shape (CPP is a ~2 700-entry coded classification, categories are
+scoped to an IRCT) that dedicated models stay simpler, and
+<tt class="docutils literal">l10n_pt_hr</tt> stays independent of the generic addon.</li>
+</ul>
+</li>
+<li>Escolaridade (<tt class="docutils literal">hr.employee.certificate</tt>) and Nível de qualificação
+QNQ (<tt class="docutils literal">l10n_pt_qualification_level</tt>) are distinct fields on distinct
+scales; both are kept. “Nível de Habilitações Académicas” is a
+colloquial umbrella term covering both — no separate field.</li>
+<li>Payroll-facing classifications are coded models, not Selection fields:
+<tt class="docutils literal">l10n.pt.ss.regime</tt> (regimes of the Código dos Regimes
+Contributivos; codes are module-defined since SS publishes no numeric
+list) and <tt class="docutils literal">l10n.pt.irs.withholding.table</tt> (official tables I–VII per
+the annual Despacho). <tt class="docutils literal">l10n_pt_payroll</tt> maps each <tt class="docutils literal">code</tt> to the
+year’s contribution rates and withholding brackets.<ul>
+<li>Rejected: hardcoded Selection values — payroll needs a stable coded
+list it can extend and join against per-year rate tables.</li>
+</ul>
+</li>
+<li>Work accident insurance (SAT) is a policy record
+(<tt class="docutils literal">l10n.pt.work.insurance</tt>: insurer, policy number, coverage period)
+that employees reference from <tt class="docutils literal">hr.version</tt> — several employees can
+share one employer policy. It matters most for independent workers,
+who hold their own policy; whether the employer’s master policy also
+lands on <tt class="docutils literal">res.company</tt> is an open question.</li>
+<li>Establishments are modelled by a dedicated <tt class="docutils literal">l10n.pt.establishment</tt>
+model, not by fields on <tt class="docutils literal">hr.work.location</tt>: the establishment is a
+company-level legal concept and the statutory grouping unit of both
+the DMR-SS file (per estabelecimento × taxa contributiva) and every
+Relatório Único anexo. The same record carries the SS <tt class="docutils literal">ESTABEE</tt> code
+and the RU unidade-local data; <tt class="docutils literal">hr.work.location</tt> links to it.</li>
+<li>DMR-AT campo 05 “local de obtenção” is only the geographic region
+(Continente/Açores/Madeira/Estrangeiro), not the establishment — the
+worker’s region derives from the work location address.</li>
+<li>The PT master-data fields live on <tt class="docutils literal">hr.version</tt> as typed Many2one
+fields over the dedicated <tt class="docutils literal">l10n.pt.*</tt> models, so they are
+contract-scoped and versioned with the employment data.
+Effective-dated history for generic attributes remains the job of
+<tt class="docutils literal">hr_employee_master_data</tt> (OCA/hr); <tt class="docutils literal">l10n_pt_hr</tt> does not depend
+on it.<ul>
+<li>Rejected: effective-dated history for these fields via
+<tt class="docutils literal">hr.employee.history</tt> — decided the values are contract-scoped
+data that belongs to <tt class="docutils literal">hr.version</tt> like contract type and wage.</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="plan">
+<h3><a class="toc-backref" href="#toc-entry-38">Plan</a></h3>
+<ul class="simple">
+<li>Iteration 1: extend demo data and translations for the elements marked
+<strong>exists</strong>.</li>
+<li>Iteration 2: add fields and data for the elements marked <strong>new</strong>,
+starting with worker identification (NIF, NISS, Cartão de Cidadão,
+residence permit) and the payroll inputs needed by <tt class="docutils literal">l10n_pt_payroll</tt>
+(IRS brackets, TSU, Social Security scheme).</li>
+</ul>
+</div>
+<div class="section" id="tasks">
+<h3><a class="toc-backref" href="#toc-entry-39">Tasks</a></h3>
+<ul class="simple">
+<li>☐ Review the element catalog with a Portuguese payroll specialist.</li>
+<li>☐ Add <tt class="docutils literal">pt_PT</tt>-flavoured translations for the terms marked <strong>exists</strong>
+where the shipped translation is Brazilian.</li>
+<li>☒ Decide whether new fields go on <tt class="docutils literal">hr.employee</tt>, <tt class="docutils literal">hr.version</tt> or
+new models — decided; see “Proposed fields” in <tt class="docutils literal">CONFIGURE.md</tt>.</li>
+<li>☐ Implement the fields specified in <tt class="docutils literal">CONFIGURE.md</tt> “Proposed
+fields”, starting with <tt class="docutils literal">l10n.pt.establishment</tt> and the
+<tt class="docutils literal">hr.version</tt> worker identification fields.</li>
+<li>☐ Decide where the entity-level RU fields (NISS, natureza jurídica,
+CAE, data de constituição) live — <tt class="docutils literal">res.company</tt> here or <tt class="docutils literal">l10n_pt</tt>.</li>
+<li>☒ Create the <tt class="docutils literal">hr_employee_master_data</tt> module skeleton
+(<tt class="docutils literal">hr.employee.attribute</tt>, <tt class="docutils literal">.value</tt>, <tt class="docutils literal">.history</tt>, <tt class="docutils literal">.change</tt>) —
+see <tt class="docutils literal">CONFIGURE.md</tt>; it stays a separate generic addon.</li>
+<li>☒ Decide whether <tt class="docutils literal">l10n_pt_hr</tt> implements <tt class="docutils literal">hr.employee.*</tt> first and
+extracts later, or depends on the module from the start — decided:
+<tt class="docutils literal">l10n_pt_hr</tt> is self-contained with dedicated <tt class="docutils literal">l10n.pt.*</tt> models
+and does not depend on <tt class="docutils literal">hr_employee_master_data</tt>.</li>
+<li>☐ Source CAE Rev. 4 and PT administrative divisions (distrito /
+município / freguesia) needed by the RU establishment block.</li>
+<li>☐ Resolve the open questions listed at the end of <tt class="docutils literal">CONFIGURE.md</tt>
+during the specialist review.</li>
+<li>☐ Map salary rules to DMR-AT income codes and DMR-SS nature codes.</li>
+<li>☐ Verify the master data checklist against the official DMR
+instructions (Portaria n.º 289/2025 for AT; SS file layout).</li>
+<li>☐ Verify the Anexo A field list against the current Relatório Único
+instructions (field numbering changes between versions).</li>
+</ul>
+</div>
+</div>
+<div class="section" id="bug-tracker">
+<h2><a class="toc-backref" href="#toc-entry-40">Bug Tracker</a></h2>
+<p>Bugs are tracked on <a class="reference external" href="https://github.com/OCA/l10n-portugal/issues">GitHub Issues</a>.
+In case of trouble, please check there if your issue has already been reported.
+If you spotted it first, help us to smash it by providing a detailed and welcomed
+<a class="reference external" href="https://github.com/OCA/l10n-portugal/issues/new?body=module:%20l10n_pt_hr%0Aversion:%2019.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**">feedback</a>.</p>
+<p>Do not contact contributors directly about support or help with technical issues.</p>
+</div>
+<div class="section" id="credits">
+<h2><a class="toc-backref" href="#toc-entry-41">Credits</a></h2>
+<div class="section" id="authors">
+<h3><a class="toc-backref" href="#toc-entry-42">Authors</a></h3>
+<ul class="simple">
+<li>Daniel Reis</li>
+</ul>
+</div>
+<div class="section" id="contributors">
+<h3><a class="toc-backref" href="#toc-entry-43">Contributors</a></h3>
+<ul class="simple">
+<li>Daniel Reis</li>
+</ul>
+</div>
+<div class="section" id="maintainers">
+<h3><a class="toc-backref" href="#toc-entry-44">Maintainers</a></h3>
+<p>This module is maintained by the OCA.</p>
+<a class="reference external image-reference" href="https://odoo-community.org">
+<img alt="Odoo Community Association" src="https://odoo-community.org/logo.png" />
+</a>
+<p>OCA, or the Odoo Community Association, is a nonprofit organization whose
+mission is to support the collaborative development of Odoo features and
+promote its widespread use.</p>
+<p>Current <a class="reference external" href="https://odoo-community.org/page/maintainer-role">maintainer</a>:</p>
+<p><a class="reference external image-reference" href="https://github.com/dreispt"><img alt="dreispt" src="https://github.com/dreispt.png?size=40px" /></a></p>
+<p>This module is part of the <a class="reference external" href="https://github.com/OCA/l10n-portugal/tree/19.0/l10n_pt_hr">OCA/l10n-portugal</a> project on GitHub.</p>
+<p>You are welcome to contribute. To learn how please visit <a class="reference external" href="https://odoo-community.org/page/Contribute">https://odoo-community.org/page/Contribute</a>.</p>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>
