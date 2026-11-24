@@ -1,7 +1,16 @@
 (function () {
     "use strict";
 
-    var data = window.easyPayData;
+    var checkoutEl = document.getElementById("easypay-checkout");
+    var data = null;
+    try {
+        data =
+            checkoutEl && checkoutEl.dataset.easypay
+                ? JSON.parse(checkoutEl.dataset.easypay)
+                : null;
+    } catch {
+        data = null;
+    }
     var loadingEl = document.getElementById("payment-loading");
     var containerEl = document.getElementById("easypay-checkout-container");
     var errorEl = document.getElementById("payment-error");
@@ -19,31 +28,37 @@
     var sessionId = data.sessionId;
     var isTestMode = !data.apiUrl || data.apiUrl.includes("test");
 
+    // SDK callbacks are browser-side notifications only: they POST back the
+    // opaque session id plus the CSRF token rendered with the page. No SDK
+    // field is ever used as payment evidence.
+    function submitCallback(path) {
+        var form = document.createElement("form");
+        form.method = "POST";
+        form.action = path;
+        Object.entries({
+            csrf_token: data.csrfToken,
+            session_id: sessionId,
+        }).forEach(function ([name, value]) {
+            var input = document.createElement("input");
+            input.type = "hidden";
+            input.name = name;
+            input.value = value;
+            form.appendChild(input);
+        });
+        document.body.appendChild(form);
+        form.submit();
+    }
+
     var successHandled = false;
     var checkoutInstance = window.easypayCheckout.startCheckout(data.manifest, {
         display: "inline",
         testing: isTestMode,
         language: data.language || undefined,
         hideDetails: data.hideDetails || false,
-        onSuccess: function (successInfo) {
+        onSuccess: function () {
             successHandled = true;
-            var payment = (successInfo && successInfo.payment) || {};
-            var params = new URLSearchParams({
-                id: sessionId,
-                method: payment.method || "",
-                status: payment.status || "",
-            });
-            if (payment.id) {
-                params.set("payment_id", payment.id);
-            }
-            if (payment.entity && payment.reference) {
-                params.set("entity", payment.entity);
-                params.set("mb_reference", payment.reference);
-                params.set("expiration", payment.expirationDate || "");
-            }
             checkoutInstance.unmount();
-            window.location.href =
-                "/payment/easypay/checkout/success?" + params.toString();
+            submitCallback("/payment/easypay/checkout/success");
         },
         onError: function (error) {
             checkoutInstance.unmount();
@@ -56,8 +71,7 @@
                     window.location.href = "/payment/status";
                     break;
                 case "checkout-canceled":
-                    window.location.href =
-                        "/payment/easypay/checkout/cancel?session_id=" + sessionId;
+                    submitCallback("/payment/easypay/checkout/cancel");
                     break;
                 default:
                     if (errorEl) {

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_mandate_form_easypay" model="ir.ui.view">
+        <field name="name">view.mandate.form.easypay</field>
+        <field name="model">account.banking.mandate</field>
+        <field name="inherit_id" ref="account_banking_mandate.view_mandate_form" />
+        <field name="arch" type="xml">
+            <field name="type" position="after">
+                <field
+                    name="easypay_token_id"
+                    invisible="format != 'easypay' or easypay_frequent_id"
+                    options="{'no_create': True}"
+                />
+                <field
+                    name="easypay_provider_id"
+                    invisible="format != 'easypay' or not easypay_provider_id"
+                />
+                <field
+                    name="easypay_frequent_id"
+                    invisible="format != 'easypay' or not easypay_frequent_id"
+                />
+                <field
+                    name="easypay_mandate_ref"
+                    invisible="format != 'easypay' or not easypay_mandate_ref"
+                />
+                <field
+                    name="easypay_mandate_state"
+                    invisible="format != 'easypay' or not easypay_mandate_state"
+                />
+                <field
+                    name="easypay_registration_prepared_at"
+                    invisible="format != 'easypay' or not easypay_registration_prepared_at or easypay_frequent_id"
+                />
+                <field
+                    name="easypay_registration_recovery_id"
+                    invisible="format != 'easypay' or not easypay_registration_prepared_at or easypay_frequent_id"
+                />
+            </field>
+            <xpath expr="//header/button[@name='validate']" position="before">
+                <button
+                    name="action_easypay_prepare_registration"
+                    type="object"
+                    string="Prepare EasyPay Registration"
+                    class="btn-secondary"
+                    invisible="format != 'easypay' or state != 'draft' or easypay_frequent_id or easypay_token_id or easypay_registration_prepared_at"
+                    groups="account_payment_order.group_account_payment"
+                />
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -2,7 +2,6 @@
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl).
 
 import logging
-import time
 
 import werkzeug
 
@@ -11,11 +10,37 @@ from odoo.http import request
 
 from odoo.addons.payment import utils as payment_utils
 
+from . import webhooks as easypay_webhooks
+from .checkout_session import find_owned_checkout_transaction
+
 _logger = logging.getLogger(__name__)
+
+# Authenticated payment-level statuses that count as a verified final
+# state: an in-flight browser callback must never downgrade them.
+_FINAL_PAYMENT_STATUSES = frozenset(
+    {
+        "paid",
+        "captured",
+        "authorized",
+        "authorised",
+        "cancelled",
+        "canceled",
+        "failed",
+        "error",
+    }
+)
 
 
 class EasyPayCheckoutCallbackController(http.Controller):
-    """Handle EasyPay checkout callbacks (success, cancel, MB reference)."""
+    """Handle EasyPay checkout browser callbacks (success, cancel, MB
+    reference).
+
+    Success and cancel are fired by the EasyPay SDK inside the customer's
+    browser — they are not inbound EasyPay webhooks. They only identify
+    which server-side checkout session they belong to; every piece of
+    payment data is re-read from EasyPay with provider credentials before
+    being applied.
+    """
 
     # ── Route handlers ────────────────────────────────────────────────
 
@@ -23,69 +48,70 @@ class EasyPayCheckoutCallbackController(http.Controller):
         "/payment/easypay/checkout/success",
         type="http",
         auth="public",
-        methods=["GET"],
-        csrf=False,
+        methods=["POST"],
         save_session=False,
     )
     def easypay_checkout_success(self, **data):
-        checkout_id = data.get("id")
-        reference = data.get("key")
-        _logger.debug("Checkout success: id=%s ref=%s", checkout_id, reference)
-
-        if not checkout_id and not reference:
-            return werkzeug.utils.redirect("/payment/status", code=303)
-
-        tx_sudo = (
-            request.env["payment.transaction"]
-            .sudo()
-            ._find_easypay_transaction(checkout_id, reference)
-        )
+        session_id = data.get("session_id")
+        tx_sudo = find_owned_checkout_transaction(session_id)
         if not tx_sudo:
-            _logger.debug("No transaction for id=%s ref=%s", checkout_id, reference)
+            _logger.debug("Checkout success callback without an owned session")
             return werkzeug.utils.redirect("/payment/status", code=303)
 
-        # ── Async payment methods ──────────────────────────────────────
-        # Redirect to a method-specific page instead of the generic
-        # /payment/status spinner.
-        method = data.get("method", "").upper()
+        verifier = easypay_webhooks.EasyPayWebhookController()
+        kind, checkout = verifier._read_checkout(tx_sudo)
+        if kind != easypay_webhooks._READ_OK:
+            # Nothing verified — leave the transaction untouched; the
+            # webhooks will resolve it.
+            return werkzeug.utils.redirect("/payment/status", code=303)
 
-        # Multibanco: show entity / reference / amount.
-        # NOTE: entity/reference come from the client-side SDK callback.
-        # They are stored for display purposes only; the authoritative
-        # payment confirmation always comes through the webhook.
-        entity = data.get("entity")
-        mb_reference = data.get("mb_reference")
-        if method == "MB" and entity and mb_reference:
-            tx_sudo.easypay_mb_entity = entity
-            tx_sudo.easypay_mb_reference = mb_reference
-            tx_sudo.easypay_mb_expiration = data.get("expiration", "")
-            tx_sudo._set_pending()
-            access_token = payment_utils.generate_access_token(tx_sudo.id)
-            return request.redirect(
-                f"/payment/easypay/mb_reference/{tx_sudo.id}"
-                f"?access_token={access_token}"
+        if tx_sudo.tokenize and checkout["payment_type"] == "frequent":
+            # Frequent checkouts tokenize and capture through the shared
+            # verifier; errors propagate so the request can be retried.
+            verifier._complete_frequent_checkout(tx_sudo, checkout)
+            return werkzeug.utils.redirect("/payment/status", code=303)
+
+        kind, payment = verifier._read_single(tx_sudo, checkout["payment_id"])
+        if kind != easypay_webhooks._READ_OK:
+            return werkzeug.utils.redirect("/payment/status", code=303)
+
+        kind, notification = verifier._resolve_capture_notification(
+            tx_sudo, {"transaction_id": None}, verified=payment
+        )
+        if kind == easypay_webhooks._READ_OK:
+            try:
+                tx_sudo._handle_notification_data("easypay", notification)
+            except Exception as e:
+                _logger.exception(
+                    "Error processing verified checkout data for %s: %s",
+                    tx_sudo.reference,
+                    e,
+                )
+                tx_sudo._set_error(str(e))
+
+        mb_details = self._verified_mb_details(payment)
+        if mb_details:
+            # Multibanco entity/reference/expiration are stored only from
+            # the authenticated EasyPay read — never from the callback.
+            tx_sudo.easypay_mb_entity = mb_details["entity"]
+            tx_sudo.easypay_mb_reference = mb_details["reference"]
+            expiration = payment.get("expiration_time")
+            tx_sudo.easypay_mb_expiration = str(expiration) if expiration else ""
+            verified_status = payment.get("payment_status")
+            has_final_state = (
+                isinstance(verified_status, str)
+                and verified_status.lower() in _FINAL_PAYMENT_STATUSES
             )
-
-        # ── All other methods (CC, MB WAY, etc.) ─────────────────────
-        # Try to confirm synchronously; fall back to pending + webhook.
-        payment_data = self._poll_checkout_status(tx_sudo)
-        if not payment_data:
-            if tx_sudo.state not in self._TERMINAL_STATES:
-                # Poll failed and no webhook resolved it — set pending as fallback.
-                payment_id = data.get("payment_id")
-                if tx_sudo.tokenize and payment_id:
-                    method_data = tx_sudo._easypay_fetch_method_data(payment_id)
-                    tx_sudo._easypay_create_token(payment_id, method_data=method_data)
+            if tx_sudo.state == "draft" and not has_final_state:
                 tx_sudo._set_pending()
-            return werkzeug.utils.redirect("/payment/status", code=303)
-
-        try:
-            tx_sudo._handle_notification_data("easypay", payment_data)
-        except Exception as e:
-            _logger.exception(
-                "Error processing polled data for %s: %s", tx_sudo.reference, e
-            )
-            tx_sudo._set_error(str(e))
+            if tx_sudo.state == "pending":
+                access_token = payment_utils.generate_access_token(
+                    "easypay_mb_reference", tx_sudo.id
+                )
+                return request.redirect(
+                    f"/payment/easypay/mb_reference/{tx_sudo.id}"
+                    f"?access_token={access_token}"
+                )
 
         return werkzeug.utils.redirect("/payment/status", code=303)
 
@@ -100,7 +126,9 @@ class EasyPayCheckoutCallbackController(http.Controller):
     )
     def easypay_mb_reference(self, tx_id, access_token=None, **_kwargs):
         """Display Multibanco payment reference details."""
-        if not payment_utils.check_access_token(access_token, tx_id):
+        if not payment_utils.check_access_token(
+            access_token, "easypay_mb_reference", tx_id
+        ):
             raise werkzeug.exceptions.Forbidden()
         tx_sudo = request.env["payment.transaction"].sudo().browse(tx_id).exists()
         if not tx_sudo or not tx_sudo.easypay_mb_entity:
@@ -126,83 +154,26 @@ class EasyPayCheckoutCallbackController(http.Controller):
         "/payment/easypay/checkout/cancel",
         type="http",
         auth="public",
-        methods=["GET"],
-        csrf=False,
+        methods=["POST"],
         save_session=False,
     )
     def easypay_checkout_cancel(self, **data):
-        """Handle checkout cancellation from EasyPay SDK."""
-        reference = data.get("key")
-        session_id = data.get("session_id")
-        tx_sudo = (
-            request.env["payment.transaction"]
-            .sudo()
-            ._find_easypay_transaction(session_id, reference)
-        )
-        if tx_sudo:
-            tx_sudo._set_canceled(state_message="Payment cancelled by customer")
+        # Browser abandonment is not an EasyPay payment cancellation.
         return werkzeug.utils.redirect("/payment/status", code=303)
 
     # ── Private helpers ───────────────────────────────────────────────
 
-    # Terminal values of payment.transaction.state (Odoo core field) that indicate
-    # a webhook has already resolved the transaction — no point polling further.
-    #   "done"       — payment captured/settled (funds transferred)
-    #   "authorized" — funds reserved, awaiting manual capture
-    #   "cancel"     — transaction cancelled
-    #   "error"      — transaction failed
-    # "pending" is intentionally excluded: it means async confirmation is still
-    # expected (e.g. MB WAY waiting for user tap), so polling should continue.
-    _TERMINAL_STATES = ("done", "authorized", "cancel", "error")
-
-    def _poll_checkout_status(self, tx_sudo, retries=3):
-        """Poll EasyPay checkout until a concrete payment status appears.
-
-        Before each attempt the transaction is refreshed from the DB so that a
-        concurrent webhook resolution is detected and polling is aborted early.
-
-        :param tx_sudo: The transaction (sudo) to poll for.
-        :param int retries: Number of polling attempts (back-off: 2s, 4s, 6s).
-        :return: The checkout data dict, or None if no status was obtained.
-        """
-        for attempt in range(1, retries + 1):
-            # Invalidate cache so we see any state written by a concurrent webhook.
-            tx_sudo.invalidate_recordset()
-            if tx_sudo.state in self._TERMINAL_STATES:
-                _logger.debug(
-                    "Poll attempt %d for %s skipped — webhook already set state=%s",
-                    attempt,
-                    tx_sudo.reference,
-                    tx_sudo.state,
-                )
-                return None
-
-            try:
-                data = tx_sudo.provider_id._easypay_make_request(
-                    f"/2.0/checkout/{tx_sudo.easypay_checkout_id}", method="GET"
-                )
-            except Exception as e:
-                _logger.warning(
-                    "Poll attempt %d for %s failed: %s",
-                    attempt,
-                    tx_sudo.reference,
-                    e,
-                )
-                time.sleep(attempt * 2)
-                continue
-            _logger.debug(
-                "Poll attempt %d for %s: data=%s",
-                attempt,
-                tx_sudo.reference,
-                data,
-            )
-            if data.get("payment", {}).get("status"):
-                return data
-            # Status not yet available — wait before retrying.
-            time.sleep(attempt * 2)
-        _logger.warning(
-            "No payment status after %d retries for %s — webhook will confirm.",
-            retries,
-            tx_sudo.reference,
-        )
-        return None
+    @staticmethod
+    def _verified_mb_details(payment):
+        """Authenticated Multibanco entity/reference from the verified
+        payment read; None for any other method or missing details."""
+        method_details = payment.get("method_details")
+        if not isinstance(method_details, dict):
+            return None
+        if str(method_details.get("type") or "").lower() != "mb":
+            return None
+        entity = method_details.get("entity")
+        reference = method_details.get("reference")
+        if not entity or not reference:
+            return None
+        return {"entity": str(entity), "reference": str(reference)}

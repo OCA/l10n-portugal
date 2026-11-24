@@ -3,7 +3,7 @@
 
 {
     "name": "Payment Provider: EasyPay",
-    "version": "18.0.1.0.4",
+    "version": "18.0.1.0.5",
     "category": "Accounting/Payment Providers",
     "summary": "Payment Provider for EasyPay with multiple payment methods",
     "author": "Open Source Integrators, Odoo Community Association (OCA)",

@@ -1,3 +1,5 @@
+from odoo.exceptions import ValidationError
+
 # EasyPay API
 API_URL_TEST = "https://api.test.easypay.pt"
 API_URL_PROD = "https://api.prod.easypay.pt"
@@ -16,15 +18,36 @@ ODOO_TO_EASYPAY = {v: k for k, v in EASYPAY_TO_ODOO.items()}
 # Payment types
 PAYMENT_TYPE_SALE = "sale"
 
-# Default payment method codes supported by EasyPay
-DEFAULT_PAYMENT_METHOD_CODES = {
-    "card",
-    "multibanco",
-    "mbway",
-    "dd",
-    "vi",
-    "ap",
-    "gp",
-    "sw",
-    "easypay",
+# Authenticated EasyPay capture statuses mapped to the vocabulary consumed
+# by payment.transaction._apply_payment_state.
+CAPTURE_STATUS_MAP = {
+    "success": "paid",
+    "paid": "paid",
+    "captured": "captured",
+    "pending": "pending",
+    "waiting": "waiting",
+    "delayed": "pending",
+    "failed": "failed",
 }
+
+# EasyPay method codes accepted by the Checkout API (lowercase API codes).
+CHECKOUT_PAYMENT_METHOD_CODES = {"cc", "mb", "mbw", "vi", "ap", "gp", "sw"}
+
+# EasyPay method codes that must never reach checkout: Direct Debit variants
+# are not implemented by this module.
+UNSUPPORTED_CHECKOUT_METHOD_CODES = {"dd", "sepa_direct_debit"}
+
+# Payment method codes owned by this module — the sync action may toggle their
+# `active` flag. Shared core methods (card, multibanco, mbway) must never be
+# deactivated, as other providers use them too. The shared SEPA Direct Debit
+# method is never touched either: it belongs to core `payment`.
+OWNED_PAYMENT_METHOD_CODES = {"dd", "vi", "ap", "gp", "sw", "easypay"}
+
+
+class EasyPayTransportError(ValidationError):
+    """An EasyPay request could not be completed — transport-level failure.
+
+    Distinct from a definitive API rejection so callers can tell an
+    uncertain submission (safe to retry with the same idempotency key)
+    from a business refusal.
+    """
