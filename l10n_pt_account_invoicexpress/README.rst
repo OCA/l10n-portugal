@@ -71,6 +71,10 @@ To configure:
   - InvoiceXpress Account Name
   - InvoiceXpress API Key
   - InvoiceXpress Invoice Email Template
+  - Update Paid State: when enabled, paid Odoo invoices update the
+    InvoiceXpress document to the Paid state. Companies under the VAT
+    Cash Regime are required to report the payment receipts, other
+    companies can disable it.
 
 - In "Invoicing/Accounting" configuration section, locate the Sales
   Journals, and set the "InvoiceXpress Doc Type". This is required

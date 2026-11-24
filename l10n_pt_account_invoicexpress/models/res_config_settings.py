@@ -17,3 +17,6 @@ class ResConfigSettings(models.TransientModel):
     invoicexpress_template_id = fields.Many2one(
         related="company_id.invoicexpress_template_id", readonly=False
     )
+    invoicexpress_update_paid_state = fields.Boolean(
+        related="company_id.invoicexpress_update_paid_state", readonly=False
+    )

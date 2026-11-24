@@ -33,3 +33,11 @@ class Company(models.Model):
         help="Used to generate the To, Cc, Subject and Body"
         " for the email sent by the InvoiceXpress service",
     )
+    invoicexpress_update_paid_state = fields.Boolean(
+        string="Update Paid State",
+        default=True,
+        help="Update the InvoiceXpress document state to Paid"
+        " when the Odoo invoice payment is reconciled."
+        " Companies under the VAT Cash Regime"
+        " are required to report the payment receipts.",
+    )
